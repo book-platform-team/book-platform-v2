@@ -81,46 +81,116 @@ body {
     box-shadow: 0 0 10px rgba(195,20,50,0.2); /* ظل ناعم */
 }
 
-/* ===== البريد/الهاتف Contact Box ===== */
-.input-group.contact-box {
-    position: relative;                /* لتحديد زر داخل الحقل */
+
+/* ====الحاوية الرئيسية للهاتف و البريد الإلكتروني ===== */
+.contact-input-wrapper {
+    width: 100%;
+    margin-bottom: 18px;
+    position: relative;
 }
 
-/* ===== مدخل البريد/الهاتف ===== */
-.input-group.contact-box input {
-    width: 100%;                        /* عرض كامل */
-    padding: 12px 45px 12px 12px;       /* مساحة للزر على اليمين */
-    border-radius: 14px;                /* حواف دائرية */
-    border: 1px solid #ddd;             /* حدود خفيفة */
-    font-size: 14px;                     /* حجم الخط */
-    outline: none;                       /* إزالة outline */
+/* ===== صندوق الإدخال ===== */
+.input-box {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fff;
+    transition: all 0.3s ease;
 }
 
-/* ===== زر تبديل البريد/الهاتف ===== */
-.toggle-contact {
-    position: absolute;                  /* داخل الحقل */
-    left: 10px;                          /* جهة اليسار */
-    top: 50%;                             /* منتصف عمودي */
-    transform: translateY(-50%);         /* ضبط منتصف الحقل */
-    background: #7a0c16;                 /* خلفية الزر */
-    color: #fff;                          /* لون الخط */
-    border: none;                         /* بدون حدود */
-    border-radius: 10px;                  /* حواف دائرية */
-    padding: 4px 8px;                     /* مسافة داخلية */
-    cursor: pointer;                      /* مؤشر عند المرور */
-    font-size: 14px;                      /* حجم الخط */
+.input-box:focus-within {
+    border-color: #c31432;
+    box-shadow: 0 0 0 3px rgba(195, 20, 50, 0.1);
 }
 
-/* ===== رمز الدولة inline ===== */
-.country-code-inline {
-    position: absolute;                  /* داخل الحقل */
-    right: 10px;                          /* جهة اليمين */
-    top: 50%;                              /* منتصف عمودي */
-    transform: translateY(-50%);          /* ضبط منتصف الحقل */
-    border-radius: 12px;                  /* حواف دائرية */
-    border: 1px solid #ddd;               /* حدود */
-    padding: 5px;                          /* مسافة داخلية */
-    display: none;                         /* مخفي افتراضيًا */
+/* ===== حقول الإدخال ===== */
+.input-box input {
+    flex: 1;
+    padding: 12px 15px;
+    border: none;
+    
+    font-size: 14px;
+    outline: none;
+    background: transparent;
+}
+
+/* ===== رمز الدولة ===== */
+.country-code {
+    padding: 12px 10px;
+    border: none;
+    border-left: 1px solid #ddd;
+    background: #f9f9f9;
+    font-family: "Cairo", sans-serif; 
+    font-size: 13px;
+    cursor: pointer;
+    outline: none;
+    margin: 0;
+}
+
+/* ===== رابط التبديل على اليسار ===== */
+.toggle-link {
+    padding: 0 15px;
+    font-size: 13px;
+    color: #7a0c16;
+    cursor: pointer;
+    white-space: nowrap;
+    font-weight: 600;
+    transition: color 0.3s;
+    border-right: 1px solid #ddd;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-family: "Cairo", sans-serif;
+}
+
+.toggle-link:hover {
+    color: #c31432;
+    background: rgba(122, 12, 22, 0.05);
+}
+
+
+
+/* ===== اتجاه الحقول ===== */
+#phoneInput {
+    direction: ltr;
+    text-align: right;
+}
+
+#emailInput {
+    direction: rtl;
+    text-align: right;
+}
+
+/* ===== أنيميشن التبديل ===== */
+.input-box {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== للجوال ===== */
+@media (max-width: 768px) {
+    .toggle-link {
+        padding: 0 10px;
+        font-size: 12px;
+    }
+    
+    .country-code {
+        padding: 10px 8px;
+        font-size: 12px;
+    }
 }
 
 /* ===== تاريخ الميلاد Birthdate ===== */

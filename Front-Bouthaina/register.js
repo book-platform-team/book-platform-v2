@@ -33,21 +33,30 @@ document.getElementById("registerForm").addEventListener("submit", function(e){
     alert("تم التسجيل بنجاح!");
 });
 
-// البريد / الهاتف داخل نفس المربع
-let contactType = "email";
-function toggleContact(){
-    const input = document.getElementById("contactInput");
-    const codeSelect = document.getElementById("countryCode");
-
-    if(contactType === "email"){
-        contactType = "phone";
-        input.placeholder = "رقم الهاتف";
-        input.type = "tel";
-        codeSelect.style.display = "inline-block";
-    } else {
-        contactType = "email";
-        input.placeholder = "البريد الإلكتروني";
-        input.type = "email";
-        codeSelect.style.display = "none";
-    }
+// التبديل إلى الهاتف
+function switchToPhone() {
+    document.getElementById('emailContainer').style.display = 'none';
+    document.getElementById('phoneContainer').style.display = 'flex';
+    
+    document.getElementById('phoneInput').required = true;
+    document.getElementById('emailInput').required = false;
 }
+
+// التبديل إلى البريد
+function switchToEmail() {
+    document.getElementById('phoneContainer').style.display = 'none';
+    document.getElementById('emailContainer').style.display = 'flex';
+    
+    document.getElementById('emailInput').required = true;
+    document.getElementById('phoneInput').required = false;
+}
+
+// زيد هذا الكود باش المستخدم يقدر يبحث على الدولة
+document.getElementById('countryCode').addEventListener('change', function() {
+    this.size = 1; // ترجع القائمة صغيرة بعد الاختيار
+});
+
+// باش تفتح القائمة كبيرة لما تضغط عليها
+document.getElementById('countryCode').addEventListener('focus', function() {
+    this.size = 10; // تظهر 10 دول في نفس الوقت
+});

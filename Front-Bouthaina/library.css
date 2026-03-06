@@ -10,11 +10,9 @@ background:#f5f5f5;
 
 }
 
+/* الهيدر */
 
-
-/* الهيدر العلوي */
-
-header{
+.header{
 
 display:flex;
 
@@ -32,7 +30,7 @@ color:white;
 
 
 
-/* شعار الموقع */
+/* الشعار */
 
 .logo{
 
@@ -46,7 +44,7 @@ font-weight:bold;
 
 /* روابط القائمة */
 
-nav a{
+.nav a{
 
 color:white;
 
@@ -56,8 +54,109 @@ text-decoration:none;
 
 font-size:16px;
 
+cursor:pointer;
+
 }
 
+
+
+/* القائمة المنسدلة (الخلفية) */
+
+.menu-overlay{
+
+position:fixed;
+
+top:0;
+
+right:0;
+
+width:100%;
+
+height:100%;
+
+background:rgba(0,0,0,0.6);
+
+display:none;
+
+justify-content:center;
+
+align-items:center;
+
+}
+
+
+
+/* صندوق القائمة */
+
+.menu-content{
+
+background:white;
+
+padding:40px;
+
+border-radius:12px;
+
+width:300px;
+
+text-align:center;
+
+}
+
+
+
+/* عنوان القائمة */
+
+.menu-content h2{
+
+margin-bottom:20px;
+
+}
+
+
+
+/* عناصر القائمة */
+
+.menu-content ul{
+
+list-style:none;
+
+padding:0;
+
+}
+
+
+
+.menu-content li{
+
+padding:12px;
+
+border-bottom:1px solid #eee;
+
+cursor:pointer;
+
+}
+
+
+
+/* زر الاغلاق */
+
+.menu-content button{
+
+margin-top:20px;
+
+padding:10px 20px;
+
+border:none;
+
+background:#0f766e;
+
+color:white;
+
+border-radius:8px;
+
+cursor:pointer;
+
+}
 
 
 /* قسم البحث */

@@ -16,34 +16,71 @@
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 <!-- ربط ملف CSS -->
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="library.css">
 
 </head>
 
 <body>
 
-<!-- الهيدر العلوي -->
-<header>
 
-<!-- شعار الموقع -->
+
+<!-- الهيدر -->
+<header class="header">
+
+<!-- الشعار -->
 <div class="logo">
 سامي
 </div>
 
-<!-- روابط القائمة -->
-<nav>
+
+<!-- القائمة -->
+<nav class="nav">
 
 <a href="#">الرئيسية</a>
 
-<a href="#">الكتب</a>
+<a href="#">أقسام الكتب</a>
 
-<a href="#">المؤلفون</a>
+<a href="#">مؤلفو الكتب</a>
 
-<a href="#">اتصل بنا</a>
+<a href="#" id="menuBtn">القائمة</a>
+
+<a href="#">بــحـــث</a>
 
 </nav>
 
 </header>
+
+
+
+<!-- القائمة المنسدلة -->
+<div class="menu-overlay" id="menu">
+
+<div class="menu-content">
+
+<h2>القائمة</h2>
+
+<ul>
+
+<li>أقسام الكتب</li>
+
+<li>مؤلفو الكتب</li>
+
+<li>اقتباسات الكتب</li>
+
+<li>مراجعات الكتب</li>
+
+<li>مجتمع المثقفين</li>
+
+<li>نشر كتاب</li>
+
+</ul>
+
+<button id="closeMenu">إغلاق</button>
+
+</div>
+
+</div>
+
 
 
 <!-- قسم البحث -->
@@ -171,7 +208,7 @@
 
 
 <!-- ربط JS -->
-<script src="script.js"></script>
+<script src="library.js"></script>
 
 </body>
 
