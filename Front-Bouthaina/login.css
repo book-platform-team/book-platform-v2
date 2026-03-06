@@ -124,6 +124,8 @@ footer a:hover{
     border-color:#c31432;
     box-shadow:0 0 10px rgba(195,20,50,0.2);
 }
+
+
 /* ====الحاوية الرئيسية للهاتف و البريد الإلكتروني ===== */
 .contact-input-wrapper {
     width: 100%;
@@ -359,5 +361,19 @@ footer a:hover{
     color:#c31432;
 }
 
-
+.toast{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 18px;
+    border-radius: 10px;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 9999;
+    opacity: 0.95;
+    transition: all 0.3s ease;
+}
+.toast.success{ background: #28a745; }
+.toast.error{ background: #dc3545; }
 

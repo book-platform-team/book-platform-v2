@@ -193,6 +193,8 @@ body {
     }
 }
 
+
+
 /* ===== تاريخ الميلاد Birthdate ===== */
 .birthdate {
     display: flex;                        /* ترتيب أفقي */
@@ -214,6 +216,31 @@ body {
     font-size: 12px;                        /* حجم الخط */
     cursor: pointer;                        /* مؤشر عند المرور */
     color: #7a0c16;                         /* لون النص */
+}
+
+
+/* ===== زر إظهار/إخفاء كلمة المرور ===== */
+.toggle-pass {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    cursor: pointer;
+    color: #7a0c16;
+    user-select: none;          /* ما يقدرش يحدد النص */
+    transition: all 0.2s ease;  /* أنيميشن ناعم */
+    padding: 3px 8px;
+    border-radius: 6px;
+}
+
+.toggle-pass:hover {
+    color: #c31432;
+    background: rgba(122, 12, 22, 0.1);
+}
+
+.toggle-pass:active {
+    transform: translateY(-50%) scale(0.95); /* تأثير ضغط */
 }
 
 /* ===== رمز التحقق Captcha ===== */
@@ -382,3 +409,19 @@ footer p {
     color: whitesmoke;
     font-size: 15px;
 }
+
+.toast{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 18px;
+    border-radius: 10px;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 9999;
+    opacity: 0.95;
+    transition: all 0.3s ease;
+}
+.toast.success{ background: #28a745; }
+.toast.error{ background: #dc3545; }

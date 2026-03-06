@@ -1,49 +1,49 @@
-// إظهار/إخفاء كلمة المرور
-function togglePassword(e){
-    if(e) e.preventDefault(); // منع إرسال الفورم بالغلط
-    const pass = document.getElementById("password");
-    pass.type = pass.type === "password" ? "text" : "password";
-}
-function togglePassword(){
-    const pass = document.getElementById("password");
-    const toggleBtn = document.getElementById("togglePassBtn");
-    
-    // تأثير بسيط عند التبديل
-    toggleBtn.style.opacity = "0.6";
-    setTimeout(() => toggleBtn.style.opacity = "1", 150);
-    
-    if(pass.type === "password"){
-        pass.type = "text";
-        toggleBtn.innerText = "إخفاء";
-        toggleBtn.style.color = "#c31432"; // لون أحمر لما تكون ظاهرة
-    } else {
-        pass.type = "password";
-        toggleBtn.innerText = "إظهار";
-        toggleBtn.style.color = "#7a0c16"; // لون عادي
-    }
+const loginForm = document.getElementById("loginForm");
+const loginBtn = document.querySelector(".btn-primary");
+
+function showToast(msg, type="success"){
+    let toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.innerText = msg;
+    document.body.appendChild(toast);
+    setTimeout(()=> toast.remove(), 3000);
 }
 
-// التبديل إلى الهاتف
+// إظهار/إخفاء كلمة المرور
+togglePassBtn.addEventListener("click", function(e){
+    e.preventDefault();
+    const pass = document.getElementById("password");
+    if(pass.type === "password"){
+        pass.type = "text";
+        togglePassBtn.innerText = "إخفاء";
+        togglePassBtn.style.color = "#c31432";
+    } else {
+        pass.type = "password";
+        togglePassBtn.innerText = "إظهار";
+        togglePassBtn.style.color = "#7a0c16";
+    }
+});
+
+// التبديل بين البريد والهاتف
 function switchToPhone(e) {
     if(e) e.preventDefault();
     document.getElementById('emailContainer').style.display = 'none';
     document.getElementById('phoneContainer').style.display = 'flex';
     document.getElementById('phoneInput').required = true;
     document.getElementById('emailInput').required = false;
-    document.getElementById('emailInput').value = ''; // مسح الحقل القديم
+    document.getElementById('emailInput').value = '';
 }
 
-// التبديل إلى البريد
 function switchToEmail(e) {
     if(e) e.preventDefault();
     document.getElementById('phoneContainer').style.display = 'none';
     document.getElementById('emailContainer').style.display = 'flex';
     document.getElementById('emailInput').required = true;
     document.getElementById('phoneInput').required = false;
-    document.getElementById('phoneInput').value = ''; // مسح الحقل القديم
+    document.getElementById('phoneInput').value = '';
 }
 
-// تحسين قائمة الدول (اختياري)
+// تحسين قائمة الدول
 const countryCode = document.getElementById('countryCode');
 if(countryCode) {
     countryCode.addEventListener('focus', function() { this.size = 10; });
@@ -51,27 +51,72 @@ if(countryCode) {
     countryCode.addEventListener('change', function() { this.size = 1; });
 }
 
-// معالجة الفورم
-document.getElementById("loginForm").addEventListener("submit", function(e){
+// معالجة الفورم وإرسال البيانات للـ API
+registerForm.addEventListener("submit", function(e){
     e.preventDefault();
-    
-    // جمع البيانات
+
+    // التحقق من الكابتشا أولاً
+    const inputCaptcha = document.getElementById("captchaInput").value.trim();
+    const codeCaptcha = document.getElementById("captchaCode").innerText.trim();
+    if(inputCaptcha !== codeCaptcha){
+        alert("❌ رمز التحقق غير صحيح!");
+        generateCaptcha();
+        return;
+    }
+
+    // تحديد نوع الاتصال وقيمته
     const contactType = document.getElementById('phoneContainer').style.display === 'none' ? 'email' : 'phone';
     const contactValue = contactType === 'phone' 
-        ? countryCode.value + ' ' + document.getElementById('phoneInput').value
+        ? document.getElementById('countryCode').value + document.getElementById('phoneInput').value
         : document.getElementById('emailInput').value;
     
-    console.log("نوع الاتصال:", contactType);
-    console.log("القيمة:", contactValue);
-    
-    const btn = document.querySelector(".btn-primary");
-    btn.innerText = "جاري الدخول...";
-    btn.style.opacity = "0.8";
-    
-    // هنا ترسل البيانات للسيرفر
-    setTimeout(() => {
-        alert("✅ تم تسجيل الدخول بنجاح!");
-        btn.innerText = "تسجيل الدخول";
-        btn.style.opacity = "1";
-    }, 1500);
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('passwordConfirm').value;
+
+    // التحقق من كلمة المرور
+    if(password !== passwordConfirm){
+        alert("❌ كلمة المرور غير مطابقة");
+        return;
+    }
+
+    // تعطيل الزر مؤقتاً
+    registerBtn.innerText = "جاري التسجيل...";
+    registerBtn.style.opacity = "0.8";
+
+    const data = {
+        [contactType]: contactValue,
+        password: password,
+        password_confirmation: passwordConfirm
+    };
+
+    fetch("http://127.0.0.1:8000/api/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(response => {
+        console.log(response);
+
+        if(response.token){
+            // تسجيل ناجح
+            localStorage.setItem("authToken", response.token);
+            alert("✅ تم إنشاء الحساب بنجاح!");
+
+            // إعادة توجيه للـ login page
+            window.location.href = "login.html";
+        } else {
+            alert(response.message || "❌ حدث خطأ في التسجيل");
+            registerBtn.innerText = "إنشاء حساب";
+            registerBtn.style.opacity = "1";
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert("❌ حدث خطأ. حاول مرة أخرى.");
+        registerBtn.innerText = "إنشاء حساب";
+        registerBtn.style.opacity = "1";
+    });
 });
