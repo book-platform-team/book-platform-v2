@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل الدخول | مكتبة سامي الرقمية</title>
+
+<!-- خطوط عربية -->
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<main>
+<!-- خلفية زخرفية -->
+<div class="bg-overlay"></div>
+
+<!-- الكارد -->
+<div class="login-card">
+
+    <!-- الشعار -->
+    <div class="logo">
+        <h1 class="brand">سامي</h1>
+        <h2>تسجيل الدخول</h2>
+        <p>مرحباً بك في مكتبة سامي الرقمية</p>
+    </div>
+
+    <!-- نموذج الدخول -->
+    <form id="loginForm">
+
+      <!-- نموذج التسجيل -->
+      <form id="registerForm">
+
+          <div class="input-group">
+              <input type="text" placeholder="الاسم" required>
+          </div>
+
+    
+    <!-- اختيار نوع التسجيل -->
+          <div class="input-group">
+                 <select id="contactType" onchange="toggleContact()" required>
+                 <option value="email">البريد الإلكتروني</option>
+                 <option value="phone">الهاتف</option>
+                 </select>
+          </div>
+
+    <!-- إدخال البريد -->
+          <div class="input-group" id="emailBox">
+                  <input type="email" placeholder="البريد الإلكتروني">
+          </div>
+
+    <!-- إدخال الهاتف -->
+          <div class="input-group phone-box" id="phoneBox" style="display:none;">
+              <select class="country-code">
+                 <option value="+213">🇩🇿 +213</option>
+                 <option value="+966">🇸🇦 +966</option>
+                 <option value="+971">🇦🇪 +971</option>
+                 <option value="+20">🇪🇬 +20</option>
+                 <option value="+212">🇲🇦 +212</option>
+             </select>
+                  <input type="tel" placeholder="رقم الهاتف">
+         </div>
+        <div class="input-group password-box">
+            <input type="password" id="password" placeholder="كلمة المرور" required>
+            <span class="toggle-pass" onclick="togglePassword()">إظهار</span>
+        </div>
+
+        <!-- نسيت كلمة المرور -->
+        <div class="forgot">
+            <a href="#">نسيت كلمة المرور؟</a>
+        </div>
+
+        <!-- زر دخول -->
+        <button type="submit" class="btn-primary">تسجيل الدخول</button>
+
+    <div class="or-divider">أو</div>
+
+    <div class="links">
+      <p> ليس لديك حساب ؟    <a href="#">إنشاء حساب </a> </p>
+    </div>
+
+    <div class="or-divider">أو</div>
+
+    <div class="social-buttons">
+        <button class="btn-google">دخول عبر جوجل</button>
+        <button class="btn-facebook">دخول عبر الفيس بوك</button>
+    </div>
+
+   
+
+    </form>
+
+</div>
+
+</main>
+
+
+<!-- الفوتر -->
+<footer>
+  <div class="footer">
+    <p>
+      حقوق الملكية © 2026 |
+      <a href="#">إتفاقية الإستخدام</a> |
+      <a href="#">سياسة الخصوصية</a> |
+      <a href="#">عن المكتبة</a> |
+      <a href="#">أتصل بنا</a>
+    </p>
+  </div>
+</footer>
+
+<!-- Boxicons -->
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+<script src="login.js"></script>
+</body>
+</html>

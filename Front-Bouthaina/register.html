@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إنشاء حساب | مكتبة سامي الرقمية</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="register.css">
+</head>
+<body>
+<main>
+  <div class="bg-overlay"></div>
+
+  <div class="login-card">
+      <div class="logo">
+          <h1 class="brand">سامي</h1>
+          <h2>إنشاء حساب</h2>
+          <p>مرحباً بك في مكتبة سامي الرقمية</p>
+      </div>
+
+      <form id="registerForm">
+
+          <!-- الاسم -->
+          <div class="input-group">
+              <input type="text" placeholder="الاسم" required>
+          </div>
+
+          <!-- البريد أو الهاتف -->
+          <div class="input-group contact-box">
+              <input type="text" id="contactInput" placeholder="البريد الإلكتروني" required>
+              <button type="button" class="toggle-contact" onclick="toggleContact()">📧</button>
+              <select id="countryCode" class="country-code-inline" style="display:none;">
+                  <option value="+213">🇩🇿 +213</option>
+                  <option value="+966">🇸🇦 +966</option>
+                  <option value="+971">🇦🇪 +971</option>
+                  <option value="+20">🇪🇬 +20</option>
+                  <option value="+212">🇲🇦 +212</option>
+              </select>
+          </div>
+
+          <!-- تاريخ الميلاد -->
+          <div class="input-group birthdate">
+              <select required><option value="">يوم الميلاد</option>
+                  <script>for(let i=1;i<=31;i++){document.write('<option>'+i+'</option>');}</script>
+              </select>
+              <select required><option value="">شهر الميلاد</option>
+                  <script>
+                      const months=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+                      months.forEach(m=>{document.write('<option>'+m+'</option>');});
+                  </script>
+              </select>
+              <select required><option value="">سنة الميلاد</option>
+                  <script>for(let y=2026;y>=1900;y--){document.write('<option>'+y+'</option>');}</script>
+              </select>
+          </div>
+
+          <!-- النوع -->
+          <div class="input-group">
+              <select required>
+                  <option value="">أختر النوع</option>
+                  <option value="male">ذكر</option>
+                  <option value="female">أنثى</option>
+              </select>
+          </div>
+
+          <!-- كلمة المرور -->
+          <div class="input-group password-box">
+              <input type="password" id="password" placeholder="كلمة المرور" required>
+              <span class="toggle-pass" onclick="togglePassword()">إظهار</span>
+          </div>
+
+          <!-- رمز التحقق البشري -->
+          <div class="input-group captcha-box">
+              <input type="text" id="captchaInput" placeholder="أدخل رمز التحقق" required>
+              <span id="captchaCode"></span>
+              <button type="button" id="reloadCaptcha" title="تحديث الرمز">⟳</button>
+          </div>
+
+          <!-- الشروط -->
+          <div class="terms">
+              <p>بالتسجيل، فإنك توافق على 
+                 <a href="#">الشروط</a>, 
+                 <a href="#">سياسة البيانات</a> و 
+                 <a href="#">سياسة ملفات تعريف الارتباط</a> الخاصة بنا.
+              </p>
+          </div>
+
+          <button type="submit" class="btn-primary">إنشاء حساب</button>
+
+          <div class="or-divider">أو</div>
+
+          <div class="links">
+              <p>لديك حساب بالفعل؟ <a href="#">تسجيل الدخول</a></p>
+              <p>نسيت كلمة المرور؟ <a href="#">إستعادة كلمة المرور</a></p>
+          </div>
+
+          <div class="or-divider">أو</div>
+
+          <div class="social-buttons">
+              <button class="btn-google">جوجل</button>
+              <button class="btn-facebook">فيسبوك</button>
+          </div>
+
+      </form>
+  </div>
+</main>
+
+<footer>
+  <div class="footer">
+    <p>
+      حقوق الملكية © 2026 |
+      <a href="#">إتفاقية الإستخدام</a> |
+      <a href="#">سياسة الخصوصية</a> |
+      <a href="#">عن المكتبة</a> |
+      <a href="#">أتصل بنا</a>
+    </p>
+  </div>
+</footer>
+
+<script src="register.js"></script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+/* الخط الأساسي للموقع */
+
+body{
+
+font-family:'Cairo',sans-serif;
+
+margin:0;
+
+background:#f5f5f5;
+
+}
+
+
+
+/* الهيدر العلوي */
+
+header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:15px 40px;
+
+background:#0f766e;
+
+color:white;
+
+}
+
+
+
+/* شعار الموقع */
+
+.logo{
+
+font-size:28px;
+
+font-weight:bold;
+
+}
+
+
+
+/* روابط القائمة */
+
+nav a{
+
+color:white;
+
+margin-left:20px;
+
+text-decoration:none;
+
+font-size:16px;
+
+}
+
+
+
+/* قسم البحث */
+
+.search-section{
+
+text-align:center;
+
+padding:60px;
+
+background:linear-gradient(135deg,#0f766e,#34d399);
+
+color:white;
+
+}
+
+
+
+/* عنوان البحث */
+
+.search-section h1{
+
+font-size:40px;
+
+margin-bottom:10px;
+
+}
+
+
+
+/* صندوق البحث */
+
+.search-box{
+
+display:flex;
+
+justify-content:center;
+
+margin-top:30px;
+
+}
+
+
+
+/* حقل البحث */
+
+.search-box input{
+
+width:350px;
+
+padding:12px;
+
+border:none;
+
+border-radius:30px 0 0 30px;
+
+outline:none;
+
+}
+
+
+
+/* زر البحث */
+
+.search-box button{
+
+padding:12px 25px;
+
+border:none;
+
+background:#065f46;
+
+color:white;
+
+border-radius:0 30px 30px 0;
+
+cursor:pointer;
+
+}
+
+
+
+/* الحاوية الرئيسية */
+
+.container{
+
+display:flex;
+
+gap:30px;
+
+padding:40px;
+
+}
+
+
+
+/* قسم الكتب */
+
+.books{
+
+flex:3;
+
+}
+
+
+
+/* شبكة الكتب */
+
+.books-grid{
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:20px;
+
+}
+
+
+
+/* كرت الكتاب */
+
+.book-card{
+
+background:white;
+
+padding:15px;
+
+border-radius:10px;
+
+text-align:center;
+
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+
+}
+
+
+
+/* صورة الكتاب */
+
+.book-card img{
+
+width:100%;
+
+border-radius:8px;
+
+}
+
+
+
+/* عنوان الكتاب */
+
+.book-card h3{
+
+margin:10px 0 5px;
+
+font-size:18px;
+
+}
+
+
+
+/* اسم المؤلف */
+
+.book-card p{
+
+color:gray;
+
+font-size:14px;
+
+}
+
+
+
+/* قسم الاقسام */
+
+.categories{
+
+flex:1;
+
+background:white;
+
+padding:20px;
+
+border-radius:10px;
+
+height:fit-content;
+
+}
+
+
+
+/* عنوان الاقسام */
+
+.categories h2{
+
+margin-bottom:15px;
+
+}
+
+
+
+/* قائمة الاقسام */
+
+.categories ul{
+
+list-style:none;
+
+padding:0;
+
+}
+
+
+
+/* عنصر القسم */
+
+.categories li{
+
+padding:10px;
+
+border-bottom:1px solid #eee;
+
+cursor:pointer;
+
+}
+
+
+
+/* الفوتر */
+
+footer{
+
+text-align:center;
+
+padding:20px;
+
+background:#0f766e;
+
+color:white;
+
+margin-top:40px;
+
+}
