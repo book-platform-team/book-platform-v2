@@ -4,7 +4,7 @@
 // ✅ إلى هذا
 const CONFIG = {
     DEBUG: false,  // ← غيري هذا فقط!
-    API_URL: "http://192.168.43.48:8000/api/register",
+    API_URL: "https://your-project-name.up.railway.app/api/register",
     
     // ...
 };
