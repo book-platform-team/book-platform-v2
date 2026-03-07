@@ -4,7 +4,8 @@
 // ✅ إلى هذا
 const CONFIG = {
     DEBUG: false,  // ← غيري هذا فقط!
-    API_URL: "http://127.0.0.1:8000/api/register",
+    API_URL: "http://192.168.43.48:8000/api/register",
+    
     // ...
 };
 
