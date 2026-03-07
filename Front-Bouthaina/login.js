@@ -106,7 +106,7 @@ registerForm.addEventListener("submit", function(e){
             alert("✅ تم إنشاء الحساب بنجاح!");
 
             // إعادة توجيه للـ login page
-            window.location.href = "login.html";
+            window.location.href = "Library.html";
         } else {
             alert(response.message || "❌ حدث خطأ في التسجيل");
             registerBtn.innerText = "إنشاء حساب";
