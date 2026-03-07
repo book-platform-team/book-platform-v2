@@ -13,15 +13,21 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        // تحقق من الحقول كما JS بثينه متوقع
+        // تحقق من الحقول كما JS يتوقع
         $request->validate([
-            'email' => 'required_without:phone|email|unique:users,email',
-            'phone' => 'required_without:email|unique:users,phone',
+            'name' => 'required|string|max:255',
+            'gender' => 'required|in:male,female',
+            'birth_date' => 'required|date',
+            'email' => 'nullable|email|unique:users,email',
+            'phone' => 'nullable|string|unique:users,phone',
             'password' => 'required|min:6|confirmed',
         ]);
 
         // إنشاء المستخدم
         $user = User::create([
+            'name' => $request->name,
+            'gender' => $request->gender,
+            'birthdate' => $request->birth_date,
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
@@ -42,16 +48,18 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        // تحقق من الحقول كما JS يتوقع
         $request->validate([
-            'email' => 'required_without:phone|email',
-            'phone' => 'required_without:email',
-            'password' => 'required|min:6',
+            'email' => 'nullable|email',
+            'phone' => 'nullable|string',
+            'password' => 'required|string|min:6',
         ]);
 
         // تحديد نوع الاتصال
         $contactType = $request->email ? 'email' : 'phone';
         $contactValue = $request->$contactType;
 
+        // البحث عن المستخدم
         $user = User::where($contactType, $contactValue)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
@@ -60,7 +68,8 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $token = 'demo-token'; // مؤقت للتجربة
+        // توكن مؤقت لتجربة JS
+        $token = 'demo-token';
 
         return response()->json([
             'message' => 'تم تسجيل الدخول بنجاح',

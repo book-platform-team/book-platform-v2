@@ -13,7 +13,9 @@ class User extends Authenticatable
      * الحقول القابلة للتعبئة (mass assignable)
      */
     protected $fillable = [
-        'name',      // ممكن نخليه نفس البريد لو المستخدم ما عطاش اسم
+        'name',
+        'gender',      // جديد
+        'birth_date',  // جديد
         'email',
         'phone',
         'password',
@@ -33,5 +35,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'birth_date' => 'date', // لتسهيل التعامل مع التاريخ
     ];
 }
