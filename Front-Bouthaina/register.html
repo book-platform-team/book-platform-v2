@@ -57,39 +57,47 @@
 
 
 <!-- تاريخ الميلاد -->
-
 <div class="input-group birthdate">
-
-<select id="birthDay" required>
-<option value="">يوم الميلاد</option>
-<script>
-for(let i=1;i<=31;i++){
-document.write('<option>'+i+'</option>');
-}
-</script>
-</select>
-
-<select id="birthMonth" required>
-<option value="">شهر الميلاد</option>
-<script>
-const months=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
-months.forEach(m=>{
-document.write('<option>'+m+'</option>');
-});
-</script>
-</select>
-
-<select id="birthYear" required>
-<option value="">سنة الميلاد</option>
-<script>
-for(let y=2026;y>=1900;y--){
-document.write('<option>'+y+'</option>');
-}
-</script>
-</select>
-
+    
+    <!-- اليوم -->
+    <select id="birthDay" required>
+        <option value="">يوم</option>
+        <script>
+            for(let i=1; i<=31; i++){
+                document.write(`<option value="${i}">${i}</option>`);
+            }
+        </script>
+    </select>
+    
+    <!-- الشهر (مهم: value يكون رقم) -->
+    <select id="birthMonth" required>
+        <option value="">شهر</option>
+        <option value="يناير">يناير</option>
+        <option value="فبراير">فبراير</option>
+        <option value="مارس">مارس</option>
+        <option value="أبريل">أبريل</option>
+        <option value="مايو">مايو</option>
+        <option value="يونيو">يونيو</option>
+        <option value="يوليو">يوليو</option>
+        <option value="أغسطس">أغسطس</option>
+        <option value="سبتمبر">سبتمبر</option>
+        <option value="أكتوبر">أكتوبر</option>
+        <option value="نوفمبر">نوفمبر</option>
+        <option value="ديسمبر">ديسمبر</option>
+    </select>
+    
+    <!-- السنة -->
+    <select id="birthYear" required>
+        <option value="">سنة</option>
+        <script>
+            const currentYear = new Date().getFullYear();
+            for(let y = currentYear; y >= 1950; y--){
+                document.write(`<option value="${y}">${y}</option>`);
+            }
+        </script>
+    </select>
+    
 </div>
-
 
 <!-- النوع -->
 
