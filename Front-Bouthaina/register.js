@@ -1,134 +1,121 @@
-// ===== register.js كامل بعد التحسينات =====
-
-// توليد الكابتشا
-function generateCaptcha() {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let code = "";
-    for(let i=0; i<6; i++){
-        code += chars.charAt(Math.floor(Math.random()*chars.length));
-    }
-    document.getElementById("captchaCode").innerText = code;
-}
-
-// عند تحميل الصفحة
-generateCaptcha();
-
-// زر إعادة الكابتشا
-document.getElementById("reloadCaptcha").addEventListener("click", generateCaptcha);
-
-// عناصر الفورم
+// ===== إرسال الفورم (النسخة النهائية مع Laravel) =====
 const registerForm = document.getElementById("registerForm");
-const registerBtn = document.querySelector(".btn-primary");
-const togglePassBtn = document.getElementById("togglePassBtn");
 
-// إظهار/إخفاء كلمة المرور
-togglePassBtn.addEventListener("click", function(e){
-    e.preventDefault();
-    const pass = document.getElementById("password");
-    if(pass.type === "password"){
-        pass.type = "text";
-        togglePassBtn.innerText = "إخفاء";
-        togglePassBtn.style.color = "#c31432";
-    } else {
-        pass.type = "password";
-        togglePassBtn.innerText = "إظهار";
-        togglePassBtn.style.color = "#7a0c16";
-    }
-});
+// رابط الـ API الحقيقي
+const API_URL = "http://127.0.0.1:8000/api/register";
 
-// التبديل بين البريد والهاتف
-function switchToPhone(e) {
-    if(e) e.preventDefault();
-    document.getElementById('emailContainer').style.display = 'none';
-    document.getElementById('phoneContainer').style.display = 'flex';
-    document.getElementById('phoneInput').required = true;
-    document.getElementById('emailInput').required = false;
-    document.getElementById('emailInput').value = '';
-}
+if(registerForm){
+    registerForm.addEventListener("submit", async function(e){
+        
+        // 🔹 منع الإرسال التقليدي للفورم
+        e.preventDefault();
+        e.stopPropagation();
+        
+        console.log("🚀 بدء عملية التسجيل...");
 
-function switchToEmail(e) {
-    if(e) e.preventDefault();
-    document.getElementById('phoneContainer').style.display = 'none';
-    document.getElementById('emailContainer').style.display = 'flex';
-    document.getElementById('emailInput').required = true;
-    document.getElementById('phoneInput').required = false;
-    document.getElementById('phoneInput').value = '';
-}
-
-// تحسين قائمة الدول
-const countryCode = document.getElementById('countryCode');
-if(countryCode) {
-    countryCode.addEventListener('focus', function() { this.size = 10; });
-    countryCode.addEventListener('blur', function() { this.size = 1; });
-    countryCode.addEventListener('change', function() { this.size = 1; });
-}
-
-// معالجة الفورم وإرسال البيانات للـ API
-registerForm.addEventListener("submit", function(e){
-    e.preventDefault();
-
-    // التحقق من الكابتشا أولاً
-    const inputCaptcha = document.getElementById("captchaInput").value.trim();
-    const codeCaptcha = document.getElementById("captchaCode").innerText.trim();
-    if(inputCaptcha !== codeCaptcha){
-        alert("❌ رمز التحقق غير صحيح!");
-        generateCaptcha();
-        return;
-    }
-
-    // تحديد نوع الاتصال وقيمته
-    const contactType = document.getElementById('phoneContainer').style.display === 'none' ? 'email' : 'phone';
-    const contactValue = contactType === 'phone' 
-        ? document.getElementById('countryCode').value + document.getElementById('phoneInput').value
-        : document.getElementById('emailInput').value;
-    
-    const password = document.getElementById('password').value;
-    const passwordConfirm = document.getElementById('passwordConfirm').value;
-
-    // التحقق من كلمة المرور
-    if(password !== passwordConfirm){
-        alert("❌ كلمة المرور غير مطابقة");
-        return;
-    }
-
-    // تعطيل الزر مؤقتاً
-    registerBtn.innerText = "جاري التسجيل...";
-    registerBtn.style.opacity = "0.8";
-
-    const data = {
-        [contactType]: contactValue,
-        password: password,
-        password_confirmation: passwordConfirm
-    };
-
-    fetch("http://127.0.0.1:8000/api/register", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(response => {
-        console.log(response);
-
-        if(response.token){
-            // تسجيل ناجح
-            localStorage.setItem("authToken", response.token);
-            alert("✅ تم إنشاء الحساب بنجاح!");
-
-            // إعادة توجيه للـ login page
-            window.location.href = "login.html";
+        // 🔹 2. جمع البيانات
+        const data = {
+            name: document.getElementById("name")?.value || "",
+            gender: document.getElementById("gender")?.value || "",
+            birth_date: (document.getElementById("birthYear")?.value || "") + "-" + 
+                       (document.getElementById("birthMonth")?.value || "") + "-" + 
+                       (document.getElementById("birthDay")?.value || ""),
+            password: document.getElementById("password")?.value || "",
+            password_confirmation: document.getElementById("passwordConfirm")?.value || ""
+        };
+        
+        // 🔹 3. إضافة حقل الاتصال (هاتف أو بريد)
+        const phoneContainer = document.getElementById("phoneContainer");
+        if(phoneContainer && phoneContainer.style.display === "none"){
+            // وضع البريد الإلكتروني
+            data.email = document.getElementById("emailInput")?.value || "";
         } else {
-            alert(response.message || "❌ حدث خطأ في التسجيل");
-            registerBtn.innerText = "إنشاء حساب";
-            registerBtn.style.opacity = "1";
+            // وضع الهاتف
+            const code = document.getElementById("countryCode")?.value || "";
+            const phone = document.getElementById("phoneInput")?.value || "";
+            data.phone = (code + " " + phone).trim();
         }
-    })
-    .catch(err => {
-        console.error(err);
-        alert("❌ حدث خطأ. حاول مرة أخرى.");
-        registerBtn.innerText = "إنشاء حساب";
-        registerBtn.style.opacity = "1";
+        
+        console.log("📦 البيانات المرسلة:", data);
+        
+        // 🔹 4. إعدادات الطلب لـ Laravel
+        const fetchOptions = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "X-Requested-With": "XMLHttpRequest"  // ⭐ مهم جداً لـ Laravel
+            },
+            body: JSON.stringify(data),
+            mode: "cors",
+            cache: "no-cache"
+        };
+        
+        console.log("🌐 جاري الاتصال بـ:", API_URL);
+        
+        // 🔹 5. الإرسال للـ Laravel
+        try {
+            const response = await fetch(API_URL, fetchOptions);
+            
+            console.log("📡 حالة الرد:", response.status, response.statusText);
+            
+            // محاولة قراءة الرد كـ JSON
+            let result;
+            try {
+                result = await response.json();
+            } catch(e) {
+                // إذا ما كانش الرد JSON (مثلاً خطأ 500)
+                result = { message: await response.text() };
+            }
+            
+            console.log("📥 الرد من Laravel:", result);
+            
+            // 🔹 6. معالجة النتيجة
+            if(response.ok) {
+                // ✅ نجاح
+                alert("✅ " + (result.message || "تم إنشاء الحساب بنجاح!"));
+                
+                // إذا فيه توكن، احفظيه
+                if(result.token) {
+                    localStorage.setItem("authToken", result.token);
+                }
+                
+                // توجيه لصفحة الدخول
+                window.location.href = "login.html";
+                
+            } else if(response.status === 422) {
+                // ❌ أخطاء التحقق من Laravel
+                let errorMsg = "❌ يرجى تصحيح الأخطاء:\n";
+                if(result.errors) {
+                    for(let field in result.errors) {
+                        errorMsg += "• " + result.errors[field][0] + "\n";
+                    }
+                }
+                alert(errorMsg);
+                
+            } else if(response.status === 401 || response.status === 403) {
+                // ❌ غير مصرح
+                alert("❌ " + (result.message || "غير مصرح لك بالوصول"));
+                
+            } else {
+                // ❌ خطأ آخر
+                alert("❌ " + (result.message || "حدث خطأ غير متوقع"));
+            }
+            
+        } catch(error) {
+            console.error("❌ خطأ في الاتصال:", {
+                name: error.name,
+                message: error.message,
+                stack: error.stack
+            });
+            
+            // رسائل خطأ مفيدة للمستخدم
+            if(error.message.includes("Failed to fetch")) {
+                alert("⚠️ تعذر الاتصال بالسيرفر!\n\nتأكدي من:\n1. الـ Laravel شغّال (php artisan serve)\n2. العنوان صحيح: " + API_URL + "\n3. CORS مفعّل في config/cors.php");
+            } else {
+                alert("❌ خطأ: " + error.message);
+            }
+        }
+        
     });
-});
+}
