@@ -1,10 +1,11 @@
 // =============================
 // 🔧 إعدادات الروابط
 // =============================
+// ✅ إلى هذا
 const CONFIG = {
-    DEBUG: true,  // ✅ true للتجربة مع httpbin، false للربط مع Laravel
+    DEBUG: false,  // ← غيري هذا فقط!
     API_URL: "http://127.0.0.1:8000/api/register",
-    TEST_URL: "https://httpbin.org/post"
+    // ...
 };
 
 // =============================

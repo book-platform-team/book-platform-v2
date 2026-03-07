@@ -223,13 +223,14 @@
 <!-- ============================= -->
           
 
-              <!-- حقل كلمة المرور -->
+<!-- كلمة المرور -->
 <div class="input-group password-box">
     <input type="password" id="password" placeholder="كلمة المرور" required>
     
-    <!-- زر التبديل مع id عشان نتحكم فيه -->
-    <span class="toggle-pass" id="togglePassBtn" onclick="togglePassword()">إظهار</span>
+    <!-- ✅ الزر لازم يكون فيه id="togglePassBtn" -->
+    <span id="togglePassBtn" class="toggle-pass" onclick="togglePassword(event)">إظهار</span>
 </div>
+
 
           <!-- نسيت كلمة المرور -->
           <div class="forgot">
