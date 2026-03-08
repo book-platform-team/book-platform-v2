@@ -4,7 +4,7 @@
 // ✅ إلى هذا
 const CONFIG = {
     DEBUG: false,
-    API_URL: "https://book-platform-production.up.railway.app/api/register", // بدون مسافات في النهاية!
+    API_URL: "/api/register", 
 };
 
 // =============================
