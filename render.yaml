@@ -1,7 +1,7 @@
 services:
   - type: web
     name: book-platform
-    runtime: php          # ← تم التصحيح: من "env" لـ "runtime"
+    runtime: php:8.2          # ← مهم جداً: إصدار محدد (ليس "php" فقط)
     region: frankfurt
     plan: free
     buildCommand: composer install --no-dev --optimize-autoloader
@@ -15,8 +15,29 @@ services:
         generateValue: true
       - key: DB_CONNECTION
         value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: book-platform-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: book-platform-db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: book-platform-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: book-platform-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: book-platform-db
+          property: password
 
 databases:
   - name: book-platform-db
     databaseName: book_platform
     user: book_platform_user
+    plan: free
