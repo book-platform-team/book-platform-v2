@@ -1,7 +1,7 @@
 services:
   - type: web
     name: book-platform
-    env: php
+    runtime: php          # ← تم التصحيح: من "env" لـ "runtime"
     region: frankfurt
     plan: free
     buildCommand: composer install --no-dev --optimize-autoloader
