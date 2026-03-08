@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: book-platform
+    env: php
+    region: frankfurt
+    plan: free
+    buildCommand: composer install --no-dev --optimize-autoloader
+    startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        generateValue: true
+      - key: DB_CONNECTION
+        value: pgsql
+
+databases:
+  - name: book-platform-db
+    databaseName: book_platform
+    user: book_platform_user
