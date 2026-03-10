@@ -10,12 +10,19 @@
 </head>
 
 <body>
-     <!-- الهيدر -->
+
+
+
+   <!-- الهيدر -->
     <header class="header-anim">
         <div class="navbar">
             <div class="logo">
-                <a href="#"><i class='bx bx-book-reader'></i> <span class="logo-text">Sami</span></a>
-            </div>
+    <a href="index.html">
+        <!-- الصورة بدلاً من الأيقونة -->
+        <img src="ThePhoto/IMG_5433 (1).png" alt="شعار">
+        
+    </a>
+</div>
 
             <button class="hamburger-btn" id="hamburgerBtn" aria-label="القائمة">
                 <i class='bx bx-menu'></i><i class='bx bx-x'></i>
@@ -23,21 +30,21 @@
 
             <div class="nav-right desktop-nav">
                 <ul class="link main-links">
-                    <li><a href="#" class="nav-link"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
-                    <li><a href="#" class="nav-link"><i class='bx bx-category'></i> أقسام الكتب</a></li>
-                    <li><a href="#" class="nav-link"><i class='bx bx-user-pin'></i> مؤلفو الكتب</a></li>
+                    <li><a href="Library.html" class="nav-link"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
+                    <li><a href="class.html" class="nav-link"><i class='bx bx-category'></i> أقسام الكتب</a></li>
+                    <li><a href="authors.html" class="nav-link"><i class='bx bx-user-pin'></i> مؤلفو الكتب</a></li>
                     
                     <li class="dropdown">
                         <button class="dropbtn nav-link" id="menuBtn">
                             القائمة <i class='bx bx-chevron-down icon'></i>
                         </button>
                         <div class="dropdown-content" id="dropdownMenu">
-                            <a href="#"><i class='bx bx-book-open'></i> أقسام الكتب</a>
-                            <a href="#"><i class='bx bx-user'></i> مؤلفو الكتب</a>
-                            <a href="#"><i class='bx bx-quote-right'></i> اقتباسات الكتب</a>
-                            <a href="#"><i class='bx bx-star'></i> مراجعات الكتب</a>
-                            <a href="#"><i class='bx bx-group'></i> مجتمع المثقفين</a>
-                            <a href="#"><i class='bx bx-upload'></i> نشر كتاب</a>
+                            <a href="class.html"><i class='bx bx-book-open'></i> أقسام الكتب</a>
+                            <a href="authors.html"><i class='bx bx-user'></i> مؤلفو الكتب</a>
+                            <a href="login.html"><i class='bx bx-quote-right'></i> اقتباسات الكتب</a>
+                            <a href="login.html"><i class='bx bx-star'></i> مراجعات الكتب</a>
+                            <a href="login.html"><i class='bx bx-group'></i> مجتمع المثقفين</a>
+                            <a href="login.html"><i class='bx bx-upload'></i> نشر كتاب</a>
                             <a href="#" id="closeMenu" class="close-link"><i class='bx bx-x'></i> إغلاق</a>
                         </div>
                     </li>
@@ -63,20 +70,20 @@
                 <button class="close-mobile-nav" id="closeMobileNav"><i class='bx bx-x'></i></button>
             </div>
             <ul class="mobile-links">
-                <li><a href="#" class="mobile-link"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
-                <li><a href="#" class="mobile-link"><i class='bx bx-category'></i> أقسام الكتب</a></li>
-                <li><a href="#" class="mobile-link"><i class='bx bx-user-pin'></i> مؤلفو الكتب</a></li>
+                <li><a href="Library.html" class="mobile-link"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
+                <li><a href="class.html" class="mobile-link"><i class='bx bx-category'></i> أقسام الكتب</a></li>
+                <li><a href="authors.html" class="mobile-link"><i class='bx bx-user-pin'></i> مؤلفو الكتب</a></li>
                 <li class="mobile-dropdown">
                     <button class="mobile-dropbtn" id="mobileMenuBtn">
                         <i class='bx bx-menu'></i> القائمة <i class='bx bx-chevron-down icon'></i>
                     </button>
                     <div class="mobile-dropdown-content" id="mobileDropdownMenu">
-                        <a href="#"><i class='bx bx-book-open'></i> أقسام الكتب</a>
-                        <a href="#"><i class='bx bx-user'></i> مؤلفو الكتب</a>
-                        <a href="#"><i class='bx bx-quote-right'></i> اقتباسات الكتب</a>
-                        <a href="#"><i class='bx bx-star'></i> مراجعات الكتب</a>
+                        <a href="class.html"><i class='bx bx-book-open'></i> أقسام الكتب</a>
+                        <a href="authors.html"><i class='bx bx-user'></i> مؤلفو الكتب</a>
+                        <a href="login.html"><i class='bx bx-quote-right'></i> اقتباسات الكتب</a>
+                        <a href="login.html"><i class='bx bx-star'></i> مراجعات الكتب</a>
 
-                        <a href="#"><i class='bx bx-upload'></i> نشر كتاب</a>
+                        <a href="login.html"><i class='bx bx-upload'></i> نشر كتاب</a>
                     </div>
                 </li>
                 <li><a href="#" class="mobile-link search-trigger"><i class='bx bx-search-alt-2'></i> بــحـــث</a></li>
@@ -87,6 +94,7 @@
             </ul>
         </div>
     </div>
+
     <!-- قسم المؤلفون -->
     <section class="authors-section">
         <div class="container">
@@ -130,21 +138,64 @@
         </div>
     </section>
 
-    <!-- الفوتر -->
-    <footer class="light-footer">
-        <div class="footer-container">
-            <div class="footer-bottom">
-                <p>
-                    حقوق الملكية © <span id="currentYear">2026</span> 
-                    <span class="gradient-text">مكتبة سامي الرقمية</span>
-                    - جميع الحقوق محفوظة
-                </p>
+    
+<!-- الفوتر -->
+<footer class="light-footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <p class="brand-desc">الملكية الفكرية محفوظة للمؤلفين المذكورين على الكتب والمكتبة غير مسئولة عن افكار المؤلفين. يتم نشر الكتب القديمة والمنسية التي أصبحت في الماضي للحفاظ على التراث العربي والإسلامي، والكتب التي يتم قبول نشرها من قبل مؤلفيها.</p>
+            <div class="social-media-buttons">
+                <a href="#" class="social-btn facebook" title="فيسبوك"><i class='bx bxl-facebook'></i></a>
+                <a href="#" class="social-btn instagram" title="إنستغرام"><i class='bx bxl-instagram'></i></a>
+                <a href="#" class="social-btn twitter" title="تويتر"><i class='bx bxl-twitter'></i></a>
             </div>
         </div>
-        <button class="scroll-to-top" id="scrollToTop" title="العودة للأعلى">
-            <i class='bx bx-up-arrow-alt'></i>
-        </button>
-    </footer>
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3><i class='bx bx-message-square-detail'></i> تواصل معنا</h3>
+                <ul class="contact-info">
+                    <li><i class='bx bx-map'></i><span>🇩🇿 الجزائر</span></li>
+                    <li><i class='bx bx-envelope'></i><span>contact@sami-library.com</span></li>
+                    <li><i class='bx bx-phone'></i><span>+213 555 123 456</span></li>
+               </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3><i class='bx bx-link-alt'></i> روابط سريعة</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class='bx bx-chevron-left'></i> الرئيسية</a></li>
+                    <li><a href="#"><i class='bx bx-chevron-left'></i> أقسام الكتب</a></li>
+                    <li><a href="#"><i class='bx bx-chevron-left'></i> المؤلفون</a></li>
+                    <li><a href="#"><i class='bx bx-chevron-left'></i> أحدث الكتب</a></li>
+                    <li><a href="#"><i class='bx bx-chevron-left'></i> أشهر الكتب</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3><i class='bx bx-service'></i> خدماتنا</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class='bx bx-chevron-left'></i> نشر كتاب</a></li>
+                    <li><a href="#"><i class='bx bx-chevron-left'></i> إشهار الكتب</a></li>
+                    <li><a href="#"><i class='bx bx-chevron-left'></i> اقتباسات</a></li>
+                    <li><a href="#"><i class='bx bx-chevron-left'></i> مراجعات</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- ✅ أضف هذا القسم (حقوق النشر) -->
+        <div class="footer-bottom">
+            <p>
+                حقوق الملكية © <span id="currentYear">2026</span> 
+                <span class="gradient-text">مكتبة سامي الرقمية</span>
+                - جميع الحقوق محفوظة
+            </p>
+        </div>
+    </div>
+    
+    <button class="scroll-to-top" id="scrollToTop" title="العودة للأعلى">
+        <i class='bx bx-up-arrow-alt'></i>
+    </button>
+</footer>
+
 
     <script src="authors.js"></script>
 </body>

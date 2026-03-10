@@ -49,85 +49,6 @@
     --transition-sm: all 0.25s ease; /* حركة سريعة */
 }
 
-/* ========================================
-   🌊 2. خلفية الجزيئات المتحركة
-   ======================================== */
-
-/* حاوية الجزيئات الخلفية */
-.particles-bg {
-    position: fixed;      /* تثبيت في الخلفية */
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none; /* عدم التفاعل مع الماوس */
-    z-index: 0;           /* خلف كل المحتوى */
-    overflow: hidden;     /* إخفاء ما يخرج عن الحدود */
-}
-
-/* شكل الجزيء الواحد */
-.particle {
-    position: absolute;
-    width: 4px; height: 4px;      /* حجم صغير */
-    background: var(--primary);   /* لون أحمر */
-    border-radius: 50%;           /* شكل دائري */
-    opacity: 0.3;                 /* شفافية */
-    animation: float 15s infinite ease-in-out; /* حركة عائمة */
-}
-
-/* توزيع الجزيئات في أماكن مختلفة مع تأخير زمني */
-.particle:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
-.particle:nth-child(2) { top: 30%; left: 80%; animation-delay: 2s; }
-.particle:nth-child(3) { top: 60%; left: 10%; animation-delay: 4s; }
-.particle:nth-child(4) { top: 80%; left: 50%; animation-delay: 1s; }
-.particle:nth-child(5) { top: 20%; left: 60%; animation-delay: 3s; }
-.particle:nth-child(6) { top: 50%; left: 90%; animation-delay: 5s; }
-.particle:nth-child(7) { top: 70%; left: 30%; animation-delay: 2.5s; }
-.particle:nth-child(8) { top: 40%; left: 40%; animation-delay: 4.5s; }
-.particle:nth-child(9) { top: 90%; left: 70%; animation-delay: 1.5s; }
-.particle:nth-child(10) { top: 15%; left: 45%; animation-delay: 3.5s; }
-
-/* أنيميشن الحركة العائمة للجزيئات */
-@keyframes float {
-    0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.3; }
-    25% { transform: translateY(-20px) translateX(10px) scale(1.2); opacity: 0.6; }
-    50% { transform: translateY(-40px) translateX(-10px) scale(0.8); opacity: 0.4; }
-    75% { transform: translateY(-20px) translateX(5px) scale(1.1); opacity: 0.5; }
-}
-
-/* ========================================
-   🖱️ 3. مؤشر الفأرة المخصص (للكمبيوتر فقط)
-   ======================================== */
-
-/* المؤشر الأساسي الصغير */
-.custom-cursor, .custom-cursor-follower {
-    position: fixed;
-    border-radius: 50%;           /* شكل دائري */
-    pointer-events: none;         /* لا يتفاعل مع النقر */
-    z-index: 9999;                /* فوق كل العناصر */
-    transform: translate(-50%, -50%); /* توسيط دقيق */
-    transition: transform 0.1s ease;
-    mix-blend-mode: difference;   /* تأثير لون عكسي */
-}
-
-/* النقطة المركزية الصغيرة */
-.custom-cursor {
-    width: 8px; height: 8px;
-    background: var(--primary);
-    transition: none; /* حركة فورية */
-}
-
-/* الدائرة المتابعة الأكبر */
-.custom-cursor-follower {
-    width: 40px; height: 40px;
-    border: 2px solid var(--primary);
-    transition: all 0.15s ease-out;
-}
-
-/* تكبير المتابع عند التحويم على عناصر تفاعلية */
-body.hovering .custom-cursor-follower {
-    width: 60px; height: 60px;
-    background: rgba(122, 12, 22, 0.1);
-    border-color: transparent;
-}
 
 /* إخفاء المؤشر الافتراضي للعناصر التفاعلية */
 a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
@@ -200,9 +121,11 @@ button {
     display: flex; align-items: center; justify-content: space-between;
     background: rgba(255,255,255,0.95);            /* خلفية شبه شفافة */
     border-radius: var(--radius-lg);               /* حواف دائرية */
-    padding: 0.6rem 1.5rem;
+    
     box-shadow: var(--shadow);                     /* ظل ناعم */
     position: relative; overflow: visible; /* ← بدل hidden *//* لإضافة تأثير اللمعة */
+       padding: 10px 50px;        /* نقصت padding الفوق/التحت */
+    height: 60px;              /* ⭐ ارتفاع ثابت للهيدر */
 }
 
 /* تأثير اللمعة المتحركة عند التحويم على الهيدر */
@@ -218,36 +141,44 @@ button {
 /* ========================================
    📚 7. الشعار (Logo)
    ======================================== */
-
+/* ===== الشعار ===== */
 .logo a {
-    font-size: 1.2rem; font-weight: 900;
+    font-size: 1.2rem;
+    font-weight: 900;
     color: var(--primary);
-    display: flex; align-items: center; gap: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     position: relative;
+    text-decoration: none;
+    height: 100%;              /* ياخذ ارتفاع الهيدر */
+    
 }
 
-.logo a i {
-    font-size: 1.4rem;
+/* ⭐ الصورة - كبّريها هنا بلا ما تخرب الهيدر ⭐ */
+.logo a img {
+      width: 100px;               /* كان 60px، الآن 80px */
+    height: 100px;   
+    object-fit: contain;       /* تحافظ على شكل الصورة */
+    display: block;
     transition: var(--transition);
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+    line-height: 0;            /* يمنع أي مسافة زائدة */
+    padding-left: 50px;
+    margin-right: 2px;
 }
 
-/* تدوير الأيقونة عند التحويم */
-.logo a:hover i { transform: rotate(-10deg) scale(1.1); }
-
-/* خط متدرج تحت نص الشعار عند التحويم */
-.logo-text { position: relative; }
-
-.logo-text::after {
-    content: ''; position: absolute; bottom: 2px; left: 0;
-    width: 100%; height: 2px;
-    background: linear-gradient(90deg, var(--primary), var(--primary-light));
-    border-radius: 2px;
-    transform: scaleX(0); transform-origin: right;
-    transition: transform 0.3s ease;
+/* ===== تأثيرات التحويم ===== */
+.logo a:hover img {
+    transform: rotate(-10deg) scale(1.1);
 }
 
-.logo a:hover .logo-text::after { transform: scaleX(1); transform-origin: left; }
-
+.logo a:hover .logo-text::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
 /* ========================================
    ☰ 8. زر الهمبرغر (لجوال)
    ======================================== */
@@ -276,7 +207,7 @@ button {
    ======================================== */
 
 .desktop-nav { display: flex; align-items: center; gap: 0.9rem; }
-.main-links { display: flex; align-items: center; gap: 0.5rem; }
+.main-links { display: flex; align-items: center; gap: 0.5rem;  padding-left: 20px;}
 
 .nav-link {
     font-weight: 600; font-size: 0.9rem; color: var(--text);
@@ -521,7 +452,6 @@ button {
 }
 
 .mobile-auth .btn { width: 100%; justify-content: center; padding: 0.9rem 1.2rem; }
-
 
 
 
