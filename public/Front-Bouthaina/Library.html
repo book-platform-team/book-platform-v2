@@ -4,29 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مكتبة سامي الرقمية</title>
-    
-    <!-- خطوط جوجل -->
+
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    
-    <!-- أيقونات Boxicons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    
-    <!-- ملف الـ CSS -->
     <link rel="stylesheet" href="library.css">
 </head>
-<body>
-    <!-- خلفية الجزيئات المتحركة -->
-    <div class="particles-bg">
-        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
-        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
-        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
-        <div class="particle"></div>
-    </div>
 
-    <!-- مؤشر الفأرة المخصص -->
-    <div class="custom-cursor"></div>
-    <div class="custom-cursor-follower"></div>
+<body>
  
+    
     <!-- الهيدر -->
     <header class="header-anim">
         <div class="navbar">
@@ -35,8 +21,7 @@
             </div>
 
             <button class="hamburger-btn" id="hamburgerBtn" aria-label="القائمة">
-                <i class='bx bx-menu'></i>
-                <i class='bx bx-x'></i>
+                <i class='bx bx-menu'></i><i class='bx bx-x'></i>
             </button>
 
             <div class="nav-right desktop-nav">
@@ -60,7 +45,7 @@
                         </div>
                     </li>
                     
-                    <li><a href="#" class="nav-link"><i class='bx bx-search-alt-2'></i> بــحـــث</a></li>
+                    <li><a href="#" class="nav-link search-trigger"><i class='bx bx-search-alt-2'></i> بــحـــث</a></li>
                 </ul>
             </div>
 
@@ -73,7 +58,7 @@
         </div>
     </header>
 
-    <!-- القائمة الجانبية للجوال -->
+    <!-- قائمة الجوال -->
     <div class="mobile-nav-overlay" id="mobileNavOverlay">
         <div class="mobile-nav">
             <div class="mobile-nav-header">
@@ -93,11 +78,11 @@
                         <a href="#"><i class='bx bx-user'></i> مؤلفو الكتب</a>
                         <a href="#"><i class='bx bx-quote-right'></i> اقتباسات الكتب</a>
                         <a href="#"><i class='bx bx-star'></i> مراجعات الكتب</a>
-                        <a href="#"><i class='bx bx-group'></i> مجتمع المثقفين</a>
+
                         <a href="#"><i class='bx bx-upload'></i> نشر كتاب</a>
                     </div>
                 </li>
-                <li><a href="#" class="mobile-link"><i class='bx bx-search-alt-2'></i> بــحـــث</a></li>
+                <li><a href="#" class="mobile-link search-trigger"><i class='bx bx-search-alt-2'></i> بــحـــث</a></li>
                 <li class="mobile-auth">
                     <a href="login.html" class="btn btn-login"><i class='bx bx-log-in'></i> دخول</a>
                     <a href="register.html" class="btn btn-register"><i class='bx bx-user-plus'></i> إنشاء حساب</a>
@@ -111,26 +96,18 @@
         <div class="search-glow"></div>
         <h1 class="gradient-text">مكتبة سامي الرقمية</h1>
         <p>ابحث عن أي كتاب أو مؤلف بسهولة ويسر</p>
-        
         <div class="search-box-wrapper">
             <div class="search-box">
                 <input type="text" placeholder="ابحث عن قسم، كتاب، أو مؤلف..." id="searchInput">
-                <button class="search-btn"><i class='bx bx-search'></i></button>
+                <button class="search-btn search-trigger"><i class='bx bx-search'></i></button>
             </div>
             <div class="search-decoration"></div>
         </div>
         <ul class="suggestions" id="suggestions"></ul>
-        
         <div class="quick-filters">
-            <button class="filter-btn active" data-filter="trending">
-                <i class='bx bx-trending-up'></i><span>الأشهر اليوم</span>
-            </button>
-            <button class="filter-btn" data-filter="popular">
-                <i class='bx bx-star'></i><span>أشهر الكتب</span>
-            </button>
-            <button class="filter-btn" data-filter="latest">
-                <i class='bx bx-time'></i><span>أحدث الكتب</span>
-            </button>
+            <button class="filter-btn active" data-filter="trending"><i class='bx bx-trending-up'></i><span>الأشهر اليوم</span></button>
+            <button class="filter-btn" data-filter="popular"><i class='bx bx-star'></i><span>أشهر الكتب</span></button>
+            <button class="filter-btn" data-filter="latest"><i class='bx bx-time'></i><span>أحدث الكتب</span></button>
         </div>
     </section>
 
@@ -138,10 +115,7 @@
     <section class="info-section">
         <div class="info-glow"></div>
         <div class="info-content">
-            <div class="info-text">
-                <h2>مكتبة سامي الرقمية</h2>
-                <p>منصتك الشاملة للبحث عن الكتب العربية والإلكترونية</p>
-            </div>
+            <div class="info-text"><h2>مكتبة سامي الرقمية</h2><p>منصتك الشاملة للبحث عن الكتب العربية والإلكترونية</p></div>
             <div class="info-buttons">
                 <button class="info-btn primary"><i class='bx bx-upload'></i><span>نشر كتاب</span><small>مجاني</small></button>
                 <button class="info-btn secondary"><i class='bx bx-bullseye'></i><span>إشهار الكتاب</span><small>مدفوع</small></button>
@@ -165,29 +139,46 @@
         <section class="books">
             <h2 class="section-title"><i class='bx bx-fire'></i> أشهر الكتب</h2>
             <div class="books-grid">
-                <div class="book-card" data-tilt>
-                    <div class="book-image"><img src="https://via.placeholder.com/150" alt="book"><div class="book-overlay"><i class='bx bx-heart'></i></div></div>
-                    <h3>اسم الكتاب</h3><p>اسم المؤلف</p>
-                    <div class="book-rating"><i class='bx bx-star'></i> 4.8</div>
-                </div>
-                <div class="book-card" data-tilt>
-                    <div class="book-image"><img src="https://via.placeholder.com/150" alt="book"><div class="book-overlay"><i class='bx bx-heart'></i></div></div>
-                    <h3>اسم الكتاب</h3><p>اسم المؤلف</p>
-                    <div class="book-rating"><i class='bx bx-star'></i> 4.5</div>
-                </div>
-                <div class="book-card" data-tilt>
-                    <div class="book-image"><img src="https://via.placeholder.com/150" alt="book"><div class="book-overlay"><i class='bx bx-heart'></i></div></div>
-                    <h3>اسم الكتاب</h3><p>اسم المؤلف</p>
-                    <div class="book-rating"><i class='bx bx-star'></i> 4.9</div>
-                </div>
-            </div>
+    <!-- كرت 1 -->
+    <div class="book-card">
+        <div class="book-image">
+            <img src="https://placehold.co/150x200/b8956a/ffffff?text=كتاب+1" alt="book" loading="lazy">
+            <div class="book-overlay"><i class='bx bx-heart'></i></div>
+        </div>
+        <h3>اسم الكتاب</h3>
+        <p>اسم المؤلف</p>
+        <div class="book-rating"><i class='bx bx-star'></i> 4.8</div>
+    </div>
+    
+    <!-- كرت 2 -->
+    <div class="book-card">
+        <div class="book-image">
+            <img src="https://placehold.co/150x200/d4b483/ffffff?text=كتاب+2" alt="book" loading="lazy">
+            <div class="book-overlay"><i class='bx bx-heart'></i></div>
+        </div>
+        <h3>اسم الكتاب</h3>
+        <p>اسم المؤلف</p>
+        <div class="book-rating"><i class='bx bx-star'></i> 4.5</div>
+    </div>
+    
+    <!-- كرت 3 -->
+    <div class="book-card">
+        <div class="book-image">
+            <img src="https://placehold.co/150x200/9a7b4f/ffffff?text=كتاب+3" alt="book" loading="lazy">
+            <div class="book-overlay"><i class='bx bx-heart'></i></div>
+        </div>
+        <h3>اسم الكتاب</h3>
+        <p>اسم المؤلف</p>
+        <div class="book-rating"><i class='bx bx-star'></i> 4.9</div>
+    </div>
+</div>
         </section>
 
-        <!-- قسم التصنيفات والمؤلفون -->
+        <!-- التصنيفات والمؤلفون -->
         <section class="categories-search-section">
             <div class="categories-header">
                 <h3><i class='bx bx-category'></i> أقسام الكتب</h3>
-                <button class="search-icon-btn" id="searchModalBtn" title="بحث"><i class='bx bx-search'></i></button>
+                <button class="search-icon-btn search-trigger" title="بحث"><i class='bx bx-search'></i></button>
             </div>
             <ul class="categories-list">
                 <li><i class='bx bx-book'></i> الروايات والقصص الأدبية</li>
@@ -197,11 +188,10 @@
                 <li><i class='bx bx-book'></i> الفقه الإسلامي</li>
                 <li><i class='bx bx-book'></i> العلوم السياسية</li>
             </ul>
-            
             <div class="authors-section">
                 <div class="section-header-with-icon">
                     <h3><i class='bx bx-user'></i> المؤلفون</h3>
-                    <button class="search-icon-btn" title="بحث عن مؤلف"><i class='bx bx-search'></i></button>
+                    <button class="search-icon-btn search-trigger" title="بحث عن مؤلف"><i class='bx bx-search'></i></button>
                 </div>
                 <ul class="authors-list">
                     <li>مصطفى محمود</li><li>إبراهيم الفقي</li><li>محمد بن صالح العثيمين</li>
@@ -226,58 +216,27 @@
         </div>
     </div>
      
-<!-- ========================================
-     🦶 الفوتر
-     ======================================== -->
+<!-- الفوتر -->
 <footer class="light-footer">
     <div class="footer-container">
-        <!-- الشعار والعنوان + التواصل الاجتماعي -->
         <div class="footer-brand">
-          
-            <p class="brand-desc"> الملكية الفكرية محفوظة للمؤلفين المذكورين على الكتب والمكتبة غير مسئولة عن افكار المؤلفين
-يتم نشر الكتب القديمة والمنسية التي أصبحت في الماضي للحفاظ على التراث العربي والإسلامي
-، والكتب التي يتم قبول نشرها من قبل مؤلفيها.وينص الإعلان العالمي لحقوق الإنسان على أنه "لكل شخص حق المشاركة الحرة في حياة المجتمع الثقافية، وفي الاستمتاع بالفنون، والإسهام في التقدم العلمي وفي الفوائد التي تنجم عنه. لكل شخص حق في حماية المصالح المعنوية والمادية المترتِّبة على أيِّ إنتاج علمي أو أدبي أو فنِّي من صنعه".</p>
-            
-            <!-- أزرار التواصل الاجتماعي -->
+            <p class="brand-desc">الملكية الفكرية محفوظة للمؤلفين المذكورين على الكتب والمكتبة غير مسئولة عن افكار المؤلفين. يتم نشر الكتب القديمة والمنسية التي أصبحت في الماضي للحفاظ على التراث العربي والإسلامي، والكتب التي يتم قبول نشرها من قبل مؤلفيها.</p>
             <div class="social-media-buttons">
-                <a href="#" class="social-btn facebook" title="فيسبوك">
-                    <i class='bx bxl-facebook'></i>
-                </a>
-                <a href="#" class="social-btn instagram" title="إنستغرام">
-                    <i class='bx bxl-instagram'></i>
-                </a>
-                <a href="#" class="social-btn twitter" title="تويتر">
-                    <i class='bx bxl-twitter'></i>
-                </a>
-              
+                <a href="#" class="social-btn facebook" title="فيسبوك"><i class='bx bxl-facebook'></i></a>
+                <a href="#" class="social-btn instagram" title="إنستغرام"><i class='bx bxl-instagram'></i></a>
+                <a href="#" class="social-btn twitter" title="تويتر"><i class='bx bxl-twitter'></i></a>
             </div>
         </div>
-
-        <!-- الأعمدة -->
         <div class="footer-grid">
-            <!-- عمود تواصل معنا -->
             <div class="footer-column">
                 <h3><i class='bx bx-message-square-detail'></i> تواصل معنا</h3>
                 <ul class="contact-info">
-                    <li>
-                        <i class='bx bx-map'></i>
-                        <span>
-                            <img src="https://flagcdn.com/w40/dz.png" alt="الجزائر" class="country-flag">
-                            الجزائر
-                        </span>
-                    </li>
-                    <li>
-                        <i class='bx bx-envelope'></i>
-                        <span>contact@sami-library.com</span>
-                    </li>
-                    <li>
-                        <i class='bx bx-phone'></i>
-                        <span>+213 555 123 456</span>
-                    </li>
-                </ul>
+                    <li><i class='bx bx-map'></i><span>🇩🇿 الجزائر</span></li>
+                    <li><i class='bx bx-envelope'></i><span>contact@sami-library.com</span></li>
+                    <li><i class='bx bx-phone'></i><span>+213 555 123 456</span></li>
+               </ul>
             </div>
 
-            <!-- عمود روابط سريعة -->
             <div class="footer-column">
                 <h3><i class='bx bx-link-alt'></i> روابط سريعة</h3>
                 <ul class="footer-links">
@@ -288,8 +247,6 @@
                     <li><a href="#"><i class='bx bx-chevron-left'></i> أشهر الكتب</a></li>
                 </ul>
             </div>
-
-            <!-- عمود خدماتنا -->
             <div class="footer-column">
                 <h3><i class='bx bx-service'></i> خدماتنا</h3>
                 <ul class="footer-links">
@@ -300,35 +257,22 @@
                 </ul>
             </div>
         </div>
-
-     
-    </div>
-
-    <!-- زر الصعود للأعلى -->
-    <button class="scroll-to-top" id="scrollToTop" title="العودة للأعلى">
-        <i class='bx bx-up-arrow-alt'></i>
-    </button>
-</footer>
-    <!-- الفوتر -->
-    <footer>
-         <p>
+        
+        <!-- ✅ أضف هذا القسم (حقوق النشر) -->
+        <div class="footer-bottom">
+            <p>
                 حقوق الملكية © <span id="currentYear">2026</span> 
                 <span class="gradient-text">مكتبة سامي الرقمية</span>
                 - جميع الحقوق محفوظة
             </p>
-    </footer>
+        </div>
+    </div>
+    
+    <button class="scroll-to-top" id="scrollToTop" title="العودة للأعلى">
+        <i class='bx bx-up-arrow-alt'></i>
+    </button>
+</footer>
 
-
-
-
-
-
-
-
-
-
-    <!-- ملف الجافاسكريبت -->
     <script src="library.js"></script>
 </body>
-
 </html>
