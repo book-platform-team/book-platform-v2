@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أقسام الكتب - مكتبة سامي الرقمية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="class.css">
+</head>
+
+<body>
+    <!-- خلفية الجزيئات -->
+    <div class="particles-bg">
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+ 
+    <!-- الهيدر (نفسه تماماً) -->
+    <header class="header-anim">
+        <div class="navbar">
+            <div class="logo">
+                <a href="#"><i class='bx bx-book-reader'></i> <span class="logo-text">Sami</span></a>
+            </div>
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="القائمة">
+                <i class='bx bx-menu'></i><i class='bx bx-x'></i>
+            </button>
+            <div class="nav-right desktop-nav">
+                <ul class="link main-links">
+                    <li><a href="#" class="nav-link"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
+                    <li><a href="#" class="nav-link"><i class='bx bx-category'></i> أقسام الكتب</a></li>
+                    <li><a href="#" class="nav-link"><i class='bx bx-user-pin'></i> مؤلفو الكتب</a></li>
+                    <li class="dropdown">
+                        <button class="dropbtn nav-link" id="menuBtn">
+                            القائمة <i class='bx bx-chevron-down icon'></i>
+                        </button>
+                        <div class="dropdown-content" id="dropdownMenu">
+                            <a href="#"><i class='bx bx-book-open'></i> أقسام الكتب</a>
+                            <a href="#"><i class='bx bx-user'></i> مؤلفو الكتب</a>
+                            <a href="#"><i class='bx bx-quote-right'></i> اقتباسات الكتب</a>
+                            <a href="#"><i class='bx bx-star'></i> مراجعات الكتب</a>
+                            <a href="#"><i class='bx bx-group'></i> مجتمع المثقفين</a>
+                            <a href="#"><i class='bx bx-upload'></i> نشر كتاب</a>
+                            <a href="#" id="closeMenu" class="close-link"><i class='bx bx-x'></i> إغلاق</a>
+                        </div>
+                    </li>
+                    <li><a href="#" class="nav-link search-trigger"><i class='bx bx-search-alt-2'></i> بــحـــث</a></li>
+                </ul>
+            </div>
+            <div class="nav-left desktop-nav">
+                <div class="link auth-links">
+                    <a href="login.html" class="btn btn-login"><i class='bx bx-log-in'></i> دخول</a>
+                    <a href="register.html" class="btn btn-register"><i class='bx bx-user-plus'></i> إنشاء حساب</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- قائمة الجوال (نفسها) -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay">
+        <div class="mobile-nav">
+            <div class="mobile-nav-header">
+                <div class="logo"><a href="#"><i class='bx bx-book-reader'></i> Sami</a></div>
+                <button class="close-mobile-nav" id="closeMobileNav"><i class='bx bx-x'></i></button>
+            </div>
+            <ul class="mobile-links">
+                <li><a href="#" class="mobile-link"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
+                <li><a href="#" class="mobile-link"><i class='bx bx-category'></i> أقسام الكتب</a></li>
+                <li><a href="#" class="mobile-link"><i class='bx bx-user-pin'></i> مؤلفو الكتب</a></li>
+                <li class="mobile-dropdown">
+                    <button class="mobile-dropbtn" id="mobileMenuBtn">
+                        <i class='bx bx-menu'></i> القائمة <i class='bx bx-chevron-down icon'></i>
+                    </button>
+                    <div class="mobile-dropdown-content" id="mobileDropdownMenu">
+                        <a href="#"><i class='bx bx-book-open'></i> أقسام الكتب</a>
+                        <a href="#"><i class='bx bx-user'></i> مؤلفو الكتب</a>
+                        <a href="#"><i class='bx bx-quote-right'></i> اقتباسات الكتب</a>
+                        <a href="#"><i class='bx bx-star'></i> مراجعات الكتب</a>
+                        <a href="#"><i class='bx bx-upload'></i> نشر كتاب</a>
+                    </div>
+                </li>
+                <li><a href="#" class="mobile-link search-trigger"><i class='bx bx-search-alt-2'></i> بــحـــث</a></li>
+                <li class="mobile-auth">
+                    <a href="login.html" class="btn btn-login"><i class='bx bx-log-in'></i> دخول</a>
+                    <a href="register.html" class="btn btn-register"><i class='bx bx-user-plus'></i> إنشاء حساب</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ========================================
+         📚 قسم أقسام الكتب (بسيط + ثيم أحمر)
+         ======================================== -->
+    <section class="categories-section">
+        <div class="container">
+            <!-- 🎨 لوقو بسيط لأقسام الكتب -->
+            <div class="categories-title">
+                <i class='bx bx-category'></i>
+                <h1>أقسام الكتب</h1>
+            </div>
+
+            <!-- مربع البحث -->
+            <div class="search-container">
+                <div class="search-box">
+                    <i class='bx bx-search search-icon'></i>
+                    <input type="text" id="categorySearchInput" placeholder="البحث عن قسم..." class="search-input">
+                    <button class="clear-search" id="clearSearch" style="display: none;">
+                        <i class='bx bx-x'></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- الأقسام -->
+            <div class="categories">
+                <div class="category" data-category="الروايات والقصص الأدبية">
+                    <div class="category-header">
+                        <span>الروايات والقصص الأدبية</span>
+                        <i class="bx bx-chevron-down arrow"></i>
+                    </div>
+                    <div class="subcategories">
+                        <a href="#">روايات عربية</a>
+                        <a href="#">روايات عالمية</a>
+                        <a href="#">قصص قصيرة</a>
+                        <a href="#">روايات تاريخية</a>
+                        <a href="#">روايات بوليسية</a>
+                        <a href="#">أدب كلاسيكي</a>
+                    </div>
+                </div>
+
+                <div class="category" data-category="الحياة الإسلامية">
+                    <div class="category-header">
+                        <span>الحياة الإسلامية</span>
+                        <i class="bx bx-chevron-down arrow"></i>
+                    </div>
+                    <div class="subcategories">
+                        <a href="#">الفقه الإسلامي</a>
+                        <a href="#">السيرة النبوية</a>
+                        <a href="#">الحديث الشريف</a>
+                        <a href="#">التفسير</a>
+                        <a href="#">العقيدة</a>
+                        <a href="#">الأخلاق والآداب</a>
+                    </div>
+                </div>
+
+                <div class="category" data-category="التاريخ">
+                    <div class="category-header">
+                        <span>التاريخ</span>
+                        <i class="bx bx-chevron-down arrow"></i>
+                    </div>
+                    <div class="subcategories grid">
+                        <a href="#">تاريخ الجزائر</a>
+                        <a href="#">التاريخ الإسلامي</a>
+                        <a href="#">الحضارات القديمة</a>
+                        <a href="#">تاريخ العالم</a>
+                        <a href="#">التاريخ المعاصر</a>
+                        <a href="#">التراجم والسير</a>
+                    </div>
+                </div>
+
+                <div class="category" data-category="التنمية البشرية وتطوير الذات">
+                    <div class="category-header">
+                        <span>التنمية البشرية وتطوير الذات</span>
+                        <i class="bx bx-chevron-down arrow"></i>
+                    </div>
+                    <div class="subcategories">
+                        <a href="#">تطوير الذات</a>
+                        <a href="#">النجاح والتحفيز</a>
+                        <a href="#">الإدارة والقيادة</a>
+                        <a href="#">التواصل والعلاقات</a>
+                        <a href="#">الصحة النفسية</a>
+                    </div>
+                </div>
+
+                <div class="category" data-category="العلوم السياسية">
+                    <div class="category-header">
+                        <span>العلوم السياسية</span>
+                        <i class="bx bx-chevron-down arrow"></i>
+                    </div>
+                    <div class="subcategories">
+                        <a href="#">النظم السياسية</a>
+                        <a href="#">العلاقات الدولية</a>
+                        <a href="#">الفكر السياسي</a>
+                        <a href="#">الاستراتيجية والأمن</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- رسالة عدم وجود نتائج -->
+            <div class="no-results" id="noResults" style="display: none;">
+                <i class='bx bx-search-alt'></i>
+                <p>لم يتم العثور على نتائج</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- الفوتر (نفسه) -->
+    <footer class="light-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <p class="brand-desc">الملكية الفكرية محفوظة للمؤلفين المذكورين على الكتب والمكتبة غير مسئولة عن افكار المؤلفين. يتم نشر الكتب القديمة والمنسية التي أصبحت في الماضي للحفاظ على التراث العربي والإسلامي، والكتب التي يتم قبول نشرها من قبل مؤلفيها.</p>
+                <div class="social-media-buttons">
+                    <a href="#" class="social-btn facebook" title="فيسبوك"><i class='bx bxl-facebook'></i></a>
+                    <a href="#" class="social-btn instagram" title="إنستغرام"><i class='bx bxl-instagram'></i></a>
+                    <a href="#" class="social-btn twitter" title="تويتر"><i class='bx bxl-twitter'></i></a>
+                </div>
+            </div>
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3><i class='bx bx-message-square-detail'></i> تواصل معنا</h3>
+                    <ul class="contact-info">
+                        <li><i class='bx bx-map'></i><span>🇩🇿 الجزائر</span></li>
+                        <li><i class='bx bx-envelope'></i><span>contact@sami-library.com</span></li>
+                        <li><i class='bx bx-phone'></i><span>+213 555 123 456</span></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3><i class='bx bx-link-alt'></i> روابط سريعة</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class='bx bx-chevron-left'></i> الرئيسية</a></li>
+                        <li><a href="#"><i class='bx bx-chevron-left'></i> أقسام الكتب</a></li>
+                        <li><a href="#"><i class='bx bx-chevron-left'></i> المؤلفون</a></li>
+                        <li><a href="#"><i class='bx bx-chevron-left'></i> أحدث الكتب</a></li>
+                        <li><a href="#"><i class='bx bx-chevron-left'></i> أشهر الكتب</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3><i class='bx bx-service'></i> خدماتنا</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class='bx bx-chevron-left'></i> نشر كتاب</a></li>
+                        <li><a href="#"><i class='bx bx-chevron-left'></i> إشهار الكتب</a></li>
+                        <li><a href="#"><i class='bx bx-chevron-left'></i> اقتباسات</a></li>
+                        <li><a href="#"><i class='bx bx-chevron-left'></i> مراجعات</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>
+                    حقوق الملكية © <span id="currentYear">2026</span> 
+                    <span class="gradient-text">مكتبة سامي الرقمية</span>
+                    - جميع الحقوق محفوظة
+                </p>
+            </div>
+        </div>
+        <button class="scroll-to-top" id="scrollToTop" title="العودة للأعلى">
+            <i class='bx bx-up-arrow-alt'></i>
+        </button>
+    </footer>
+
+    <script src="class.js"></script>
+</body>
+</html>
