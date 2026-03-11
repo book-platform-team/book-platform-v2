@@ -1,11 +1,28 @@
 // =============================
 // 🔧 إعدادات الروابط
 // =============================
-// ✅ إلى هذا
 const CONFIG = {
     DEBUG: false,
-    API_URL: "/api/register", 
+    API_URL: "/api/register",
+    GOOGLE_LOGIN_URL: "/auth/google" // ← رابط تسجيل الدخول بجوجل
 };
+
+// =============================
+// 🔵 تسجيل الدخول بجوجل
+// =============================
+const googleLoginBtn = document.getElementById("googleLoginBtn");
+if (googleLoginBtn) {
+    googleLoginBtn.addEventListener("click", function(e) {
+        e.preventDefault();
+        
+        // ✅ التأكد أن الرابط يبدأ بـ /
+        const url = CONFIG.GOOGLE_LOGIN_URL.startsWith('/')
+            ? CONFIG.GOOGLE_LOGIN_URL
+            : '/' + CONFIG.GOOGLE_LOGIN_URL;
+        
+        window.location.href = url; // ← يوجه مباشرة للجذر
+    });
+}
 
 // =============================
 // 👁️ إظهار وإخفاء كلمة المرور
@@ -176,7 +193,8 @@ if(registerForm){
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "X-Requested-With": "XMLHttpRequest"  // ⭐ مهم جداً لـ Laravel
+                "X-Requested-With": "XMLHttpRequest",
+                "ngrok-skip-browser-warning": "any-value" // ← لتجنب صفحة تحذير ngrok
             },
             body: JSON.stringify(data),
             mode: "cors",
@@ -232,6 +250,7 @@ if(registerForm){
                         localStorage.setItem("authToken", result.token);
                     }
                     
+                    // إعادة التوجيه لصفحة الدخول
                     window.location.href = "login.html";
                     
                 } else if(response.status === 422) {
@@ -280,3 +299,27 @@ if(registerForm){
         
     });
 }
+
+// =============================
+// 🔵 معالجة عودة المستخدم من جوجل
+// =============================
+// (هذا الكود يشتغل إذا رجع المستخدم لصفحة التسجيل بعد التسجيل بجوجل)
+(function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    const user = urlParams.get('user');
+    
+    if (token && user) {
+        // حفظ التوكن والمستخدم
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('authUser', user);
+        
+        // إزالة المعلمات من الرابط
+        window.history.replaceState({}, document.title, window.location.pathname);
+        
+        // إعادة التوجيه للصفحة الرئيسية أو المكتبة
+        const redirectUrl = localStorage.getItem('preLoginUrl') || 'index.html';
+        alert("✅ تم تسجيل الدخول بنجاح عبر جوجل!");
+        window.location.href = redirectUrl;
+    }
+})();
