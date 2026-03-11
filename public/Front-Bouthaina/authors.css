@@ -45,6 +45,52 @@ a { text-decoration: none; color: inherit; transition: var(--transition-sm); }
 ul { list-style: none; }
 button { border: none; background: none; cursor: pointer; font-family: inherit; }
 
+
+/* إخفاء المؤشر الافتراضي للعناصر التفاعلية */
+a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
+.categories-list li, .authors-list li, .info-btn {
+    cursor: none;
+}
+
+/* إخفاء المؤشر المخصص في الجوال */
+@media (max-width: 768px) {
+    .custom-cursor, .custom-cursor-follower { display: none; }
+    a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
+    .categories-list li, .authors-list li, .info-btn { cursor: pointer; }
+}
+
+/* ========================================
+   ✨ 4. نصوص متدرجة اللون
+   ======================================== */
+
+/* تأثير تدرج لوني على النص */
+.gradient-text {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    -webkit-background-clip: text;      /* قص الخلفية على شكل النص */
+    -webkit-text-fill-color: transparent; /* جعل النص شفافاً ليظهر التدرج */
+    background-clip: text;
+    display: inline-block;
+}
+
+/* ========================================
+   🔗 5. روابط وعناصر عامة
+   ======================================== */
+
+a {
+    text-decoration: none;   /* إزالة الخط تحت الروابط */
+    color: inherit;          /* ورث لون النص من الأب */
+    transition: var(--transition-sm); /* حركة ناعمة */
+}
+
+ul { list-style: none; }    /* إزالة النقاط من القوائم */
+
+button {
+    border: none;            /* إزالة الحدود الافتراضية */
+    background: none;        /* إزالة الخلفية الافتراضية */
+    cursor: none;            /* استخدام المؤشر المخصص */
+    font-family: inherit;    /* ورث نوع الخط */
+}
+
 /* ========================================
    🏗️ 6. الهيدر الزجاجي (Glassmorphism)
    ======================================== */
@@ -71,9 +117,11 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
     display: flex; align-items: center; justify-content: space-between;
     background: rgba(255,255,255,0.95);            /* خلفية شبه شفافة */
     border-radius: var(--radius-lg);               /* حواف دائرية */
-    padding: 0.6rem 1.5rem;
+    
     box-shadow: var(--shadow);                     /* ظل ناعم */
     position: relative; overflow: visible; /* ← بدل hidden *//* لإضافة تأثير اللمعة */
+       padding: 10px 50px;        /* نقصت padding الفوق/التحت */
+    height: 60px;              /* ⭐ ارتفاع ثابت للهيدر */
 }
 
 /* تأثير اللمعة المتحركة عند التحويم على الهيدر */
@@ -89,36 +137,44 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
 /* ========================================
    📚 7. الشعار (Logo)
    ======================================== */
-
+/* ===== الشعار ===== */
 .logo a {
-    font-size: 1.2rem; font-weight: 900;
+    font-size: 1.2rem;
+    font-weight: 900;
     color: var(--primary);
-    display: flex; align-items: center; gap: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     position: relative;
+    text-decoration: none;
+    height: 100%;              /* ياخذ ارتفاع الهيدر */
+    
 }
 
-.logo a i {
-    font-size: 1.4rem;
+/* ⭐ الصورة - كبّريها هنا بلا ما تخرب الهيدر ⭐ */
+.logo a img {
+      width: 100px;               /* كان 60px، الآن 80px */
+    height: 100px;   
+    object-fit: contain;       /* تحافظ على شكل الصورة */
+    display: block;
     transition: var(--transition);
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+    line-height: 0;            /* يمنع أي مسافة زائدة */
+    padding-left: 50px;
+    margin-right: 2px;
 }
 
-/* تدوير الأيقونة عند التحويم */
-.logo a:hover i { transform: rotate(-10deg) scale(1.1); }
-
-/* خط متدرج تحت نص الشعار عند التحويم */
-.logo-text { position: relative; }
-
-.logo-text::after {
-    content: ''; position: absolute; bottom: 2px; left: 0;
-    width: 100%; height: 2px;
-    background: linear-gradient(90deg, var(--primary), var(--primary-light));
-    border-radius: 2px;
-    transform: scaleX(0); transform-origin: right;
-    transition: transform 0.3s ease;
+/* ===== تأثيرات التحويم ===== */
+.logo a:hover img {
+    transform: rotate(-10deg) scale(1.1);
 }
 
-.logo a:hover .logo-text::after { transform: scaleX(1); transform-origin: left; }
-
+.logo a:hover .logo-text::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
 /* ========================================
    ☰ 8. زر الهمبرغر (لجوال)
    ======================================== */
@@ -147,7 +203,7 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
    ======================================== */
 
 .desktop-nav { display: flex; align-items: center; gap: 0.9rem; }
-.main-links { display: flex; align-items: center; gap: 0.5rem; }
+.main-links { display: flex; align-items: center; gap: 0.5rem;  padding-left: 20px;}
 
 .nav-link {
     font-weight: 600; font-size: 0.9rem; color: var(--text);
@@ -232,6 +288,131 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
     font-weight: 700; justify-content: center; margin-top: 6px;
 }
 .close-link:hover { background: var(--primary); color: #280606 !important; }
+
+/* ========================================
+   🔍 13. قسم البحث الرئيسي
+   ======================================== */
+
+.search-section {
+    text-align: center; padding: 80px 20px 60px;
+    background: linear-gradient(180deg, #fff 0%, var(--bg-alt) 100%);
+    position: relative; overflow: hidden;
+}
+
+/* تأثير التوهج الخلفي في قسم البحث */
+.search-glow {
+    position: absolute; top: 50%; left: 50%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(122,12,22,0.08) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    animation: pulse 4s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* أنيميشن النبض للتوهج */
+@keyframes pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+    50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
+}
+
+.search-section h1 {
+    font-size: 3.5rem; margin-bottom: 15px;
+    font-weight: 900; line-height: 1.2;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.search-section p {
+    color: var(--text-light); margin-bottom: 40px;
+    font-size: 1.4rem; font-weight: 500;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+/* حاوية حقل البحث */
+.search-box-wrapper {
+    position: relative; max-width: 650px; margin: auto;
+    animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+.search-box {
+    display: flex; position: relative;
+    background: #fff; border-radius: 50px;
+    padding: 5px; box-shadow: var(--shadow-lg);
+    border: 2px solid var(--border);
+    transition: var(--transition);
+}
+
+/* تأثير عند التركيز على حقل البحث */
+.search-box:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-glow), var(--shadow-lg);
+}
+
+.search-box input {
+    flex: 1; padding: 16px 70px 16px 25px;
+    border: none; border-radius: 45px;
+    font-size: 1.1rem; outline: none;
+    background: transparent; font-family: inherit;
+}
+
+/* زر البحث الدائري */
+.search-box .search-btn {
+    position: absolute; left: 8px; top: 50%;
+    transform: translateY(-50%);
+    width: 50px; height: 50px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #fff; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; transition: var(--transition);
+    box-shadow: 0 4px 15px var(--primary-glow);
+}
+
+.search-box .search-btn:hover {
+    transform: translateY(-50%) scale(1.1) rotate(5deg);
+    box-shadow: 0 6px 25px var(--primary-glow);
+}
+
+/* خط متحرك تحت حقل البحث */
+.search-decoration {
+    position: absolute; bottom: -20px; left: 50%;
+    width: 100px; height: 4px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    transform: translateX(-50%); border-radius: 2px;
+    animation: shine 2s ease-in-out infinite;
+}
+
+@keyframes shine {
+    0%, 100% { opacity: 0.5; transform: translateX(-50%) scaleX(0.8); }
+    50% { opacity: 1; transform: translateX(-50%) scaleX(1.2); }
+}
+
+/* اقتراحات البحث */
+.suggestions {
+    position: absolute; top: 100%; right: 50%;
+    transform: translateX(50%);
+    width: 90%; max-width: 630px;
+    background: #fff; border-radius: var(--radius);
+    margin-top: 12px; box-shadow: var(--shadow-lg);
+    display: none; z-index: 999; text-align: right;
+    border: 1px solid var(--border); overflow: hidden;
+    animation: fadeInUp 0.3s ease;
+}
+
+.suggestions li {
+    padding: 14px 22px; cursor: none;
+    border-bottom: 1px solid #f8f9fa;
+    transition: var(--transition-sm);
+    color: var(--text); font-size: 0.95rem;
+    display: flex; align-items: center; gap: 10px;
+}
+
+.suggestions li i { color: var(--primary); font-size: 1.1rem; }
+
+.suggestions li:hover {
+    background: rgba(122,12,22,0.08); color: var(--primary);
+    padding-right: 28px;
+}
+
+.suggestions li:last-child { border-bottom: none; }
 
 /* ========================================
    🔐 11. أزرار الدخول والتسجيل
@@ -392,6 +573,7 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
 }
 
 .mobile-auth .btn { width: 100%; justify-content: center; padding: 0.9rem 1.2rem; }
+
 
 /* ========================================
    ✍️ قسم المؤلفون (تصميم عصري)
