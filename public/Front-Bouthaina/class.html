@@ -6,43 +6,52 @@
     <title>أقسام الكتب - مكتبة سامي الرقمية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
     <link rel="stylesheet" href="class.css">
 </head>
 
 <body>
 
-    
-    <!-- الهيدر (نفسه تماماً) -->
+   <!-- الهيدر -->
     <header class="header-anim">
         <div class="navbar">
             <div class="logo">
-                <a href="#"><i class='bx bx-book-reader'></i> <span class="logo-text">Sami</span></a>
-            </div>
+    <a href="index.html">
+        <!-- الصورة بدلاً من الأيقونة -->
+        <img src="ThePhoto/IMG_5433 (1).png" alt="شعار">
+        
+    </a>
+</div>
+
             <button class="hamburger-btn" id="hamburgerBtn" aria-label="القائمة">
                 <i class='bx bx-menu'></i><i class='bx bx-x'></i>
             </button>
+
             <div class="nav-right desktop-nav">
                 <ul class="link main-links">
-                    <li><a href="#" class="nav-link"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
-                    <li><a href="#" class="nav-link"><i class='bx bx-category'></i> أقسام الكتب</a></li>
-                    <li><a href="#" class="nav-link"><i class='bx bx-user-pin'></i> مؤلفو الكتب</a></li>
+                    <li><a href="Library.html" class="nav-link"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
+                    <li><a href="class.html" class="nav-link"><i class='bx bx-category'></i> أقسام الكتب</a></li>
+                    <li><a href="authors.html" class="nav-link"><i class='bx bx-user-pin'></i> مؤلفو الكتب</a></li>
+                    
                     <li class="dropdown">
                         <button class="dropbtn nav-link" id="menuBtn">
                             القائمة <i class='bx bx-chevron-down icon'></i>
                         </button>
                         <div class="dropdown-content" id="dropdownMenu">
-                            <a href="#"><i class='bx bx-book-open'></i> أقسام الكتب</a>
-                            <a href="#"><i class='bx bx-user'></i> مؤلفو الكتب</a>
-                            <a href="#"><i class='bx bx-quote-right'></i> اقتباسات الكتب</a>
-                            <a href="#"><i class='bx bx-star'></i> مراجعات الكتب</a>
-                            <a href="#"><i class='bx bx-group'></i> مجتمع المثقفين</a>
-                            <a href="#"><i class='bx bx-upload'></i> نشر كتاب</a>
+                            <a href="class.html"><i class='bx bx-book-open'></i> أقسام الكتب</a>
+                            <a href="authors.html"><i class='bx bx-user'></i> مؤلفو الكتب</a>
+                            <a href="login.html"><i class='bx bx-quote-right'></i> اقتباسات الكتب</a>
+                            <a href="login.html"><i class='bx bx-star'></i> مراجعات الكتب</a>
+                            <a href="login.html"><i class='bx bx-group'></i> مجتمع المثقفين</a>
+                            <a href="login.html"><i class='bx bx-upload'></i> نشر كتاب</a>
                             <a href="#" id="closeMenu" class="close-link"><i class='bx bx-x'></i> إغلاق</a>
                         </div>
                     </li>
+                    
                     <li><a href="#" class="nav-link search-trigger"><i class='bx bx-search-alt-2'></i> بــحـــث</a></li>
                 </ul>
             </div>
+
             <div class="nav-left desktop-nav">
                 <div class="link auth-links">
                     <a href="login.html" class="btn btn-login"><i class='bx bx-log-in'></i> دخول</a>
@@ -52,7 +61,7 @@
         </div>
     </header>
 
-    <!-- قائمة الجوال (نفسها) -->
+    <!-- قائمة الجوال -->
     <div class="mobile-nav-overlay" id="mobileNavOverlay">
         <div class="mobile-nav">
             <div class="mobile-nav-header">
@@ -60,19 +69,20 @@
                 <button class="close-mobile-nav" id="closeMobileNav"><i class='bx bx-x'></i></button>
             </div>
             <ul class="mobile-links">
-                <li><a href="#" class="mobile-link"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
-                <li><a href="#" class="mobile-link"><i class='bx bx-category'></i> أقسام الكتب</a></li>
-                <li><a href="#" class="mobile-link"><i class='bx bx-user-pin'></i> مؤلفو الكتب</a></li>
+                <li><a href="Library.html" class="mobile-link"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
+                <li><a href="class.html" class="mobile-link"><i class='bx bx-category'></i> أقسام الكتب</a></li>
+                <li><a href="authors.html" class="mobile-link"><i class='bx bx-user-pin'></i> مؤلفو الكتب</a></li>
                 <li class="mobile-dropdown">
                     <button class="mobile-dropbtn" id="mobileMenuBtn">
                         <i class='bx bx-menu'></i> القائمة <i class='bx bx-chevron-down icon'></i>
                     </button>
                     <div class="mobile-dropdown-content" id="mobileDropdownMenu">
-                        <a href="#"><i class='bx bx-book-open'></i> أقسام الكتب</a>
-                        <a href="#"><i class='bx bx-user'></i> مؤلفو الكتب</a>
-                        <a href="#"><i class='bx bx-quote-right'></i> اقتباسات الكتب</a>
-                        <a href="#"><i class='bx bx-star'></i> مراجعات الكتب</a>
-                        <a href="#"><i class='bx bx-upload'></i> نشر كتاب</a>
+                        <a href="class.html"><i class='bx bx-book-open'></i> أقسام الكتب</a>
+                        <a href="authors.html"><i class='bx bx-user'></i> مؤلفو الكتب</a>
+                        <a href="login.html"><i class='bx bx-quote-right'></i> اقتباسات الكتب</a>
+                        <a href="login.html"><i class='bx bx-star'></i> مراجعات الكتب</a>
+
+                        <a href="login.html"><i class='bx bx-upload'></i> نشر كتاب</a>
                     </div>
                 </li>
                 <li><a href="#" class="mobile-link search-trigger"><i class='bx bx-search-alt-2'></i> بــحـــث</a></li>
@@ -83,7 +93,23 @@
             </ul>
         </div>
     </div>
+ 
 
+    <!-- Modal البحث -->
+    <div class="search-modal-overlay" id="searchModalOverlay">
+        <div class="search-modal">
+            <button class="search-modal-close" id="searchModalClose"><i class='bx bx-x'></i></button>
+            <div class="search-modal-header"><h2>البحث عن كتاب</h2></div>
+            <div class="search-modal-content">
+                <div class="search-input-wrapper">
+                    <input type="text" placeholder="ابحث عن كتاب او مؤلف او قسم كتب" id="modalSearchInput">
+                    <button class="search-btn-large"><i class='bx bx-search'></i><span>بحث</span></button>
+                </div>
+                <button class="publish-book-btn"><i class='bx bx-upload'></i><span>نشر كتاب</span></button>
+            </div>
+        </div>
+    </div>
+  
     <!-- ========================================
          📚 قسم أقسام الكتب (بسيط + ثيم أحمر)
          ======================================== -->
@@ -246,7 +272,7 @@
     </button>
 </footer>
 
-
+     
     <script src="class.js"></script>
 </body>
 </html>

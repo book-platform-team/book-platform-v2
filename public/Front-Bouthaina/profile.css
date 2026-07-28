@@ -4,6 +4,17 @@
    ======================================== */
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body{
+   
+    font-family: 'AlJazeera', sans-serif;
+    overflow-x: hidden;
+   
+}
+* {
+    font-size: 13px !important;
+}
+h1 { font-size: 40px; }
+h2 { font-size: 22px; }
 
 :root {
     --primary: #7a0c16;

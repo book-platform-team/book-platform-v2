@@ -15,6 +15,13 @@
    🔧 1. إعادة تعيين عام + متغيرات الألوان
    ======================================== */
 
+   @font-face {
+    font-family: 'AlJazeera';
+    src: url('fonts/alfont_com_Al-Jazeera-Arabic-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* إعادة تعيين الهوامش والحشو لجميع العناصر */
 *, *::before, *::after {
     margin: 0;
@@ -30,9 +37,17 @@
 }
 
 body{
+   
+    font-family: 'AlJazeera', sans-serif;
     overflow-x: hidden;
+   
 }
-
+* {
+    font-size: 13px !important;
+}
+h1 { font-size: 40px; }
+h2 { font-size: 22px; }
+p  { font-size: 14px; }
 /* متغيرات الألوان والقيم المستخدمة في الموقع */
 :root {
     /* 🎨 الألوان الأساسية */

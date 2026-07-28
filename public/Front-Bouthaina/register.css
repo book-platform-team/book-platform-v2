@@ -12,11 +12,19 @@ body {
     flex-direction: column;           /* عمودي */
     justify-content: space-between;   /* توزيع المسافات */
     align-items: center;              /* توسيط أفقي */
-    font-family: "Cairo", sans-serif; /* خط الصفحة */
+     font-family: 'AlJazeera', sans-serif;
+    overflow-x: hidden;
+    /* خط الصفحة */
     background: linear-gradient(135deg, #7a0c16, #c31432); /* خلفية متدرجة */
     padding: 20px;                    /* مسافة داخلية */
 }
 
+
+* {
+    font-size: 13px !important;
+}
+h1 { font-size: 40px; }
+h2 { font-size: 22px; }
 /* ===== كارد تسجيل الدخول ===== */
 .login-card {
     width: 600px;                     /* عرض الكارد */
