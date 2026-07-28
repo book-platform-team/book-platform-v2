@@ -255,7 +255,7 @@ function setupReviewForm(bookId) {
         
         if (!token) {
             alert('يجب تسجيل الدخول لإضافة مراجعة');
-            window.location.href = 'login.html';
+            window.location.href = '/login.html';
             return;
         }
         
@@ -364,7 +364,7 @@ function setupQuoteForm(bookId) {
         
         if (!token) {
             alert('يجب تسجيل الدخول لإضافة اقتباس');
-            window.location.href = 'login.html';
+            window.location.href = '/login.html';
             return;
         }
         
@@ -414,7 +414,7 @@ function setupRatingInput(bookId) {
             
             if (!token) {
                 alert('يجب تسجيل الدخول لتقييم الكتاب');
-                window.location.href = 'login.html';
+                window.location.href = '/login.html';
                 return;
             }
             
@@ -489,7 +489,7 @@ async function loadSimilarBooks(bookId) {
 function createSimilarBookCard(book) {
     const div = document.createElement('div');
     div.className = 'similar-book-card';
-    div.onclick = () => window.location.href = `book-details.html?id=${book.id}`;
+    div.onclick = () => window.location.href = `/book.html?id=${book.id}`;
     
     div.innerHTML = `
         <img src="${book.cover_url || 'https://via.placeholder.com/150x220/7a0c16/ffffff?text=كتاب'}" alt="${book.title}">

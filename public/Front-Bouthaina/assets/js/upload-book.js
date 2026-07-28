@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // التحقق من تسجيل الدخول
     const authToken = localStorage.getItem('auth_token');
     if (!authToken) {
-        window.location.href = 'login.html';
+        window.location.href = '/login.html';
         return;
     }
     

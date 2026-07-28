@@ -6,8 +6,9 @@
     <title>نشر كتاب - مكتبة سامي الرقمية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="upload-book.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/upload-book.css">
+    
 </head>
 <body>
  
@@ -15,24 +16,24 @@
     <header class="header-anim">
         <div class="navbar">
             <div class="logo">
-                <a href="index.html"><img src="images/logo.png" alt="Sami"><span class="logo-text">Sami</span></a>
+                <a href="/library.html"><img src="/assets/img/logo.png" alt="Sami"><span class="logo-text">Sami</span></a>
             </div>
             <button class="hamburger-btn" id="hamburgerBtn">
                 <i class='bx bx-menu'></i><i class='bx bx-x'></i>
             </button>
             <div class="nav-right desktop-nav">
                 <ul class="link main-links">
-                    <li><a href="index.html" class="nav-link"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
-                    <li><a href="categories.html" class="nav-link"><i class='bx bx-category'></i> الأقسام</a></li>
-                    <li><a href="authors.html" class="nav-link"><i class='bx bx-user-pin'></i> المؤلفون</a></li>
+                    <li><a href="/library.html" class="nav-link"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
+                    <li><a href="/class.html" class="nav-link"><i class='bx bx-category'></i> الأقسام</a></li>
+                    <li><a href="/author.html" class="nav-link"><i class='bx bx-user-pin'></i> المؤلفون</a></li>
                 </ul>
                 <div class="notification-wrapper">
-                    <a href="notifications.html" class="notification-icon">
+                    <a href="/library.html" class="notification-icon">
                         <i class='bx bx-bell'></i><span class="notification-badge" id="notifCount">0</span>
                     </a>
                 </div>
                 <div class="user-menu-wrapper">
-                    <a href="profile.html" class="user-menu">
+                    <a href="/profile.html" class="user-menu">
                         <div class="user-avatar"><span id="userInitial">أ</span></div>
                         <span class="user-name">حسابي</span>
                     </a>
@@ -45,15 +46,15 @@
     <div class="mobile-nav-overlay" id="mobileNavOverlay">
         <div class="mobile-nav">
             <div class="mobile-nav-header">
-                <div class="logo"><a href="index.html"><i class='bx bx-book-reader'></i> Sami</a></div>
+                <div class="logo"><a href="/library.html"><i class='bx bx-book-reader'></i> Sami</a></div>
                 <button class="close-mobile-nav" id="closeMobileNav"><i class='bx bx-x'></i></button>
             </div>
             <ul class="mobile-links">
-                <li><a href="index.html" class="mobile-link"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
-                <li><a href="categories.html" class="mobile-link"><i class='bx bx-category'></i> الأقسام</a></li>
-                <li><a href="authors.html" class="mobile-link"><i class='bx bx-user-pin'></i> المؤلفون</a></li>
-                <li><a href="upload-book.html" class="mobile-link active"><i class='bx bx-upload'></i> نشر كتاب</a></li>
-                <li><a href="profile.html" class="mobile-link"><i class='bx bx-user'></i> حسابي</a></li>
+                <li><a href="/library.html" class="mobile-link"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
+                <li><a href="/class.html" class="mobile-link"><i class='bx bx-category'></i> الأقسام</a></li>
+                <li><a href="/author.html" class="mobile-link"><i class='bx bx-user-pin'></i> المؤلفون</a></li>
+                <li><a href="/library.html" class="mobile-link active"><i class='bx bx-upload'></i> نشر كتاب</a></li>
+                <li><a href="/profile.html" class="mobile-link"><i class='bx bx-user'></i> حسابي</a></li>
                 <li class="mobile-auth">
                     <a href="#" class="btn btn-logout" id="logoutBtn"><i class='bx bx-log-out'></i> خروج</a>
                 </li>
@@ -135,7 +136,7 @@
                     <i class='bx bx-check-circle'></i>
                     <h3>تم رفع كتابك بنجاح! ✅</h3>
                     <p>سيتم مراجعة كتابك من قبل الإدارة. ستصلك إشعار عند الموافقة.</p>
-                    <a href="library.html" class="btn-back">العودة للمكتبة</a>
+                    <a href="/library.html" class="btn-back">العودة للمكتبة</a>
                 </div>
             </div>
         </div>
@@ -150,7 +151,7 @@
         </div>
     </footer>
 
-    <script src="main.js"></script>
-    <script src="upload-book.js"></script>
+
+    <script src="/assets/js/upload-book.js"></script>
 </body>
 </html>
