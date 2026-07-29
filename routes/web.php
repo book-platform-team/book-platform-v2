@@ -9,7 +9,3 @@ Route::middleware('web')->group(function () {
     Route::get('/auth/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
 });
 
-// route عام (في الأسفل دائماً)
-Route::get('/{any}', function () {
-    return response()->json(['error' => 'Page not found'], 404);
-})->where('any', '.*');

@@ -118,6 +118,32 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        
+ // 🔹 تنظيف رقم الهاتف (إزالة +213، 00213، المسافات، والشرطات)
+    $phone = $request->phone;
+    
+    if ($phone) {
+        // إزالة +213 أو 00213 من البداية
+        $phone = preg_replace('/^(\+213|00213)/', '', $phone);
+        
+        // إزالة المسافات والشرطات
+        $phone = preg_replace('/[\s\-]/', '', $phone);
+        
+        // إذا الرقم بدون صفر في البداية، نضيفه
+        if (strlen($phone) === 9 && in_array(substr($phone, 0, 1), ['5', '6', '7'])) {
+            $phone = '0' . $phone;
+        }
+        
+        // تحديث الطلب بالرقم النظيف
+        $request->merge(['phone' => $phone]);
+    }
+
+
+
+
+
+
+
         // التحقق من الحقول
         $validator = Validator::make($request->all(), [
             'email' => 'required_without:phone|nullable|email',

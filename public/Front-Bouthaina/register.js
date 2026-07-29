@@ -323,3 +323,31 @@ if(registerForm){
         window.location.href = redirectUrl;
     }
 })();
+
+
+
+//تعديلات 
+// قراءة التوكن من الرابط
+function getAuthTokenFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    
+    if (token) {
+        // تخزين التوكن في localStorage
+        localStorage.setItem('auth_token', token);
+        
+        // إخفاء التوكن من الرابط (للمظهر)
+        window.history.replaceState({}, document.title, window.location.pathname);
+        
+        // عرض رسالة نجاح
+        alert('تم تسجيل الدخول بنجاح عبر جوجل! 👍');
+        
+        return token;
+    }
+    return null;
+}
+
+// تشغيل الدالة عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+    getAuthTokenFromUrl();
+});
