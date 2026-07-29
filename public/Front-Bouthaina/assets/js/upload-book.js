@@ -5,8 +5,8 @@
 document.addEventListener("DOMContentLoaded", () => {
     
     // التحقق من تسجيل الدخول
-    const authToken = localStorage.getItem('auth_token');
-    if (!authToken) {
+    const auth_token = localStorage.getItem('auth_token');
+    if (!auth_token) {
         window.location.href = '/login.html';
         return;
     }
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             
             // إرسال للـ Backend
-            const response = await fetch('http://localhost:8000/api/books', {
+            const response = await fetch('/books', {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token
@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function updateNotificationCount() {
         try {
             const token = localStorage.getItem('auth_token');
-            const response = await fetch('http://localhost:8000/api/notifications/count', {
+            const response = await fetch('/notifications/count', {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             const data = await response.json();
@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function loadUserInfo() {
         try {
             const token = localStorage.getItem('auth_token');
-            const response = await fetch('http://localhost:8000/api/user/profile', {
+            const response = await fetch('/user/profile', {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             const data = await response.json();

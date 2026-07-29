@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function loadBookDetails(bookId) {
     try {
-        const response = await fetch(`http://localhost:8000/api/books/${bookId}`);
+        const response = await fetch(`/books/${bookId}`);
         const data = await response.json();
         
         if (data.success && data.book) {
@@ -173,7 +173,7 @@ async function loadReviews(bookId, page = 1) {
     const reviewsList = document.getElementById('reviewsList');
     
     try {
-        const response = await fetch(`http://localhost:8000/api/books/${bookId}/reviews?page=${page}`);
+        const response = await fetch(`/books/${bookId}/reviews?page=${page}`);
         const data = await response.json();
         
         if (data.success) {
@@ -263,7 +263,7 @@ function setupReviewForm(bookId) {
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> جاري النشر...';
             
-            const response = await fetch(`http://localhost:8000/api/books/${bookId}/reviews`, {
+            const response = await fetch(`/books/${bookId}/reviews`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -299,7 +299,7 @@ async function loadQuotes(bookId) {
     const quotesList = document.getElementById('quotesList');
     
     try {
-        const response = await fetch(`http://localhost:8000/api/books/${bookId}/quotes`);
+        const response = await fetch(`/books/${bookId}/quotes`);
         const data = await response.json();
         
         if (data.success) {
@@ -372,7 +372,7 @@ function setupQuoteForm(bookId) {
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> جاري الإضافة...';
             
-            const response = await fetch(`http://localhost:8000/api/books/${bookId}/quotes`, {
+            const response = await fetch(`/books/${bookId}/quotes`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -419,7 +419,7 @@ function setupRatingInput(bookId) {
             }
             
             try {
-                const response = await fetch(`http://localhost:8000/api/books/${bookId}/rate`, {
+                const response = await fetch(`/books/${bookId}/rate`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -469,7 +469,7 @@ async function loadSimilarBooks(bookId) {
     const grid = document.getElementById('similarBooksGrid');
     
     try {
-        const response = await fetch(`http://localhost:8000/api/books/${bookId}/similar?limit=4`);
+        const response = await fetch(`/books/${bookId}/similar?limit=4`);
         const data = await response.json();
         
         if (data.success && data.books && data.books.length > 0) {

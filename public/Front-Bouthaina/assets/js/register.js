@@ -229,7 +229,7 @@ if(registerForm){
                     alert("✅ " + (result.message || "تم إنشاء الحساب بنجاح!"));
                     
                     if(result.token) {
-                        localStorage.setItem("authToken", result.token);
+                        localStorage.setItem("auth_token", result.token);
                     }
                     
                     window.location.href = "/login.html";
