@@ -1,0 +1,134 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "name": "الروايات والقصص الأدبية",
+      "slug": "novels",
+      "icon": "bx-book",
+      "books_count": 23,
+      "children": [
+        {
+          "id": 11,
+          "name": "روايات عربية",
+          "slug": "arabic-novels",
+          "books_count": 9
+        },
+        {
+          "id": 12,
+          "name": "روايات عالمية",
+          "slug": "world-novels",
+          "books_count": 6
+        },
+        {
+          "id": 13,
+          "name": "قصص قصيرة",
+          "slug": "short-stories",
+          "books_count": 8
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "الحياة الإسلامية",
+      "slug": "islamic-life",
+      "icon": "bx-moon",
+      "books_count": 31,
+      "children": [
+        {
+          "id": 21,
+          "name": "الفقه الإسلامي",
+          "slug": "fiqh",
+          "books_count": 12
+        },
+        {
+          "id": 22,
+          "name": "السيرة النبوية",
+          "slug": "seerah",
+          "books_count": 10
+        },
+        {
+          "id": 23,
+          "name": "التفسير",
+          "slug": "tafsir",
+          "books_count": 9
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "التاريخ",
+      "slug": "history",
+      "icon": "bx-time-five",
+      "books_count": 18,
+      "children": [
+        {
+          "id": 31,
+          "name": "تاريخ الجزائر",
+          "slug": "algeria-history",
+          "books_count": 8
+        },
+        {
+          "id": 32,
+          "name": "التاريخ الإسلامي",
+          "slug": "islamic-history",
+          "books_count": 6
+        },
+        {
+          "id": 33,
+          "name": "الحضارات القديمة",
+          "slug": "ancient",
+          "books_count": 4
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "التنمية البشرية وتطوير الذات",
+      "slug": "self-development",
+      "icon": "bx-trending-up",
+      "books_count": 14,
+      "children": [
+        {
+          "id": 41,
+          "name": "تطوير الذات",
+          "slug": "self",
+          "books_count": 7
+        },
+        {
+          "id": 42,
+          "name": "الإدارة والقيادة",
+          "slug": "leadership",
+          "books_count": 4
+        },
+        {
+          "id": 43,
+          "name": "الصحة النفسية",
+          "slug": "mental-health",
+          "books_count": 3
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "العلوم السياسية",
+      "slug": "political-science",
+      "icon": "bx-landscape",
+      "books_count": 9,
+      "children": [
+        {
+          "id": 51,
+          "name": "العلاقات الدولية",
+          "slug": "intl-relations",
+          "books_count": 4
+        },
+        {
+          "id": 52,
+          "name": "الفكر السياسي",
+          "slug": "political-thought",
+          "books_count": 5
+        }
+      ]
+    }
+  ]
+}

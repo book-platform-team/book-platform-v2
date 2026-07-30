@@ -428,3 +428,155 @@ function initCurrentYear() {
    ======================================== */
 
 mountPartials();
+
+
+/* ========================================
+   🎭 حالات العرض المشتركة
+   ----------------------------------------
+   كل صفحة تحتاج أربع حالات:
+     تحميل · فارغ · خطأ · غير مسجَّل
+   هذه هي الفرق بين مشروع ومسوّدة.
+   ======================================== */
+
+/**
+ * هياكل تحميل (skeleton) — أفضل من دوّامة التحميل
+ * لأن الصفحة لا تقفز عندما تصل البيانات.
+ */
+function showLoading(el, count = 6, kind = "card") {
+    if (!el) return;
+    const one = kind === "row"
+        ? `<div class="skeleton skeleton-row"></div>`
+        : `<div class="skeleton skeleton-card"></div>`;
+    el.innerHTML = Array(count).fill(one).join("");
+}
+
+/** لا توجد بيانات */
+function showEmpty(el, message, icon = "bx-inbox", actionHTML = "") {
+    if (!el) return;
+    el.innerHTML = `
+        <div class="state-box">
+            <i class='bx ${icon}'></i>
+            <p>${message}</p>
+            ${actionHTML}
+        </div>
+    `;
+}
+
+/** خطأ + إمكانية إعادة المحاولة */
+function showError(el, retryFn, message = "تعذّر تحميل البيانات") {
+    if (!el) return;
+    el.innerHTML = `
+        <div class="state-box state-error">
+            <i class='bx bx-wifi-off'></i>
+            <p>${message}</p>
+            <button class="btn-retry" type="button">
+                <i class='bx bx-refresh'></i> حاول مرة أخرى
+            </button>
+        </div>
+    `;
+    if (typeof retryFn === "function") {
+        el.querySelector(".btn-retry")?.addEventListener("click", retryFn);
+    }
+}
+
+/** يتطلّب تسجيل الدخول */
+function showLoginRequired(el, message = "سجّلي الدخول لعرض هذا المحتوى") {
+    if (!el) return;
+    const next = encodeURIComponent(window.location.pathname + window.location.search);
+    el.innerHTML = `
+        <div class="state-box">
+            <i class='bx bx-lock-alt'></i>
+            <p>${message}</p>
+            <a href="/login.html?redirect=${next}" class="btn-retry">
+                <i class='bx bx-log-in'></i> تسجيل الدخول
+            </a>
+        </div>
+    `;
+}
+
+/**
+ * يتحقّق من الدخول قبل أي إجراء يحتاجه.
+ * يرجّع true إذا كان المستخدم مسجّلاً، وإلا يوجّهه ويرجّع false.
+ */
+function requireAuth(actionLabel = "") {
+    if (isLoggedIn()) return true;
+    const next = encodeURIComponent(window.location.pathname + window.location.search);
+    alert(`يجب تسجيل الدخول ${actionLabel}`);
+    window.location.href = `/login.html?redirect=${next}`;
+    return false;
+}
+
+
+/* ========================================
+   🧱 مكوّنات مشتركة
+   ----------------------------------------
+   تُستعمل في الرئيسية والمكتبة والكتب المشابهة —
+   تعريف واحد يضمن أن الكرت متطابق في كل مكان.
+   ======================================== */
+
+/** نجوم التقييم كنص HTML */
+function renderStars(average) {
+    const avg  = Number(average) || 0;
+    const full = Math.floor(avg);
+    const half = avg % 1 >= 0.5;
+    let html = "";
+
+    for (let i = 1; i <= 5; i++) {
+        if (i <= full)                   html += `<i class='bx bxs-star'></i>`;
+        else if (i === full + 1 && half) html += `<i class='bx bxs-star-half'></i>`;
+        else                             html += `<i class='bx bx-star'></i>`;
+    }
+    return html;
+}
+
+/** كرت كتاب — يقبل شكل BookCard من API.md */
+function renderBookCard(book) {
+    const author = book.author || {};
+    const slug   = book.slug || book.id;
+
+    const cover = book.cover
+        ? `<img src="${escapeAttr(book.cover)}" alt="${escapeAttr(book.title)}" loading="lazy">`
+        : `<div class="cover-fallback"><span>${escapeText(book.title)}</span></div>`;
+
+    const badge = book.publication_type === "house_edition"
+        ? `<span class="badge-house">من إصداراتنا</span>`
+        : "";
+
+    const rating = Number(book.ratings_avg) || 0;
+    const ratingHTML = book.ratings_count
+        ? `<div class="book-rating">${renderStars(rating)}
+               <span>${rating.toFixed(1)}</span></div>`
+        : `<div class="book-rating muted">
+               <i class='bx bx-star'></i><span>بلا تقييم</span></div>`;
+
+    return `
+        <article class="book-card">
+            <a href="/book.html?slug=${encodeURIComponent(slug)}" class="book-image">
+                ${cover}${badge}
+                <div class="book-overlay"><i class='bx bx-show'></i></div>
+            </a>
+            <h3><a href="/book.html?slug=${encodeURIComponent(slug)}">${escapeText(book.title)}</a></h3>
+            <p>${escapeText(author.name || "")}</p>
+            ${ratingHTML}
+        </article>
+    `;
+}
+
+/** يرسم مجموعة كروت في حاوية */
+function renderBookGrid(el, books) {
+    if (!el) return;
+    el.innerHTML = books.map(renderBookCard).join("");
+}
+
+
+/* ---------- حماية من XSS ---------- */
+
+function escapeText(str) {
+    return String(str ?? "").replace(/[&<>"']/g, ch => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[ch]));
+}
+
+function escapeAttr(str) {
+    return escapeText(str);
+}

@@ -793,6 +793,115 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
 
 
 /* ========================================
+   🎭 حالات العرض (تحميل · فارغ · خطأ · دخول)
+   ======================================== */
+
+/* ---------- هياكل التحميل ---------- */
+
+@keyframes shimmer {
+    0%   { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+}
+
+.skeleton {
+    background: linear-gradient(90deg,
+        var(--bg-alt) 25%,
+        #eef0f2 50%,
+        var(--bg-alt) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s ease-in-out infinite;
+    border-radius: var(--radius);
+}
+
+.skeleton-card { aspect-ratio: 3 / 4; width: 100%; }
+.skeleton-row  { height: 4.5rem; margin-bottom: 0.9rem; }
+
+
+/* ---------- صندوق الحالة ---------- */
+
+.state-box {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 1.5rem;
+    color: var(--text-light);
+}
+
+.state-box i {
+    font-size: 3.6rem;
+    color: var(--primary);
+    opacity: 0.35;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.state-box p {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+}
+
+.state-error i { color: #dc3545; opacity: 0.45; }
+
+.btn-retry {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.6rem;
+    background: var(--primary-gradient);
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px var(--primary-glow);
+}
+
+.btn-retry:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px var(--primary-glow);
+    color: #fff;
+}
+
+
+/* ---------- كرت الكتاب: الغلاف البديل والشارة ---------- */
+
+.cover-fallback {
+    aspect-ratio: 2 / 3;
+    width: 100%;
+    display: grid;
+    place-items: center;
+    background: var(--primary-gradient);
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    border-radius: 12px;
+}
+
+.badge-house {
+    position: absolute;
+    top: 8px; right: 8px;
+    background: rgba(255,255,255,0.94);
+    color: var(--primary);
+    font-size: 0.68rem;
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 2;
+}
+
+.book-rating.muted {
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+
+/* ========================================
    📱 التجاوب
    ======================================== */
 

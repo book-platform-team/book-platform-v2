@@ -1,0 +1,81 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": 2,
+      "slug": "asrar-alsahra",
+      "title": "أسرار الصحراء",
+      "cover": null,
+      "author": {
+        "id": 102,
+        "name": "آسيا جبار",
+        "slug": "assia-djebar"
+      },
+      "category": {
+        "id": 1,
+        "name": "الروايات والقصص الأدبية",
+        "slug": "novels"
+      },
+      "ratings_avg": 4.2,
+      "ratings_count": 7,
+      "publication_type": "house_edition"
+    },
+    {
+      "id": 3,
+      "slug": "fiqh-almuamalat-almuasira",
+      "title": "فقه المعاملات المعاصرة وتطبيقاته في الاقتصاد الحديث",
+      "cover": "/assets/img/logo.png",
+      "author": {
+        "id": 103,
+        "name": "محمد بن صالح العثيمين",
+        "slug": "ibn-uthaymeen"
+      },
+      "category": {
+        "id": 1,
+        "name": "الحياة الإسلامية",
+        "slug": "islamic-life"
+      },
+      "ratings_avg": 4.9,
+      "ratings_count": 42,
+      "publication_type": "house_edition"
+    },
+    {
+      "id": 4,
+      "slug": "tarikh-aljazair-alhadith",
+      "title": "تاريخ الجزائر الحديث",
+      "cover": "/assets/img/logo.png",
+      "author": {
+        "id": 104,
+        "name": "أبو القاسم سعد الله",
+        "slug": "saadallah"
+      },
+      "category": {
+        "id": 1,
+        "name": "التاريخ",
+        "slug": "history"
+      },
+      "ratings_avg": 4.7,
+      "ratings_count": 25,
+      "publication_type": "house_edition"
+    },
+    {
+      "id": 5,
+      "slug": "kayfa-tabni-adatak",
+      "title": "كيف تبني عاداتك",
+      "cover": null,
+      "author": {
+        "id": 105,
+        "name": "إبراهيم الفقي",
+        "slug": "ibrahim-elfiky"
+      },
+      "category": {
+        "id": 1,
+        "name": "التنمية البشرية وتطوير الذات",
+        "slug": "self-development"
+      },
+      "ratings_avg": 3.9,
+      "ratings_count": 11,
+      "publication_type": "author_submission"
+    }
+  ]
+}

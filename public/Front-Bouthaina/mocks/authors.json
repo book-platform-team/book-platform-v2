@@ -1,0 +1,83 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": 101,
+      "name": "الطاهر وطار",
+      "slug": "tahar-wattar",
+      "photo": null,
+      "books_count": 6,
+      "rating": 4.6,
+      "is_house_author": true
+    },
+    {
+      "id": 102,
+      "name": "آسيا جبار",
+      "slug": "assia-djebar",
+      "photo": null,
+      "books_count": 4,
+      "rating": 4.2,
+      "is_house_author": true
+    },
+    {
+      "id": 103,
+      "name": "محمد بن صالح العثيمين",
+      "slug": "ibn-uthaymeen",
+      "photo": null,
+      "books_count": 9,
+      "rating": 4.9,
+      "is_house_author": false
+    },
+    {
+      "id": 104,
+      "name": "أبو القاسم سعد الله",
+      "slug": "saadallah",
+      "photo": null,
+      "books_count": 7,
+      "rating": 4.7,
+      "is_house_author": false
+    },
+    {
+      "id": 105,
+      "name": "إبراهيم الفقي",
+      "slug": "ibrahim-elfiky",
+      "photo": null,
+      "books_count": 3,
+      "rating": 3.9,
+      "is_house_author": false
+    },
+    {
+      "id": 106,
+      "name": "علي الوردي",
+      "slug": "ali-alwardi",
+      "photo": null,
+      "books_count": 5,
+      "rating": 4.4,
+      "is_house_author": false
+    },
+    {
+      "id": 107,
+      "name": "مولود فرعون",
+      "slug": "mouloud-feraoun",
+      "photo": null,
+      "books_count": 2,
+      "rating": 0,
+      "is_house_author": true
+    },
+    {
+      "id": 108,
+      "name": "مالك بن نبي",
+      "slug": "malek-bennabi",
+      "photo": null,
+      "books_count": 8,
+      "rating": 4.5,
+      "is_house_author": false
+    }
+  ],
+  "meta": {
+    "current_page": 1,
+    "last_page": 1,
+    "per_page": 24,
+    "total": 8
+  }
+}

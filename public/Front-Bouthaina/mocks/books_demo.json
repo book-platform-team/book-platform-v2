@@ -1,0 +1,48 @@
+{
+  "success": true,
+  "data": {
+    "id": "demo",
+    "slug": "demo",
+    "title": "رحلة في ذاكرة الوطن",
+    "subtitle": null,
+    "description": "عملٌ يتنقّل بين المدينة والقرية ليرسم صورة جيلٍ عاش التحوّل الكبير. يتتبّع الكاتب أثر المكان في تشكيل الذاكرة، وكيف تصير التفاصيل الصغيرة — بابٌ قديم، رائحة مطر، صوت مؤذّن — علاماتٍ على زمنٍ كامل. نصٌّ يقرأ التاريخ من نافذة البيت لا من دفاتر الرسميات.",
+    "cover": "/assets/img/logo.png",
+    "author": {
+      "id": 101,
+      "name": "الطاهر وطار",
+      "slug": "tahar-wattar",
+      "photo": null
+    },
+    "category": {
+      "id": 1,
+      "name": "الروايات والقصص الأدبية",
+      "slug": "novels"
+    },
+    "language": "ar",
+    "pages": 248,
+    "publication_year": 2024,
+    "edition": "الطبعة الثانية",
+    "isbn": "978-9947-0-1234-5",
+    "publication_type": "house_edition",
+    "published_at": "2026-01-14T10:00:00Z",
+    "downloads_count": 1412,
+    "views_count": 8930,
+    "ratings_avg": 4.6,
+    "ratings_count": 18,
+    "files": [
+      {
+        "id": 22,
+        "type": "pdf",
+        "size": 4380000,
+        "size_human": "4.2 MB"
+      },
+      {
+        "id": 23,
+        "type": "epub",
+        "size": 1120000,
+        "size_human": "1.1 MB"
+      }
+    ],
+    "my_rating": null
+  }
+}

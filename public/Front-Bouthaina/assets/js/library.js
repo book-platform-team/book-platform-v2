@@ -1,203 +1,337 @@
 /* ========================================
-   📚 مكتبة سامي الرقمية — الصفحة الرئيسية
+   🏠 مكتبة سامي الرقمية — الصفحة الرئيسية
    ----------------------------------------
-   ⚠️ الهيدر · قائمة الجوال · مودال البحث · الفوتر ·
-      زر الصعود · السنة  →  كلها في partials.js
-      لا تُكرَّر هنا.
+   ⚠️ الهيدر · القائمة · المودال · الفوتر · الحالات ·
+      كرت الكتاب  →  كلها في partials.js
+   ----------------------------------------
+   العقد (API.md):
+     GET /api/books?sort=&category=&q=&page=
+     GET /api/categories
+     GET /api/authors
    ======================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    /* ---------- الحاويات ---------- */
+
+    const booksGrid    = document.getElementById("booksGrid");
+    const categoryList = document.getElementById("categoriesList");
+    const authorsList  = document.getElementById("authorsList");
+
+    /* ---------- حالة الصفحة ---------- */
+
+    const state = {
+        sort: "latest",     // latest | popular | trending
+        category: null,
+        q: null,
+    };
+
+    /* ---------- التشغيل ---------- */
+
+    initFilters();
+    initHeroSearch();
+    initInfoButtons();
+
+    loadBooks();
+    loadCategories();
+    loadAuthors();
+
+
     /* ========================================
-       🔍 بحث الهيرو والاقتراحات
+       📚 الكتب
        ======================================== */
 
-    const categories = [
-        "روايات", "تاريخ", "تنمية بشرية", "علوم الحاسوب",
-        "إسلاميات", "فلسفة", "شعر", "سياسة"
-    ];
+    async function loadBooks() {
+        if (!booksGrid) return;
 
-    const searchInput    = document.getElementById("searchInput");
-    const suggestionsBox = document.getElementById("suggestions");
+        showLoading(booksGrid, 6);
 
-    if (searchInput && suggestionsBox) {
-        searchInput.addEventListener("input", () => {
-            const query = searchInput.value.trim();
-            suggestionsBox.innerHTML = "";
+        try {
+            const params = new URLSearchParams({ sort: state.sort });
+            if (state.category) params.set("category", state.category);
+            if (state.q)        params.set("q", state.q);
 
-            if (query === "") {
-                suggestionsBox.style.display = "none";
+            const res   = await apiGet(`/books?${params.toString()}`);
+            const books = res.data || [];
+
+            if (books.length === 0) {
+                showEmpty(
+                    booksGrid,
+                    state.q
+                        ? `لا نتائج عن «${escapeText(state.q)}»`
+                        : "لا توجد كتب في هذا القسم بعد",
+                    "bx-book-open"
+                );
                 return;
             }
 
-            const matches = categories.filter(cat =>
-                cat.toLowerCase().includes(query.toLowerCase())
-            );
+            renderBookGrid(booksGrid, books);
 
-            if (matches.length > 0) {
-                matches.forEach((cat, index) => {
-                    const li = document.createElement("li");
-                    li.innerHTML = `<i class='bx bx-search-alt'></i> ${cat}`;
-                    li.style.animationDelay = `${index * 0.05}s`;
-                    li.addEventListener("click", () => {
-                        searchInput.value = cat;
-                        suggestionsBox.style.display = "none";
-                    });
-                    suggestionsBox.appendChild(li);
-                });
-                suggestionsBox.style.display = "block";
-            } else {
-                suggestionsBox.style.display = "none";
-            }
-        });
-
-        // زر البحث داخل صندوق الهيرو
-        const heroSearchBtn = document.querySelector(".search-box .search-btn");
-        if (heroSearchBtn) {
-            heroSearchBtn.addEventListener("click", (e) => {
-                const val = searchInput.value.trim();
-                if (!val) return;
-                e.stopPropagation();   // لا نفتح المودال إذا كان هناك نص
-                // TODO (اليوم الثالث): تنفيذ بحث حقيقي
-                heroSearchBtn.innerHTML = '<i class="bx bx-check"></i>';
-                setTimeout(() => {
-                    heroSearchBtn.innerHTML = '<i class="bx bx-search"></i>';
-                }, 1500);
-            });
+        } catch (error) {
+            console.error("Error loading books:", error);
+            showError(booksGrid, loadBooks);
         }
     }
 
-    /* ========================================
-       📚 تفاعل كروت الكتب
-       ======================================== */
-
-    document.querySelectorAll(".book-card").forEach(card => {
-
-        card.addEventListener("mousemove", (e) => {
-            const rect    = card.getBoundingClientRect();
-            const x       = e.clientX - rect.left;
-            const y       = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = (y - centerY) / 20;
-            const rotateY = (centerX - x) / 20;
-            card.style.transform =
-                `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
-        });
-
-        card.addEventListener("mouseleave", () => {
-            card.style.transform = "perspective(1000px) rotateX(0) rotateY(0) translateY(0)";
-        });
-
-        card.addEventListener("click", () => {
-            // TODO (اليوم الثالث): التوجيه إلى /book.html?slug=... بعد ربط البيانات
-            const title = card.querySelector("h3")?.innerText || "الكتاب";
-            card.style.animation = "pulse 0.3s ease";
-            setTimeout(() => {
-                card.style.animation = "";
-                alert(`📚 تم اختيار: ${title}`);
-            }, 300);
-        });
-    });
 
     /* ========================================
-       🎛️ أزرار الفلاتر السريعة
+       📂 التصنيفات (العمود الجانبي)
        ======================================== */
 
-    const filterBtns = document.querySelectorAll(".filter-btn");
+    async function loadCategories() {
+        if (!categoryList) return;
 
-    filterBtns.forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            filterBtns.forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
+        showLoading(categoryList, 5, "row");
 
-            // تأثير التموّج
-            const rect   = btn.getBoundingClientRect();
-            const size   = Math.max(rect.width, rect.height);
-            const ripple = document.createElement("span");
+        try {
+            const res  = await apiGet("/categories");
+            const cats = res.data || [];
 
-            ripple.style.cssText = `
-                position:absolute; border-radius:50%;
-                background:rgba(255,255,255,0.5);
-                transform:scale(0); animation:ripple 0.6s linear;
-                pointer-events:none;
-                width:${size}px; height:${size}px;
-                left:${e.clientX - rect.left - size / 2}px;
-                top:${e.clientY - rect.top - size / 2}px;
-            `;
+            if (cats.length === 0) {
+                showEmpty(categoryList, "لا توجد أقسام بعد", "bx-category");
+                return;
+            }
 
-            btn.style.position = "relative";
-            btn.style.overflow = "hidden";
-            btn.appendChild(ripple);
+            categoryList.innerHTML = cats.map(c => `
+                <li data-category="${escapeAttr(c.slug)}">
+                    <i class='bx ${escapeAttr(c.icon || "bx-book")}'></i>
+                    <span>${escapeText(c.name)}</span>
+                    <span class="count">${c.books_count ?? 0}</span>
+                </li>
+            `).join("");
 
-            setTimeout(() => ripple.remove(), 600);
+            categoryList.querySelectorAll("li").forEach(li => {
+                li.addEventListener("click", () => {
+                    const slug = li.dataset.category;
 
-            // TODO (اليوم الثالث): إعادة تحميل الكتب حسب btn.dataset.filter
-        });
-    });
+                    // النقر على القسم النشط يلغي الفلتر
+                    const isActive = li.classList.contains("active");
+                    categoryList.querySelectorAll("li").forEach(x => x.classList.remove("active"));
 
-    /* ========================================
-       🎚️ فلاتر الكتب (Segmented Control)
-       ======================================== */
+                    if (isActive) {
+                        state.category = null;
+                    } else {
+                        li.classList.add("active");
+                        state.category = slug;
+                    }
 
-    const segmentedOptions = document.querySelectorAll(".segmented-option");
-    const segmentedSlider  = document.querySelector(".segmented-slider");
+                    loadBooks();
+                    booksGrid?.scrollIntoView({ behavior: "smooth", block: "start" });
+                });
+            });
 
-    function updateSlider(activeOption) {
-        if (!segmentedSlider || !activeOption) return;
-        segmentedSlider.style.width = activeOption.offsetWidth + "px";
-        segmentedSlider.style.left  = activeOption.offsetLeft  + "px";
+        } catch (error) {
+            console.error("Error loading categories:", error);
+            showError(categoryList, loadCategories, "تعذّر تحميل الأقسام");
+        }
     }
 
-    segmentedOptions.forEach(option => {
-        option.addEventListener("click", () => {
-            segmentedOptions.forEach(opt => opt.classList.remove("active"));
-            option.classList.add("active");
-            updateSlider(option);
-            // TODO (اليوم الثالث): إعادة تحميل الكتب حسب option.dataset.filter
-        });
-    });
-
-    function refreshSlider() {
-        const active = document.querySelector(".segmented-option.active");
-        if (active) updateSlider(active);
-    }
-
-    window.addEventListener("load",   refreshSlider);
-    window.addEventListener("resize", refreshSlider);
 
     /* ========================================
-       🎬 تأثيرات الظهور عند التمرير
+       ✍️ المؤلفون (العمود الجانبي)
        ======================================== */
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity   = "1";
-                entry.target.style.transform = "translateY(0)";
-                observer.unobserve(entry.target);
+    async function loadAuthors() {
+        if (!authorsList) return;
+
+        showLoading(authorsList, 6, "row");
+
+        try {
+            const res     = await apiGet("/authors");
+            const authors = (res.data || []).slice(0, 6);
+
+            if (authors.length === 0) {
+                showEmpty(authorsList, "لا يوجد مؤلفون بعد", "bx-user");
+                return;
+            }
+
+            authorsList.innerHTML = authors.map(a => `
+                <li>
+                    <a href="/author-profile.html?slug=${encodeURIComponent(a.slug || a.id)}">
+                        ${escapeText(a.name)}
+                        <span class="count">${a.books_count ?? 0}</span>
+                    </a>
+                </li>
+            `).join("");
+
+        } catch (error) {
+            console.error("Error loading authors:", error);
+            showError(authorsList, loadAuthors, "تعذّر تحميل المؤلفين");
+        }
+    }
+
+
+    /* ========================================
+       🎛️ الفلاتر
+       ======================================== */
+
+    function initFilters() {
+
+        // أزرار الهيرو + الشريط المقسّم — كلاهما يغيّر sort
+        const quickBtns = document.querySelectorAll(".filter-btn");
+        const segments  = document.querySelectorAll(".segmented-option");
+        const slider    = document.querySelector(".segmented-slider");
+
+        function applySort(sort) {
+            if (state.sort === sort) return;
+            state.sort = sort;
+
+            quickBtns.forEach(b => b.classList.toggle("active", b.dataset.filter === sort));
+            segments.forEach(s => s.classList.toggle("active", s.dataset.filter === sort));
+            moveSlider();
+
+            loadBooks();
+        }
+
+        quickBtns.forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                ripple(btn, e);
+                applySort(btn.dataset.filter);
+            });
+        });
+
+        segments.forEach(seg => {
+            seg.addEventListener("click", () => applySort(seg.dataset.filter));
+        });
+
+        function moveSlider() {
+            const active = document.querySelector(".segmented-option.active");
+            if (!slider || !active) return;
+            slider.style.width = active.offsetWidth + "px";
+            slider.style.left  = active.offsetLeft  + "px";
+        }
+
+        window.addEventListener("load",   moveSlider);
+        window.addEventListener("resize", moveSlider);
+        moveSlider();
+    }
+
+    function ripple(btn, e) {
+        const rect = btn.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const span = document.createElement("span");
+
+        span.style.cssText = `
+            position:absolute; border-radius:50%;
+            background:rgba(255,255,255,0.5);
+            transform:scale(0); animation:ripple 0.6s linear;
+            pointer-events:none;
+            width:${size}px; height:${size}px;
+            left:${e.clientX - rect.left - size / 2}px;
+            top:${e.clientY - rect.top - size / 2}px;
+        `;
+
+        btn.style.position = "relative";
+        btn.style.overflow = "hidden";
+        btn.appendChild(span);
+        setTimeout(() => span.remove(), 600);
+    }
+
+
+    /* ========================================
+       🔍 بحث الهيرو
+       ======================================== */
+
+    function initHeroSearch() {
+        const input       = document.getElementById("searchInput");
+        const suggestions = document.getElementById("suggestions");
+        const searchBtn   = document.querySelector(".search-box .search-btn");
+
+        if (!input) return;
+
+        let allCategories = [];
+
+        // نستعمل التصنيفات كاقتراحات — أدق من قائمة مكتوبة يدوياً
+        apiGet("/categories")
+            .then(res => {
+                allCategories = (res.data || []).flatMap(c =>
+                    [c, ...(c.children || [])]
+                );
+            })
+            .catch(() => { /* الاقتراحات ميزة إضافية — تجاهل الخطأ */ });
+
+        input.addEventListener("input", () => {
+            const q = input.value.trim();
+
+            if (!suggestions) return;
+            suggestions.innerHTML = "";
+
+            if (q === "") {
+                suggestions.style.display = "none";
+                return;
+            }
+
+            const matches = allCategories
+                .filter(c => c.name.toLowerCase().includes(q.toLowerCase()))
+                .slice(0, 6);
+
+            if (matches.length === 0) {
+                suggestions.style.display = "none";
+                return;
+            }
+
+            suggestions.innerHTML = matches.map((c, i) => `
+                <li data-slug="${escapeAttr(c.slug)}" style="animation-delay:${i * 0.05}s">
+                    <i class='bx bx-search-alt'></i> ${escapeText(c.name)}
+                </li>
+            `).join("");
+
+            suggestions.style.display = "block";
+
+            suggestions.querySelectorAll("li").forEach(li => {
+                li.addEventListener("click", () => {
+                    input.value = li.textContent.trim();
+                    suggestions.style.display = "none";
+                    state.category = li.dataset.slug;
+                    state.q = null;
+                    loadBooks();
+                    booksGrid?.scrollIntoView({ behavior: "smooth" });
+                });
+            });
+        });
+
+        function runSearch() {
+            const q = input.value.trim();
+            if (!q) return;
+            state.q = q;
+            state.category = null;
+            if (suggestions) suggestions.style.display = "none";
+            loadBooks();
+            booksGrid?.scrollIntoView({ behavior: "smooth" });
+        }
+
+        searchBtn?.addEventListener("click", (e) => {
+            if (input.value.trim()) {
+                e.stopPropagation();   // لا نفتح المودال إذا كان هناك نص
+                runSearch();
             }
         });
-    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
 
-    document.querySelectorAll(".categories-list, .authors-section").forEach(el => {
-        el.style.opacity    = "0";
-        el.style.transform  = "translateY(25px)";
-        el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-        observer.observe(el);
-    });
+        input.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") runSearch();
+        });
+
+        // إغلاق الاقتراحات عند النقر خارجها
+        document.addEventListener("click", (e) => {
+            if (suggestions && !input.contains(e.target) && !suggestions.contains(e.target)) {
+                suggestions.style.display = "none";
+            }
+        });
+    }
+
+
+    /* ========================================
+       📢 أزرار قسم المعلومات
+       ======================================== */
+
+    function initInfoButtons() {
+        document.querySelector(".info-btn.primary")?.addEventListener("click", () => {
+            window.location.href = "/upload-book.html";
+        });
+
+        document.querySelector(".info-btn.secondary")?.addEventListener("click", () => {
+            // TODO: صفحة الإشهار — الأسبوع الخامس
+            alert("خدمة إشهار الكتب قريباً. تواصلي مع الدار للتفاصيل");
+        });
+    }
 });
-
-
-/* ========================================
-   🎨 Keyframes ديناميكية
-   ======================================== */
-
-const libraryPageStyle = document.createElement("style");
-libraryPageStyle.textContent = `
-    @keyframes ripple { to { transform: scale(4); opacity: 0; } }
-    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-    .bx-spin { animation: spin 1s linear infinite; }
-    @keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
-`;
-document.head.appendChild(libraryPageStyle);

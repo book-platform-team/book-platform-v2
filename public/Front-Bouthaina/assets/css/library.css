@@ -525,6 +525,46 @@
 }
 
 
+/* ---------- عدّاد الكتب حدا كل قسم/مؤلف ---------- */
+
+.categories-list li,
+.authors-list li a {
+    position: relative;
+}
+
+.categories-list .count,
+.authors-list .count {
+    margin-right: auto;
+    background: #fff;
+    color: var(--text-light);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.categories-list li.active {
+    background: rgba(122,12,22,0.1);
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.categories-list li.active .count {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+.authors-list li a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+
 /* ========================================
    📱 التجاوب
    ======================================== */
