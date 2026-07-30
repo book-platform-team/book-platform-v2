@@ -1,242 +1,13 @@
 /* ========================================
-   🎨 مكتبة سامي الرقمية - صفحة الأقسام
-   ثيم أحمر (#7a0c16) - تصميم بسيط
+   📂 مكتبة سامي الرقمية — صفحة أقسام الكتب
+   ----------------------------------------
+   ⚠️ المشترك (الهيدر · القائمة · المودال · الفوتر ·
+      المتغيرات · الخط) في base.css — لا يُكرَّر هنا.
    ======================================== */
 
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-:root {
-    /* 🎨 الألوان الأساسية - أحمر */
-    --primary: #7a0c16;
-    --primary-light: #c31432;
-    --primary-dark: #5a0911;
-    --primary-glow: rgba(122, 12, 22, 0.3);
-    
-    /* ألوان النصوص والخلفيات */
-    --text: #1a1a1a;
-    --text-light: #6c757d;
-    --bg: #ffffff;
-    --bg-alt: #f8f9fa;
-    --border: #e9ecef;
-    
-    /* الظلال والأبعاد */
-    --shadow: 0 10px 40px rgba(0,0,0,0.1);
-    --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
-    --radius: 12px;
-    --radius-lg: 18px;
-    
-    /* حركات الانتقال */
-    --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    --transition-sm: all 0.25s ease;
-}
-
-
-.gradient-text {
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text; display: inline-block;
-}
-
-a { text-decoration: none; color: inherit; transition: var(--transition-sm); }
-ul { list-style: none; }
-button { border: none; background: none; cursor: pointer; font-family: inherit; }
 
 /* ========================================
-   🏗️ الهيدر (نفسه - ثيم أحمر)
-   ======================================== */
-@keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-
-.header-anim {
-    animation: slideDown 0.8s ease-out forwards;
-    position: sticky; top: 0; z-index: 1000;
-    padding: 0.5rem 2rem;
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(122,12,22,0.1);
-}
-
-.navbar {
-    width: 100%; max-width: 1200px; margin: 0 auto;
-    display: flex; align-items: center; justify-content: space-between;
-    background: rgba(255,255,255,0.95);
-    border-radius: var(--radius-lg);
-    padding: 0.6rem 1.5rem;
-    box-shadow: var(--shadow);
-    position: relative; overflow: visible;
-}
-
-.logo a {
-    font-size: 1.2rem; font-weight: 900; color: var(--primary);
-    display: flex; align-items: center; gap: 6px; position: relative;
-}
-.logo a i { font-size: 1.4rem; transition: var(--transition); }
-.logo a:hover i { transform: rotate(-10deg) scale(1.1); }
-.logo-text { position: relative; }
-.logo-text::after {
-    content: ''; position: absolute; bottom: 2px; left: 0;
-    width: 100%; height: 2px;
-    background: linear-gradient(90deg, var(--primary), var(--primary-light));
-    border-radius: 2px; transform: scaleX(0); transform-origin: right;
-    transition: transform 0.3s ease;
-}
-.logo a:hover .logo-text::after { transform: scaleX(1); transform-origin: left; }
-
-.hamburger-btn {
-    display: none; font-size: 1.6rem; color: var(--primary);
-    padding: 0.5rem; border-radius: 10px; transition: var(--transition-sm);
-    position: relative; z-index: 1002;
-}
-.hamburger-btn .bx-x { display: none; }
-.hamburger-btn.active .bx-menu { display: none; }
-.hamburger-btn.active .bx-x { display: block; }
-.hamburger-btn:hover { background: rgba(122,12,22,0.1); transform: scale(1.1) rotate(5deg); }
-
-.desktop-nav { display: flex; align-items: center; gap: 0.9rem; }
-.main-links { display: flex; align-items: center; gap: 0.5rem; }
-
-.nav-link {
-    font-weight: 600; font-size: 0.9rem; color: var(--text);
-    display: flex; align-items: center; gap: 5px;
-    padding: 8px 12px; border-radius: 10px; position: relative; overflow: hidden;
-}
-.nav-link::before {
-    content: ''; position: absolute; bottom: 0; left: 50%;
-    width: 0; height: 2px;
-    background: linear-gradient(90deg, var(--primary), var(--primary-light));
-    transition: all 0.3s ease; transform: translateX(-50%);
-}
-.nav-link:hover::before { width: 80%; }
-.nav-link:hover, .nav-link.active { color: var(--primary); }
-.nav-link:active { transform: scale(0.98); }
-.nav-link i { font-size: 1rem; }
-
-.dropdown { position: relative; }
-.dropbtn {
-    background: none; border: none; font-family: inherit;
-    font-weight: 600; font-size: 0.9rem; color: var(--text);
-    cursor: pointer; display: flex; align-items: center; gap: 4px;
-    padding: 8px 12px; border-radius: 10px; transition: var(--transition-sm);
-}
-.dropbtn:hover, .dropbtn.active { color: var(--primary); background: rgba(122,12,22,0.08); }
-.dropbtn .icon { transition: transform 0.3s; font-size: 0.9rem; }
-.dropbtn.active .icon { transform: rotate(180deg); }
-
-.dropdown-content {
-    display: none; position: absolute; top: 100%; right: 0;
-    background: #fff; min-width: 220px; border-radius: var(--radius);
-    box-shadow: var(--shadow-lg); overflow: hidden;
-    animation: fadeInUp 0.3s ease; border: 1px solid var(--border);
-    margin-top: 8px; z-index: 1001;
-}
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-.dropdown-content.show { display: block; }
-.dropdown-content a {
-    display: flex; align-items: center; gap: 10px;
-    padding: 12px 18px; color: var(--text); font-size: 0.9rem;
-    border-bottom: 1px solid #f8f9fa; transition: var(--transition-sm);
-}
-.dropdown-content a:last-child { border-bottom: none; }
-.dropdown-content a:hover {
-    background: linear-gradient(90deg, rgba(122,12,22,0.08), transparent);
-    color: var(--primary); padding-right: 22px;
-}
-.close-link {
-    background: #fff5f5; color: var(--primary) !important;
-    font-weight: 700; justify-content: center; margin-top: 6px;
-}
-.close-link:hover { background: var(--primary); color: #fff !important; }
-
-.auth-links { display: flex; gap: 8px; }
-.btn {
-    padding: 0.5rem 1.2rem; border-radius: 25px;
-    font-size: 0.85rem; font-weight: 700;
-    display: flex; align-items: center; gap: 6px;
-    transition: var(--transition); position: relative; overflow: hidden;
-    border: 2px solid transparent;
-}
-.btn::before {
-    content: ''; position: absolute; top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-    transition: left 0.5s ease;
-}
-.btn:hover::before { left: 100%; }
-.btn-login { background: #fff; color: var(--primary); border-color: var(--primary); }
-.btn-login:hover { background: var(--primary); color: #fff; transform: translateY(-3px); box-shadow: 0 8px 25px var(--primary-glow); }
-.btn-register {
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    color: #fff; border-color: var(--primary); box-shadow: 0 4px 15px var(--primary-glow);
-}
-.btn-register:hover { transform: translateY(-3px); box-shadow: 0 10px 30px var(--primary-glow); }
-
-/* قائمة الجوال */
-.mobile-nav-overlay {
-    position: fixed; top: 0; right: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
-    z-index: 2000; opacity: 0; visibility: hidden; transition: var(--transition);
-}
-.mobile-nav-overlay.active { opacity: 1; visibility: visible; }
-.mobile-nav {
-    position: fixed; top: 0; right: -100%; width: 320px; max-width: 90%; height: 100%;
-    background: #fff; box-shadow: -10px 0 40px rgba(0,0,0,0.2);
-    z-index: 2001; transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow-y: auto;
-}
-.mobile-nav-overlay.active .mobile-nav { right: 0; }
-.mobile-nav-header {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 1.5rem 2rem; border-bottom: 2px solid var(--border);
-    background: linear-gradient(135deg, var(--bg-alt), #fff);
-}
-.mobile-nav-header .logo a { font-size: 1.3rem; }
-.close-mobile-nav {
-    font-size: 1.8rem; color: var(--primary); padding: 0.4rem;
-    border-radius: 10px; transition: var(--transition-sm);
-}
-.close-mobile-nav:hover { background: rgba(122,12,22,0.1); transform: rotate(90deg) scale(1.1); }
-.mobile-links { padding: 1rem 0; }
-.mobile-links li { margin: 0.3rem 0; }
-.mobile-link {
-    display: flex; align-items: center; gap: 12px;
-    padding: 1rem 2rem; color: var(--text);
-    font-weight: 600; font-size: 1rem;
-    transition: var(--transition-sm); border-right: 3px solid transparent;
-}
-.mobile-link:hover {
-    background: rgba(122,12,22,0.08); color: var(--primary);
-    border-right-color: var(--primary); padding-right: 2.3rem;
-}
-.mobile-link i { font-size: 1.2rem; width: 26px; }
-.mobile-dropdown { margin: 0.6rem 0; }
-.mobile-dropbtn {
-    width: 100%; display: flex; align-items: center; gap: 12px;
-    padding: 1rem 2rem; color: var(--text); font-weight: 600;
-    font-size: 1rem; background: transparent;
-    border-right: 3px solid transparent; transition: var(--transition-sm); text-align: right;
-}
-.mobile-dropbtn:hover, .mobile-dropbtn.active {
-    background: rgba(122,12,22,0.08); color: var(--primary); border-right-color: var(--primary);
-}
-.mobile-dropbtn .icon { margin-right: auto; transition: transform 0.3s; }
-.mobile-dropbtn.active .icon { transform: rotate(180deg); }
-.mobile-dropdown-content { display: none; background: var(--bg-alt); padding: 0.5rem 0; }
-.mobile-dropdown-content.show { display: block; animation: slideDown 0.3s ease; }
-.mobile-dropdown-content a {
-    display: flex; align-items: center; gap: 10px;
-    padding: 0.9rem 2rem 0.9rem 3rem; color: var(--text);
-    font-size: 0.95rem; transition: var(--transition-sm);
-}
-.mobile-dropdown-content a:hover {
-    background: rgba(122,12,22,0.08); color: var(--primary); padding-right: 3.2rem;
-}
-.mobile-auth {
-    padding: 1.5rem 2rem; margin-top: 1rem;
-    border-top: 2px solid var(--border);
-    display: flex; flex-direction: column; gap: 1rem;
-}
-.mobile-auth .btn { width: 100%; justify-content: center; padding: 0.9rem 1.2rem; }
-
-/* ========================================
-   📚 قسم أقسام الكتب (بسيط + أحمر)
+   📚 قسم الأقسام
    ======================================== */
 
 .categories-section {
@@ -250,7 +21,6 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
     margin: 0 auto;
 }
 
-/* 🎨 لوقو بسيط لأقسام الكتب */
 .categories-title {
     text-align: center;
     margin-bottom: 35px;
@@ -272,10 +42,12 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
     margin: 0;
 }
 
-/* مربع البحث */
-.search-container {
-    margin-bottom: 35px;
-}
+
+/* ========================================
+   🔍 مربع البحث في الأقسام
+   ======================================== */
+
+.search-container { margin-bottom: 35px; }
 
 .search-box {
     position: relative;
@@ -295,8 +67,7 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
 
 .search-icon {
     position: absolute;
-    right: 22px;
-    top: 50%;
+    right: 22px; top: 50%;
     transform: translateY(-50%);
     font-size: 1.3rem;
     color: var(--primary);
@@ -305,29 +76,24 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
 
 .search-input {
     width: 100%;
-    padding: 16px 55px 16px 55px;
+    padding: 16px 55px;
     border: none;
     border-radius: 50px;
     font-size: 1rem;
-    font-family: "Cairo", sans-serif;
+    font-family: inherit;
     background: transparent;
     outline: none;
 }
 
 .clear-search {
     position: absolute;
-    left: 20px;
-    top: 50%;
+    left: 20px; top: 50%;
     transform: translateY(-50%);
-    width: 32px;
-    height: 32px;
+    width: 32px; height: 32px;
     border-radius: 50%;
     background: var(--bg-alt);
     border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
     transition: var(--transition-sm);
     color: var(--text-light);
 }
@@ -338,14 +104,18 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
     transform: translateY(-50%) rotate(90deg);
 }
 
-/* الأقسام - التصميم الأصلي البسيط */
+
+/* ========================================
+   📋 الأقسام (Accordion)
+   ======================================== */
+
 .categories {
     max-width: 850px;
     margin: auto;
 }
 
 .category {
-    background: white;
+    background: #fff;
     border-radius: 8px;
     margin-bottom: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
@@ -359,7 +129,7 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 1.05rem;
     font-weight: 600;
     color: var(--text);
     transition: var(--transition-sm);
@@ -370,19 +140,17 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
 }
 
 .arrow {
-    transition: 0.3s;
+    transition: transform 0.3s;
     color: var(--primary);
     font-size: 1.2rem;
 }
 
-.arrow.rotate {
-    transform: rotate(180deg);
-}
+.arrow.rotate { transform: rotate(180deg); }
 
 .subcategories {
     max-height: 0;
     overflow: hidden;
-    transition: 0.4s;
+    transition: max-height 0.4s ease;
     padding: 0 18px;
     background: #fff;
 }
@@ -390,7 +158,6 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
 .subcategories a {
     display: block;
     padding: 10px 15px;
-    text-decoration: none;
     color: var(--primary);
     font-weight: 500;
     border-bottom: 1px solid var(--border);
@@ -399,9 +166,7 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
     margin-bottom: 5px;
 }
 
-.subcategories a:last-child {
-    border-bottom: none;
-}
+.subcategories a:last-child { border-bottom: none; }
 
 .subcategories a:hover {
     color: var(--primary-dark);
@@ -409,189 +174,29 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
     padding-right: 20px;
 }
 
-.grid {
+.subcategories.grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
 }
 
-/* رسالة عدم وجود نتائج */
-.no-results {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text-light);
-}
-.no-results i {
-    font-size: 4rem;
-    margin-bottom: 15px;
-    opacity: 0.5;
-}
-.no-results p {
-    font-size: 1.2rem;
-}
 
 /* ========================================
-   🦶 الفوتر (ثيم أحمر)
+   📱 التجاوب
    ======================================== */
-
-.light-footer {
-    background: linear-gradient(180deg, #f9f7f2 0%, #f0ebe3 100%);
-    border-top: 3px solid var(--border);
-    margin-top: 60px;
-    position: relative;
-}
-
-.footer-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.footer-brand {
-    text-align: center;
-    padding: 50px 20px 40px;
-    border-bottom: 2px solid var(--border);
-}
-
-.brand-desc {
-    color: var(--text-light);
-    font-size: 1.1rem;
-    max-width: 600px;
-    margin: 0 auto 20px;
-    line-height: 1.8;
-}
-
-.social-media-buttons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 2px solid var(--border);
-}
-
-.social-btn {
-    width: 45px; height: 45px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    color: #fff; font-size: 1.35rem;
-    transition: var(--transition); box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-.social-btn.facebook { background: linear-gradient(135deg, #1877f2, #0d5bca); }
-.social-btn.instagram { background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
-.social-btn.twitter { background: linear-gradient(135deg, #1da1f2, #0d8bd9); }
-.social-btn:hover {
-    transform: translateY(-4px) scale(1.1) rotate(360deg);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-}
-
-.footer-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 30px;
-    padding: 40px 15px 30px;
-}
-
-.footer-column h3 {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    position: relative;
-    padding-bottom: 10px;
-}
-.footer-column h3 i { color: var(--primary); font-size: 1.25rem; }
-.footer-column h3::after {
-    content: ''; position: absolute; bottom: 0; right: 0;
-    width: 50px; height: 2px;
-    background: linear-gradient(90deg, var(--primary), var(--primary-light));
-    border-radius: 2px;
-}
-
-.contact-info, .footer-links { list-style: none; padding: 0; margin: 0; }
-.contact-info li {
-    display: flex; align-items: center; gap: 10px;
-    margin-bottom: 15px; color: var(--text-light); font-size: 0.9rem;
-}
-.contact-info li i { font-size: 1.1rem; color: var(--primary); width: 22px; flex-shrink: 0; }
-.footer-links li { margin-bottom: 10px; }
-.footer-links a {
-    color: var(--text-light); text-decoration: none;
-    display: flex; align-items: center; gap: 6px;
-    transition: var(--transition-sm); font-size: 0.9rem;
-}
-.footer-links a i { font-size: 1rem; color: var(--primary); transition: var(--transition-sm); }
-.footer-links a:hover { color: var(--primary); padding-right: 6px; }
-.footer-links a:hover i { transform: translateX(-3px); }
-
-.footer-bottom {
-    border-top: 2px solid var(--border);
-    padding: 20px 15px;
-    text-align: center;
-}
-.footer-bottom p {
-    color: var(--text-light);
-    font-size: 0.85rem;
-    font-weight: 500;
-}
-
-.scroll-to-top {
-    position: fixed; bottom: 25px; left: 25px;
-    width: 45px; height: 45px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    color: #fff; border: none; font-size: 1.35rem;
-    cursor: pointer; opacity: 0; visibility: hidden;
-    transform: translateY(18px) scale(0.8);
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    box-shadow: 0 5px 20px var(--primary-glow);
-    z-index: 999; display: flex; align-items: center; justify-content: center;
-}
-.scroll-to-top.active { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
-.scroll-to-top:hover {
-    transform: translateY(-4px) scale(1.1);
-    box-shadow: 0 8px 30px var(--primary-glow);
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-    .desktop-nav { display: none; }
-    .hamburger-btn { display: block; }
-    .navbar { padding: 0.6rem 1rem; }
-}
 
 @media (max-width: 768px) {
     .categories-title h1 { font-size: 1.8rem; }
-    .categories-title i { font-size: 2.5rem; }
-    .category-header { padding: 15px; font-size: 16px; }
-    .grid { grid-template-columns: 1fr; }
-    .footer-grid { grid-template-columns: 1fr; gap: 28px; padding: 35px 12px 25px; }
-    .footer-column h3::after { right: 50%; transform: translateX(50%); }
-    .scroll-to-top { bottom: 20px; left: 20px; width: 42px; height: 42px; }
+    .categories-title i  { font-size: 2.5rem; }
+    .category-header     { padding: 15px; font-size: 1rem; }
+    .subcategories.grid  { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
     .categories-section { padding: 40px 15px 50px; }
     .categories-title h1 { font-size: 1.6rem; }
-    .categories-title i { font-size: 2rem; }
-    .search-input { padding: 14px 50px 14px 50px; font-size: 0.95rem; }
-    .category-header { padding: 14px; font-size: 15px; }
-    .subcategories a { padding: 8px 12px; font-size: 0.9rem; }
-}
-
-/* الوصولية */
-a:focus, button:focus, input:focus {
-    outline: 3px solid var(--primary);
-    outline-offset: 2px;
-}
-
-/* تقليل الحركة */
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
+    .categories-title i  { font-size: 2rem; }
+    .search-input        { padding: 14px 50px; font-size: 0.95rem; }
+    .category-header     { padding: 14px; font-size: 0.95rem; }
+    .subcategories a     { padding: 8px 12px; font-size: 0.9rem; }
 }
