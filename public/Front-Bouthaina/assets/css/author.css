@@ -1,0 +1,305 @@
+/* ========================================
+   ✍️ مكتبة سامي الرقمية — صفحة المؤلفين
+   ----------------------------------------
+   ⚠️ المشترك (الهيدر · القائمة · المودال · الفوتر ·
+      المتغيرات · الخط) في base.css — لا يُكرَّر هنا.
+   ======================================== */
+
+
+/* ========================================
+   👥 قسم المؤلفين
+   ======================================== */
+
+.authors-section {
+    padding: 60px 20px 80px;
+    background: linear-gradient(180deg, #fff 0%, #faf7f5 100%);
+    min-height: 60vh;
+}
+
+.authors-section .container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.authors-title {
+    text-align: center;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.authors-title i {
+    font-size: 3rem;
+    color: var(--primary);
+}
+
+.authors-title h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+
+/* ========================================
+   🔍 مربع البحث
+   ======================================== */
+
+.search-container {
+    margin: 40px auto;
+    max-width: 550px;
+}
+
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 2px solid var(--primary);
+    border-radius: 60px;
+    padding: 6px 18px;
+    transition: var(--transition-sm);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    animation: fadeSlide 0.6s ease;
+}
+
+.search-box:focus-within {
+    border-color: var(--primary-light);
+    box-shadow: 0 10px 30px rgba(122, 12, 22, 0.15);
+    transform: translateY(-2px);
+}
+
+@keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.search-icon {
+    color: var(--primary);
+    font-size: 1.4rem;
+    margin-left: 12px;
+    flex-shrink: 0;
+}
+
+.search-input {
+    flex: 1;
+    padding: 12px 5px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    font-family: inherit;
+    background: transparent;
+    color: var(--text);
+}
+
+.search-input::placeholder { color: #999; transition: opacity 0.3s; }
+.search-box:focus-within .search-input::placeholder { opacity: 0.5; }
+
+.clear-search {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    display: flex; align-items: center; justify-content: center;
+    transition: var(--transition-sm);
+    flex-shrink: 0;
+}
+
+.clear-search:hover {
+    background: var(--primary-light);
+    transform: rotate(90deg) scale(1.1);
+}
+
+
+/* ========================================
+   🎴 شبكة المؤلفين
+   ======================================== */
+
+.authors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 25px;
+    padding: 10px 5px;
+    width: 100%;
+}
+
+
+/* ========================================
+   📦 بطاقة المؤلف
+   ======================================== */
+
+.author-card {
+    background: #fff;
+    border: 2px solid #e8d5d5;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: var(--transition-sm);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    width: 100%;
+}
+
+.author-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary);
+    box-shadow: 0 15px 40px rgba(122, 12, 22, 0.2);
+}
+
+.author-card-inner {
+    padding: 25px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+    height: 100%;
+}
+
+
+/* ---------- صورة المؤلف ---------- */
+
+.author-image-wrapper {
+    position: relative;
+    width: 110px; height: 110px;
+    flex-shrink: 0;
+}
+
+.author-image {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary);
+    transition: var(--transition-sm);
+}
+
+.author-card:hover .author-image {
+    transform: scale(1.05);
+}
+
+/* ⭐ بديل الصورة الغائبة — الحرف الأول من الاسم */
+.author-photo-fallback {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    background: var(--primary-gradient);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.6rem;
+    font-weight: 800;
+    border: 3px solid var(--primary);
+    transition: var(--transition-sm);
+}
+
+.author-card:hover .author-photo-fallback { transform: scale(1.05); }
+
+
+/* ---------- معلومات المؤلف ---------- */
+
+.author-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.author-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.4;
+}
+
+.author-stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px 0;
+    border-top: 1px dashed #e0e0e0;
+    border-bottom: 1px dashed #e0e0e0;
+    width: 100%;
+}
+
+.author-stats .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.88rem;
+    color: var(--text-light);
+}
+
+.author-stats .stat-item i {
+    color: var(--primary);
+    font-size: 1.05rem;
+}
+
+.author-bio {
+    font-size: 0.88rem;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+
+/* ---------- تذييل البطاقة ---------- */
+
+.author-card-footer {
+    width: 100%;
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.view-profile {
+    font-size: 0.88rem;
+    color: var(--primary);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: gap 0.3s;
+}
+
+.author-card:hover .view-profile { gap: 10px; }
+
+
+/* ---------- زر "كن أول مؤلف" ---------- */
+
+.btn-become-author {
+    display: inline-block;
+    margin-top: 18px;
+    padding: 12px 28px;
+    background: var(--primary-gradient);
+    color: #fff;
+    border-radius: 25px;
+    font-weight: 700;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px var(--primary-glow);
+}
+
+.btn-become-author:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px var(--primary-glow);
+    color: #fff;
+}
+
+
+/* ========================================
+   📱 التجاوب
+   ======================================== */
+
+@media (max-width: 768px) {
+    .authors-title h1 { font-size: 1.8rem; }
+    .authors-title i  { font-size: 2.5rem; }
+    .authors-grid {
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .authors-section { padding: 45px 15px 60px; }
+    .authors-grid    { grid-template-columns: 1fr; }
+    .author-image-wrapper { width: 95px; height: 95px; }
+    .author-photo-fallback { font-size: 2.2rem; }
+}

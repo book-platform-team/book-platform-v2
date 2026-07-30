@@ -1,0 +1,359 @@
+/* ========================================
+   👤 مكتبة سامي الرقمية — الملف الشخصي
+   ----------------------------------------
+   ⚠️ المشترك (الهيدر · القائمة · المودال · الفوتر ·
+      المتغيرات · الخط) في base.css — لا يُكرَّر هنا.
+   ======================================== */
+
+.profile-section {
+    padding: 50px 20px 70px;
+    background: linear-gradient(180deg, #fff 0%, #faf7f5 50%, #f5f0ed 100%);
+    min-height: 80vh;
+}
+
+.profile-section .container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.profile-card {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+}
+
+
+/* ========================================
+   🖼️ رأس البروفايل
+   ======================================== */
+
+.profile-header {
+    background: var(--primary-gradient);
+    padding: 45px 30px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.profile-image-container {
+    position: relative;
+    width: 140px; height: 140px;
+    flex-shrink: 0;
+}
+
+.profile-image-container img {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    border: 5px solid #fff;
+    object-fit: cover;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.upload-btn {
+    position: absolute;
+    bottom: 8px; right: 8px;
+    width: 38px; height: 38px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--primary);
+    font-size: 1.15rem;
+    cursor: pointer;
+    transition: var(--transition-sm);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.upload-btn:hover {
+    transform: scale(1.1);
+    background: var(--primary);
+    color: #fff;
+}
+
+.profile-info { flex: 1; color: #fff; min-width: 200px; }
+
+.profile-info h1 {
+    font-size: 1.9rem;
+    font-weight: 900;
+    margin-bottom: 8px;
+    color: #fff;
+}
+
+.user-email {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    margin-bottom: 15px;
+}
+
+.role-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.92rem;
+    backdrop-filter: blur(10px);
+}
+
+.role-badge i { font-size: 1.1rem; }
+
+
+/* ========================================
+   ✏️ نموذج التعديل
+   ======================================== */
+
+.profile-form {
+    padding: 35px 30px;
+    border-bottom: 2px solid var(--border);
+}
+
+.profile-form h2 {
+    font-size: 1.4rem;
+    color: var(--primary);
+    margin-bottom: 26px;
+    display: flex; align-items: center; gap: 10px;
+}
+
+.form-group { margin-bottom: 22px; }
+
+.form-group label {
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.92rem;
+}
+
+.form-group label i { color: var(--primary); }
+
+.form-group input {
+    width: 100%;
+    padding: 13px 18px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: var(--transition-sm);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+.btn-save,
+.btn-change-role {
+    width: 100%;
+    padding: 15px;
+    background: var(--primary-gradient);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    font-family: inherit;
+    transition: var(--transition);
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    box-shadow: 0 4px 15px var(--primary-glow);
+}
+
+.btn-save:hover:not(:disabled),
+.btn-change-role:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px var(--primary-glow);
+}
+
+.btn-save:disabled,
+.btn-change-role:disabled { opacity: 0.7; cursor: not-allowed; }
+
+
+/* ========================================
+   🔄 تغيير نوع الحساب
+   ======================================== */
+
+.role-change-section {
+    padding: 35px 30px;
+    border-bottom: 2px solid var(--border);
+}
+
+.role-change-section h2 {
+    font-size: 1.4rem;
+    color: var(--primary);
+    margin-bottom: 26px;
+    display: flex; align-items: center; gap: 10px;
+}
+
+.role-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-bottom: 26px;
+}
+
+.role-option {
+    padding: 28px;
+    background: var(--bg-alt);
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--border);
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+}
+
+.role-option:hover:not(.locked) {
+    border-color: var(--primary);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+}
+
+.role-option.active {
+    border-color: var(--primary);
+    background: linear-gradient(135deg, rgba(122,12,22,0.05) 0%, rgba(195,20,50,0.08) 100%);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+/* ⭐ بطاقة معطّلة (لا رجوع من مؤلف إلى قارئ) */
+.role-option.locked {
+    cursor: default;
+    transform: none;
+}
+
+.role-icon {
+    width: 72px; height: 72px;
+    margin: 0 auto 18px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    font-size: 2.3rem;
+}
+
+.role-option h3 {
+    font-size: 1.2rem;
+    color: var(--text);
+    margin-bottom: 10px;
+}
+
+.role-option p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.role-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 18px;
+    padding: 8px 20px;
+    background: var(--primary-gradient);
+    color: #fff;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.role-change-message {
+    margin-top: 22px;
+    padding: 18px;
+    background: rgba(122,12,22,0.08);
+    border-radius: var(--radius);
+    border-right: 4px solid var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.role-change-message i {
+    font-size: 1.5rem;
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+.role-change-message p {
+    color: var(--text);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+
+/* ========================================
+   📊 الإحصائيات
+   ======================================== */
+
+.user-stats {
+    padding: 35px 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.user-stats .stat-item {
+    text-align: center;
+    padding: 24px;
+    background: var(--bg-alt);
+    border-radius: var(--radius-lg);
+    transition: var(--transition);
+}
+
+.user-stats .stat-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+}
+
+.user-stats .stat-item i {
+    font-size: 2.3rem;
+    color: var(--primary);
+    margin-bottom: 14px;
+}
+
+.user-stats .stat-item span {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.user-stats .stat-item p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+
+/* ========================================
+   📱 التجاوب
+   ======================================== */
+
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 38px 20px;
+    }
+
+    .profile-info h1 { font-size: 1.6rem; }
+    .role-badge { margin: 0 auto; }
+
+    .profile-form,
+    .role-change-section,
+    .user-stats { padding: 28px 20px; }
+
+    .user-stats .stat-item span { font-size: 1.6rem; }
+}
+
+@media (max-width: 480px) {
+    .profile-section { padding: 40px 15px 55px; }
+    .profile-image-container { width: 115px; height: 115px; }
+    .profile-info h1 { font-size: 1.4rem; }
+    .role-options { grid-template-columns: 1fr; }
+    .user-stats .stat-item { padding: 20px; }
+    .user-stats .stat-item i { font-size: 1.9rem; }
+    .user-stats .stat-item span { font-size: 1.4rem; }
+}

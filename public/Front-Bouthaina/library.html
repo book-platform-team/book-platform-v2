@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكتبة سامي الرقمية</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/assets/css/base.css"> 
+    <link rel="stylesheet" href="/assets/css/library.css">
+</head>
+
+<body data-page="library">
+
+    <!-- ⬇️ الهيدر + قائمة الجوال + مودال البحث — يركّبهم partials.js -->
+    <div id="site-header"></div>
+
+
+    <!-- قسم البحث -->
+    <section class="search-section">
+        <div class="search-glow"></div>
+        <h1 class="gradient-text">سامي للطباعة و النشر و التوزيع</h1>
+        <p>ابحث عن أي كتاب أو مؤلف بسهولة ويسر</p>
+        <div class="search-box-wrapper">
+            <div class="search-box">
+                <input type="text" placeholder="ابحث عن قسم، كتاب، أو مؤلف..." id="searchInput">
+                <button class="search-btn search-trigger"><i class='bx bx-search'></i></button>
+            </div>
+            <div class="search-decoration"></div>
+        </div>
+        <ul class="suggestions" id="suggestions"></ul>
+        <div class="quick-filters">
+            <button class="filter-btn active" data-filter="trending"><i class='bx bx-trending-up'></i><span>الأشهر اليوم</span></button>
+            <button class="filter-btn" data-filter="popular"><i class='bx bx-star'></i><span>أشهر الكتب</span></button>
+            <button class="filter-btn" data-filter="latest"><i class='bx bx-time'></i><span>أحدث الكتب</span></button>
+        </div>
+    </section>
+
+    <!-- قسم المعلومات -->
+    <section class="info-section">
+        <div class="info-glow"></div>
+        <div class="info-content">
+            <div class="info-text"><h2>مكتبة سامي الرقمية</h2><p>منصتك الشاملة للبحث عن الكتب العربية والإلكترونية</p></div>
+            <div class="info-buttons">
+                <button class="info-btn primary"><i class='bx bx-upload'></i><span>نشر كتاب</span><small>مجاني</small></button>
+                <button class="info-btn secondary"><i class='bx bx-bullseye'></i><span>إشهار الكتاب</span><small>مدفوع</small></button>
+            </div>
+            <p class="info-footer">قريباً تمكين المؤلفين ودور النشر والمكتبات من بيع الكتب الإلكترونية والورقية</p>
+        </div>
+    </section>
+
+    <!-- فلاتر الكتب -->
+    <section class="books-filters-section">
+        <div class="segmented-control">
+            <div class="segmented-option active" data-filter="latest"><i class='bx bx-time-five'></i><span>أحدث</span></div>
+            <div class="segmented-option" data-filter="popular"><i class='bx bx-star'></i><span>أشهر</span></div>
+            <div class="segmented-option" data-filter="trending"><i class='bx bx-trending-up'></i><span>اليوم</span></div>
+            <div class="segmented-slider"></div>
+        </div>
+    </section>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="container">
+        <section class="books">
+            <h2 class="section-title"><i class='bx bx-fire'></i> أشهر الكتب</h2>
+
+            <!-- TODO (اليوم الثالث): تُملأ من /mocks ثم من الـAPI -->
+            <div class="books-grid" id="booksGrid">
+                <!-- كرت 1 -->
+                <div class="book-card">
+                    <div class="book-image">
+                        <img src="https://placehold.co/150x200/b8956a/ffffff?text=كتاب+1" alt="book" loading="lazy">
+                        <div class="book-overlay"><i class='bx bx-heart'></i></div>
+                    </div>
+                    <h3>اسم الكتاب</h3>
+                    <p>اسم المؤلف</p>
+                    <div class="book-rating"><i class='bx bx-star'></i> 4.8</div>
+                </div>
+
+                <!-- كرت 2 -->
+                <div class="book-card">
+                    <div class="book-image">
+                        <img src="https://placehold.co/150x200/d4b483/ffffff?text=كتاب+2" alt="book" loading="lazy">
+                        <div class="book-overlay"><i class='bx bx-heart'></i></div>
+                    </div>
+                    <h3>اسم الكتاب</h3>
+                    <p>اسم المؤلف</p>
+                    <div class="book-rating"><i class='bx bx-star'></i> 4.5</div>
+                </div>
+
+                <!-- كرت 3 -->
+                <div class="book-card">
+                    <div class="book-image">
+                        <img src="https://placehold.co/150x200/9a7b4f/ffffff?text=كتاب+3" alt="book" loading="lazy">
+                        <div class="book-overlay"><i class='bx bx-heart'></i></div>
+                    </div>
+                    <h3>اسم الكتاب</h3>
+                    <p>اسم المؤلف</p>
+                    <div class="book-rating"><i class='bx bx-star'></i> 4.9</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- التصنيفات والمؤلفون -->
+        <section class="categories-search-section">
+            <div class="categories-header">
+                <h3><i class='bx bx-category'></i> أقسام الكتب</h3>
+                <button class="search-icon-btn search-trigger" title="بحث"><i class='bx bx-search'></i></button>
+            </div>
+            <ul class="categories-list">
+                <li><i class='bx bx-book'></i> الروايات والقصص الأدبية</li>
+                <li><i class='bx bx-book'></i> الديانة الإسلامية</li>
+                <li><i class='bx bx-book'></i> التنمية البشرية وتطوير الذات</li>
+                <li><i class='bx bx-book'></i> التاريخ</li>
+                <li><i class='bx bx-book'></i> الفقه الإسلامي</li>
+                <li><i class='bx bx-book'></i> العلوم السياسية</li>
+            </ul>
+            <div class="authors-section">
+                <div class="section-header-with-icon">
+                    <h3><i class='bx bx-user'></i> المؤلفون</h3>
+                    <button class="search-icon-btn search-trigger" title="بحث عن مؤلف"><i class='bx bx-search'></i></button>
+                </div>
+                <ul class="authors-list">
+                    <li>مصطفى محمود</li><li>إبراهيم الفقي</li><li>محمد بن صالح العثيمين</li>
+                    <li>ابن القيم الجوزية</li><li>أحمد خالد توفيق</li><li>علي الوردي</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+
+    <!-- ⬇️ الفوتر + زر الصعود — يركّبهم partials.js -->
+    <div id="site-footer"></div>
+
+
+    <!-- ⚠️ الترتيب إجباري: api ثم partials ثم ملف الصفحة -->
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/partials.js"></script>
+    <script src="/assets/js/library.js"></script>
+</body>
+</html>

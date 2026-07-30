@@ -1,0 +1,202 @@
+/* ========================================
+   📂 مكتبة سامي الرقمية — صفحة أقسام الكتب
+   ----------------------------------------
+   ⚠️ المشترك (الهيدر · القائمة · المودال · الفوتر ·
+      المتغيرات · الخط) في base.css — لا يُكرَّر هنا.
+   ======================================== */
+
+
+/* ========================================
+   📚 قسم الأقسام
+   ======================================== */
+
+.categories-section {
+    padding: 50px 20px 60px;
+    background: linear-gradient(180deg, #fff 0%, var(--bg-alt) 100%);
+    min-height: 60vh;
+}
+
+.categories-section .container {
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.categories-title {
+    text-align: center;
+    margin-bottom: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.categories-title i {
+    font-size: 3rem;
+    color: var(--primary);
+}
+
+.categories-title h1 {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--primary);
+    margin: 0;
+}
+
+
+/* ========================================
+   🔍 مربع البحث في الأقسام
+   ======================================== */
+
+.search-container { margin-bottom: 35px; }
+
+.search-box {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 50px;
+    box-shadow: var(--shadow);
+    border: 2px solid var(--border);
+    transition: var(--transition);
+}
+
+.search-box:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-glow), var(--shadow);
+}
+
+.search-icon {
+    position: absolute;
+    right: 22px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.3rem;
+    color: var(--primary);
+    pointer-events: none;
+}
+
+.search-input {
+    width: 100%;
+    padding: 16px 55px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: transparent;
+    outline: none;
+}
+
+.clear-search {
+    position: absolute;
+    left: 20px; top: 50%;
+    transform: translateY(-50%);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--bg-alt);
+    border: none;
+    display: flex; align-items: center; justify-content: center;
+    transition: var(--transition-sm);
+    color: var(--text-light);
+}
+
+.clear-search:hover {
+    background: var(--primary);
+    color: #fff;
+    transform: translateY(-50%) rotate(90deg);
+}
+
+
+/* ========================================
+   📋 الأقسام (Accordion)
+   ======================================== */
+
+.categories {
+    max-width: 850px;
+    margin: auto;
+}
+
+.category {
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.category-header {
+    padding: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+    transition: var(--transition-sm);
+}
+
+.category-header:hover {
+    background: rgba(122, 12, 22, 0.05);
+}
+
+.arrow {
+    transition: transform 0.3s;
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+.arrow.rotate { transform: rotate(180deg); }
+
+.subcategories {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    padding: 0 18px;
+    background: #fff;
+}
+
+.subcategories a {
+    display: block;
+    padding: 10px 15px;
+    color: var(--primary);
+    font-weight: 500;
+    border-bottom: 1px solid var(--border);
+    transition: var(--transition-sm);
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
+
+.subcategories a:last-child { border-bottom: none; }
+
+.subcategories a:hover {
+    color: var(--primary-dark);
+    background: rgba(122, 12, 22, 0.08);
+    padding-right: 20px;
+}
+
+.subcategories.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+
+/* ========================================
+   📱 التجاوب
+   ======================================== */
+
+@media (max-width: 768px) {
+    .categories-title h1 { font-size: 1.8rem; }
+    .categories-title i  { font-size: 2.5rem; }
+    .category-header     { padding: 15px; font-size: 1rem; }
+    .subcategories.grid  { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+    .categories-section { padding: 40px 15px 50px; }
+    .categories-title h1 { font-size: 1.6rem; }
+    .categories-title i  { font-size: 2rem; }
+    .search-input        { padding: 14px 50px; font-size: 0.95rem; }
+    .category-header     { padding: 14px; font-size: 0.95rem; }
+    .subcategories a     { padding: 8px 12px; font-size: 0.9rem; }
+}

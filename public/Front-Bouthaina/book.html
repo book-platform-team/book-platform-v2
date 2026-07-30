@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل الكتاب - مكتبة سامي الرقمية</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/assets/css/book.css">
+</head>
+
+<body data-page="book">
+
+    <!-- ⬇️ الهيدر + قائمة الجوال + مودال البحث — يركّبهم partials.js -->
+    <div id="site-header"></div>
+
+
+    <!-- ========================================
+         📖 قسم تفاصيل الكتاب
+         ======================================== -->
+    <section class="book-details-section">
+        <div class="container">
+
+            <!-- Sidebar -->
+            <aside class="book-sidebar">
+                <div class="sidebar-header">
+                    <img src="https://placehold.co/80x100/7a0c16/ffffff?text=غلاف" alt="غلاف الكتاب" id="sidebarBookCover">
+                    <h3 id="sidebarBookTitle">عنوان الكتاب</h3>
+                </div>
+
+                <ul class="sidebar-menu">
+                    <li><a href="#reviewsTab" class="sidebar-link"><i class='bx bx-chevron-left'></i> المراجعات</a></li>
+                    <li><a href="#quotesTab" class="sidebar-link"><i class='bx bx-chevron-left'></i> الاقتباسات</a></li>
+                    <li><a href="/library.html" class="sidebar-link"><i class='bx bx-chevron-left'></i> كل الكتب</a></li>
+                </ul>
+            </aside>
+
+            <!-- معلومات الكتاب الأساسية -->
+            <div class="book-main-info">
+
+                <div class="book-cover-section">
+                    <div class="book-cover">
+                        <img src="https://placehold.co/300x450/7a0c16/ffffff?text=غلاف+الكتاب" alt="غلاف الكتاب" id="bookCover">
+                    </div>
+                    <div class="book-actions">
+                        <button class="btn-action btn-download" id="downloadBtn">
+                            <i class='bx bx-download'></i>
+                            <span>تنزيل الكتاب</span>
+                        </button>
+                        <button class="btn-action btn-preview" id="previewBtn">
+                            <i class='bx bx-book-open'></i>
+                            <span>معاينة</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="book-info-section">
+                    <h1 class="book-title" id="bookTitle">جارٍ التحميل...</h1>
+
+                    <div class="book-meta">
+                        <div class="author-info">
+                            <i class='bx bx-user'></i>
+                            <a href="#" class="author-name" id="bookAuthor">—</a>
+                        </div>
+                        <div class="category-info">
+                            <i class='bx bx-category'></i>
+                            <span class="category-name" id="bookCategory">—</span>
+                        </div>
+                        <div class="publish-info">
+                            <i class='bx bx-calendar'></i>
+                            <span id="bookYear">—</span>
+                        </div>
+                    </div>
+
+                    <!-- 📊 الإحصائيات — الأسماء مطابقة لـ API.md -->
+                    <div class="book-stats-compact">
+                        <div class="stat-compact primary">
+                            <i class='bx bx-download'></i>
+                            <div class="stat-compact-info">
+                                <span class="stat-compact-number" id="downloadCount">0</span>
+                                <span class="stat-compact-label">تحميل</span>
+                            </div>
+                        </div>
+                        <div class="stat-compact">
+                            <i class='bx bx-show'></i>
+                            <div class="stat-compact-info">
+                                <span class="stat-compact-number" id="viewsCount">0</span>
+                                <span class="stat-compact-label">مشاهدة</span>
+                            </div>
+                        </div>
+                        <div class="stat-compact">
+                            <i class='bx bx-star'></i>
+                            <div class="stat-compact-info">
+                                <span class="stat-compact-number" id="ratingsStatCount">0</span>
+                                <span class="stat-compact-label">تقييم</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ⭐ التقييم -->
+                    <div class="rating-section">
+                        <div class="stars-display" id="starsDisplay"></div>
+                        <span class="rating-value" id="ratingValue">--</span>
+                        <span class="rating-count" id="ratingCount">(0 تقييم)</span>
+                    </div>
+
+                    <div class="user-rating-section" id="userRatingSection">
+                        <p>قيّم هذا الكتاب:</p>
+                        <div class="stars-input" id="starsInput">
+                            <i class='bx bx-star' data-rating="1"></i>
+                            <i class='bx bx-star' data-rating="2"></i>
+                            <i class='bx bx-star' data-rating="3"></i>
+                            <i class='bx bx-star' data-rating="4"></i>
+                            <i class='bx bx-star' data-rating="5"></i>
+                        </div>
+                    </div>
+
+                    <!-- الوصف -->
+                    <div class="book-description">
+                        <h3><i class='bx bx-info-circle'></i> عن الكتاب</h3>
+                        <p id="bookDescription">جارٍ التحميل...</p>
+                    </div>
+
+                    <!-- المشاركة -->
+                    <div class="share-section">
+                        <h3><i class='bx bx-share-alt'></i> شارك الكتاب</h3>
+                        <div class="share-buttons">
+                            <a href="#" class="share-btn facebook" id="shareFacebook" title="فيسبوك"><i class='bx bxl-facebook'></i></a>
+                            <a href="#" class="share-btn twitter" id="shareTwitter" title="تويتر"><i class='bx bxl-twitter'></i></a>
+                            <a href="#" class="share-btn whatsapp" id="shareWhatsApp" title="واتساب"><i class='bx bxl-whatsapp'></i></a>
+                            <a href="#" class="share-btn telegram" id="shareTelegram" title="تيليجرام"><i class='bx bxl-telegram'></i></a>
+                            <button class="share-btn copy-link" id="copyLink" title="نسخ الرابط"><i class='bx bx-link'></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================
+                 📋 معلومات الكتاب التفصيلية
+                 ======================================== -->
+            <div class="book-detailed-info">
+                <div class="info-section-title">
+                    <i class='bx bx-info-circle'></i>
+                    <h3>معلومات الكتاب</h3>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">العنوان:</span>
+                        <span class="info-value" id="bookTitleInfo">—</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">التقييم:</span>
+                        <div class="info-value rating-stars" id="bookRatingInfo"></div>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">المؤلف:</span>
+                        <span class="info-value" id="bookAuthorInfo">—</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">القسم:</span>
+                        <span class="info-value">
+                            <a href="#" id="categoryLink">—</a>
+                        </span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">اللغة:</span>
+                        <span class="info-value" id="bookLanguageInfo">—</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">نوع الإصدار:</span>
+                        <span class="info-value" id="bookTypeInfo">—</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">سنة الإصدار:</span>
+                        <span class="info-value" id="bookPublishDateInfo">—</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">الطبعة:</span>
+                        <span class="info-value" id="bookEditionInfo">—</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">الصفحات:</span>
+                        <span class="info-value" id="bookPagesInfo">—</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">ISBN:</span>
+                        <span class="info-value" id="bookIsbnInfo">—</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">حجم الملف:</span>
+                        <span class="info-value" id="bookFileSizeInfo">—</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">نوع الملف:</span>
+                        <span class="info-value" id="bookFileTypeInfo">—</span>
+                    </div>
+
+                    <div class="info-item full-width">
+                        <span class="info-label">رابط الكتاب:</span>
+                        <div class="info-value short-link">
+                            <input type="text" id="shortLinkInput" readonly>
+                            <button class="btn-copy" id="copyShortLinkBtn">
+                                <i class='bx bx-copy'></i> نسخ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================
+                 📑 التبويبات
+                 ======================================== -->
+            <div class="book-tabs-section">
+                <div class="tabs-header">
+                    <button class="tab-btn active" data-tab="reviews">
+                        <i class='bx bx-message-rounded'></i>
+                        المراجعات <span class="tab-count" id="reviewsCount">0</span>
+                    </button>
+                    <button class="tab-btn" data-tab="quotes">
+                        <i class='bx bx-quote-left'></i>
+                        الاقتباسات <span class="tab-count" id="quotesCount">0</span>
+                    </button>
+                </div>
+
+                <!-- المراجعات -->
+                <div class="tab-content active" id="reviewsTab">
+                    <div class="add-review-box">
+                        <h4><i class='bx bx-edit'></i> أضف مراجعتك</h4>
+                        <textarea id="reviewText" rows="4" placeholder="شاركنا رأيك في هذا الكتاب..."></textarea>
+                        <button class="btn-submit-review" id="submitReview">
+                            <i class="bx bx-send"></i> نشر المراجعة
+                        </button>
+                        <small class="form-hint">تظهر المراجعة بعد موافقة الإدارة</small>
+                    </div>
+
+                    <div class="reviews-list" id="reviewsList"></div>
+
+                    <button class="btn-load-more" id="loadMoreReviews" style="display:none;">
+                        عرض المزيد
+                    </button>
+                </div>
+
+                <!-- الاقتباسات -->
+                <div class="tab-content" id="quotesTab">
+                    <div class="add-quote-box">
+                        <h4><i class='bx bx-quote-right'></i> أضف اقتباساً</h4>
+                        <textarea id="quoteText" rows="3" placeholder="اكتب الاقتباس الذي أعجبك..."></textarea>
+                        <input type="number" id="quotePage" placeholder="رقم الصفحة (اختياري)" min="1">
+                        <button class="btn-submit-quote" id="submitQuote">
+                            <i class="bx bx-plus"></i> إضافة اقتباس
+                        </button>
+                        <small class="form-hint">يظهر الاقتباس بعد موافقة الإدارة</small>
+                    </div>
+
+                    <div class="quotes-list" id="quotesList"></div>
+                </div>
+            </div>
+
+            <!-- ========================================
+                 📚 كتب مشابهة
+                 ======================================== -->
+            <div class="similar-books-section">
+                <div class="section-title">
+                    <i class='bx bx-book-alt'></i>
+                    <h3>كتب مشابهة</h3>
+                </div>
+                <div class="similar-books-grid" id="similarBooksGrid"></div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ⬇️ الفوتر + زر الصعود — يركّبهم partials.js -->
+    <div id="site-footer"></div>
+
+
+    <!-- ⚠️ الترتيب إجباري: api ثم partials ثم ملف الصفحة -->
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/partials.js"></script>
+    <script src="/assets/js/book.js"></script>
+</body>
+</html>
