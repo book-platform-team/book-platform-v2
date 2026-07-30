@@ -1,12 +1,14 @@
 /* ========================================
-   مكتبة سامي الرقمية - صفحة المؤلفين
+   ✍️ مكتبة سامي الرقمية — صفحة المؤلفين
+   ----------------------------------------
+   ⚠️ الهيدر · قائمة الجوال · مودال البحث · الفوتر ·
+      زر الصعود · السنة  →  كلها في partials.js
+      لا تُكرَّر هنا.
    ======================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* ========================================
-       تعريف المتغيرات
-       ======================================== */
+    /* ---------- عناصر الصفحة ---------- */
 
     const authorsGrid       = document.getElementById("authorsGrid");
     const noAuthors         = document.getElementById("noAuthors");
@@ -16,207 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let allAuthors = [];
 
-    /* ========================================
-       القائمة المنسدلة (Desktop)
-       ======================================== */
-
-    const menuBtn         = document.getElementById("menuBtn");
-    const dropdownContent = document.getElementById("dropdownMenu");
-    const closeMenu       = document.getElementById("closeMenu");
-
-    if (menuBtn && dropdownContent) {
-        menuBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            dropdownContent.classList.toggle("show");
-            menuBtn.classList.toggle("active");
-        });
-    }
-
-    if (closeMenu) {
-        closeMenu.addEventListener("click", (e) => {
-            e.preventDefault();
-            dropdownContent.classList.remove("show");
-            menuBtn.classList.remove("active");
-        });
-    }
-
-    document.addEventListener("click", (e) => {
-        if (menuBtn && dropdownContent &&
-            !menuBtn.contains(e.target) &&
-            !dropdownContent.contains(e.target)) {
-            dropdownContent.classList.remove("show");
-            menuBtn.classList.remove("active");
-        }
-    });
-
-    /* ========================================
-       📱 القائمة الجانبية للجوال
-       ======================================== */
-
-    const hamburgerBtn     = document.getElementById("hamburgerBtn");
-    const mobileNavOverlay = document.getElementById("mobileNavOverlay");
-    const closeMobileNav   = document.getElementById("closeMobileNav");
-
-    if (hamburgerBtn && mobileNavOverlay) {
-        hamburgerBtn.addEventListener("click", () => {
-            mobileNavOverlay.classList.add("active");
-            hamburgerBtn.classList.toggle("active");
-            document.body.style.overflow = "hidden";
-        });
-    }
-
-    if (closeMobileNav && mobileNavOverlay) {
-        closeMobileNav.addEventListener("click", () => {
-            mobileNavOverlay.classList.remove("active");
-            hamburgerBtn.classList.remove("active");
-            document.body.style.overflow = "";
-        });
-    }
-
-    if (mobileNavOverlay) {
-        mobileNavOverlay.addEventListener("click", (e) => {
-            if (e.target === mobileNavOverlay) {
-                mobileNavOverlay.classList.remove("active");
-                hamburgerBtn.classList.remove("active");
-                document.body.style.overflow = "";
-            }
-        });
-    }
-
-    const mobileMenuBtn      = document.getElementById("mobileMenuBtn");
-    const mobileDropdownMenu = document.getElementById("mobileDropdownMenu");
-
-    if (mobileMenuBtn && mobileDropdownMenu) {
-        mobileMenuBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            mobileDropdownMenu.classList.toggle("show");
-            mobileMenuBtn.classList.toggle("active");
-        });
-    }
-
-    /* ========================================
-       🔍 Modal البحث - موحد لجميع أزرار البحث
-       ======================================== */
-
-    const searchModalOverlay = document.getElementById("searchModalOverlay");
-    const searchModalClose   = document.getElementById("searchModalClose");
-    const modalSearchInput   = document.getElementById("modalSearchInput");
-    const searchBtnLarge     = document.querySelector(".search-btn-large");
-    const publishBookBtn     = document.querySelector(".publish-book-btn");
-
-    const allSearchTriggers = document.querySelectorAll(".search-trigger, .search-icon-btn");
-
-    allSearchTriggers.forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            e.preventDefault();
-            if (searchModalOverlay) {
-                searchModalOverlay.classList.add("active");
-                document.body.style.overflow = "hidden";
-                setTimeout(() => modalSearchInput?.focus(), 300);
-            }
-        });
-    });
-
-    if (searchModalClose && searchModalOverlay) {
-        searchModalClose.addEventListener("click", () => {
-            searchModalOverlay.classList.remove("active");
-            document.body.style.overflow = "";
-        });
-    }
-
-    if (searchModalOverlay) {
-        searchModalOverlay.addEventListener("click", (e) => {
-            if (e.target === searchModalOverlay) {
-                searchModalOverlay.classList.remove("active");
-                document.body.style.overflow = "";
-            }
-        });
-
-        document.addEventListener("keydown", (e) => {
-            if (e.key === "Escape" && searchModalOverlay.classList.contains("active")) {
-                searchModalOverlay.classList.remove("active");
-                document.body.style.overflow = "";
-            }
-        });
-    }
-
-    if (searchBtnLarge && modalSearchInput) {
-        searchBtnLarge.addEventListener("click", () => {
-            const query = modalSearchInput.value.trim();
-            if (query) {
-                // TODO: توجيه لنتائج البحث الحقيقية — اليوم الثالث
-                searchBtnLarge.innerHTML = '<i class="bx bx-check"></i> تم';
-                setTimeout(() => {
-                    searchBtnLarge.innerHTML = '<i class="bx bx-search"></i><span>بحث</span>';
-                    searchModalOverlay.classList.remove("active");
-                    document.body.style.overflow = "";
-                }, 1500);
-            }
-        });
-
-        modalSearchInput.addEventListener("keypress", (e) => {
-            if (e.key === "Enter") {
-                const query = modalSearchInput.value.trim();
-                if (query) searchBtnLarge.click();
-            }
-        });
-    }
-
-    if (publishBookBtn) {
-        publishBookBtn.addEventListener("click", () => {
-            window.location.href = "/upload-book.html";
-        });
-    }
-
-    /* ========================================
-       🎬 تأثيرات الظهور عند التمرير
-       ======================================== */
-
-    const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity   = "1";
-                entry.target.style.transform = "translateY(0)";
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll(".book-card, .categories-list, .authors-section").forEach(el => {
-        el.style.opacity    = "0";
-        el.style.transform  = "translateY(25px)";
-        el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-        observer.observe(el);
-    });
-
-    /* ========================================
-       ⬆️ زر الصعود للأعلى
-       ======================================== */
-
-    const scrollToTopBtn = document.getElementById("scrollToTop");
-
-    if (scrollToTopBtn) {
-        window.addEventListener("scroll", () => {
-            if (window.pageYOffset > 250) {
-                scrollToTopBtn.classList.add("active");
-            } else {
-                scrollToTopBtn.classList.remove("active");
-            }
-        });
-
-        scrollToTopBtn.addEventListener("click", () => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-    }
-
-    /* ========================================
-       📅 تحديث السنة تلقائياً
-       ======================================== */
-
-    const currentYearEl = document.getElementById("currentYear");
-    if (currentYearEl) currentYearEl.textContent = new Date().getFullYear();
 
     /* ========================================
        🔹 جلب المؤلفين
@@ -234,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             // شكل الرد المتفق عليه في API.md: { success, data: [...] }
-            const result = await apiGet("/authors");
+            const result  = await apiGet("/authors");
             const authors = result.data || [];
 
             if (authors.length > 0) {
@@ -256,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         }
     }
+
 
     /* ========================================
        🔹 عرض بطاقات المؤلفين
@@ -280,23 +82,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
             card.addEventListener("click", () => {
                 // TODO: author-profile.html تُبنى في اليوم الخامس
-                window.location.href = `/author-profile.html?slug=${author.slug || author.id}`;
+                window.location.href =
+                    `/author-profile.html?slug=${author.slug || author.id}`;
             });
 
             const photo = author.photo
-                ? `<img src="${author.photo}" alt="${author.name}">`
+                ? `<img src="${author.photo}" alt="${author.name}" class="author-image">`
                 : `<div class="author-photo-fallback">${author.name.charAt(0)}</div>`;
 
             card.innerHTML = `
-                <div class="author-image">${photo}</div>
-                <h3 class="author-name">${author.name}</h3>
-                <p class="author-books-count">
-                    <i class='bx bx-book'></i>
-                    <span>${author.books_count || 0} كتاب</span>
-                </p>
-                <div class="author-rating">
-                    <i class='bx bx-star'></i>
-                    <span>${author.rating || "0.0"}</span>
+                <div class="author-card-inner">
+                    <div class="author-image-wrapper">${photo}</div>
+                    <div class="author-info">
+                        <h3 class="author-name">${author.name}</h3>
+                        <div class="author-stats">
+                            <span class="stat-item">
+                                <i class='bx bx-book'></i>
+                                ${author.books_count || 0} كتاب
+                            </span>
+                            <span class="stat-item">
+                                <i class='bx bx-star'></i>
+                                ${author.rating || "0.0"}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="author-card-footer">
+                        <span class="view-profile">
+                            عرض الملف <i class='bx bx-chevron-left'></i>
+                        </span>
+                    </div>
                 </div>
             `;
 
@@ -304,11 +118,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+
     /* ========================================
        🔹 البحث في المؤلفين
        ======================================== */
 
     if (authorSearchInput) {
+
         authorSearchInput.addEventListener("input", () => {
             const query = authorSearchInput.value.trim().toLowerCase();
 
@@ -335,22 +151,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    /* ========================================
-       🔹 التشغيل
-       ======================================== */
+
+    /* ---------- التشغيل ---------- */
 
     loadAuthors();
 });
-
-/* ========================================
-   🎨 Keyframes ديناميكية
-   ======================================== */
-
-const authorPageStyle = document.createElement("style");
-authorPageStyle.textContent = `
-    @keyframes ripple { to { transform: scale(4); opacity: 0; } }
-    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-    .bx-spin { animation: spin 1s linear infinite; }
-    @keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
-`;
-document.head.appendChild(authorPageStyle);

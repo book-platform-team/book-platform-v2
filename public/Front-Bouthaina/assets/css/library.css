@@ -1558,10 +1558,5 @@ a:focus, button:focus, input:focus {
 }
 .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
 
- /* الرابط النشط في القائمة */
-.nav-link.active,
-.mobile-link.active {
-    color: #7a0c16;
-    font-weight: 700;
-}
+
 

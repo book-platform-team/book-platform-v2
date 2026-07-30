@@ -1,709 +1,600 @@
 /* ========================================
-   ⚙️ مكتبة سامي الرقمية - صفحة تفاصيل الكتاب
-   التعامل مع الـ API (مراجعات، اقتباسات، تقييمات)
+   📖 مكتبة سامي الرقمية — صفحة تفاصيل الكتاب
+   ----------------------------------------
+   ⚠️ الهيدر · قائمة الجوال · مودال البحث · الفوتر ·
+      زر الصعود · السنة  →  كلها في partials.js
+   ----------------------------------------
+   العقد (API.md) — الرد دائماً { success, data, meta? }
+     GET  /api/books/{slug}
+     GET  /api/books/{id}/reviews?page=
+     POST /api/books/{id}/reviews      { content }
+     GET  /api/books/{id}/quotes
+     POST /api/books/{id}/quotes       { content, page }
+     POST /api/books/{id}/rate         { value }
+     GET  /api/books/{id}/similar?limit=4
    ======================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
-    
-    // الحصول على معرف الكتاب من الرابط
-    const urlParams = new URLSearchParams(window.location.search);
-    const bookId = urlParams.get('id');
-    
-    if (!bookId) {
-        console.error('❌ لم يتم تحديد معرف الكتاب في الرابط');
+
+    /* ---------- معرّف الكتاب ---------- */
+
+    const params  = new URLSearchParams(window.location.search);
+    const bookRef = params.get("slug") || params.get("id");
+
+    if (!bookRef) {
+        const title = document.getElementById("bookTitle");
+        if (title) title.textContent = "لم يتم تحديد الكتاب";
         return;
     }
-    
-    // تحميل كل البيانات عند فتح الصفحة
-    loadBookDetails(bookId);
-    loadReviews(bookId);
-    loadQuotes(bookId);
-    loadSimilarBooks(bookId);
-    
-    // تفعيل أحداث النماذج
-    setupReviewForm(bookId);
-    setupQuoteForm(bookId);
-    setupRatingInput(bookId);
-    
-    // تفعيل أزرار المشاركة
-    setupShareButtons();
-    
-    // تفعيل التبويبات
+
+    let bookId = bookRef;   // يُحدَّث بالمعرّف الرقمي بعد التحميل
+
+    /* ---------- التشغيل ---------- */
+
     setupTabs();
-    
-    // تفعيل زر الصعود للأعلى
-    setupScrollToTop();
-    
-    // تفعيل قائمة الجوال
-    setupMobileNav();
-    
-    // تفعيل Modal البحث
-    setupSearchModal();
-});
+    setupShareButtons();
+    setupRatingInput();
+    setupReviewForm();
+    setupQuoteForm();
+    setupCopyShortLink();
 
-/* ========================================
-   📥 جلب تفاصيل الكتاب من الـ API
-   ======================================== */
+    loadBookDetails();
 
-async function loadBookDetails(bookId) {
-    try {
-        const response = await fetch(`/books/${bookId}`);
-        const data = await response.json();
-        
-        if (data.success && data.book) {
-            displayBookDetails(data.book);
+
+    /* ========================================
+       📥 تفاصيل الكتاب
+       ======================================== */
+
+    async function loadBookDetails() {
+        try {
+            const res  = await apiGet(`/books/${bookRef}`);
+            const book = res.data;
+            if (!book) throw new Error("رد فارغ");
+
+            bookId = book.id || bookRef;
+
+            displayBookDetails(book);
+
+            // البقية تعتمد على المعرّف الرقمي
+            loadReviews(1);
+            loadQuotes();
+            loadSimilarBooks();
+
+        } catch (error) {
+            console.error("Error loading book:", error);
+            setText("bookTitle", "تعذّر تحميل الكتاب");
+            setText("bookDescription", "تحقّقي من الاتصال بالسيرفر");
         }
-    } catch (error) {
-        console.error('Error loading book:', error);
-        document.getElementById('bookTitle').textContent = 'حدث خطأ في التحميل';
     }
-}
 
-function displayBookDetails(book) {
-    // المعلومات الأساسية
-    document.getElementById('bookTitle').textContent = book.title;
-    document.getElementById('bookAuthor').textContent = book.author;
-    document.getElementById('bookCategory').textContent = book.category;
-    document.getElementById('bookYear').textContent = book.year || 'غير محدد';
-    document.getElementById('bookDescription').textContent = book.description || 'لا يوجد وصف';
-    
-    // غلاف الكتاب
-    if (book.cover_url) {
-        document.getElementById('bookCover').src = book.cover_url;
-        document.getElementById('sidebarBookCover').src = book.cover_url;
-    }
-    document.getElementById('sidebarBookTitle').textContent = book.title;
-    
-    // التقييم
-    if (book.rating) {
-        displayRating(book.rating.average, book.rating.count);
-    }
-    
-    // الإحصائيات
-    if (book.stats) {
-        document.getElementById('searchCount').textContent = book.stats.searches?.toLocaleString('ar-DZ') || '0';
-        document.getElementById('downloadCount').textContent = book.stats.downloads?.toLocaleString('ar-DZ') || '0';
-        document.getElementById('readCount').textContent = book.stats.reads?.toLocaleString('ar-DZ') || '0';
-    }
-    
-    // معلومات الكتاب التفصيلية
-    document.getElementById('bookTitleInfo').textContent = book.title;
-    document.getElementById('bookAuthorInfo').textContent = book.author;
-    document.getElementById('categoryLink').textContent = book.category;
-    document.getElementById('categoryLink').href = `/category/${book.category_id || '#'}`;
-    document.getElementById('bookLanguageInfo').textContent = book.language || 'العربية';
-    document.getElementById('bookPublisherInfo').textContent = book.publisher || 'غير محدد';
-    document.getElementById('bookPublishDateInfo').textContent = formatDate(book.publish_date);
-    document.getElementById('bookPagesInfo').textContent = book.pages || 'غير محدد';
-    document.getElementById('bookFileSizeInfo').textContent = formatFileSize(book.file_size);
-    document.getElementById('bookFileTypeInfo').textContent = book.file_type || 'PDF';
-    document.getElementById('bookCreatedDateInfo').textContent = formatDate(book.created_at);
-    
-    if (book.popularity_rank) {
-        document.getElementById('bookPopularityInfo').innerHTML = `
-            <i class='bx bx-trophy'></i>
-            رقم ${book.popularity_rank.toLocaleString('ar-DZ')} هو الأشهر!
-        `;
-    }
-    
-    // الرابط المختصر
-    document.getElementById('shortLinkInput').value = `${window.location.origin}/book/${book.id}`;
-    
-    // عرض التقييم في قسم المعلومات
-    if (book.rating) {
-        displayRatingInfo(book.rating.average, book.rating.count);
-    }
-}
+    function displayBookDetails(book) {
+        const author   = book.author   || {};
+        const category = book.category || {};
 
-function displayRating(average, count) {
-    const starsDisplay = document.getElementById('starsDisplay');
-    const ratingValue = document.getElementById('ratingValue');
-    const ratingCount = document.getElementById('ratingCount');
-    
-    ratingValue.textContent = average?.toFixed(1) || '0.0';
-    ratingCount.textContent = `(${count?.toLocaleString('ar-DZ') || 0} تقييم)`;
-    
-    starsDisplay.innerHTML = '';
-    const fullStars = Math.floor(average || 0);
-    const hasHalfStar = (average || 0) % 1 >= 0.5;
-    
-    for (let i = 1; i <= 5; i++) {
-        const star = document.createElement('i');
-        if (i <= fullStars) {
-            star.className = 'bx bxs-star';
-        } else if (i === fullStars + 1 && hasHalfStar) {
-            star.className = 'bx bxs-star-half';
-        } else {
-            star.className = 'bx bx-star';
+        // الأساسيات
+        setText("bookTitle",        book.title);
+        setText("bookAuthor",       author.name || "—");
+        setText("bookCategory",     category.name || "—");
+        setText("bookYear",         book.publication_year || "—");
+        setText("bookDescription",  book.description || "لا يوجد وصف");
+        setText("sidebarBookTitle", book.title);
+
+        // رابط المؤلف
+        const authorLink = document.getElementById("bookAuthor");
+        if (authorLink && author.slug) {
+            authorLink.href = `/author-profile.html?slug=${author.slug}`;
         }
-        starsDisplay.appendChild(star);
-    }
-}
 
-function displayRatingInfo(average, count) {
-    const ratingInfo = document.getElementById('bookRatingInfo');
-    ratingInfo.innerHTML = '';
-    
-    const fullStars = Math.floor(average || 0);
-    const hasHalfStar = (average || 0) % 1 >= 0.5;
-    
-    for (let i = 1; i <= 5; i++) {
-        const star = document.createElement('i');
-        if (i <= fullStars) {
-            star.className = 'bx bxs-star';
-        } else if (i === fullStars + 1 && hasHalfStar) {
-            star.className = 'bx bxs-star-half';
-        } else {
-            star.className = 'bx bx-star';
+        // الغلاف
+        const cover = book.cover || "https://placehold.co/300x450/7a0c16/ffffff?text=غلاف";
+        setSrc("bookCover", cover);
+        setSrc("sidebarBookCover", book.cover || "https://placehold.co/80x100/7a0c16/ffffff?text=غلاف");
+
+        // الإحصائيات
+        setText("downloadCount",    formatNumber(book.downloads_count));
+        setText("viewsCount",       formatNumber(book.views_count));
+        setText("ratingsStatCount", formatNumber(book.ratings_count));
+
+        // التقييم
+        displayRating(book.ratings_avg, book.ratings_count);
+        displayRatingInfo(book.ratings_avg, book.ratings_count);
+        if (book.my_rating) highlightStars(book.my_rating);
+
+        // الجدول التفصيلي
+        setText("bookTitleInfo",       book.title);
+        setText("bookAuthorInfo",      author.name || "—");
+        setText("bookLanguageInfo",    languageLabel(book.language));
+        setText("bookTypeInfo",        typeLabel(book.publication_type));
+        setText("bookPublishDateInfo", book.publication_year || "—");
+        setText("bookEditionInfo",     book.edition || "—");
+        setText("bookPagesInfo",       book.pages || "—");
+        setText("bookIsbnInfo",        book.isbn  || "—");
+
+        const categoryLink = document.getElementById("categoryLink");
+        if (categoryLink) {
+            categoryLink.textContent = category.name || "—";
+            if (category.slug) categoryLink.href = `/library.html?category=${category.slug}`;
         }
-        ratingInfo.appendChild(star);
-    }
-    
-    const ratingText = document.createElement('span');
-    ratingText.className = 'rating-text';
-    ratingText.textContent = `(${count?.toLocaleString('ar-DZ') || 0} تقييمات)`;
-    ratingInfo.appendChild(ratingText);
-}
 
-/* ========================================
-   💬 جلب وعرض المراجعات من الـ API
-   ======================================== */
+        // الملفات
+        const file = (book.files || [])[0];
+        setText("bookFileSizeInfo", file?.size_human || "—");
+        setText("bookFileTypeInfo", file ? file.type.toUpperCase() : "—");
 
-async function loadReviews(bookId, page = 1) {
-    const reviewsList = document.getElementById('reviewsList');
-    
-    try {
-        const response = await fetch(`/books/${bookId}/reviews?page=${page}`);
-        const data = await response.json();
-        
-        if (data.success) {
-            if (page === 1) {
-                reviewsList.innerHTML = '';
-            }
-            
-            if (data.reviews && data.reviews.length > 0) {
-                data.reviews.forEach(review => {
-                    reviewsList.appendChild(createReviewElement(review));
+        // الرابط
+        const shortLink = document.getElementById("shortLinkInput");
+        if (shortLink) {
+            shortLink.value = `${window.location.origin}/book.html?slug=${book.slug || bookId}`;
+        }
+
+        // زر التنزيل
+        const downloadBtn = document.getElementById("downloadBtn");
+        if (downloadBtn) {
+            if (file) {
+                downloadBtn.addEventListener("click", () => {
+                    window.location.href = `/api/books/${bookId}/download/${file.id}`;
                 });
-                
-                document.getElementById('reviewsCount').textContent = data.total?.toLocaleString('ar-DZ') || '0';
-                
-                const loadMoreBtn = document.getElementById('loadMoreReviews');
-                if (data.current_page < data.last_page) {
-                    loadMoreBtn.style.display = 'block';
-                    loadMoreBtn.onclick = () => loadReviews(bookId, page + 1);
-                } else {
-                    loadMoreBtn.style.display = 'none';
+            } else {
+                downloadBtn.disabled = true;
+                downloadBtn.innerHTML = `<i class='bx bx-x'></i><span>غير متوفر للتنزيل</span>`;
+            }
+        }
+    }
+
+
+    /* ========================================
+       ⭐ عرض التقييم
+       ======================================== */
+
+    function starsHTML(average) {
+        const avg  = Number(average) || 0;
+        const full = Math.floor(avg);
+        const half = avg % 1 >= 0.5;
+        let html = "";
+
+        for (let i = 1; i <= 5; i++) {
+            if (i <= full)                    html += `<i class='bx bxs-star'></i>`;
+            else if (i === full + 1 && half)  html += `<i class='bx bxs-star-half'></i>`;
+            else                              html += `<i class='bx bx-star'></i>`;
+        }
+        return html;
+    }
+
+    function displayRating(average, count) {
+        const display = document.getElementById("starsDisplay");
+        if (display) display.innerHTML = starsHTML(average);
+
+        setText("ratingValue", (Number(average) || 0).toFixed(1));
+        setText("ratingCount", `(${formatNumber(count)} تقييم)`);
+    }
+
+    function displayRatingInfo(average, count) {
+        const el = document.getElementById("bookRatingInfo");
+        if (!el) return;
+        el.innerHTML = starsHTML(average) +
+            `<span class="rating-text">(${formatNumber(count)})</span>`;
+    }
+
+    function highlightStars(rating) {
+        document.querySelectorAll("#starsInput i").forEach(star => {
+            const v = parseInt(star.dataset.rating, 10);
+            star.className = v <= rating ? "bx bxs-star active" : "bx bx-star";
+        });
+    }
+
+
+    /* ========================================
+       ⭐ إرسال تقييم
+       ======================================== */
+
+    function setupRatingInput() {
+        const stars = document.querySelectorAll("#starsInput i");
+
+        stars.forEach(star => {
+            star.addEventListener("mouseenter", function () {
+                highlightStars(parseInt(this.dataset.rating, 10));
+            });
+
+            star.addEventListener("click", async function () {
+                if (!requireLogin("لتقييم الكتاب")) return;
+
+                const value = parseInt(this.dataset.rating, 10);
+
+                try {
+                    const res = await apiPost(`/books/${bookId}/rate`, { value });
+                    const d   = res.data || {};
+
+                    displayRating(d.ratings_avg, d.ratings_count);
+                    displayRatingInfo(d.ratings_avg, d.ratings_count);
+                    highlightStars(d.my_rating || value);
+                    setText("ratingsStatCount", formatNumber(d.ratings_count));
+
+                } catch (error) {
+                    console.error("Error submitting rating:", error);
+                    alert("تعذّر حفظ التقييم");
                 }
-            } else if (page === 1) {
-                reviewsList.innerHTML = '<p class="no-reviews">لا توجد مراجعات بعد. كن أول من يراجع!</p>';
-            }
-        }
-    } catch (error) {
-        console.error('Error loading reviews:', error);
-        reviewsList.innerHTML = '<p class="error">حدث خطأ في تحميل المراجعات</p>';
-    }
-}
-
-function createReviewElement(review) {
-    const div = document.createElement('div');
-    div.className = 'review-item';
-    
-    const avatarContent = review.user_avatar 
-        ? `<img src="${review.user_avatar}" alt="${review.user_name}">`
-        : `<span>${review.user_name?.charAt(0) || 'م'}</span>`;
-    
-    div.innerHTML = `
-        <div class="reviewer-info">
-            <div class="reviewer-avatar">${avatarContent}</div>
-            <div class="reviewer-details">
-                <h4 class="reviewer-name">${review.user_name || 'مستخدم'}</h4>
-                <div class="review-rating">
-                    ${'★'.repeat(review.rating || 0)}${'☆'.repeat(5 - (review.rating || 0))}
-                </div>
-            </div>
-            <span class="review-date">${formatDate(review.created_at)}</span>
-        </div>
-        <p class="review-text">${review.text || ''}</p>
-        <div class="review-actions">
-            <button class="btn-helpful" onclick="toggleHelpful(${review.id}, this)">
-                <i class='bx bx-like'></i> مفيد (${review.helpful_count || 0})
-            </button>
-            <button class="btn-report" onclick="reportReview(${review.id})">
-                <i class='bx bx-flag'></i> إبلاغ
-            </button>
-        </div>
-    `;
-    return div;
-}
-
-/* ========================================
-   📝 إرسال مراجعة جديدة للـ API
-   ======================================== */
-
-function setupReviewForm(bookId) {
-    const submitBtn = document.getElementById('submitReview');
-    
-    submitBtn?.addEventListener('click', async () => {
-        const reviewText = document.getElementById('reviewText')?.value.trim();
-        const token = localStorage.getItem('auth_token');
-        
-        if (!reviewText) {
-            alert('الرجاء كتابة مراجعة');
-            return;
-        }
-        
-        if (!token) {
-            alert('يجب تسجيل الدخول لإضافة مراجعة');
-            window.location.href = '/login.html';
-            return;
-        }
-        
-        try {
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> جاري النشر...';
-            
-            const response = await fetch(`/books/${bookId}/reviews`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({ text: reviewText })
             });
-            
-            const result = await response.json();
-            
-            if (result.success) {
-                alert('✅ تم نشر مراجعتك بنجاح!');
-                document.getElementById('reviewText').value = '';
-                loadReviews(bookId, 1);
-            } else {
-                alert('❌ ' + (result.message || 'حدث خطأ في نشر المراجعة'));
-            }
-        } catch (error) {
-            console.error('Error submitting review:', error);
-            alert('حدث خطأ في الاتصال بالسيرفر');
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<i class="bx bx-send"></i> نشر المراجعة';
-        }
-    });
-}
-
-/* ========================================
-   💭 جلب وعرض الاقتباسات من الـ API
-   ======================================== */
-
-async function loadQuotes(bookId) {
-    const quotesList = document.getElementById('quotesList');
-    
-    try {
-        const response = await fetch(`/books/${bookId}/quotes`);
-        const data = await response.json();
-        
-        if (data.success) {
-            quotesList.innerHTML = '';
-            
-            if (data.quotes && data.quotes.length > 0) {
-                data.quotes.forEach(quote => {
-                    quotesList.appendChild(createQuoteElement(quote));
-                });
-                document.getElementById('quotesCount').textContent = data.total?.toLocaleString('ar-DZ') || '0';
-            } else {
-                quotesList.innerHTML = '<p class="no-quotes">لا توجد اقتباسات بعد. أضف أول اقتباس!</p>';
-            }
-        }
-    } catch (error) {
-        console.error('Error loading quotes:', error);
-        quotesList.innerHTML = '<p class="error">حدث خطأ في تحميل الاقتباسات</p>';
+        });
     }
-}
 
-function createQuoteElement(quote) {
-    const div = document.createElement('div');
-    div.className = 'quote-item';
-    
-    const escapedText = (quote.text || '').replace(/'/g, "\\'");
-    
-    div.innerHTML = `
-        <div class="quote-content">
-            <i class='bx bxs-quote-alt-right quote-icon'></i>
-            <p class="quote-text">"${quote.text || ''}"</p>
-        </div>
-        <div class="quote-footer">
-            <span class="quote-author">— ${quote.user_name || 'مستخدم'}</span>
-        </div>
-        <div class="quote-actions">
-            <button class="btn-copy-quote" onclick="copyQuote('${escapedText}')">
-                <i class='bx bx-copy'></i> نسخ
-            </button>
-            <button class="btn-share-quote" onclick="shareQuote('${escapedText}')">
-                <i class='bx bx-share'></i> مشاركة
-            </button>
-        </div>
-    `;
-    return div;
-}
 
-/* ========================================
-   ✍️ إرسال اقتباس جديد للـ API
-   ======================================== */
+    /* ========================================
+       💬 المراجعات
+       ======================================== */
 
-function setupQuoteForm(bookId) {
-    const submitBtn = document.getElementById('submitQuote');
-    
-    submitBtn?.addEventListener('click', async () => {
-        const quoteText = document.getElementById('quoteText')?.value.trim();
-        const token = localStorage.getItem('auth_token');
-        
-        if (!quoteText) {
-            alert('الرجاء كتابة اقتباس');
-            return;
+    async function loadReviews(page = 1) {
+        const list = document.getElementById("reviewsList");
+        if (!list) return;
+
+        if (page === 1) {
+            list.innerHTML = `<div class="loading-authors"><i class='bx bx-loader-alt bx-spin'></i><p>جارٍ تحميل المراجعات...</p></div>`;
         }
-        
-        if (!token) {
-            alert('يجب تسجيل الدخول لإضافة اقتباس');
-            window.location.href = '/login.html';
-            return;
-        }
-        
+
         try {
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> جاري الإضافة...';
-            
-            const response = await fetch(`/books/${bookId}/quotes`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({ text: quoteText })
-            });
-            
-            const result = await response.json();
-            
-            if (result.success) {
-                alert('✅ تم إضافة اقتباسك بنجاح!');
-                document.getElementById('quoteText').value = '';
-                loadQuotes(bookId);
-            } else {
-                alert('❌ ' + (result.message || 'حدث خطأ في إضافة الاقتباس'));
-            }
-        } catch (error) {
-            console.error('Error submitting quote:', error);
-            alert('حدث خطأ في الاتصال بالسيرفر');
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<i class="bx bx-plus"></i> إضافة اقتباس';
-        }
-    });
-}
+            const res     = await apiGet(`/books/${bookId}/reviews?page=${page}`);
+            const reviews = res.data || [];
+            const meta    = res.meta || {};
 
-/* ========================================
-   ⭐ إرسال تقييم للكتاب
-   ======================================== */
+            if (page === 1) list.innerHTML = "";
 
-function setupRatingInput(bookId) {
-    const starsInput = document.querySelectorAll('#starsInput i');
-    
-    starsInput.forEach(star => {
-        star.addEventListener('click', async function() {
-            const rating = parseInt(this.dataset.rating);
-            const token = localStorage.getItem('auth_token');
-            
-            if (!token) {
-                alert('يجب تسجيل الدخول لتقييم الكتاب');
-                window.location.href = '/login.html';
+            if (reviews.length === 0 && page === 1) {
+                list.innerHTML = `<p class="no-reviews">لا توجد مراجعات بعد. كوني أول من يراجع</p>`;
+                setText("reviewsCount", "0");
                 return;
             }
-            
-            try {
-                const response = await fetch(`/books/${bookId}/rate`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ rating: rating })
-                });
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    displayRating(result.new_average, result.total_ratings);
-                    alert(`✅ شكراً لتقييمك! منحت ${rating} نجوم`);
+
+            reviews.forEach(r => list.appendChild(createReviewElement(r)));
+            setText("reviewsCount", formatNumber(meta.total ?? reviews.length));
+
+            const more = document.getElementById("loadMoreReviews");
+            if (more) {
+                if (meta.current_page < meta.last_page) {
+                    more.style.display = "block";
+                    more.onclick = () => loadReviews(page + 1);
                 } else {
-                    alert('❌ ' + (result.message || 'حدث خطأ في حفظ التقييم'));
+                    more.style.display = "none";
                 }
-            } catch (error) {
-                console.error('Error submitting rating:', error);
-                alert('حدث خطأ في الاتصال بالسيرفر');
             }
-        });
-        
-        star.addEventListener('mouseenter', function() {
-            const rating = parseInt(this.dataset.rating);
-            highlightStars(rating);
-        });
-    });
-    
-    document.querySelector('.stars-input')?.addEventListener('mouseleave', () => {
-        // يمكن إضافة كود لإعادة العرض الأصلي هنا
-    });
-}
 
-function highlightStars(rating) {
-    const stars = document.querySelectorAll('#starsInput i');
-    stars.forEach(star => {
-        const starRating = parseInt(star.dataset.rating);
-        star.className = starRating <= rating ? 'bx bxs-star active' : 'bx bx-star';
-    });
-}
-
-/* ========================================
-   📚 جلب الكتب المشابهة من الـ API
-   ======================================== */
-
-async function loadSimilarBooks(bookId) {
-    const grid = document.getElementById('similarBooksGrid');
-    
-    try {
-        const response = await fetch(`/books/${bookId}/similar?limit=4`);
-        const data = await response.json();
-        
-        if (data.success && data.books && data.books.length > 0) {
-            grid.innerHTML = '';
-            data.books.forEach(book => {
-                grid.appendChild(createSimilarBookCard(book));
-            });
-        } else {
-            grid.innerHTML = '<p class="no-similar">لا توجد كتب مشابهة حالياً</p>';
+        } catch (error) {
+            console.error("Error loading reviews:", error);
+            list.innerHTML = `<p class="error">تعذّر تحميل المراجعات</p>`;
         }
-    } catch (error) {
-        console.error('Error loading similar books:', error);
-        grid.innerHTML = '<p class="error">حدث خطأ في التحميل</p>';
     }
-}
 
-function createSimilarBookCard(book) {
-    const div = document.createElement('div');
-    div.className = 'similar-book-card';
-    div.onclick = () => window.location.href = `/book.html?id=${book.id}`;
-    
-    div.innerHTML = `
-        <img src="${book.cover_url || 'https://via.placeholder.com/150x220/7a0c16/ffffff?text=كتاب'}" alt="${book.title}">
-        <h4>${book.title}</h4>
-        <p>${book.author}</p>
-        <div class="book-rating-small">
-            <i class='bx bxs-star'></i>
-            <span>${book.rating?.toFixed(1) || '0.0'}</span>
-        </div>
-    `;
-    return div;
-}
+    function createReviewElement(review) {
+        const div  = document.createElement("div");
+        div.className = "review-item";
 
-/* ========================================
-   🔗 وظائف مساعدة
-   ======================================== */
+        const user   = review.user || {};
+        const avatar = user.avatar
+            ? `<img src="${escapeHTML(user.avatar)}" alt="${escapeHTML(user.name)}">`
+            : `<span>${escapeHTML((user.name || "م").charAt(0))}</span>`;
 
-function formatDate(dateString) {
-    if (!dateString) return 'غير محدد';
-    const date = new Date(dateString);
-    return date.toLocaleDateString('ar-DZ', { year: 'numeric', month: 'long', day: 'numeric' });
-}
+        div.innerHTML = `
+            <div class="reviewer-info">
+                <div class="reviewer-avatar">${avatar}</div>
+                <div class="reviewer-details">
+                    <h4 class="reviewer-name">${escapeHTML(user.name || "مستخدم")}</h4>
+                    <div class="review-rating">${starsHTML(review.rating)}</div>
+                </div>
+                <span class="review-date">${formatDate(review.created_at)}</span>
+            </div>
+            <p class="review-text">${escapeHTML(review.content || "")}</p>
+            <div class="review-actions">
+                <button class="btn-helpful" data-review="${review.id}">
+                    <i class='bx bx-like'></i> مفيد (${review.helpful_count || 0})
+                </button>
+            </div>
+        `;
 
-function formatFileSize(bytes) {
-    if (!bytes) return 'غير محدد';
-    const kilobytes = bytes / 1024;
-    if (kilobytes < 1024) {
-        return `${kilobytes.toFixed(2)} كيلو بايت`;
-    }
-    const megabytes = kilobytes / 1024;
-    return `${megabytes.toFixed(2)} ميجا بايت`;
-}
-
-function copyShortLink() {
-    const shortLinkInput = document.getElementById('shortLinkInput');
-    shortLinkInput.select();
-    shortLinkInput.setSelectionRange(0, 99999);
-    
-    navigator.clipboard.writeText(shortLinkInput.value).then(() => {
-        const btnCopy = document.querySelector('.btn-copy');
-        const originalText = btnCopy.innerHTML;
-        btnCopy.innerHTML = '<i class="bx bx-check"></i> تم النسخ';
-        btnCopy.style.background = '#28a745';
-        
-        setTimeout(() => {
-            btnCopy.innerHTML = originalText;
-            btnCopy.style.background = '';
-        }, 2000);
-    }).catch(() => {
-        alert('❌ حدث خطأ في نسخ الرابط');
-    });
-}
-
-function copyQuote(text) {
-    navigator.clipboard.writeText(text).then(() => {
-        alert('✅ تم نسخ الاقتباس!');
-    }).catch(() => {
-        alert('❌ حدث خطأ في النسخ');
-    });
-}
-
-function shareQuote(text) {
-    const shareText = encodeURIComponent(`"${text}" - من مكتبة سامي الرقمية`);
-    const url = `https://twitter.com/intent/tweet?text=${shareText}`;
-    window.open(url, '_blank', 'width=600,height=400');
-}
-
-function toggleHelpful(reviewId, btn) {
-    const token = localStorage.getItem('auth_token');
-    if (!token) {
-        alert('يجب تسجيل الدخول');
-        return;
-    }
-    console.log('Mark review as helpful:', reviewId);
-}
-
-function reportReview(reviewId) {
-    const token = localStorage.getItem('auth_token');
-    if (!token) {
-        alert('يجب تسجيل الدخول');
-        return;
-    }
-    const reason = prompt('سبب الإبلاغ (اختياري):');
-    console.log('Report review:', reviewId, reason);
-    alert('✅ تم إرسال الإبلاغ، شكراً لمساعدتك!');
-}
-
-function setupShareButtons() {
-    const bookTitle = document.getElementById('bookTitle')?.textContent || 'كتاب';
-    const bookUrl = window.location.href;
-    
-    document.getElementById('shareFacebook')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(bookUrl)}`, '_blank', 'width=600,height=400');
-    });
-    
-    document.getElementById('shareTwitter')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(bookTitle)}&url=${encodeURIComponent(bookUrl)}`, '_blank', 'width=600,height=400');
-    });
-    
-    document.getElementById('shareWhatsApp')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.open(`https://wa.me/?text=${encodeURIComponent(bookTitle + ' - ' + bookUrl)}`, '_blank');
-    });
-    
-    document.getElementById('copyLink')?.addEventListener('click', () => {
-        navigator.clipboard.writeText(bookUrl).then(() => {
-            alert('✅ تم نسخ الرابط!');
-        });
-    });
-}
-
-function setupTabs() {
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
-    
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const tabId = btn.dataset.tab;
-            tabBtns.forEach(b => b.classList.remove('active'));
-            tabContents.forEach(c => c.classList.remove('active'));
-            btn.classList.add('active');
-            document.getElementById(tabId + 'Tab')?.classList.add('active');
-        });
-    });
-}
-
-function setupScrollToTop() {
-    const scrollToTopBtn = document.getElementById('scrollToTop');
-    if (scrollToTopBtn) {
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 250) {
-                scrollToTopBtn.classList.add('active');
-            } else {
-                scrollToTopBtn.classList.remove('active');
+        div.querySelector(".btn-helpful")?.addEventListener("click", async (e) => {
+            if (!requireLogin("للتصويت")) return;
+            const btn = e.currentTarget;
+            try {
+                const res = await apiPost(`/reviews/${review.id}/helpful`, {});
+                btn.innerHTML = `<i class='bx bxs-like'></i> مفيد (${res.data?.helpful_count ?? "+1"})`;
+                btn.disabled = true;
+            } catch {
+                alert("تعذّر التصويت");
             }
         });
-        scrollToTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    }
-}
 
-function setupMobileNav() {
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
-    const mobileNavOverlay = document.getElementById('mobileNavOverlay');
-    const closeMobileNav = document.getElementById('closeMobileNav');
-    
-    if (hamburgerBtn && mobileNavOverlay) {
-        hamburgerBtn.addEventListener('click', () => {
-            mobileNavOverlay.classList.add('active');
-            hamburgerBtn.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
+        return div;
     }
-    
-    if (closeMobileNav && mobileNavOverlay) {
-        closeMobileNav.addEventListener('click', () => {
-            mobileNavOverlay.classList.remove('active');
-            hamburgerBtn.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-    }
-    
-    if (mobileNavOverlay) {
-        mobileNavOverlay.addEventListener('click', (e) => {
-            if (e.target === mobileNavOverlay) {
-                mobileNavOverlay.classList.remove('active');
-                hamburgerBtn.classList.remove('active');
-                document.body.style.overflow = '';
+
+    function setupReviewForm() {
+        const btn = document.getElementById("submitReview");
+
+        btn?.addEventListener("click", async () => {
+            const input   = document.getElementById("reviewText");
+            const content = input?.value.trim();
+
+            if (!content) { alert("الرجاء كتابة مراجعة"); input?.focus(); return; }
+            if (!requireLogin("لإضافة مراجعة")) return;
+
+            const original = btn.innerHTML;
+            btn.disabled  = true;
+            btn.innerHTML = `<i class="bx bx-loader-alt bx-spin"></i> جاري الإرسال...`;
+
+            try {
+                await apiPost(`/books/${bookId}/reviews`, { content });
+
+                if (input) input.value = "";
+                // ⚠️ لا نضيفها للقائمة — المراجعة تنتظر موافقة الإدارة
+                alert("شكراً لك، ستظهر مراجعتك بعد موافقة الإدارة");
+
+            } catch (error) {
+                console.error("Error submitting review:", error);
+                alert("تعذّر إرسال المراجعة");
+            } finally {
+                btn.disabled  = false;
+                btn.innerHTML = original;
             }
         });
     }
-}
 
-function setupSearchModal() {
-    const searchModalOverlay = document.getElementById('searchModalOverlay');
-    const searchModalClose = document.getElementById('searchModalClose');
-    const modalSearchInput = document.getElementById('modalSearchInput');
-    
-    document.querySelectorAll('.search-trigger').forEach(trigger => {
-        trigger.addEventListener('click', (e) => {
+
+    /* ========================================
+       💭 الاقتباسات
+       ======================================== */
+
+    async function loadQuotes() {
+        const list = document.getElementById("quotesList");
+        if (!list) return;
+
+        try {
+            const res    = await apiGet(`/books/${bookId}/quotes`);
+            const quotes = res.data || [];
+
+            list.innerHTML = "";
+
+            if (quotes.length === 0) {
+                list.innerHTML = `<p class="no-quotes">لا توجد اقتباسات بعد. شاركينا اقتباسك المفضل</p>`;
+                setText("quotesCount", "0");
+                return;
+            }
+
+            quotes.forEach(q => list.appendChild(createQuoteElement(q)));
+            setText("quotesCount", formatNumber(quotes.length));
+
+        } catch (error) {
+            console.error("Error loading quotes:", error);
+            list.innerHTML = `<p class="error">تعذّر تحميل الاقتباسات</p>`;
+        }
+    }
+
+    function createQuoteElement(quote) {
+        const div = document.createElement("div");
+        div.className = "quote-item";
+
+        const user = quote.user || {};
+        const page = quote.page ? ` — ص ${quote.page}` : "";
+
+        div.innerHTML = `
+            <div class="quote-content">
+                <i class='bx bxs-quote-alt-right quote-icon'></i>
+                <p class="quote-text">${escapeHTML(quote.content || "")}</p>
+            </div>
+            <div class="quote-footer">
+                <span class="quote-author">— ${escapeHTML(user.name || "مستخدم")}${page}</span>
+            </div>
+            <div class="quote-actions">
+                <button class="btn-copy-quote"><i class='bx bx-copy'></i> نسخ</button>
+            </div>
+        `;
+
+        div.querySelector(".btn-copy-quote")?.addEventListener("click", (e) => {
+            navigator.clipboard.writeText(quote.content || "").then(() => {
+                const btn = e.currentTarget;
+                btn.innerHTML = `<i class='bx bx-check'></i> تم النسخ`;
+                setTimeout(() => { btn.innerHTML = `<i class='bx bx-copy'></i> نسخ`; }, 2000);
+            });
+        });
+
+        return div;
+    }
+
+    function setupQuoteForm() {
+        const btn = document.getElementById("submitQuote");
+
+        btn?.addEventListener("click", async () => {
+            const input    = document.getElementById("quoteText");
+            const pageInput = document.getElementById("quotePage");
+            const content  = input?.value.trim();
+
+            if (!content) { alert("الرجاء كتابة اقتباس"); input?.focus(); return; }
+            if (!requireLogin("لإضافة اقتباس")) return;
+
+            const original = btn.innerHTML;
+            btn.disabled  = true;
+            btn.innerHTML = `<i class="bx bx-loader-alt bx-spin"></i> جاري الإرسال...`;
+
+            try {
+                const page = pageInput?.value ? parseInt(pageInput.value, 10) : null;
+                await apiPost(`/books/${bookId}/quotes`, { content, page });
+
+                if (input) input.value = "";
+                if (pageInput) pageInput.value = "";
+                alert("شكراً لك، سيظهر اقتباسك بعد موافقة الإدارة");
+
+            } catch (error) {
+                console.error("Error submitting quote:", error);
+                alert("تعذّر إرسال الاقتباس");
+            } finally {
+                btn.disabled  = false;
+                btn.innerHTML = original;
+            }
+        });
+    }
+
+
+    /* ========================================
+       📚 كتب مشابهة
+       ======================================== */
+
+    async function loadSimilarBooks() {
+        const grid = document.getElementById("similarBooksGrid");
+        if (!grid) return;
+
+        try {
+            const res   = await apiGet(`/books/${bookId}/similar?limit=4`);
+            const books = res.data || [];
+
+            grid.innerHTML = "";
+
+            if (books.length === 0) {
+                grid.innerHTML = `<p class="no-similar">لا توجد كتب مشابهة حالياً</p>`;
+                return;
+            }
+
+            books.forEach(book => {
+                const card = document.createElement("div");
+                card.className = "similar-book-card";
+
+                const cover = book.cover || "https://placehold.co/150x220/7a0c16/ffffff?text=كتاب";
+                const author = book.author || {};
+
+                card.innerHTML = `
+                    <img src="${escapeHTML(cover)}" alt="${escapeHTML(book.title)}" loading="lazy">
+                    <h4>${escapeHTML(book.title)}</h4>
+                    <p>${escapeHTML(author.name || "")}</p>
+                    <div class="book-rating-small">
+                        <i class='bx bxs-star'></i>
+                        <span>${(Number(book.ratings_avg) || 0).toFixed(1)}</span>
+                    </div>
+                `;
+
+                card.addEventListener("click", () => {
+                    window.location.href = `/book.html?slug=${book.slug || book.id}`;
+                });
+
+                grid.appendChild(card);
+            });
+
+        } catch (error) {
+            console.error("Error loading similar books:", error);
+            grid.innerHTML = `<p class="error">تعذّر تحميل الكتب المشابهة</p>`;
+        }
+    }
+
+
+    /* ========================================
+       📑 التبويبات
+       ======================================== */
+
+    function setupTabs() {
+        const btns     = document.querySelectorAll(".tab-btn");
+        const contents = document.querySelectorAll(".tab-content");
+
+        btns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const tabId = btn.dataset.tab;
+
+                btns.forEach(b => b.classList.remove("active"));
+                contents.forEach(c => c.classList.remove("active"));
+
+                btn.classList.add("active");
+                document.getElementById(tabId + "Tab")?.classList.add("active");
+            });
+        });
+    }
+
+
+    /* ========================================
+       🔗 المشاركة والنسخ
+       ======================================== */
+
+    function setupShareButtons() {
+        const url = () => window.location.href;
+        const title = () => document.getElementById("bookTitle")?.textContent || "كتاب";
+
+        openInPopup("shareFacebook", () =>
+            `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url())}`);
+
+        openInPopup("shareTwitter", () =>
+            `https://twitter.com/intent/tweet?text=${encodeURIComponent(title())}&url=${encodeURIComponent(url())}`);
+
+        openInPopup("shareWhatsApp", () =>
+            `https://wa.me/?text=${encodeURIComponent(title() + " - " + url())}`);
+
+        openInPopup("shareTelegram", () =>
+            `https://t.me/share/url?url=${encodeURIComponent(url())}&text=${encodeURIComponent(title())}`);
+
+        document.getElementById("copyLink")?.addEventListener("click", () => {
+            navigator.clipboard.writeText(url()).then(() => alert("تم نسخ الرابط"));
+        });
+    }
+
+    function openInPopup(id, buildUrl) {
+        document.getElementById(id)?.addEventListener("click", (e) => {
             e.preventDefault();
-            if (searchModalOverlay) {
-                searchModalOverlay.classList.add('active');
-                setTimeout(() => modalSearchInput?.focus(), 300);
-            }
-        });
-    });
-    
-    if (searchModalClose && searchModalOverlay) {
-        searchModalClose.addEventListener('click', () => {
-            searchModalOverlay.classList.remove('active');
+            window.open(buildUrl(), "_blank", "width=600,height=400");
         });
     }
-    
-    if (searchModalOverlay) {
-        searchModalOverlay.addEventListener('click', (e) => {
-            if (e.target === searchModalOverlay) {
-                searchModalOverlay.classList.remove('active');
-            }
-        });
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && searchModalOverlay.classList.contains('active')) {
-                searchModalOverlay.classList.remove('active');
-            }
-        });
-    }
-}
 
-// دوال عامة للتصدير (إذا احتجتها في ملفات أخرى)
-window.copyShortLink = copyShortLink;
-window.copyQuote = copyQuote;
-window.shareQuote = shareQuote;
-window.toggleHelpful = toggleHelpful;
-window.reportReview = reportReview;
+    function setupCopyShortLink() {
+        const btn   = document.getElementById("copyShortLinkBtn");
+        const input = document.getElementById("shortLinkInput");
+
+        btn?.addEventListener("click", () => {
+            if (!input) return;
+            navigator.clipboard.writeText(input.value).then(() => {
+                const original = btn.innerHTML;
+                btn.innerHTML = `<i class="bx bx-check"></i> تم النسخ`;
+                setTimeout(() => { btn.innerHTML = original; }, 2000);
+            });
+        });
+    }
+
+
+    /* ========================================
+       🔧 مساعدات
+       ======================================== */
+
+    function setText(id, value) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value ?? "—";
+    }
+
+    function setSrc(id, value) {
+        const el = document.getElementById(id);
+        if (el && value) el.src = value;
+    }
+
+    function formatNumber(n) {
+        return (Number(n) || 0).toLocaleString("ar-DZ");
+    }
+
+    function formatDate(value) {
+        if (!value) return "—";
+        return new Date(value).toLocaleDateString("ar-DZ", {
+            year: "numeric", month: "long", day: "numeric"
+        });
+    }
+
+    function languageLabel(code) {
+        const map = { ar: "العربية", en: "الإنجليزية", fr: "الفرنسية" };
+        return map[code] || code || "العربية";
+    }
+
+    function typeLabel(type) {
+        if (type === "house_edition")     return "من إصدارات الدار";
+        if (type === "author_submission") return "نشر مؤلف";
+        return "—";
+    }
+
+    function requireLogin(action) {
+        if (isLoggedIn()) return true;
+        alert(`يجب تسجيل الدخول ${action}`);
+        window.location.href = `/login.html?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+        return false;
+    }
+
+    /* حماية من XSS في المحتوى القادم من المستخدمين */
+    function escapeHTML(str) {
+        return String(str ?? "").replace(/[&<>"']/g, ch => ({
+            "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+        }[ch]));
+    }
+});
