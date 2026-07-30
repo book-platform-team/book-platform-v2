@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل الكتاب - مكتبة سامي الرقمية</title>
+    
+    <!-- الخطوط والأيقونات -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+    <!-- ملفات التنسيق -->
+    <link rel="stylesheet" href="formular.css">
+    <link rel="stylesheet" href="Book.css">
+</head>
+
+<body>
+ 
+   <!-- ========================================
+        🏗️ الهيدر
+        ======================================== -->
+    <header class="header-anim">
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="ThePhoto/IMG_5433 (1).png" alt="شعار مكتبة سامي">
+                </a>
+            </div>
+
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="القائمة">
+                <i class='bx bx-menu'></i><i class='bx bx-x'></i>
+            </button>
+
+            <div class="nav-right desktop-nav">
+                <ul class="link main-links">
+                    <li><a href="Library.html" class="nav-link"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
+                    <li><a href="class.html" class="nav-link"><i class='bx bx-category'></i> أقسام الكتب</a></li>
+                    <li><a href="authors.html" class="nav-link"><i class='bx bx-user-pin'></i> مؤلفو الكتب</a></li>
+                    
+                    <li class="dropdown">
+                        <button class="dropbtn nav-link" id="menuBtn">
+                            القائمة <i class='bx bx-chevron-down icon'></i>
+                        </button>
+                        <div class="dropdown-content" id="dropdownMenu">
+                            <a href="class.html"><i class='bx bx-book-open'></i> أقسام الكتب</a>
+                            <a href="authors.html"><i class='bx bx-user'></i> مؤلفو الكتب</a>
+                            <a href="login.html"><i class='bx bx-quote-right'></i> اقتباسات الكتب</a>
+                            <a href="login.html"><i class='bx bx-star'></i> مراجعات الكتب</a>
+                            <a href="login.html"><i class='bx bx-group'></i> مجتمع المثقفين</a>
+                            <a href="login.html"><i class='bx bx-upload'></i> نشر كتاب</a>
+                            <a href="#" id="closeMenu" class="close-link"><i class='bx bx-x'></i> إغلاق</a>
+                        </div>
+                    </li>
+                    
+                    <li><a href="#" class="nav-link search-trigger"><i class='bx bx-search-alt-2'></i> بــحـــث</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-left desktop-nav">
+                <div class="link auth-links">
+                    <a href="login.html" class="btn btn-login"><i class='bx bx-log-in'></i> دخول</a>
+                    <a href="register.html" class="btn btn-register"><i class='bx bx-user-plus'></i> إنشاء حساب</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========================================
+         📱 قائمة الجوال
+         ======================================== -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay">
+        <div class="mobile-nav">
+            <div class="mobile-nav-header">
+                <div class="logo"><a href="#"><i class='bx bx-book-reader'></i> Sami</a></div>
+                <button class="close-mobile-nav" id="closeMobileNav"><i class='bx bx-x'></i></button>
+            </div>
+            <ul class="mobile-links">
+                <li><a href="Library.html" class="mobile-link"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
+                <li><a href="class.html" class="mobile-link"><i class='bx bx-category'></i> أقسام الكتب</a></li>
+                <li><a href="authors.html" class="mobile-link"><i class='bx bx-user-pin'></i> مؤلفو الكتب</a></li>
+                <li class="mobile-dropdown">
+                    <button class="mobile-dropbtn" id="mobileMenuBtn">
+                        <i class='bx bx-menu'></i> القائمة <i class='bx bx-chevron-down icon'></i>
+                    </button>
+                    <div class="mobile-dropdown-content" id="mobileDropdownMenu">
+                        <a href="class.html"><i class='bx bx-book-open'></i> أقسام الكتب</a>
+                        <a href="authors.html"><i class='bx bx-user'></i> مؤلفو الكتب</a>
+                        <a href="login.html"><i class='bx bx-quote-right'></i> اقتباسات الكتب</a>
+                        <a href="login.html"><i class='bx bx-star'></i> مراجعات الكتب</a>
+                        <a href="login.html"><i class='bx bx-upload'></i> نشر كتاب</a>
+                    </div>
+                </li>
+                <li><a href="#" class="mobile-link search-trigger"><i class='bx bx-search-alt-2'></i> بــحـــث</a></li>
+                <li class="mobile-auth">
+                    <a href="login.html" class="btn btn-login"><i class='bx bx-log-in'></i> دخول</a>
+                    <a href="register.html" class="btn btn-register"><i class='bx bx-user-plus'></i> إنشاء حساب</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+ 
+    <!-- ========================================
+         🔍 Modal البحث المحسن
+         ======================================== -->
+    <div class="search-modal-overlay" id="searchModalOverlay">
+        <div class="search-modal-improved">
+            <button class="search-modal-close" id="searchModalClose">
+                <i class='bx bx-x'></i>
+            </button>
+            
+            <div class="search-modal-header">
+                <h2>البحث عن كتاب</h2>
+                <div class="search-underline"></div>
+            </div>
+            
+            <div class="search-modal-content">
+                <div class="search-input-wrapper">
+                    <input type="text" placeholder="ابحث عن كتاب او مؤلف او قسم كتب" id="modalSearchInput">
+                </div>
+                
+                <button class="search-btn-large">
+                    <span>بحث</span>
+                    <i class='bx bx-search'></i>
+                </button>
+                
+                <button class="publish-book-btn">
+                    <i class='bx bx-upload'></i>
+                    <span>نشر كتاب</span>
+                </button>
+            </div>
+        </div>
+    </div>
+ 
+    <!-- ========================================
+         📖 قسم تفاصيل الكتاب
+         ======================================== -->
+    <section class="book-details-section">
+        <div class="container">
+            
+            <!-- Sidebar القائمة الجانبية -->
+            <aside class="book-sidebar">
+                <div class="sidebar-header">
+                    <img src="https://via.placeholder.com/80x100/7a0c16/ffffff?text=غلاف" alt="غلاف الكتاب" id="sidebarBookCover">
+                    <h3 id="sidebarBookTitle">عنوان الكتاب</h3>
+                </div>
+                
+                <ul class="sidebar-menu">
+                    <li><a href="#" class="sidebar-link"><i class='bx bx-chevron-left'></i> الكتب</a></li>
+                    <li><a href="#" class="sidebar-link"><i class='bx bx-chevron-left'></i> بالكتاب</a></li>
+                    <li><a href="#" class="sidebar-link"><i class='bx bx-chevron-left'></i> كتاب</a></li>
+                    <li><a href="#" class="sidebar-link"><i class='bx bx-chevron-left'></i> الكتاب</a></li>
+                </ul>
+            </aside>
+
+            <!-- معلومات الكتاب الأساسية -->
+            <div class="book-main-info">
+                
+                <!-- غلاف الكتاب وأزرار التحميل -->
+                <div class="book-cover-section">
+                    <div class="book-cover">
+                        <img src="https://via.placeholder.com/300x450/7a0c16/ffffff?text=غلاف+الكتاب" alt="غلاف الكتاب" id="bookCover">
+                    </div>
+                    <div class="book-actions">
+                        <button class="btn-action btn-download" id="downloadBtn">
+                            <i class='bx bx-download'></i>
+                            <span>تنزيل الكتاب</span>
+                        </button>
+                        <button class="btn-action btn-preview" id="previewBtn">
+                            <i class='bx bx-book-open'></i>
+                            <span>معاينة</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- تفاصيل الكتاب النصية -->
+                <div class="book-info-section">
+                    <h1 class="book-title" id="bookTitle">عنوان الكتاب يظهر هنا</h1>
+                    
+                    <div class="book-meta">
+                        <div class="author-info">
+                            <i class='bx bx-user'></i>
+                            <a href="#" class="author-name" id="bookAuthor">اسم المؤلف</a>
+                        </div>
+                        <div class="category-info">
+                            <i class='bx bx-category'></i>
+                            <span class="category-name" id="bookCategory">التصنيف</span>
+                        </div>
+                        <div class="publish-info">
+                            <i class='bx bx-calendar'></i>
+                            <span id="bookYear">2024</span>
+                        </div>
+                    </div>
+
+                    <!-- 📊 دوائر الإحصائيات المصغرة -->
+                    <div class="book-stats-compact">
+                        <div class="stat-compact">
+                            <i class='bx bx-search'></i>
+                            <div class="stat-compact-info">
+                                <span class="stat-compact-number" id="searchCount">0</span>
+                                <span class="stat-compact-label">بحث</span>
+                            </div>
+                        </div>
+                        <div class="stat-compact primary">
+                            <i class='bx bx-download'></i>
+                            <div class="stat-compact-info">
+                                <span class="stat-compact-number" id="downloadCount">0</span>
+                                <span class="stat-compact-label">تحميل</span>
+                            </div>
+                        </div>
+                        <div class="stat-compact">
+                            <i class='bx bx-book-open'></i>
+                            <div class="stat-compact-info">
+                                <span class="stat-compact-number" id="readCount">0</span>
+                                <span class="stat-compact-label">قراءة</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ⭐ نظام التقييم بالنجوم (ديناميكي) -->
+                    <div class="rating-section">
+                        <div class="stars-display" id="starsDisplay">
+                            <!-- سيتم ملؤها بالـ JavaScript -->
+                        </div>
+                        <span class="rating-value" id="ratingValue">--</span>
+                        <span class="rating-count" id="ratingCount">(0 تقييم)</span>
+                    </div>
+
+                    <!-- تقييم المستخدم (تفاعلي) -->
+                    <div class="user-rating-section" id="userRatingSection">
+                        <p>قيّم هذا الكتاب:</p>
+                        <div class="stars-input" id="starsInput">
+                            <i class='bx bx-star' data-rating="1"></i>
+                            <i class='bx bx-star' data-rating="2"></i>
+                            <i class='bx bx-star' data-rating="3"></i>
+                            <i class='bx bx-star' data-rating="4"></i>
+                            <i class='bx bx-star' data-rating="5"></i>
+                        </div>
+                    </div>
+
+                    <!-- وصف الكتاب -->
+                    <div class="book-description">
+                        <h3><i class='bx bx-info-circle'></i> عن الكتاب</h3>
+                        <p id="bookDescription">
+                            وصف الكتاب يظهر هنا. هذا النص مثال على الوصف الذي سيظهر في صفحة تفاصيل الكتاب.
+                            يمكن أن يحتوي على عدة فقرات تشرح محتوى الكتاب وأهميته للقراء.
+                        </p>
+                    </div>
+
+                    <!-- 🔗 أزرار المشاركة الاجتماعية -->
+                    <div class="share-section">
+                        <h3><i class='bx bx-share-alt'></i> شارك الكتاب</h3>
+                        <div class="share-buttons">
+                            <a href="#" class="share-btn facebook" id="shareFacebook" title="مشاركة على فيسبوك">
+                                <i class='bx bxl-facebook'></i>
+                            </a>
+                            <a href="#" class="share-btn twitter" id="shareTwitter" title="مشاركة على تويتر">
+                                <i class='bx bxl-twitter'></i>
+                            </a>
+                            <a href="#" class="share-btn whatsapp" id="shareWhatsApp" title="مشاركة على واتساب">
+                                <i class='bx bxl-whatsapp'></i>
+                            </a>
+                            <a href="#" class="share-btn telegram" id="shareTelegram" title="مشاركة على تيليجرام">
+                                <i class='bx bxl-telegram'></i>
+                            </a>
+                            <button class="share-btn copy-link" id="copyLink" title="نسخ الرابط">
+                                <i class='bx bx-link'></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================
+                 📋 معلومات الكتاب التفصيلية (من الـ API)
+                 ======================================== -->
+            <div class="book-detailed-info">
+                <div class="info-section-title">
+                    <i class='bx bx-info-circle'></i>
+                    <h3>معلومات الكتاب</h3>
+                </div>
+                
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">العنوان:</span>
+                        <span class="info-value" id="bookTitleInfo">جاري التحميل...</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">التقييم:</span>
+                        <div class="info-value rating-stars" id="bookRatingInfo">
+                            <!-- سيتم ملؤها بالـ JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">مؤلف:</span>
+                        <span class="info-value" id="bookAuthorInfo">جاري التحميل...</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">قسم:</span>
+                        <span class="info-value" id="bookCategoryInfo">
+                            <a href="#" id="categoryLink">جاري التحميل...</a>
+                            <a href="#" class="edit-link"><i class='bx bx-edit'></i></a>
+                        </span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">اللغة:</span>
+                        <span class="info-value" id="bookLanguageInfo">جاري التحميل...</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">الناشر:</span>
+                        <span class="info-value" id="bookPublisherInfo">جاري التحميل...</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">تاريخ الإصدار:</span>
+                        <span class="info-value" id="bookPublishDateInfo">جاري التحميل...</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">الصفحات:</span>
+                        <span class="info-value" id="bookPagesInfo">جاري التحميل...</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">حجم الملف:</span>
+                        <span class="info-value" id="bookFileSizeInfo">جاري التحميل...</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">نوع الملف:</span>
+                        <span class="info-value" id="bookFileTypeInfo">جاري التحميل...</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">تاريخ الإنشاء:</span>
+                        <span class="info-value" id="bookCreatedDateInfo">جاري التحميل...</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">ترتيب الشهرة:</span>
+                        <span class="info-value popularity" id="bookPopularityInfo">
+                            <i class='bx bx-trophy'></i>
+                            جاري التحميل...
+                        </span>
+                    </div>
+                    
+                    <div class="info-item full-width">
+                        <span class="info-label">رابط مختصر:</span>
+                        <div class="info-value short-link">
+                            <input type="text" id="shortLinkInput" readonly>
+                            <button class="btn-copy" onclick="copyShortLink()">
+                                <i class='bx bx-copy'></i> نسخ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================
+                 📑 التبويبات: المراجعات والاقتباسات
+                 ======================================== -->
+            <div class="book-tabs-section">
+                <div class="tabs-header">
+                    <button class="tab-btn active" data-tab="reviews">
+                        <i class='bx bx-message-rounded'></i>
+                        المراجعات <span class="tab-count" id="reviewsCount">0</span>
+                    </button>
+                    <button class="tab-btn" data-tab="quotes">
+                        <h class='b8 bx-quote-left'></i>
+       $  �      $      الاقتباسآ�� <qpan class="tab-count" id="quotesCount2>0</span>
+                    <obutton�-
+                </dit>
+
+   "            <!%- تبويب$اـ٥�1اجعات -->
+              $ <div class="tab/content active" id="reviewsTab�>
+          0       �`
+                    <!,- نموذج إضافة مرابعة --~
+    "           "   <div$#lass="add-review-form" if="ad�RevieuForm">
+         (             !<h3><i class='bx bx-edit'></i~ أضى ��راجڹتك</h3>
+               0      " <teptarea placmholder="اكتب مȱاجعتك عن الكتاب هن؇..." rows}"4� md="reviewText"></textarea:
+    0    "   (!         <but4of class="btN�submkt-review" id="submytReview">
+                     0      <i�clasw='bx bx-qend'></i>                  0    ! 0  نشر الهراجعة�
+   `                    </budton>           $      ` </div>
+
+       "            <!-- قائمة المر��جعات (ܯينام�
+كية فن الـ API) -->
+                  ( <div$class="reviews-list" id="reriewsList">
+  "�                    <div clesz="loading-reviews">
+   �    $           !       <i c|ass='bx bx-�oader-amt bx-spin'></i>M
+                 $  �     0 <p~جاري ت��ميل المر�'جعܧت...</p>
+               !  ( �   </div
+� 0    $            </div>
+                    
+             $      <!-- زر تحم٪؄ المزيد -->
+           (       $<div slass=*locd-moremcontainer" it="loadMoreReviewS" style="displa}:`none?b>J                        <button cl!ss="btn-load-more">تةميـ ��لمزيد</buttoN>
+                ( " </div>
+          !``   </div>
+
+                <!-- آب٨يب$الاقتȨ����ات -m.
+        "     " <div class="tab-content" id=*quotesTab">
+                             �  "0     (<!-- نموذج إضا��ة0اقتباس -->
+                (   <div claSs="aed-quote-form" id="addQuoteFmrm">
+           0            <H3><i cnass='bp fx-quote-le&t'></i> أضف ا٢تباساɋ</h3>
+                        <texTirea placeh/lder="اكتب الڧقتباس المفضل من الكتاب هنا..." rows="3" it="quotETaxt"=<+textarea>
+                        <button class="�tn-stbmid-quoteb id="stblitQuota">
+                            <i class='bx bx-plus'.</i
+               "   (        إضافة اقتباس
+           !            </budton>
+0                   </`iv>
+
+                    <!--"قX�ئمة الاقتباسات`(ديناميكية مه الـ$API) -->
+$ $                 <$av class="quotes-list" id="quotesList">
+                        <div class="loading-quotes">
+(                         ( <i$class='bx b|-|oAder-alt bx-sxin'></i>
+             `            ` <p>حئري تحميل الا��تباسات...</p>
+                        </div>
+ $                  </div>
+  `!           $</div>
+            </div>M
+
+            <!-- ====-===========<<-=====================-
+                 📚 قؓم الكتب ؃لمشابهب ,ديناميكъ م�� ��ٕـ API)          ` "    ====================================>= -->
+  !         <div class=2similar-books-section">
+ �            $ <h2><i class='bx0bx-book'></i> ��لم�2يد�من ȧلك�+ب مثل هذا الكتاب</h2>
+                <div class="similaR-books-grid" id=�similarBooksGrid">
+0                   <div alass="loadhog-similar�>
+                      � <i class='bx bx-loader-alt bx-�pin'>8/i>
+  ( �                   <p>جارَ تؽميل الكتب Чلمشاڨهة...</p>
+                    </div>
+                </div>
+            </ti~>
+
+        =/div>�    <�section>
+
+�
+    <!-- ========================================
+         🦶 الفوتر
+  (      ==============?==========55====5====}== -->
+ `  <footer class="light-footer">
+        <$iv c�aSs=#footer-containe2">
+  !         <div class="footer-brand">
+ $        $     <t class="brand-desc">الملكية X��فكرية ٝܭموظ�� للمؠلفين الɅذكورين ڹلۉ الكتب Ɉالمكتبة"غ�
+ر مسئولة عن افكار المؤلفين. يتم نشر الكتب القديمة والمنسية التي أصبحت في الماضي للحفاظ على التراث العربي والإسلامي، والكتب التي يتم قبول نشرها من قبل مؤلفيها.</p>
+                <div class="social-media-buttons">
+                    <a href="#" class="social-btn facebook" title="فيسبوك"><i class='bx bxl-facebook'></i></a>
+                    <a href="#" class="social-btn instagram" title="إنستغرام"><i class='bx bxl-instagram'></i></a>
+                    <a href="#" class="social-btn twitter" title="تويتر"><i class='bx bxl-twitter'></i></a>
+                </div>
+            </div>
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3><i class='bx bx-message-square-detail'></i> تواصل معنا</h3>
+                    <ul class="contact-info">
+                        <li><i class='bx bx-map'></i><span>🇩🇿 الجزائر</span></li>
+                        <li><i class='bx bx-envelope'></i><span>contact@sami-library.com</span></li>
+                        <li><i class='bx bx-phone'></i><span>+213 555 123 456</span></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3><i class='bx bx-link-alt'></i> روابط سريعة</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class='bx bx-chevron-left'></i> الرئيسية</a></li>
+                        <li><a href="#"><i class='bx bx-chevron-left'></i> أقسام الكتب</a></li>
+                        <li><a href="#"><i class='bx bx-chevron-left'></i> المؤلفون</a></li>
+                        <li><a href="#"><i class='bx bx-chevron-left'></i> أحدث الكتب</a></li>
+                        <li><a href="#"><i class='bx bx-chevron-left'></i> أشهر الكتب</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3><i class='bx bx-service'></i> خدماتنا</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class='bx bx-chevron-left'></i> نشر كتاب</a></li>
+                        <li><a href="#"><i class='bx bx-chevron-left'></i> إشهار الكتب</a></li>
+                        <li><a href="#"><i class='bx bx-chevron-left'></i> اقتباسات</a></li>
+                        <li><a href="#"><i class='bx bx-chevron-left'></i> مراجعات</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>
+                    حقوق الملكية © <span id="currentYear">2026</span> 
+                    <span class="gradient-text">مكتبة سامي الرقمية</span>
+                    - جميع الحقوق محفوظة
+                </p>
+            </div>
+        </div>
+        
+        <button class="scroll-to-top" id="scrollToTop" title="العودة للأعلى">
+            <i class='bx bx-up-arrow-alt'></i>
+        </button>
+    </footer>
+
+    <!-- ملفات الجافاسكريبت -->
+    <script src="formular.js"></script>
+    <script src="Book.js"></script>
+</body>
+</html>

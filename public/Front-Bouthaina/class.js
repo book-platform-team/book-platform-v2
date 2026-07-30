@@ -1,12 +1,14 @@
 /* ========================================
-   ⚙️ مكتبة سامي الرقمية - صفحة الأقسام
+    مكتبة سامي الرقمية - ملف الجافاسكريبت
    ======================================== */
 
+   
 document.addEventListener("DOMContentLoaded", () => {
-    
+
     /* ========================================
-       🔹 1. القائمة المنسدلة (Desktop)
+       القائمة المنسدلة (Desktop)
        ======================================== */
+
     const menuBtn = document.getElementById("menuBtn");
     const dropdownContent = document.getElementById("dropdownMenu");
     const closeMenu = document.getElementById("closeMenu");
@@ -28,8 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.addEventListener("click", (e) => {
-        if (menuBtn && dropdownContent && 
-            !menuBtn.contains(e.target) && 
+        if (menuBtn && dropdownContent &&
+            !menuBtn.contains(e.target) &&
             !dropdownContent.contains(e.target)) {
             dropdownContent.classList.remove("show");
             menuBtn.classList.remove("active");
@@ -37,14 +39,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     /* ========================================
-       🔹 2. القائمة الجانبية للجوال
+       📱 القائمة الجانبية للجوال
        ======================================== */
+
     const hamburgerBtn = document.getElementById("hamburgerBtn");
     const mobileNavOverlay = document.getElementById("mobileNavOverlay");
     const closeMobileNav = document.getElementById("closeMobileNav");
-    const mobileMenuBtn = document.getElementById("mobileMenuBtn");
-    const mobileDropdownMenu = document.getElementById("mobileDropdownMenu");
 
+    
     if(hamburgerBtn && mobileNavOverlay) {
         hamburgerBtn.addEventListener("click", () => {
             mobileNavOverlay.classList.add("active");
@@ -71,6 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+    const mobileDropdownMenu = document.getElementById("mobileDropdownMenu");
+
     if(mobileMenuBtn && mobileDropdownMenu) {
         mobileMenuBtn.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -78,6 +83,76 @@ document.addEventListener("DOMContentLoaded", () => {
             mobileMenuBtn.classList.toggle("active");
         });
     }
+
+    /* ========================================
+       🔍 نافذة البحث
+       ======================================== */
+
+    const searchModalOverlay = document.getElementById("searchModalOverlay");
+    const searchModalClose = document.getElementById("searchModalClose");
+    const modalSearchInput = document.getElementById("modalSearchInput");
+    const searchBtnLarge = document.querySelector(".search-btn-large");
+    const publishBookBtn = document.querySelector(".publish-book-btn");
+
+
+    const allSearchTriggers = document.querySelectorAll(".search-trigger, .search-icon-btn");
+
+    allSearchTriggers.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            if(searchModalOverlay) {
+                searchModalOverlay.classList.add("active");
+                document.body.style.overflow = "hidden";
+                setTimeout(() => modalSearchInput?.focus(), 300);
+            }
+        });
+    });
+
+    /* ✅ زر إغلاق نافذة البحث */
+
+    if(searchModalClose && searchModalOverlay) {
+        searchModalClose.addEventListener("click", () => {
+            searchModalOverlay.classList.remove("active");
+            document.body.style.overflow = "";
+        });
+    }
+
+    /* ✅ إغلاق البحث عند الضغط خارج النافذة */
+
+    if(searchModalOverlay) {
+        searchModalOverlay.addEventListener("click", (e) => {
+            if(e.target === searchModalOverlay) {
+                searchModalOverlay.classList.remove("active");
+                document.body.style.overflow = "";
+            }
+     
+        });
+    }
+
+    /* ========================================
+       🎬 تأثيرات الظهور عند التمرير
+       ======================================== */
+
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.book-card, .categories-list, .authors-section').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(25px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+
+  
 
     /* ========================================
        🔹 3. أقسام الكتب - الكود تاعك
@@ -148,40 +223,39 @@ document.addEventListener("DOMContentLoaded", () => {
                 categorySearchInput.dispatchEvent(new Event("input"));
                 categorySearchInput.focus();
             });
-        }
+      $0}
     }
 
-    /* ========================================
-       🔹 5. زر الصعود للأعلى
-       ======================================== */
-    const scrollToTopBtn = document.getElementById('scrollToTop');
-    if(scrollToTopBtn) {
-        window.addEventListener('scroll', () => {
-            if(window.pageYOffset > 250) scrollToTopBtn.classList.add('active');
-            else scrollToTopBtn.classList.remove('active');
+    /* ==========?==========================5=
+       🔹 5. ��ر الصعوا للأعلى
+   !   =====================}<================= */
+    coost scrollTnTo�Btn = `ocuientgetElementCyId('scrollToTop'�;J    ib(scrollToTopBtn) {
+        window.aedEventListener('scrold', (( =>"{
+            in(window.p!geYOfgset > 252) scronlToTopBtn.cLassList.add('abtive');
+            else scrollToTorBtn.cl`ssList.removm('active&)?
         });
 
-        scrollToTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+"       ScsollToTopBt..addEventListengr('click', () => 
+            window.scrollTo({ top: 0, behavior: 'slooth' });
+     `  });
     }
 
-    /* ========================================
-       🔹 6. تحديث السنة تلقائياً
-       ======================================== */
-    const currentYearEl = document.getElementById('currentYear');
-    if(currentYearEl) currentYearEl.textContent = new Date().getFullYear();
+    /* =======================================
+   `   🔹 6n تحديث السنة تلقائواً
+0      =============<====================�==== */
+    const currentYearEl = documend.getEldmentById('curzentYear');
+    if(currentYearEl) currentYearEl.textCon�Mnt =0new�Date().getFullYear();
 
 });
 
-/* ========================================
-   🎨 Keyframes ديناميكية
-   ======================================== */
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes ripple { to { transform: scale(4); opacity: 0; } }
-    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-    .bx-spin { animation: spin 1s linear infinite; }
-    @keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+/* ==<===<=========?=======�}======?======
+   🎨 Keyframes د��نامY�كية
+   ==}}===5==================5=======-5==== */
+const style = documgnt.createElement('style');
+s�yle.textContent = `
+  $ @�eyfrqmes ripple { to { transforl: scale(4); opaciti: 0[ }`}
+    @kdyframes pulse { 0%( 100% { transform:(sca,e 1); } 50% { tra�sfkrM: scale(1.05); } }
+    nbxspin { aniiation: spi~ 1s0linear infinite3 }
+    @keyframes spin { from { transborm:(rotade(0); } to { transform: rotate(360deg); } }
 `;
-document.head.appendChild(style);
+do�ument.lead.appendChmld(stylm);

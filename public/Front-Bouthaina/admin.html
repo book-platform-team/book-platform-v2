@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الأدمن - الكتب قيد المراجعة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="formular.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-body">
+ 
+    <!-- شريط الأدمن -->
+    <header class="admin-header">
+        <div class="admin-nav">
+            <div class="admin-logo">
+                <i class='bx bx-shield-quarter'></i>
+                <span>لوحة الأدمن</span>
+            </div>
+            <div class="admin-links">
+                <a href="admin-dashboard.html" class="admin-link">📊 الإحصائيات</a>
+                <a href="admin-pending.html" class="admin-link active">📚 قيد المراجعة</a>
+                <a href="admin-books.html" class="admin-link">✅ الكتب المنشورة</a>
+                <a href="admin-users.html" class="admin-link">👥 المستخدمين</a>
+                <a href="index.html" class="admin-link">🌐 الموقع</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- محتوى الصفحة -->
+    <main class="admin-main">
+        <div class="admin-container">
+            <div class="admin-header-section">
+                <h1>📚 الكتب قيد المراجعة</h1>
+                <p>راجع الكتب المرفوعة ووافق عليها للنشر</p>
+            </div>
+
+            <!-- جدول الكتب المعلقة -->
+            <div class="admin-table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>العنوان</th>
+                            <th>المؤلف</th>
+                            <th>التصنيف</th>
+                            <th>تاريخ الرفع</th>
+                            <th>الملفات</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pendingBooksTable">
+                        <tr>
+                            <td colspan="7" class="loading">جاري تحميل الكتب...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- رسالة لا توجد كتب -->
+            <div class="no-pending" id="noPending" style="display: none;">
+                <i class='bx bx-check-circle'></i>
+                <p>لا توجد كتب قيد المراجعة حالياً</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal تفاصيل الكتاب -->
+    <div class="modal-overlay" id="bookModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose"><i class='bx bx-x'></i></button>
+            <div class="modal-body" id="modalBody">
+                <!-- تفاصيل الكتاب تظهر هنا -->
+            </div>
+            <div class="modal-actions">
+                <button class="btn-reject" id="rejectBtn">❌ رفض</button>
+                <button class="btn-approve" id="approveBtn">✅ موافقة ونشر</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="formular.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

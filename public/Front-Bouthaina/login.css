@@ -15,11 +15,19 @@ body {
   flex-direction: column;
   justify-content: space-between; /* الكارد في الوسط والفوتر أسفل */
   align-items: center;
-  font-family: "Cairo", sans-serif;
+    font-family: 'AlJazeera', sans-serif;
+    overflow-x: hidden;
   background: linear-gradient(135deg,#7a0c16,#c31432);
   
 }
 
+
+* {
+    font-size: 13px !important;
+}
+h1 { font-size: 40px; }
+h2 { font-size: 22px; }
+p  { font-size: 14px; }
 /* الكارد */
 .login-card{
     width: 600px;

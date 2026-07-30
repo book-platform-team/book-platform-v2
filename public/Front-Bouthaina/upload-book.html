@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نشر كتاب - مكتبة سامي الرقمية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="upload-book.css">
+</head>
+<body>
+ 
+    <!-- الهيدر -->
+    <header class="header-anim">
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html"><img src="images/logo.png" alt="Sami"><span class="logo-text">Sami</span></a>
+            </div>
+            <button class="hamburger-btn" id="hamburgerBtn">
+                <i class='bx bx-menu'></i><i class='bx bx-x'></i>
+            </button>
+            <div class="nav-right desktop-nav">
+                <ul class="link main-links">
+                    <li><a href="index.html" class="nav-link"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
+                    <li><a href="categories.html" class="nav-link"><i class='bx bx-category'></i> الأقسام</a></li>
+                    <li><a href="authors.html" class="nav-link"><i class='bx bx-user-pin'></i> المؤلفون</a></li>
+                </ul>
+                <div class="notification-wrapper">
+                    <a href="notifications.html" class="notification-icon">
+                        <i class='bx bx-bell'></i><span class="notification-badge" id="notifCount">0</span>
+                    </a>
+                </div>
+                <div class="user-menu-wrapper">
+                    <a href="profile.html" class="user-menu">
+                        <div class="user-avatar"><span id="userInitial">أ</span></div>
+                        <span class="user-name">حسابي</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- قائمة الجوال -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay">
+        <div class="mobile-nav">
+            <div class="mobile-nav-header">
+                <div class="logo"><a href="index.html"><i class='bx bx-book-reader'></i> Sami</a></div>
+                <button class="close-mobile-nav" id="closeMobileNav"><i class='bx bx-x'></i></button>
+            </div>
+            <ul class="mobile-links">
+                <li><a href="index.html" class="mobile-link"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
+                <li><a href="categories.html" class="mobile-link"><i class='bx bx-category'></i> الأقسام</a></li>
+                <li><a href="authors.html" class="mobile-link"><i class='bx bx-user-pin'></i> المؤلفون</a></li>
+                <li><a href="upload-book.html" class="mobile-link active"><i class='bx bx-upload'></i> نشر كتاب</a></li>
+                <li><a href="profile.html" class="mobile-link"><i class='bx bx-user'></i> حسابي</a></li>
+                <li class="mobile-auth">
+                    <a href="#" class="btn btn-logout" id="logoutBtn"><i class='bx bx-log-out'></i> خروج</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ========================================
+         📤 صفحة نشر كتاب (مع نظام الموافقة)
+         ======================================== -->
+    <section class="upload-section">
+        <div class="container">
+            <div class="upload-card">
+                <div class="upload-header">
+                    <i class='bx bx-upload'></i>
+                    <h1>نشر كتاب جديد</h1>
+                    <p>بعد الرفع، سيراجع الأدمن كتابك قبل النشر للعامة</p>
+                </div>
+
+                <!-- نموذج الرفع - بنفس أسماء الحقول تاع بسمة ✅ -->
+                <form id="uploadBookForm" enctype="multipart/form-data">
+                    
+                    <!-- العنوان (مطلوب) -->
+                    <div class="form-group">
+                        <label for="title">
+                            <i class='bx bx-book'></i> عنوان الكتاب <span class="required">*</span>
+                        </label>
+                        <input type="text" id="title" name="title" placeholder="أدخل عنوان الكتاب" required>
+                        <small>مثال: رحلة في عالم البرمجة</small>
+                    </div>
+
+                    <!-- الوصف (اختياري) -->
+                    <div class="form-group">
+                        <label for="description">
+                            <i class='bx bx-edit'></i> وصف الكتاب <span class="optional">(اختياري)</span>
+                        </label>
+                        <textarea id="description" name="description" rows="5" placeholder="اكتب وصفاً مختصراً لمحتوى الكتاب..."></textarea>
+                        <small>وصف جذاب يساعد القراء على اكتشاف كتابك</small>
+                    </div>
+
+                    <!-- الملفات (مطلوب) - الاسم مهم: files[] ✅ -->
+                    <div class="form-group">
+                        <label for="files">
+                            <i class='bx bx-file'></i> ملف الكتاب <span class="required">*</span>
+                        </label>
+                        <div class="file-upload-wrapper">
+                            <input type="file" id="files" name="files[]" accept=".pdf,.epub" multiple required>
+                            <div class="file-upload-box">
+                                <i class='bx bx-cloud-upload'></i>
+                                <p>اسحب الملف هنا أو اضغط للاختيار</p>
+                                <small class="file-types">PDF أو EPUB فقط • حجم أقصى: 50 ميجا</small>
+                            </div>
+                            <div class="file-list" id="fileList"></div>
+                        </div>
+                    </div>
+
+                    <!-- رسالة الحالة -->
+                    <div class="alert alert-info" id="formAlert" style="display: none;">
+                        <i class='bx bx-info-circle'></i>
+                        <span id="alertMessage"></span>
+                    </div>
+
+                    <!-- زر الإرسال -->
+                    <button type="submit" class="btn-upload" id="submitBtn">
+                        <i class='bx bx-cloud-upload'></i>
+                        <span>رفع الكتاب للمراجعة</span>
+                    </button>
+                </form>
+
+                <!-- حالة التحميل -->
+                <div class="upload-status" id="uploadStatus" style="display: none;">
+                    <i class='bx bx-loader-alt bx-spin'></i>
+                    <p>جاري رفع الكتاب... يرجى الانتظار</p>
+                    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+                </div>
+
+                <!-- رسالة النجاح -->
+                <div class="upload-success" id="uploadSuccess" style="display: none;">
+                    <i class='bx bx-check-circle'></i>
+                    <h3>تم رفع كتابك بنجاح! ✅</h3>
+                    <p>سيتم مراجعة كتابك من قبل الإدارة. ستصلك إشعار عند الموافقة.</p>
+                    <a href="library.html" class="btn-back">العودة للمكتبة</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- الفوتر -->
+    <footer class="light-footer">
+        <div class="footer-container">
+            <div class="footer-bottom">
+                <p>حقوق الملكية © <span id="currentYear">2026</span> مكتبة سامي الرقمية</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script src="upload-book.js"></script>
+</body>
+</html>
