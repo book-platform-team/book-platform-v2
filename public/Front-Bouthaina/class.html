@@ -6,116 +6,22 @@
     <title>أقسام الكتب - مكتبة سامي الرقمية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    
+
     <link rel="stylesheet" href="/assets/css/class.css">
 </head>
 
-<body>
+<body data-page="class">
 
-   <!-- الهيدر -->
-    <header class="header-anim">
-        <div class="navbar">
-            <div class="logo">
-    <a href="/library.html">
-        <!-- الصورة بدلاً من الأيقونة -->
-        <img src="/assets/img/logo.png" alt="شعار">
-        
-    </a>
-</div>
+    <!-- ⬇️ الهيدر + قائمة الجوال + مودال البحث — يركّبهم partials.js -->
+    <div id="site-header"></div>
 
-            <button class="hamburger-btn" id="hamburgerBtn" aria-label="القائمة">
-                <i class='bx bx-menu'></i><i class='bx bx-x'></i>
-            </button>
 
-            <div class="nav-right desktop-nav">
-                <ul class="link main-links">
-                    <li><a href="/library.html" class="nav-link"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
-                    <li><a href="/class.html" class="nav-link"><i class='bx bx-category'></i> أقسام الكتب</a></li>
-                    <li><a href="/author.html" class="nav-link"><i class='bx bx-user-pin'></i> مؤلفو الكتب</a></li>
-                    
-                    <li class="dropdown">
-                        <button class="dropbtn nav-link" id="menuBtn">
-                            القائمة <i class='bx bx-chevron-down icon'></i>
-                        </button>
-                        <div class="dropdown-content" id="dropdownMenu">
-                            <a href="/class.html"><i class='bx bx-book-open'></i> أقسام الكتب</a>
-                            <a href="/author.html"><i class='bx bx-user'></i> مؤلفو الكتب</a>
-                            <a href="/login.html"><i class='bx bx-quote-right'></i> اقتباسات الكتب</a>
-                            <a href="/login.html"><i class='bx bx-star'></i> مراجعات الكتب</a>
-                            <a href="/login.html"><i class='bx bx-group'></i> مجتمع المثقفين</a>
-                            <a href="/login.html"><i class='bx bx-upload'></i> نشر كتاب</a>
-                            <a href="#" id="closeMenu" class="close-link"><i class='bx bx-x'></i> إغلاق</a>
-                        </div>
-                    </li>
-                    
-                    <li><a href="#" class="nav-link search-trigger"><i class='bx bx-search-alt-2'></i> بــحـــث</a></li>
-                </ul>
-            </div>
-
-            <div class="nav-left desktop-nav">
-                <div class="link auth-links">
-                    <a href="/login.html" class="btn btn-login"><i class='bx bx-log-in'></i> دخول</a>
-                    <a href="/register.html" class="btn btn-register"><i class='bx bx-user-plus'></i> إنشاء حساب</a>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- قائمة الجوال -->
-    <div class="mobile-nav-overlay" id="mobileNavOverlay">
-        <div class="mobile-nav">
-            <div class="mobile-nav-header">
-                <div class="logo"><a href="#"><i class='bx bx-book-reader'></i> Sami</a></div>
-                <button class="close-mobile-nav" id="closeMobileNav"><i class='bx bx-x'></i></button>
-            </div>
-            <ul class="mobile-links">
-                <li><a href="/library.html" class="mobile-link"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
-                <li><a href="/class.html" class="mobile-link"><i class='bx bx-category'></i> أقسام الكتب</a></li>
-                <li><a href="/author.html" class="mobile-link"><i class='bx bx-user-pin'></i> مؤلفو الكتب</a></li>
-                <li class="mobile-dropdown">
-                    <button class="mobile-dropbtn" id="mobileMenuBtn">
-                        <i class='bx bx-menu'></i> القائمة <i class='bx bx-chevron-down icon'></i>
-                    </button>
-                    <div class="mobile-dropdown-content" id="mobileDropdownMenu">
-                        <a href="/class.html"><i class='bx bx-book-open'></i> أقسام الكتب</a>
-                        <a href="/author.html"><i class='bx bx-user'></i> مؤلفو الكتب</a>
-                        <a href="/login.html"><i class='bx bx-quote-right'></i> اقتباسات الكتب</a>
-                        <a href="/login.html"><i class='bx bx-star'></i> مراجعات الكتب</a>
-
-                        <a href="/login.html"><i class='bx bx-upload'></i> نشر كتاب</a>
-                    </div>
-                </li>
-                <li><a href="#" class="mobile-link search-trigger"><i class='bx bx-search-alt-2'></i> بــحـــث</a></li>
-                <li class="mobile-auth">
-                    <a href="/login.html" class="btn btn-login"><i class='bx bx-log-in'></i> دخول</a>
-                    <a href="/register.html" class="btn btn-register"><i class='bx bx-user-plus'></i> إنشاء حساب</a>
-                </li>
-            </ul>
-        </div>
-    </div>
- 
-
-    <!-- Modal البحث -->
-    <div class="search-modal-overlay" id="searchModalOverlay">
-        <div class="search-modal">
-            <button class="search-modal-close" id="searchModalClose"><i class='bx bx-x'></i></button>
-            <div class="search-modal-header"><h2>البحث عن كتاب</h2></div>
-            <div class="search-modal-content">
-                <div class="search-input-wrapper">
-                    <input type="text" placeholder="ابحث عن كتاب او مؤلف او قسم كتب" id="modalSearchInput">
-                    <button class="search-btn-large"><i class='bx bx-search'></i><span>بحث</span></button>
-                </div>
-                <button class="publish-book-btn"><i class='bx bx-upload'></i><span>نشر كتاب</span></button>
-            </div>
-        </div>
-    </div>
-  
     <!-- ========================================
-         📚 قسم أقسام الكتب (بسيط + ثيم أحمر)
+         📚 قسم أقسام الكتب
          ======================================== -->
     <section class="categories-section">
         <div class="container">
-            <!-- 🎨 لوقو بسيط لأقسام الكتب -->
+
             <div class="categories-title">
                 <i class='bx bx-category'></i>
                 <h1>أقسام الكتب</h1>
@@ -132,7 +38,7 @@
                 </div>
             </div>
 
-            <!-- الأقسام -->
+            <!-- TODO (اليوم الثالث): تُملأ من /mocks ثم من /api/categories -->
             <div class="categories">
                 <div class="category" data-category="الروايات والقصص الأدبية">
                     <div class="category-header">
@@ -212,67 +118,18 @@
                 <i class='bx bx-search-alt'></i>
                 <p>لم يتم العثور على نتائج</p>
             </div>
+
         </div>
     </section>
 
-<!-- الفوتر -->
-<footer class="light-footer">
-    <div class="footer-container">
-        <div class="footer-brand">
-            <p class="brand-desc">الملكية الفكرية محفوظة للمؤلفين المذكورين على الكتب والمكتبة غير مسئولة عن افكار المؤلفين. يتم نشر الكتب القديمة والمنسية التي أصبحت في الماضي للحفاظ على التراث العربي والإسلامي، والكتب التي يتم قبول نشرها من قبل مؤلفيها.</p>
-            <div class="social-media-buttons">
-                <a href="#" class="social-btn facebook" title="فيسبوك"><i class='bx bxl-facebook'></i></a>
-                <a href="#" class="social-btn instagram" title="إنستغرام"><i class='bx bxl-instagram'></i></a>
-                <a href="#" class="social-btn twitter" title="تويتر"><i class='bx bxl-twitter'></i></a>
-            </div>
-        </div>
-        <div class="footer-grid">
-            <div class="footer-column">
-                <h3><i class='bx bx-message-square-detail'></i> تواصل معنا</h3>
-                <ul class="contact-info">
-                    <li><i class='bx bx-map'></i><span>🇩🇿 الجزائر</span></li>
-                    <li><i class='bx bx-envelope'></i><span>contact@sami-library.com</span></li>
-                    <li><i class='bx bx-phone'></i><span>+213 555 123 456</span></li>
-               </ul>
-            </div>
 
-            <div class="footer-column">
-                <h3><i class='bx bx-link-alt'></i> روابط سريعة</h3>
-                <ul class="footer-links">
-                    <li><a href="#"><i class='bx bx-chevron-left'></i> الرئيسية</a></li>
-                    <li><a href="#"><i class='bx bx-chevron-left'></i> أقسام الكتب</a></li>
-                    <li><a href="#"><i class='bx bx-chevron-left'></i> المؤلفون</a></li>
-                    <li><a href="#"><i class='bx bx-chevron-left'></i> أحدث الكتب</a></li>
-                    <li><a href="#"><i class='bx bx-chevron-left'></i> أشهر الكتب</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3><i class='bx bx-service'></i> خدماتنا</h3>
-                <ul class="footer-links">
-                    <li><a href="#"><i class='bx bx-chevron-left'></i> نشر كتاب</a></li>
-                    <li><a href="#"><i class='bx bx-chevron-left'></i> إشهار الكتب</a></li>
-                    <li><a href="#"><i class='bx bx-chevron-left'></i> اقتباسات</a></li>
-                    <li><a href="#"><i class='bx bx-chevron-left'></i> مراجعات</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <!-- ✅ أضف هذا القسم (حقوق النشر) -->
-        <div class="footer-bottom">
-            <p>
-                حقوق الملكية © <span id="currentYear">2026</span> 
-                <span class="gradient-text">مكتبة سامي الرقمية</span>
-                - جميع الحقوق محفوظة
-            </p>
-        </div>
-    </div>
-    
-    <button class="scroll-to-top" id="scrollToTop" title="العودة للأعلى">
-        <i class='bx bx-up-arrow-alt'></i>
-    </button>
-</footer>
+    <!-- ⬇️ الفوتر + زر الصعود — يركّبهم partials.js -->
+    <div id="site-footer"></div>
 
-     <script src="/assets/js/api.js"></script>
+
+    <!-- ⚠️ الترتيب إجباري: api ثم partials ثم ملف الصفحة -->
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/partials.js"></script>
     <script src="/assets/js/class.js"></script>
 </body>
 </html>
