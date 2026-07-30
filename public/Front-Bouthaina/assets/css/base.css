@@ -12,7 +12,14 @@
 
 
 /* ========================================
-   🅰️ خط الجزيرة
+   🅰️ الخطوط
+   ----------------------------------------
+   الخط الأساسي: Cairo — يُحمَّل من Google Fonts
+   عبر الرابط الموجود في <head> في كل صفحة.
+
+   خط الجزيرة محفوظ كبديل محلي (assets/fonts) —
+   المتصفح لا ينزّله إلا إذا استُعمل فعلاً،
+   فوجود التعريف هنا لا يكلّف شيئاً.
    ======================================== */
 
 @font-face {
@@ -25,24 +32,37 @@
 
 
 /* ========================================
-   🔧 إعادة تعيين
+   🔧 إعادة تعيين + مقياس الخط العام
    ======================================== */
+
+/* ⭐ نقطة التحكم الوحيدة في حجم كل شيء في الموقع.
+   الجذر الافتراضي في المتصفح = 16px.
+   75%      = 12px    (صغير جداً)
+   78.125%  = 12.5px  (مضغوط — الحالي)
+   81.25%   = 13px
+   87.5%    = 14px    (متوسط)
+   كل القياسات بوحدة rem فتتغيّر معه: النصوص والأيقونات والمسافات. */
+html { font-size: 78.125%; }
 
 *, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: inherit;
 }
 
 body {
-    font-family: 'AlJazeera', 'Cairo', sans-serif;
+    font-family: 'Cairo', 'AlJazeera', sans-serif;
+    font-weight: 400;
     overflow-x: hidden;
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
 }
 
-h1 { font-size: 40px; }
-h2 { font-size: 22px; }
-p  { font-size: 14px; }
+h1 { font-size: 1.85rem; }
+h2 { font-size: 1.35rem; }
+h3 { font-size: 1.1rem; }
+p  { font-size: 0.95rem; }
 
 
 /* ========================================
@@ -54,7 +74,8 @@ p  { font-size: 14px; }
     --primary: #7a0c16;
     --primary-light: #c31432;
     --primary-dark: #5a0911;
-    --primary-glow: rgba(122, 12, 22, 0.4);
+    --primary-glow: rgba(122, 12, 22, 0.25);
+    --primary-gradient: linear-gradient(135deg, #7a0c16 0%, #c31432 100%);
 
     /* النصوص والخلفيات */
     --secondary: #2c3e50;
@@ -97,12 +118,12 @@ button {
 
 /* ✅ كان cursor:none — كان يخفي المؤشر تماماً */
 a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
-.categories-list li, .authors-list li, .info-btn {
+.categories-list li, .authors-list li, .info-btn, .suggestions li {
     cursor: pointer;
 }
 
 .gradient-text {
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    background: var(--primary-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -119,6 +140,11 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
     to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
 .header-anim {
     animation: slideDown 0.8s ease-out forwards;
     position: sticky; top: 0; z-index: 1000;
@@ -131,12 +157,13 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
 .navbar {
     width: 100%; max-width: 1200px; margin: 0 auto;
     display: flex; align-items: center; justify-content: space-between;
+    gap: 10px;
     background: rgba(255,255,255,0.95);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow);
     position: relative; overflow: visible;
-    padding: 10px 50px;
-    height: 60px;
+    padding: 0.4rem 1.5rem;
+    height: 4.1rem;               /* ⭐ يتناسب مع مقياس html */
 }
 
 .navbar::before {
@@ -144,6 +171,7 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
     width: 100%; height: 100%;
     background: linear-gradient(90deg, transparent, rgba(122,12,22,0.05), transparent);
     transition: left 0.5s ease;
+    pointer-events: none;
 }
 
 .navbar:hover::before { left: 100%; }
@@ -160,28 +188,19 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
     display: flex;
     align-items: center;
     gap: 10px;
-    position: relative;
-    text-decoration: none;
     height: 100%;
 }
 
 .logo a img {
-    width: 100px;
-    height: 100px;
+    width: 4.4rem;
+    height: 4.4rem;
     object-fit: contain;
     display: block;
     transition: var(--transition);
     flex-shrink: 0;
-    margin: 0;
-    padding: 0;
-    line-height: 0;
-    padding-left: 50px;
-    margin-right: 2px;
 }
 
-.logo a:hover img {
-    transform: rotate(-10deg) scale(1.1);
-}
+.logo a:hover img { transform: rotate(-10deg) scale(1.08); }
 
 
 /* ========================================
@@ -210,20 +229,22 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
    🔗 روابط التنقل
    ======================================== */
 
-.desktop-nav { display: flex; align-items: center; gap: 0.9rem; }
-.main-links   { display: flex; align-items: center; gap: 0.5rem; padding-left: 20px; }
+.desktop-nav { display: flex; align-items: center; gap: 0.4rem; }
+.main-links   { display: flex; align-items: center; gap: 0.15rem; }
 
 .nav-link {
-    font-weight: 600; font-size: 0.9rem; color: var(--text);
+    font-weight: 600; font-size: 0.82rem; color: var(--text);
     display: flex; align-items: center; gap: 5px;
-    padding: 8px 12px; border-radius: 10px;
+    padding: 7px 10px; border-radius: 10px;
     position: relative; overflow: hidden;
+    white-space: nowrap;          /* ⭐ يمنع التفاف النص لسطرين */
+    line-height: 1.4;
 }
 
 .nav-link::before {
     content: ''; position: absolute; bottom: 0; left: 50%;
     width: 0; height: 2px;
-    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    background: var(--primary-gradient);
     transition: all 0.3s ease; transform: translateX(-50%);
 }
 
@@ -234,14 +255,10 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
 /* ✅ الصفحة الحالية */
 .nav-link:hover,
 .nav-link.active,
-.mobile-link.active {
-    color: var(--primary);
-}
+.mobile-link.active { color: var(--primary); }
 
 .nav-link.active,
-.mobile-link.active {
-    font-weight: 800;
-}
+.mobile-link.active { font-weight: 800; }
 
 .nav-link.active::before { width: 80%; }
 
@@ -253,11 +270,12 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
 .dropdown { position: relative; }
 
 .dropbtn {
-    background: none; border: none; font-family: inherit;
-    font-weight: 600; font-size: 0.9rem; color: var(--text);
-    cursor: pointer; display: flex; align-items: center; gap: 4px;
-    padding: 8px 12px; border-radius: 10px;
+    font-weight: 600; font-size: 0.82rem; color: var(--text);
+    display: flex; align-items: center; gap: 4px;
+    padding: 7px 10px; border-radius: 10px;
     transition: var(--transition-sm);
+    white-space: nowrap;
+    line-height: 1.4;
 }
 
 .dropbtn:hover, .dropbtn.active {
@@ -278,11 +296,6 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
     border: 1px solid var(--border);
     margin-top: 8px;
     z-index: 1100;
-}
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(-10px); }
-    to   { opacity: 1; transform: translateY(0); }
 }
 
 .dropdown-content.show { display: block; }
@@ -313,15 +326,17 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
    🔐 أزرار الدخول والتسجيل
    ======================================== */
 
-.auth-links { display: flex; gap: 8px; }
+.auth-links { display: flex; gap: 6px; flex-shrink: 0; }
 
 .btn {
-    padding: 0.5rem 1.2rem; border-radius: 25px;
-    font-size: 0.85rem; font-weight: 700;
+    padding: 0.45rem 1rem; border-radius: 25px;
+    font-size: 0.8rem; font-weight: 700;
+    line-height: 1.4;
     display: flex; align-items: center; gap: 6px;
     transition: var(--transition);
     position: relative; overflow: hidden;
     border: 2px solid transparent;
+    white-space: nowrap;
 }
 
 .btn::before {
@@ -345,7 +360,7 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
 }
 
 .btn-register {
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    background: var(--primary-gradient);
     color: #fff; border-color: var(--primary);
     box-shadow: 0 4px 15px var(--primary-glow);
 }
@@ -387,7 +402,7 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
 }
 
 .mobile-nav-header .logo a { font-size: 1.3rem; }
-.mobile-nav-header .logo a img { width: 45px; height: 45px; padding-left: 0; }
+.mobile-nav-header .logo a img { width: 45px; height: 45px; }
 
 .close-mobile-nav {
     font-size: 1.8rem; color: var(--primary);
@@ -476,8 +491,8 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(5px);
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px);
     display: none;
     justify-content: center;
     align-items: center;
@@ -488,16 +503,13 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
 
 .search-modal {
     background: #fff;
-    border-radius: 18px;
+    border-radius: var(--radius-lg);
     padding: 2.5rem 2rem;
     max-width: 500px;
     width: 90%;
     box-shadow: 0 20px 40px rgba(0,0,0,0.25);
     position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    text-align: center;
+    animation: fadeInUp 0.3s ease;
 }
 
 .search-modal-close {
@@ -506,6 +518,7 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
     background: var(--bg-alt); border: none;
     display: flex; align-items: center; justify-content: center;
     transition: var(--transition-sm); color: var(--text);
+    font-size: 1.2rem;
 }
 
 .search-modal-close:hover {
@@ -516,27 +529,24 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
 .search-modal-header { text-align: center; margin-bottom: 30px; }
 
 .search-modal-header h2 {
-    font-size: 1.6rem; color: var(--primary);
-    font-weight: 800; position: relative;
-    display: inline-block; padding-bottom: 12px;
+    font-size: 1.5rem; color: var(--primary);
+    font-weight: 800; margin-bottom: 10px;
 }
 
-.search-modal-header h2::after {
-    content: ''; position: absolute; bottom: 0; left: 50%;
-    transform: translateX(-50%);
+.search-underline {
     width: 70px; height: 3px;
-    background: linear-gradient(90deg, var(--primary), var(--primary-light));
-    border-radius: 3px;
+    background: var(--primary-gradient);
+    margin: 0 auto; border-radius: 3px;
 }
 
-.search-input-wrapper { margin-bottom: 25px; }
+.search-input-wrapper { margin-bottom: 20px; }
 
 .search-input-wrapper input {
-    width: 100%; padding: 18px 25px;
+    width: 100%; padding: 16px 22px;
     border: 2px solid var(--border); border-radius: 14px;
     font-size: 1.05rem; outline: none;
-    transition: var(--transition-sm); margin-bottom: 18px;
-    font-family: inherit;
+    transition: var(--transition-sm);
+    font-family: inherit; text-align: center;
 }
 
 .search-input-wrapper input:focus {
@@ -546,12 +556,13 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
 
 .search-btn-large {
     width: 100%; padding: 16px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    border: none; border-radius: 14px; color: #fff;
-    font-weight: 800; font-size: 1.15rem;
+    background: var(--primary-gradient);
+    border-radius: 14px; color: #fff;
+    font-weight: 800; font-size: 1.1rem;
     display: flex; align-items: center; justify-content: center;
     gap: 10px; transition: var(--transition);
     box-shadow: 0 6px 20px var(--primary-glow);
+    margin-bottom: 14px;
 }
 
 .search-btn-large:hover {
@@ -559,7 +570,7 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
     box-shadow: 0 10px 35px var(--primary-glow);
 }
 
-.search-btn-large i { font-size: 1.4rem; }
+.search-btn-large i { font-size: 1.3rem; }
 
 .publish-book-btn {
     width: 100%; padding: 14px;
@@ -604,108 +615,110 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
 
 .brand-desc {
     color: var(--text-light);
-    font-size: 1.1rem;
+    font-size: 1rem;
     max-width: 600px;
     margin: 0 auto 20px;
-    line-height: 1.8;
+    line-height: 1.7;
 }
 
 .social-media-buttons {
     display: flex;
     justify-content: center;
-    gap: 14px;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
 }
 
 .social-btn {
-    width: 42px; height: 42px;
-    border-radius: 50%;
+    width: 3.1rem; height: 3.1rem; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    background: #fff;
-    border: 2px solid var(--border);
-    color: var(--primary);
-    font-size: 1.2rem;
-    transition: var(--transition-sm);
+    color: #fff; font-size: 1.35rem;
+    transition: var(--transition);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
+.social-btn.facebook  { background: linear-gradient(135deg, #1877f2, #0d5bca); }
+.social-btn.instagram { background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+.social-btn.twitter   { background: linear-gradient(135deg, #1da1f2, #0d8bd9); }
+
 .social-btn:hover {
-    background: var(--primary);
-    color: #fff;
-    border-color: var(--primary);
-    transform: translateY(-3px);
+    transform: translateY(-4px) scale(1.1);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
 }
 
 .footer-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 40px;
-    padding: 50px 20px 40px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    padding: 40px 15px 30px;
 }
 
 .footer-column h3 {
-    font-size: 1.3rem;
+    font-size: 1.15rem;
     font-weight: 700;
     color: var(--text);
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     position: relative;
-    padding-bottom: 12px;
+    padding-bottom: 10px;
 }
 
-.footer-column h3 i { color: var(--primary); font-size: 1.4rem; }
+.footer-column h3 i { color: var(--primary); font-size: 1.25rem; }
 
 .footer-column h3::after {
     content: '';
     position: absolute;
     bottom: 0; right: 0;
-    width: 60px; height: 3px;
-    background: linear-gradient(90deg, var(--primary), var(--primary-light));
-    border-radius: 3px;
+    width: 50px; height: 2px;
+    background: var(--primary-gradient);
+    border-radius: 2px;
 }
 
-.contact-info { list-style: none; padding: 0; margin: 0; }
+.contact-info,
+.footer-links { list-style: none; padding: 0; margin: 0; }
 
 .contact-info li {
-    display: flex; align-items: center; gap: 12px;
-    margin-bottom: 18px;
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 15px;
     color: var(--text-light);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 }
 
 .contact-info li i {
-    font-size: 1.2rem; color: var(--primary);
-    width: 24px; flex-shrink: 0;
+    font-size: 1.1rem; color: var(--primary);
+    width: 22px; flex-shrink: 0;
 }
 
-.footer-links { list-style: none; padding: 0; margin: 0; }
-.footer-links li { margin-bottom: 12px; }
+.footer-links li { margin-bottom: 10px; }
 
 .footer-links a {
     color: var(--text-light);
-    text-decoration: none;
-    display: flex; align-items: center; gap: 8px;
+    display: flex; align-items: center; gap: 6px;
     transition: var(--transition-sm);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 }
 
 .footer-links a i {
-    font-size: 1.1rem; color: var(--primary);
+    font-size: 1rem; color: var(--primary);
     transition: var(--transition-sm);
 }
 
-.footer-links a:hover { color: var(--primary); padding-right: 8px; }
-.footer-links a:hover i { transform: translateX(-4px); }
+.footer-links a:hover { color: var(--primary); padding-right: 6px; }
+.footer-links a:hover i { transform: translateX(-3px); }
 
 .footer-bottom {
     border-top: 2px solid var(--border);
-    padding: 25px 20px;
+    padding: 22px 15px;
     text-align: center;
 }
 
 .footer-bottom p {
     color: var(--text-light);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 500;
 }
 
@@ -714,41 +727,32 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
 
 /* ========================================
    ⬆️ زر الصعود للأعلى
-   (كان مفقوداً بسبب تلف الملفات — أُعيدت كتابته)
    ======================================== */
 
 .scroll-to-top {
     position: fixed;
-    bottom: 30px;
-    left: 30px;
-    width: 50px;
-    height: 50px;
+    bottom: 1.9rem; left: 1.9rem;
+    width: 3.4rem; height: 3.4rem;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    background: var(--primary-gradient);
     color: #fff;
-    font-size: 1.6rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 6px 20px var(--primary-glow);
-    border: none;
-    cursor: pointer;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(20px);
-    transition: var(--transition);
+    font-size: 1.5rem;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 25px var(--primary-glow);
+    opacity: 0; visibility: hidden;
+    transform: translateY(20px) scale(0.8);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     z-index: 1500;
 }
 
 .scroll-to-top.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+    opacity: 1; visibility: visible;
+    transform: translateY(0) scale(1);
 }
 
 .scroll-to-top:hover {
-    transform: translateY(-5px) scale(1.08);
-    box-shadow: 0 10px 30px var(--primary-glow);
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 10px 35px var(--primary-glow);
 }
 
 
@@ -761,7 +765,7 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
 .error-message,
 .loading-authors {
     text-align: center;
-    padding: 70px 20px;
+    padding: 60px 20px;
     color: var(--text-light);
     grid-column: 1 / -1;
 }
@@ -770,8 +774,8 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
 .no-authors i,
 .error-message i,
 .loading-authors i {
-    font-size: 5rem;
-    margin-bottom: 20px;
+    font-size: 3.4rem;
+    margin-bottom: 18px;
     opacity: 0.4;
     color: var(--primary);
 }
@@ -780,9 +784,12 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
 .no-authors p,
 .error-message p,
 .loading-authors p {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 600;
 }
+
+.bx-spin { animation: spin 1s linear infinite; }
+@keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
 
 
 /* ========================================
@@ -792,17 +799,23 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
 @media (max-width: 900px) {
     .desktop-nav   { display: none; }
     .hamburger-btn { display: block; }
-    .navbar        { padding: 0.7rem 1.2rem; }
-    .logo a img    { width: 60px; height: 60px; padding-left: 0; }
+    .navbar        { padding: 0.4rem 1rem; height: 4rem; }
+    .logo a img    { width: 3.6rem; height: 3.6rem; }
+    .header-anim   { padding: 0.5rem 1rem; }
+}
+
+@media (max-width: 768px) {
+    .footer-grid { grid-template-columns: 1fr; gap: 28px; padding: 35px 12px 25px; }
+    .footer-column h3::after { right: 50%; transform: translateX(50%); }
+    .scroll-to-top { bottom: 1.3rem; left: 1.3rem; width: 3rem; height: 3rem; }
 }
 
 @media (max-width: 480px) {
-    .search-modal { padding: 2.5rem 1.8rem; width: 92%; }
-    .search-modal-header h2 { font-size: 1.1rem; }
+    .search-modal { padding: 2.2rem 1.5rem; width: 92%; }
+    .search-modal-header h2 { font-size: 1.2rem; }
     .search-input-wrapper input,
     .search-btn-large,
     .publish-book-btn { padding: 1rem; font-size: 0.9rem; }
-    .scroll-to-top { width: 44px; height: 44px; bottom: 20px; left: 20px; }
 }
 
 
@@ -810,7 +823,7 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
    ♿ الوصولية
    ======================================== */
 
-a:focus, button:focus, input:focus {
+a:focus, button:focus, input:focus, textarea:focus, select:focus {
     outline: 3px solid var(--primary);
     outline-offset: 2px;
 }
