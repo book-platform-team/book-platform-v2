@@ -25,6 +25,51 @@ document.addEventListener("DOMContentLoaded", () => {
     const uploadSuccess = document.getElementById("uploadSuccess");
     const submitBtn     = document.getElementById("submitBtn");
     const rightsConfirm = document.getElementById("rightsConfirm");
+    const categorySelect = document.getElementById("category_id");
+
+
+    /* ========================================
+       📂 تحميل الأقسام
+       ----------------------------------------
+       المؤلف يختار قسماً واحداً — قرار تحريري
+       يوفّر على الأدمن تصنيف كل كتاب يدوياً.
+       ======================================== */
+
+    async function loadCategories() {
+        if (!categorySelect) return;
+
+        try {
+            const res  = await apiGet("/categories");
+            const cats = res.data || [];
+
+            if (cats.length === 0) {
+                categorySelect.innerHTML = `<option value="">لا توجد أقسام</option>`;
+                return;
+            }
+
+            // الأقسام الرئيسية وفروعها — الفرع خيار صالح أيضاً
+            categorySelect.innerHTML =
+                `<option value="">اختاري القسم</option>` +
+                cats.map(c => {
+                    const children = c.children || [];
+                    if (children.length === 0) {
+                        return `<option value="${c.id}">${c.name}</option>`;
+                    }
+                    return `
+                        <optgroup label="${c.name}">
+                            <option value="${c.id}">${c.name} — عام</option>
+                            ${children.map(s => `<option value="${s.id}">${s.name}</option>`).join("")}
+                        </optgroup>
+                    `;
+                }).join("");
+
+        } catch (error) {
+            console.error("Error loading categories:", error);
+            categorySelect.innerHTML = `<option value="">تعذّر تحميل الأقسام</option>`;
+        }
+    }
+
+    loadCategories();
 
 
     /* ========================================
@@ -91,6 +136,13 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        const categoryId = categorySelect?.value;
+        if (!categoryId) {
+            showAlert("الرجاء اختيار قسم الكتاب", "error");
+            categorySelect?.focus();
+            return;
+        }
+
         const files = fileInput?.files;
         if (!files || files.length === 0) {
             showAlert("الرجاء اختيار ملف للكتاب", "error");
@@ -120,6 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const formData = new FormData();
             formData.append("title", title);
             formData.append("description", document.getElementById("description")?.value.trim() || "");
+            formData.append("category_id", categoryId);
 
             for (const file of files) {
                 formData.append("files[]", file);

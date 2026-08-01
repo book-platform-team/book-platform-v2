@@ -51,6 +51,17 @@
                         <small>وصف جذاب يساعد القراء على اكتشاف كتابك</small>
                     </div>
 
+                    <!-- التصنيف (مطلوب) — المؤلف يختار قسماً واحداً -->
+                    <div class="form-group">
+                        <label for="category_id">
+                            <i class='bx bx-category'></i> قسم الكتاب <span class="required">*</span>
+                        </label>
+                        <select id="category_id" name="category_id" required>
+                            <option value="">جارٍ تحميل الأقسام...</option>
+                        </select>
+                        <small>اختاري القسم الأقرب لموضوع الكتاب — قسم واحد فقط</small>
+                    </div>
+
                     <!-- الملفات (مطلوب) -->
                     <div class="form-group">
                         <label for="files">
