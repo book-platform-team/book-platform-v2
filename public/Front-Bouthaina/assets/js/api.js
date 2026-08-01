@@ -65,7 +65,82 @@ async function apiGet(path) {
     };
   }
 
-  return res.json();
+  const json = await res.json();
+
+  // في وضع mock نطبّق الفلترة والترتيب محلياً
+  // حتى تتصرّف الملفات الثابتة كأنها API حقيقي،
+  // وتصبح كل الحالات (فارغ · نتائج · ترتيب) قابلة للاختبار الآن.
+  return API.MOCK ? applyMockQuery(path, json) : json;
+}
+
+
+/* ========================================
+   🧪 محاكاة الفلترة في وضع mock
+   ----------------------------------------
+   يدعم: q · category · author · type · sort · limit
+   ======================================== */
+
+function applyMockQuery(path, json) {
+  const qIndex = path.indexOf("?");
+  if (qIndex === -1) return json;
+  if (!Array.isArray(json?.data)) return json;
+
+  const params = new URLSearchParams(path.slice(qIndex + 1));
+  let data = [...json.data];
+
+  /* ---------- بحث نصّي ---------- */
+  const q = params.get("q");
+  if (q) {
+    const needle = q.trim().toLowerCase();
+    data = data.filter(item => {
+      const title  = (item.title || item.name || "").toLowerCase();
+      const author = (item.author?.name || "").toLowerCase();
+      return title.includes(needle) || author.includes(needle);
+    });
+  }
+
+  /* ---------- تصنيف ---------- */
+  const category = params.get("category");
+  if (category) {
+    data = data.filter(item => item.category?.slug === category);
+  }
+
+  /* ---------- مؤلف ---------- */
+  const author = params.get("author");
+  if (author) {
+    data = data.filter(item => item.author?.slug === author);
+  }
+
+  /* ---------- نوع الإصدار ---------- */
+  const type = params.get("type");
+  if (type) {
+    data = data.filter(item => item.publication_type === type);
+  }
+
+  /* ---------- الترتيب ---------- */
+  const sort = params.get("sort");
+  if (sort === "popular") {
+    data.sort((a, b) => (b.ratings_count || 0) - (a.ratings_count || 0));
+  } else if (sort === "rating") {
+    data.sort((a, b) => (b.ratings_avg || 0) - (a.ratings_avg || 0));
+  } else if (sort === "trending") {
+    data.sort((a, b) => (b.views_count || b.ratings_count || 0) - (a.views_count || a.ratings_count || 0));
+  } else if (sort === "title") {
+    data.sort((a, b) => String(a.title || "").localeCompare(String(b.title || ""), "ar"));
+  } else if (sort === "latest") {
+    data.sort((a, b) => (b.id || 0) - (a.id || 0));
+  }
+
+  /* ---------- حد أقصى ---------- */
+  const limit = parseInt(params.get("limit"), 10);
+  if (limit > 0) data = data.slice(0, limit);
+
+  /* ---------- تحديث meta ---------- */
+  const meta = json.meta
+    ? { ...json.meta, total: data.length, last_page: 1, current_page: 1 }
+    : undefined;
+
+  return { ...json, data, ...(meta ? { meta } : {}) };
 }
 
 

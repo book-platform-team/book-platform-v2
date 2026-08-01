@@ -553,7 +553,6 @@ function renderBookCard(book) {
         <article class="book-card">
             <a href="/book.html?slug=${encodeURIComponent(slug)}" class="book-image">
                 ${cover}${badge}
-                <div class="book-overlay"><i class='bx bx-show'></i></div>
             </a>
             <h3><a href="/book.html?slug=${encodeURIComponent(slug)}">${escapeText(book.title)}</a></h3>
             <p>${escapeText(author.name || "")}</p>
