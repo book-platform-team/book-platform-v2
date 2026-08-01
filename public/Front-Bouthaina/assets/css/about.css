@@ -16,6 +16,8 @@
     border-bottom: 1px solid var(--border);
     overflow: hidden;
     isolation: isolate;
+    width: 100%;
+    max-width: 100vw;
     text-align: center;
 }
 
@@ -26,6 +28,7 @@
     background:
         radial-gradient(40% 48% at 25% 25%, rgba(122,12,22,.18), transparent 62%),
         radial-gradient(36% 44% at 75% 75%, rgba(195,20,50,.14), transparent 60%);
+    pointer-events: none;
     filter: blur(26px);
     animation: abDrift 24s ease-in-out infinite alternate;
 }

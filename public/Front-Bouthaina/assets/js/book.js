@@ -37,8 +37,40 @@ document.addEventListener("DOMContentLoaded", () => {
     setupReviewForm();
     setupQuoteForm();
     setupCopyShortLink();
+    gateGuestForms();
 
     loadBookDetails();
+
+
+    /* ========================================
+       🔒 الزائر غير المسجَّل
+       ----------------------------------------
+       نُخبره قبل أن يكتب، لا بعد أن يضغط "نشر".
+       فقدان نصٍّ كُتب بالكامل تجربة سيّئة.
+       ======================================== */
+
+    function gateGuestForms() {
+        if (isLoggedIn()) return;
+
+        const reviewBox = document.querySelector(".add-review-box");
+        const quoteBox  = document.querySelector(".add-quote-box");
+        const rateBox   = document.getElementById("userRatingSection");
+
+        if (reviewBox) showLoginRequired(reviewBox, "سجّلي الدخول لكتابة مراجعة");
+        if (quoteBox)  showLoginRequired(quoteBox,  "سجّلي الدخول لإضافة اقتباس");
+
+        if (rateBox) {
+            rateBox.innerHTML = `
+                <p class="guest-rate">
+                    <i class='bx bx-lock-alt'></i>
+                    <a href="/login.html?redirect=${encodeURIComponent(location.pathname + location.search)}">
+                        سجّلي الدخول
+                    </a>
+                    لتقييم هذا الكتاب
+                </p>
+            `;
+        }
+    }
 
 
     /* ========================================
@@ -62,8 +94,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } catch (error) {
             console.error("Error loading book:", error);
-            setText("bookTitle", "تعذّر تحميل الكتاب");
-            setText("bookDescription", "تحقّقي من الاتصال بالسيرفر");
+
+            const notFound = error.status === 404;
+            setText("bookTitle", notFound ? "هذا الكتاب غير موجود" : "تعذّر تحميل الكتاب");
+            setText("bookDescription", notFound
+                ? "ربما حُذف الكتاب أو تغيّر رابطه."
+                : "تحقّقي من الاتصال بالسيرفر.");
+
+            // لا معنى لعرض تبويبات فارغة لكتاب لم يُحمَّل
+            document.querySelector(".book-tabs-section")?.remove();
+            document.querySelector(".similar-books-section")?.remove();
+            document.querySelector(".book-detailed-info")?.remove();
+            document.querySelector(".book-sidebar")?.remove();
         }
     }
 
@@ -196,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             star.addEventListener("click", async function () {
-                if (!requireLogin("لتقييم الكتاب")) return;
+                if (!requireAuth("لتقييم الكتاب")) return;
 
                 const value = parseInt(this.dataset.rating, 10);
 
@@ -226,9 +268,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const list = document.getElementById("reviewsList");
         if (!list) return;
 
-        if (page === 1) {
-            list.innerHTML = `<div class="loading-authors"><i class='bx bx-loader-alt bx-spin'></i><p>جارٍ تحميل المراجعات...</p></div>`;
-        }
+        if (page === 1) showLoading(list, 3, "row");
 
         try {
             const res     = await apiGet(`/books/${bookId}/reviews?page=${page}`);
@@ -238,7 +278,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (page === 1) list.innerHTML = "";
 
             if (reviews.length === 0 && page === 1) {
-                list.innerHTML = `<p class="no-reviews">لا توجد مراجعات بعد. كوني أول من يراجع</p>`;
+                showEmpty(list, "لا توجد مراجعات بعد. كوني أول من يراجع", "bx-message-rounded-dots");
                 setText("reviewsCount", "0");
                 return;
             }
@@ -258,7 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } catch (error) {
             console.error("Error loading reviews:", error);
-            list.innerHTML = `<p class="error">تعذّر تحميل المراجعات</p>`;
+            showError(list, () => loadReviews(1), "تعذّر تحميل المراجعات");
         }
     }
 
@@ -268,19 +308,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const user   = review.user || {};
         const avatar = user.avatar
-            ? `<img src="${escapeHTML(user.avatar)}" alt="${escapeHTML(user.name)}">`
-            : `<span>${escapeHTML((user.name || "م").charAt(0))}</span>`;
+            ? `<img src="${escapeText(user.avatar)}" alt="${escapeText(user.name)}">`
+            : `<span>${escapeText((user.name || "م").charAt(0))}</span>`;
 
         div.innerHTML = `
             <div class="reviewer-info">
                 <div class="reviewer-avatar">${avatar}</div>
                 <div class="reviewer-details">
-                    <h4 class="reviewer-name">${escapeHTML(user.name || "مستخدم")}</h4>
+                    <h4 class="reviewer-name">${escapeText(user.name || "مستخدم")}</h4>
                     <div class="review-rating">${starsHTML(review.rating)}</div>
                 </div>
                 <span class="review-date">${formatDate(review.created_at)}</span>
             </div>
-            <p class="review-text">${escapeHTML(review.content || "")}</p>
+            <p class="review-text">${escapeText(review.content || "")}</p>
             <div class="review-actions">
                 <button class="btn-helpful" data-review="${review.id}">
                     <i class='bx bx-like'></i> مفيد (${review.helpful_count || 0})
@@ -289,7 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
 
         div.querySelector(".btn-helpful")?.addEventListener("click", async (e) => {
-            if (!requireLogin("للتصويت")) return;
+            if (!requireAuth("للتصويت")) return;
             const btn = e.currentTarget;
             try {
                 const res = await apiPost(`/reviews/${review.id}/helpful`, {});
@@ -311,7 +351,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const content = input?.value.trim();
 
             if (!content) { alert("الرجاء كتابة مراجعة"); input?.focus(); return; }
-            if (!requireLogin("لإضافة مراجعة")) return;
+            if (!requireAuth("لإضافة مراجعة")) return;
 
             const original = btn.innerHTML;
             btn.disabled  = true;
@@ -343,6 +383,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const list = document.getElementById("quotesList");
         if (!list) return;
 
+        showLoading(list, 2, "row");
+
         try {
             const res    = await apiGet(`/books/${bookId}/quotes`);
             const quotes = res.data || [];
@@ -350,7 +392,7 @@ document.addEventListener("DOMContentLoaded", () => {
             list.innerHTML = "";
 
             if (quotes.length === 0) {
-                list.innerHTML = `<p class="no-quotes">لا توجد اقتباسات بعد. شاركينا اقتباسك المفضل</p>`;
+                showEmpty(list, "لا توجد اقتباسات بعد. شاركينا اقتباسك المفضل", "bx-quote-left");
                 setText("quotesCount", "0");
                 return;
             }
@@ -360,7 +402,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } catch (error) {
             console.error("Error loading quotes:", error);
-            list.innerHTML = `<p class="error">تعذّر تحميل الاقتباسات</p>`;
+            showError(list, loadQuotes, "تعذّر تحميل الاقتباسات");
         }
     }
 
@@ -374,10 +416,10 @@ document.addEventListener("DOMContentLoaded", () => {
         div.innerHTML = `
             <div class="quote-content">
                 <i class='bx bxs-quote-alt-right quote-icon'></i>
-                <p class="quote-text">${escapeHTML(quote.content || "")}</p>
+                <p class="quote-text">${escapeText(quote.content || "")}</p>
             </div>
             <div class="quote-footer">
-                <span class="quote-author">— ${escapeHTML(user.name || "مستخدم")}${page}</span>
+                <span class="quote-author">— ${escapeText(user.name || "مستخدم")}${page}</span>
             </div>
             <div class="quote-actions">
                 <button class="btn-copy-quote"><i class='bx bx-copy'></i> نسخ</button>
@@ -404,7 +446,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const content  = input?.value.trim();
 
             if (!content) { alert("الرجاء كتابة اقتباس"); input?.focus(); return; }
-            if (!requireLogin("لإضافة اقتباس")) return;
+            if (!requireAuth("لإضافة اقتباس")) return;
 
             const original = btn.innerHTML;
             btn.disabled  = true;
@@ -437,6 +479,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const grid = document.getElementById("similarBooksGrid");
         if (!grid) return;
 
+        showLoading(grid, 4);
+
         try {
             const res   = await apiGet(`/books/${bookId}/similar?limit=4`);
             const books = res.data || [];
@@ -444,7 +488,7 @@ document.addEventListener("DOMContentLoaded", () => {
             grid.innerHTML = "";
 
             if (books.length === 0) {
-                grid.innerHTML = `<p class="no-similar">لا توجد كتب مشابهة حالياً</p>`;
+                showEmpty(grid, "لا توجد كتب مشابهة حالياً", "bx-book-alt");
                 return;
             }
 
@@ -456,9 +500,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 const author = book.author || {};
 
                 card.innerHTML = `
-                    <img src="${escapeHTML(cover)}" alt="${escapeHTML(book.title)}" loading="lazy">
-                    <h4>${escapeHTML(book.title)}</h4>
-                    <p>${escapeHTML(author.name || "")}</p>
+                    <img src="${escapeText(cover)}" alt="${escapeText(book.title)}" loading="lazy">
+                    <h4>${escapeText(book.title)}</h4>
+                    <p>${escapeText(author.name || "")}</p>
                     <div class="book-rating-small">
                         <i class='bx bxs-star'></i>
                         <span>${(Number(book.ratings_avg) || 0).toFixed(1)}</span>
@@ -474,7 +518,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } catch (error) {
             console.error("Error loading similar books:", error);
-            grid.innerHTML = `<p class="error">تعذّر تحميل الكتب المشابهة</p>`;
+            showError(grid, loadSimilarBooks, "تعذّر تحميل الكتب المشابهة");
         }
     }
 
@@ -584,17 +628,4 @@ document.addEventListener("DOMContentLoaded", () => {
         return "—";
     }
 
-    function requireLogin(action) {
-        if (isLoggedIn()) return true;
-        alert(`يجب تسجيل الدخول ${action}`);
-        window.location.href = `/login.html?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
-        return false;
-    }
-
-    /* حماية من XSS في المحتوى القادم من المستخدمين */
-    function escapeHTML(str) {
-        return String(str ?? "").replace(/[&<>"']/g, ch => ({
-            "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-        }[ch]));
-    }
 });

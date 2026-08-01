@@ -53,7 +53,11 @@ document.addEventListener("DOMContentLoaded", () => {
        📥 تحميل بيانات البروفايل
        ======================================== */
 
+    const card = document.querySelector(".profile-card");
+
     async function loadProfile() {
+        setBusy(true);
+
         try {
             // API.md: { success, data: { ... } }
             const res  = await apiGet("/user/profile");
@@ -63,12 +67,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
             currentUser = user;
             fillProfile(user);
+            setBusy(false);
 
         } catch (error) {
             console.error("Error loading profile:", error);
-            if (userName)  userName.textContent  = "تعذّر تحميل البيانات";
-            if (userEmail) userEmail.textContent = "تحقّقي من الاتصال بالسيرفر";
+
+            // التوكن منتهٍ أو غير صالح → إعادة للدخول
+            if (error.status === 401) {
+                localStorage.removeItem("auth_token");
+                const next = encodeURIComponent(location.pathname);
+                window.location.href = `/login.html?redirect=${next}`;
+                return;
+            }
+
+            if (card) {
+                card.innerHTML = "";
+                showError(card, loadProfile, "تعذّر تحميل بيانات الحساب");
+            }
         }
+    }
+
+    /* أثناء التحميل نُخفت البطاقة ونعطّل الإدخال —
+       أفضل من ترك حقول فارغة قابلة للكتابة ثم استبدال محتواها. */
+    function setBusy(busy) {
+        if (!card) return;
+        card.style.opacity       = busy ? "0.55" : "1";
+        card.style.pointerEvents = busy ? "none" : "";
+        card.style.transition    = "opacity .25s ease";
     }
 
     function fillProfile(user) {
@@ -171,7 +196,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } catch (error) {
             console.error("Error saving profile:", error);
-            alert("تعذّر حفظ التغييرات: " + (error.message || "خطأ في الاتصال"));
+            const msg = error.errors
+                ? Object.values(error.errors).flat().join("\n")
+                : (error.message || "خطأ في الاتصال");
+            alert("تعذّر حفظ التغييرات:\n" + msg);
             saveBtn.innerHTML = original;
             saveBtn.disabled  = false;
         }

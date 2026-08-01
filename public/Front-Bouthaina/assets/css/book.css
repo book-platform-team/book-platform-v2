@@ -717,6 +717,34 @@
 }
 
 
+/* ---------- تقييم الزائر غير المسجَّل ---------- */
+
+.guest-rate {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    color: var(--text-light);
+    font-size: .92rem;
+    font-weight: 600;
+    flex-wrap: wrap;
+}
+
+.guest-rate i { color: var(--primary); font-size: 1.2rem; }
+
+.guest-rate a {
+    color: var(--primary);
+    font-weight: 800;
+    text-decoration: underline;
+}
+
+/* صندوق الحالة داخل نماذج التبويبات */
+.add-review-box .state-box,
+.add-quote-box  .state-box { padding: 2rem 1rem; }
+
+.add-review-box .state-box i,
+.add-quote-box  .state-box i { font-size: 2.6rem; margin-bottom: .7rem; }
+
+
 /* ========================================
    📱 التجاوب
    ======================================== */

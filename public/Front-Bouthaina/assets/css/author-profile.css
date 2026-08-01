@@ -16,6 +16,8 @@
     border-bottom: 1px solid var(--border);
     overflow: hidden;
     isolation: isolate;
+    width: 100%;
+    max-width: 100vw;
 }
 
 .ap-mesh {
@@ -26,6 +28,7 @@
         radial-gradient(40% 50% at 78% 20%, rgba(122,12,22,.16), transparent 62%),
         radial-gradient(36% 44% at 20% 78%, rgba(195,20,50,.12), transparent 60%);
     filter: blur(24px);
+    pointer-events: none;
 }
 
 
