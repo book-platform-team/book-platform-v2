@@ -149,11 +149,22 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // ⚠️ فحص الامتداد فقط للراحة — السيرفر هو من يتحقق فعلياً من MIME
+        // ⚠️ فحص الامتداد والحجم هنا للراحة فقط —
+        // السيرفر هو من يتحقق فعلياً من MIME والحجم.
         const allowedTypes = ["application/pdf", "application/epub+zip"];
+        const MAX_BYTES = 50 * 1024 * 1024;   // 50 ميجابايت
+
         for (const file of files) {
             if (file.type && !allowedTypes.includes(file.type)) {
-                showAlert("نوع الملف غير مدعوم. استخدم PDF أو EPUB فقط", "error");
+                showAlert("نوع الملف غير مدعوم. استخدمي PDF أو EPUB فقط", "error");
+                return;
+            }
+            if (file.size > MAX_BYTES) {
+                showAlert(
+                    `الملف «${file.name}» حجمه ${formatFileSize(file.size)} ` +
+                    `ويتجاوز الحدّ الأقصى (50 ميجابايت)`,
+                    "error"
+                );
                 return;
             }
         }

@@ -174,6 +174,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (downloadBtn) {
             if (file) {
                 downloadBtn.addEventListener("click", () => {
+                    // التحميل يتطلّب حساباً — نوجّه قبل الطلب
+                    // بدل ترك السيرفر يردّ 401 وتظهر صفحة خطأ
+                    if (!requireAuth("لتنزيل الكتاب")) return;
                     window.location.href = `/api/books/${bookId}/download/${file.id}`;
                 });
             } else {
