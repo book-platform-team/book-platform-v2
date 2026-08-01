@@ -1,0 +1,182 @@
+/* ========================================
+   👤 دار سامي — صفحة المؤلف
+   ----------------------------------------
+   ⚠️ المشترك في base.css — لا يُكرَّر هنا.
+   ======================================== */
+
+
+/* ========================================
+   🎬 الترويسة
+   ======================================== */
+
+.ap-hero {
+    position: relative;
+    padding: 3rem 0 3.5rem;
+    background: #fdfbfa;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.ap-mesh {
+    position: absolute;
+    inset: -30%;
+    z-index: -1;
+    background:
+        radial-gradient(40% 50% at 78% 20%, rgba(122,12,22,.16), transparent 62%),
+        radial-gradient(36% 44% at 20% 78%, rgba(195,20,50,.12), transparent 60%);
+    filter: blur(24px);
+}
+
+
+/* ---------- مسار التنقّل ---------- */
+
+.crumbs {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .82rem;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.crumbs a { color: var(--text-light); }
+.crumbs a:hover { color: var(--primary); }
+.crumbs i { font-size: 1rem; opacity: .5; }
+.crumbs span { color: var(--primary); font-weight: 700; }
+
+
+/* ---------- رأس المؤلف ---------- */
+
+.ap-head {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.ap-photo {
+    width: 8.5rem; height: 8.5rem;
+    border-radius: 50%;
+    flex-shrink: 0;
+    overflow: hidden;
+    border: 4px solid #fff;
+    box-shadow: 0 14px 40px rgba(122,12,22,.2);
+    background: var(--primary-gradient);
+    display: grid; place-items: center;
+    color: #fff;
+    font-size: 3rem;
+    font-weight: 900;
+}
+
+.ap-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+.ap-meta { flex: 1; min-width: 240px; }
+
+.ap-name {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 900;
+    color: var(--text);
+    line-height: 1.3;
+    margin-bottom: .5rem;
+}
+
+.ap-sub {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    color: var(--text-light);
+    font-size: .9rem;
+    margin-bottom: 1rem;
+}
+
+.ap-sub span {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+}
+
+.ap-sub i { color: var(--primary); font-size: 1.05rem; }
+
+.ap-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .74rem;
+    font-weight: 800;
+    color: var(--primary);
+    background: rgba(122,12,22,.09);
+    border: 1px solid rgba(122,12,22,.2);
+    padding: .35rem .9rem;
+    border-radius: 30px;
+}
+
+
+/* ---------- إحصائيات المؤلف ---------- */
+
+.ap-stats {
+    display: flex;
+    gap: 2.4rem;
+    flex-wrap: wrap;
+    margin-top: .4rem;
+}
+
+.ap-stat b {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--primary);
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+}
+
+.ap-stat span {
+    font-size: .78rem;
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+
+/* ========================================
+   📖 النبذة
+   ======================================== */
+
+.ap-bio-section { padding-bottom: 0; }
+
+.ap-bio {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-right: 4px solid var(--primary);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    color: var(--text-light);
+    line-height: 2.1;
+    font-size: .98rem;
+    max-width: 850px;
+}
+
+
+/* ========================================
+   📚 شبكة الكتب
+   ======================================== */
+
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+    gap: 1.6rem;
+}
+
+
+/* ========================================
+   📱 التجاوب
+   ======================================== */
+
+@media (max-width: 700px) {
+    .ap-head { gap: 1.4rem; }
+    .ap-photo { width: 6.5rem; height: 6.5rem; font-size: 2.2rem; }
+    .ap-stats { gap: 1.6rem; }
+    .ap-bio { padding: 1.5rem; }
+    .books-grid { grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 1.1rem; }
+}

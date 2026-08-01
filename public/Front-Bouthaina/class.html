@@ -6,7 +6,8 @@
     <title>أقسام الكتب - مكتبة سامي الرقمية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="/assets/css/base.css"> 
+
+    <link rel="stylesheet" href="/assets/css/base.css">
     <link rel="stylesheet" href="/assets/css/class.css">
 </head>
 
@@ -38,86 +39,8 @@
                 </div>
             </div>
 
-            <!-- TODO (اليوم الثالث): تُملأ من /mocks ثم من /api/categories -->
-            <div class="categories">
-                <div class="category" data-category="الروايات والقصص الأدبية">
-                    <div class="category-header">
-                        <span>الروايات والقصص الأدبية</span>
-                        <i class="bx bx-chevron-down arrow"></i>
-                    </div>
-                    <div class="subcategories">
-                        <a href="#">روايات عربية</a>
-                        <a href="#">روايات عالمية</a>
-                        <a href="#">قصص قصيرة</a>
-                        <a href="#">روايات تاريخية</a>
-                        <a href="#">روايات بوليسية</a>
-                        <a href="#">أدب كلاسيكي</a>
-                    </div>
-                </div>
-
-                <div class="category" data-category="الحياة الإسلامية">
-                    <div class="category-header">
-                        <span>الحياة الإسلامية</span>
-                        <i class="bx bx-chevron-down arrow"></i>
-                    </div>
-                    <div class="subcategories">
-                        <a href="#">الفقه الإسلامي</a>
-                        <a href="#">السيرة النبوية</a>
-                        <a href="#">الحديث الشريف</a>
-                        <a href="#">التفسير</a>
-                        <a href="#">العقيدة</a>
-                        <a href="#">الأخلاق والآداب</a>
-                    </div>
-                </div>
-
-                <div class="category" data-category="التاريخ">
-                    <div class="category-header">
-                        <span>التاريخ</span>
-                        <i class="bx bx-chevron-down arrow"></i>
-                    </div>
-                    <div class="subcategories grid">
-                        <a href="#">تاريخ الجزائر</a>
-                        <a href="#">التاريخ الإسلامي</a>
-                        <a href="#">الحضارات القديمة</a>
-                        <a href="#">تاريخ العالم</a>
-                        <a href="#">التاريخ المعاصر</a>
-                        <a href="#">التراجم والسير</a>
-                    </div>
-                </div>
-
-                <div class="category" data-category="التنمية البشرية وتطوير الذات">
-                    <div class="category-header">
-                        <span>التنمية البشرية وتطوير الذات</span>
-                        <i class="bx bx-chevron-down arrow"></i>
-                    </div>
-                    <div class="subcategories">
-                        <a href="#">تطوير الذات</a>
-                        <a href="#">النجاح والتحفيز</a>
-                        <a href="#">الإدارة والقيادة</a>
-                        <a href="#">التواصل والعلاقات</a>
-                        <a href="#">الصحة النفسية</a>
-                    </div>
-                </div>
-
-                <div class="category" data-category="العلوم السياسية">
-                    <div class="category-header">
-                        <span>العلوم السياسية</span>
-                        <i class="bx bx-chevron-down arrow"></i>
-                    </div>
-                    <div class="subcategories">
-                        <a href="#">النظم السياسية</a>
-                        <a href="#">العلاقات الدولية</a>
-                        <a href="#">الفكر السياسي</a>
-                        <a href="#">الاستراتيجية والأمن</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- رسالة عدم وجود نتائج -->
-            <div class="no-results" id="noResults" style="display: none;">
-                <i class='bx bx-search-alt'></i>
-                <p>لم يتم العثور على نتائج</p>
-            </div>
+            <!-- تُملأ من class.js -->
+            <div class="categories" id="categoriesContainer"></div>
 
         </div>
     </section>

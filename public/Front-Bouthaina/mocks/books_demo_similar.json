@@ -24,7 +24,7 @@
       "id": 3,
       "slug": "fiqh-almuamalat-almuasira",
       "title": "فقه المعاملات المعاصرة وتطبيقاته في الاقتصاد الحديث",
-      "cover": "/assets/img/logo.png",
+      "cover": null,
       "author": {
         "id": 103,
         "name": "محمد بن صالح العثيمين",
@@ -43,7 +43,7 @@
       "id": 4,
       "slug": "tarikh-aljazair-alhadith",
       "title": "تاريخ الجزائر الحديث",
-      "cover": "/assets/img/logo.png",
+      "cover": null,
       "author": {
         "id": 104,
         "name": "أبو القاسم سعد الله",

@@ -19,8 +19,8 @@ const HEADER_HTML = `
 <header class="header-anim">
     <div class="navbar">
         <div class="logo">
-            <a href="/library.html">
-                <img src="/assets/img/logo.png" alt="شعار مكتبة سامي">
+            <a href="/index.html">
+                <img src="/assets/img/logo.png" alt="شعار دار سامي">
             </a>
         </div>
 
@@ -30,7 +30,8 @@ const HEADER_HTML = `
 
         <div class="nav-right desktop-nav">
             <ul class="link main-links">
-                <li><a href="/library.html" class="nav-link" data-nav="library"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
+                <li><a href="/index.html" class="nav-link" data-nav="home"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
+                <li><a href="/library.html" class="nav-link" data-nav="library"><i class='bx bx-book-alt'></i> المكتبة</a></li>
                 <li><a href="/class.html" class="nav-link" data-nav="class"><i class='bx bx-category'></i> أقسام الكتب</a></li>
                 <li><a href="/author.html" class="nav-link" data-nav="author"><i class='bx bx-user-pin'></i> مؤلفو الكتب</a></li>
 
@@ -63,11 +64,12 @@ const HEADER_HTML = `
 <div class="mobile-nav-overlay" id="mobileNavOverlay">
     <div class="mobile-nav">
         <div class="mobile-nav-header">
-            <div class="logo"><a href="/library.html"><i class='bx bx-book-reader'></i> Sami</a></div>
+            <div class="logo"><a href="/index.html"><i class='bx bx-book-reader'></i> سامي</a></div>
             <button class="close-mobile-nav" id="closeMobileNav"><i class='bx bx-x'></i></button>
         </div>
         <ul class="mobile-links">
-            <li><a href="/library.html" class="mobile-link" data-nav="library"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
+            <li><a href="/index.html" class="mobile-link" data-nav="home"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
+            <li><a href="/library.html" class="mobile-link" data-nav="library"><i class='bx bx-book-alt'></i> المكتبة</a></li>
             <li><a href="/class.html" class="mobile-link" data-nav="class"><i class='bx bx-category'></i> أقسام الكتب</a></li>
             <li><a href="/author.html" class="mobile-link" data-nav="author"><i class='bx bx-user-pin'></i> مؤلفو الكتب</a></li>
             <li class="mobile-dropdown">
@@ -161,7 +163,8 @@ const FOOTER_HTML = `
             <div class="footer-column">
                 <h3><i class='bx bx-link-alt'></i> روابط سريعة</h3>
                 <ul class="footer-links">
-                    <li><a href="/library.html"><i class='bx bx-chevron-left'></i> الرئيسية</a></li>
+                    <li><a href="/index.html"><i class='bx bx-chevron-left'></i> الرئيسية</a></li>
+                    <li><a href="/library.html"><i class='bx bx-chevron-left'></i> المكتبة</a></li>
                     <li><a href="/class.html"><i class='bx bx-chevron-left'></i> أقسام الكتب</a></li>
                     <li><a href="/author.html"><i class='bx bx-chevron-left'></i> المؤلفون</a></li>
                 </ul>
@@ -259,7 +262,7 @@ function renderAuthArea() {
         btn.addEventListener("click", (e) => {
             e.preventDefault();
             localStorage.removeItem("auth_token");
-            window.location.href = "/library.html";
+            window.location.href = "/index.html";
         });
     });
 }
@@ -579,3 +582,40 @@ function escapeText(str) {
 function escapeAttr(str) {
     return escapeText(str);
 }
+
+
+/* ========================================
+   ✨ الظهور عند التمرير — مشترك لكل الصفحات
+   ----------------------------------------
+   يُستدعى تلقائياً عند تحميل الصفحة،
+   وتستدعيه ملفات الصفحات مرة أخرى بعد رسم
+   العناصر القادمة من الـAPI.
+   ======================================== */
+
+const prefersReducedMotion =
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+let _revealObserver = null;
+
+function observeReveals() {
+    if (prefersReducedMotion) {
+        document.querySelectorAll(".reveal, .stagger")
+                .forEach(el => el.classList.add("in"));
+        return;
+    }
+
+    if (!_revealObserver) {
+        _revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add("in");
+                _revealObserver.unobserve(entry.target);   // مرة واحدة تكفي
+            });
+        }, { threshold: 0.12, rootMargin: "0px 0px -60px 0px" });
+    }
+
+    document.querySelectorAll(".reveal:not(.in), .stagger:not(.in)")
+            .forEach(el => _revealObserver.observe(el));
+}
+
+document.addEventListener("DOMContentLoaded", observeReveals);

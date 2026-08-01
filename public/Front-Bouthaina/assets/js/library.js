@@ -329,9 +329,5 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = "/upload-book.html";
         });
 
-        document.querySelector(".info-btn.secondary")?.addEventListener("click", () => {
-            // TODO: صفحة الإشهار — الأسبوع الخامس
-            alert("خدمة إشهار الكتب قريباً. تواصلي مع الدار للتفاصيل");
-        });
     }
 });

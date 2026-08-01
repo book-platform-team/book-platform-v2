@@ -1,0 +1,37 @@
+{
+  "success": true,
+  "data": {
+    "id": 102,
+    "name": "آسيا جبار",
+    "slug": "assia-djebar",
+    "bio": "روائية وباحثة اهتمّت بصوت المرأة في التاريخ الجزائري، وبما لم يُدوَّن من شهاداتٍ ظلّت تُروى شفاهاً. تنقّلت بين السرد والبحث والسينما.",
+    "photo": null,
+    "nationality": "الجزائر",
+    "birth_year": 1936,
+    "death_year": 2015,
+    "is_house_author": true,
+    "books_count": 1,
+    "rating": 4.2,
+    "books": [
+      {
+        "id": 2,
+        "slug": "asrar-alsahra",
+        "title": "أسرار الصحراء",
+        "cover": null,
+        "author": {
+          "id": 102,
+          "name": "آسيا جبار",
+          "slug": "assia-djebar"
+        },
+        "category": {
+          "id": 1,
+          "name": "الروايات والقصص الأدبية",
+          "slug": "novels"
+        },
+        "ratings_avg": 4.2,
+        "ratings_count": 7,
+        "publication_type": "house_edition"
+      }
+    ]
+  }
+}

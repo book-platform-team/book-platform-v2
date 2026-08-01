@@ -1,0 +1,37 @@
+{
+  "success": true,
+  "data": {
+    "id": 103,
+    "name": "محمد بن صالح العثيمين",
+    "slug": "ibn-uthaymeen",
+    "bio": "فقيه ومدرّس، عُرف بأسلوبٍ تعليمي يبسّط المسائل دون أن يفرّط في دقّتها. ترك شروحاً ودروساً في الفقه والعقيدة يعتمد عليها طلبة العلم.",
+    "photo": null,
+    "nationality": "السعودية",
+    "birth_year": 1929,
+    "death_year": 2001,
+    "is_house_author": false,
+    "books_count": 1,
+    "rating": 4.9,
+    "books": [
+      {
+        "id": 3,
+        "slug": "fiqh-almuamalat-almuasira",
+        "title": "فقه المعاملات المعاصرة وتطبيقاته في الاقتصاد الحديث",
+        "cover": null,
+        "author": {
+          "id": 103,
+          "name": "محمد بن صالح العثيمين",
+          "slug": "ibn-uthaymeen"
+        },
+        "category": {
+          "id": 1,
+          "name": "الحياة الإسلامية",
+          "slug": "islamic-life"
+        },
+        "ratings_avg": 4.9,
+        "ratings_count": 42,
+        "publication_type": "house_edition"
+      }
+    ]
+  }
+}

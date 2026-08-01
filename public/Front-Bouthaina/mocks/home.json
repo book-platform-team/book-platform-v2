@@ -6,7 +6,7 @@
         "id": 1,
         "slug": "rihla-fi-dhakirat-alwatan",
         "title": "رحلة في ذاكرة الوطن",
-        "cover": "/assets/img/logo.png",
+        "cover": null,
         "author": {
           "id": 101,
           "name": "الطاهر وطار",
@@ -44,7 +44,7 @@
         "id": 3,
         "slug": "fiqh-almuamalat-almuasira",
         "title": "فقه المعاملات المعاصرة وتطبيقاته في الاقتصاد الحديث",
-        "cover": "/assets/img/logo.png",
+        "cover": null,
         "author": {
           "id": 103,
           "name": "محمد بن صالح العثيمين",
@@ -63,7 +63,7 @@
         "id": 4,
         "slug": "tarikh-aljazair-alhadith",
         "title": "تاريخ الجزائر الحديث",
-        "cover": "/assets/img/logo.png",
+        "cover": null,
         "author": {
           "id": 104,
           "name": "أبو القاسم سعد الله",
@@ -101,7 +101,7 @@
         "id": 6,
         "slug": "aldawla-walmujtama",
         "title": "الدولة والمجتمع في الفكر السياسي العربي",
-        "cover": "/assets/img/logo.png",
+        "cover": null,
         "author": {
           "id": 106,
           "name": "علي الوردي",
@@ -122,7 +122,7 @@
         "id": 1,
         "slug": "rihla-fi-dhakirat-alwatan",
         "title": "رحلة في ذاكرة الوطن",
-        "cover": "/assets/img/logo.png",
+        "cover": null,
         "author": {
           "id": 101,
           "name": "الطاهر وطار",
@@ -141,7 +141,7 @@
         "id": 4,
         "slug": "tarikh-aljazair-alhadith",
         "title": "تاريخ الجزائر الحديث",
-        "cover": "/assets/img/logo.png",
+        "cover": null,
         "author": {
           "id": 104,
           "name": "أبو القاسم سعد الله",
@@ -160,7 +160,7 @@
         "id": 8,
         "slug": "alsira-alnabawiya-lilnashiin",
         "title": "السيرة النبوية للناشئين",
-        "cover": "/assets/img/logo.png",
+        "cover": null,
         "author": {
           "id": 108,
           "name": "عبد الرحمن السحيم",
@@ -181,7 +181,7 @@
         "id": 1,
         "slug": "rihla-fi-dhakirat-alwatan",
         "title": "رحلة في ذاكرة الوطن",
-        "cover": "/assets/img/logo.png",
+        "cover": null,
         "author": {
           "id": 101,
           "name": "الطاهر وطار",
@@ -219,7 +219,7 @@
         "id": 3,
         "slug": "fiqh-almuamalat-almuasira",
         "title": "فقه المعاملات المعاصرة وتطبيقاته في الاقتصاد الحديث",
-        "cover": "/assets/img/logo.png",
+        "cover": null,
         "author": {
           "id": 103,
           "name": "محمد بن صالح العثيمين",
@@ -238,7 +238,7 @@
         "id": 4,
         "slug": "tarikh-aljazair-alhadith",
         "title": "تاريخ الجزائر الحديث",
-        "cover": "/assets/img/logo.png",
+        "cover": null,
         "author": {
           "id": 104,
           "name": "أبو القاسم سعد الله",
@@ -257,7 +257,7 @@
         "id": 6,
         "slug": "aldawla-walmujtama",
         "title": "الدولة والمجتمع في الفكر السياسي العربي",
-        "cover": "/assets/img/logo.png",
+        "cover": null,
         "author": {
           "id": 106,
           "name": "علي الوردي",
@@ -276,7 +276,7 @@
         "id": 7,
         "slug": "hikayat-min-alqasba",
         "title": "حكايات من القصبة",
-        "cover": "/assets/img/logo.png",
+        "cover": null,
         "author": {
           "id": 107,
           "name": "مولود فرعون",

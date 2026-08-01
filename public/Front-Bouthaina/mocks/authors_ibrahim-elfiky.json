@@ -1,0 +1,37 @@
+{
+  "success": true,
+  "data": {
+    "id": 105,
+    "name": "إبراهيم الفقي",
+    "slug": "ibrahim-elfiky",
+    "bio": "كاتب ومحاضر في التنمية البشرية، ركّز على العادات اليومية وأثرها التراكمي في تغيير مسار الإنسان.",
+    "photo": null,
+    "nationality": "مصر",
+    "birth_year": 1950,
+    "death_year": 2012,
+    "is_house_author": false,
+    "books_count": 1,
+    "rating": 3.9,
+    "books": [
+      {
+        "id": 5,
+        "slug": "kayfa-tabni-adatak",
+        "title": "كيف تبني عاداتك",
+        "cover": null,
+        "author": {
+          "id": 105,
+          "name": "إبراهيم الفقي",
+          "slug": "ibrahim-elfiky"
+        },
+        "category": {
+          "id": 1,
+          "name": "التنمية البشرية وتطوير الذات",
+          "slug": "self-development"
+        },
+        "ratings_avg": 3.9,
+        "ratings_count": 11,
+        "publication_type": "author_submission"
+      }
+    ]
+  }
+}

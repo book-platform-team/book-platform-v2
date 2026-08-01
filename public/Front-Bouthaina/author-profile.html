@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المؤلف - مكتبة سامي الرقمية</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/assets/css/author-profile.css">
+</head>
+
+<body data-page="author">
+
+    <div id="site-header"></div>
+
+
+    <!-- ========================================
+         👤 ترويسة المؤلف
+         ======================================== -->
+    <section class="ap-hero">
+        <div class="ap-mesh" aria-hidden="true"></div>
+
+        <div class="wrap">
+            <!-- مسار التنقّل -->
+            <nav class="crumbs reveal" aria-label="مسار التنقّل">
+                <a href="/index.html">الرئيسية</a>
+                <i class='bx bx-chevron-left'></i>
+                <a href="/author.html">المؤلفون</a>
+                <i class='bx bx-chevron-left'></i>
+                <span id="crumbName">…</span>
+            </nav>
+
+            <div class="ap-head" id="authorHead">
+                <!-- يُملأ من author-profile.js -->
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ========================================
+         📖 نبذة
+         ======================================== -->
+    <section class="section ap-bio-section" id="bioSection" hidden>
+        <div class="wrap">
+            <header class="section-head reveal">
+                <div>
+                    <span class="kicker">نبذة</span>
+                    <h2>عن المؤلف</h2>
+                </div>
+            </header>
+            <div class="ap-bio reveal" id="authorBio"></div>
+        </div>
+    </section>
+
+
+    <!-- ========================================
+         📚 كتب المؤلف
+         ======================================== -->
+    <section class="section">
+        <div class="wrap">
+            <header class="section-head reveal">
+                <div>
+                    <span class="kicker">أعماله</span>
+                    <h2>كتب المؤلف</h2>
+                </div>
+                <a href="/library.html" class="link-more">
+                    كل الكتب <i class='bx bx-chevron-left'></i>
+                </a>
+            </header>
+
+            <div class="books-grid stagger" id="authorBooks"></div>
+        </div>
+    </section>
+
+
+    <div id="site-footer"></div>
+
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/partials.js"></script>
+    <script src="/assets/js/author-profile.js"></script>
+</body>
+</html>
