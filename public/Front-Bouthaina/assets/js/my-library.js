@@ -58,21 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const books = res.data || [];
 
             cache[shelf] = books;
-            updateCount(shelf, books.length);
-
-            if (books.length === 0) {
-                showEmpty(
-                    grid,
-                    EMPTY_TEXT[shelf] || "لا كتب هنا",
-                    "bx-bookmark",
-                    `<a href="/library.html" class="btn-retry">
-                        <i class='bx bx-book-open'></i> تصفّحي المكتبة
-                     </a>`
-                );
-                return;
-            }
-
-            render(books, shelf);
+            showShelf(books, shelf);
 
         } catch (error) {
             console.error("Error loading shelf:", error);
@@ -90,8 +76,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ========================================
-       🎨 الرسم
+       🎨 العرض
        ======================================== */
+
+    /** يعرض رفّاً من الذاكرة: العدّاد ثم الكتب أو الحالة الفارغة */
+    function showShelf(books, shelf) {
+        updateCount(shelf, books.length);
+
+        if (books.length === 0) {
+            showEmpty(
+                grid,
+                EMPTY_TEXT[shelf] || "لا كتب هنا",
+                "bx-bookmark",
+                `<a href="/library.html" class="btn-retry">
+                    <i class='bx bx-book-open'></i> تصفّحي المكتبة
+                 </a>`
+            );
+            return;
+        }
+
+        render(books, shelf);
+    }
+
 
     function render(books, shelf) {
         grid.innerHTML = books.map(book => {
@@ -147,8 +153,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     // لو أضفنا ثم حذفنا لظهر الكتاب في رفّين لحظياً.
                     await apiPut("/my/library", { book_id: bookId, shelf: target });
 
+                    // ننقل الكتاب داخل الذاكرة بدل إعادة جلبه.
+                    // أسرع، ويجعل النقل يظهر فوراً في الرف الهدف.
+                    const book = (cache[shelf] || []).find(b => String(b.id) === bookId);
+                    if (book) {
+                        book.shelf = target;
+                        cache[target] = [...(cache[target] || []), book];
+                    }
+
                     removeCard(card, shelf);
-                    delete cache[target];          // الرف الهدف تغيّر
                     bumpCount(target, +1);
 
                 } catch (error) {
@@ -178,6 +191,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 try {
                     // مستقلّ عن الرف — لا يُغيّر مكان الكتاب
                     await apiPut(`/my/library/${bookId}/favorite`, { is_favorite: !wasOn });
+
+                    const book = (cache[shelf] || []).find(b => String(b.id) === bookId);
+                    if (book) book.is_favorite = !wasOn;
+
                 } catch (error) {
                     console.error("Error toggling favorite:", error);
                     setFav(btn, wasOn);   // تراجع
@@ -199,6 +216,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 try {
                     await apiDelete(`/my/library/${bookId}`);
                     removeCard(card, shelf);
+                    // نُزيله من كل الرفوف في الذاكرة — حُذف من المكتبة كلياً
+                    Object.keys(cache).forEach(k => {
+                        cache[k] = (cache[k] || []).filter(b => String(b.id) !== bookId);
+                    });
 
                 } catch (error) {
                     console.error("Error removing book:", error);
@@ -223,7 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
             b => String(b.id) !== card.dataset.id
         );
 
-        bumpCount(shelf, -1);
+        updateCount(shelf, cache[shelf].length);
 
         if (grid.children.length === 0) {
             showEmpty(
@@ -272,13 +293,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // نستعمل النسخة المحفوظة إن وُجدت — تنقّل فوري بلا انتظار
             if (cache[shelf]) {
-                const books = cache[shelf];
-                updateCount(shelf, books.length);
-                books.length ? render(books, shelf)
-                             : showEmpty(grid, EMPTY_TEXT[shelf], "bx-bookmark",
-                                 `<a href="/library.html" class="btn-retry">
-                                     <i class='bx bx-book-open'></i> تصفّحي المكتبة
-                                  </a>`);
+                showShelf(cache[shelf], shelf);
             } else {
                 loadShelf(shelf);
             }

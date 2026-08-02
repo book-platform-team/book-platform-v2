@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function buildItem(n) {
         const meta   = TYPES[n.type] || { icon: "bx-bell", cls: "default" };
-        const unread = !n.read_at;
+        const unread = !n.read_at && !readLocally().includes(n.id);
 
         const div = document.createElement("article");
         div.className = "nt-item" + (unread ? " unread" : "");
@@ -146,22 +146,59 @@ document.addEventListener("DOMContentLoaded", () => {
        ======================================== */
 
     async function markRead(id, el) {
+        if (!el.classList.contains("unread")) return;   // نُقرئ مرة واحدة
+
         // نُحدّث الواجهة فوراً ثم نُرسل —
         // الانتظار لتغيير لون بطاقة يبدو بطيئاً بلا داعٍ.
+        const dot = el.querySelector(".nt-dot");
         el.classList.remove("unread");
-        el.querySelector(".nt-dot")?.remove();
+        dot?.remove();
 
         try {
             await apiPost(`/notifications/${id}/read`, {});
             bumpNotifCount(-1);   // معرّفة في partials.js — تُحفظ للجلسة
+            markAsReadLocally(id);
 
             if (!list.querySelector(".nt-item.unread") && markAllBtn) {
                 markAllBtn.hidden = true;
             }
         } catch (error) {
             console.error("Error marking as read:", error);
-            el.classList.add("unread");   // تراجع عن التحديث المتفائل
+            // تراجع عن التحديث المتفائل
+            el.classList.add("unread");
+            if (dot) el.prepend(dot);
         }
+    }
+
+
+    /* ========================================
+       💾 تذكّر ما قُرئ في هذه الجلسة
+       ----------------------------------------
+       ملفات الـmock ثابتة، والخادم قد يتأخّر في
+       عكس التغيير. بدون هذا يعود الإشعار "غير مقروء"
+       عند كل إعادة تحميل رغم أن المستخدم قرأه.
+       ======================================== */
+
+    const READ_KEY = "notif_read_ids";
+
+    function readLocally() {
+        try {
+            return JSON.parse(sessionStorage.getItem(READ_KEY)) || [];
+        } catch {
+            return [];
+        }
+    }
+
+    function markAsReadLocally(id) {
+        const ids = readLocally();
+        if (!ids.includes(id)) {
+            ids.push(id);
+            sessionStorage.setItem(READ_KEY, JSON.stringify(ids));
+        }
+    }
+
+    function markAllReadLocally(ids) {
+        sessionStorage.setItem(READ_KEY, JSON.stringify(ids));
     }
 
     markAllBtn?.addEventListener("click", async () => {
@@ -172,11 +209,14 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             await apiPost("/notifications/read-all", {});
 
-            list.querySelectorAll(".nt-item.unread").forEach(el => {
+            const ids = [];
+            list.querySelectorAll(".nt-item").forEach(el => {
                 el.classList.remove("unread");
                 el.querySelector(".nt-dot")?.remove();
+                if (el.dataset.id) ids.push(el.dataset.id);
             });
 
+            markAllReadLocally(ids);
             markAllBtn.hidden = true;
             setNotifCount(0);
 
