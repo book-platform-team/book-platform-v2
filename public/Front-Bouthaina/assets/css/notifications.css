@@ -1,0 +1,159 @@
+/* ========================================
+   🔔 دار سامي — الإشعارات
+   ----------------------------------------
+   ⚠️ المشترك في base.css — لا يُكرَّر هنا.
+   ======================================== */
+
+.nt-section { padding-top: 3.5rem; }
+
+
+/* ---------- زر تعليم الكل ---------- */
+
+.btn-mark-all {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .6rem 1.2rem;
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 30px;
+    color: var(--text-light);
+    font-family: inherit;
+    font-size: .85rem;
+    font-weight: 700;
+    transition: var(--transition-sm);
+    margin-bottom: .8rem;
+}
+
+.btn-mark-all:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.btn-mark-all:disabled { opacity: .6; cursor: default; }
+
+
+/* ========================================
+   📋 قائمة الإشعارات
+   ======================================== */
+
+.nt-list {
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+    min-height: 16rem;
+}
+
+.nt-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.2rem 1.4rem;
+    transition: var(--transition-sm);
+    position: relative;
+}
+
+.nt-item:hover {
+    border-color: rgba(122,12,22,.3);
+    box-shadow: 0 8px 24px rgba(122,12,22,.07);
+    transform: translateX(-4px);
+}
+
+/* غير المقروء: خلفية خفيفة وشريط جانبي */
+.nt-item.unread {
+    background: rgba(122,12,22,.04);
+    border-right: 4px solid var(--primary);
+}
+
+
+/* ---------- الأيقونة ---------- */
+
+.nt-icon {
+    width: 2.9rem; height: 2.9rem;
+    border-radius: 14px;
+    display: grid; place-items: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.nt-icon.approved { background: rgba(40,167,69,.12);  color: #28a745; }
+.nt-icon.rejected { background: rgba(220,53,69,.12);  color: #dc3545; }
+.nt-icon.review   { background: rgba(122,12,22,.09);  color: var(--primary); }
+.nt-icon.default  { background: var(--bg-alt);        color: var(--text-light); }
+
+
+/* ---------- المحتوى ---------- */
+
+.nt-body { flex: 1; min-width: 0; }
+
+.nt-title {
+    font-size: .98rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: .3rem;
+}
+
+.nt-text {
+    font-size: .88rem;
+    color: var(--text-light);
+    line-height: 1.8;
+    margin-bottom: .5rem;
+    word-break: break-word;
+}
+
+.nt-meta {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    flex-wrap: wrap;
+    font-size: .78rem;
+    color: var(--text-light);
+}
+
+.nt-link {
+    color: var(--primary);
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+}
+
+.nt-link i { transition: transform .25s; }
+.nt-link:hover i { transform: translateX(-4px); }
+
+/* نقطة "جديد" */
+.nt-dot {
+    width: .5rem; height: .5rem;
+    border-radius: 50%;
+    background: var(--primary);
+    flex-shrink: 0;
+    margin-top: .55rem;
+}
+
+
+/* ---------- سبب الرفض ---------- */
+
+.nt-reason {
+    margin-top: .6rem;
+    padding: .7rem .9rem;
+    background: rgba(220,53,69,.07);
+    border-right: 3px solid #dc3545;
+    border-radius: 8px;
+    font-size: .85rem;
+    color: var(--text);
+    line-height: 1.7;
+}
+
+
+/* ========================================
+   📱 التجاوب
+   ======================================== */
+
+@media (max-width: 600px) {
+    .nt-item { padding: 1rem; gap: .8rem; }
+    .nt-icon { width: 2.4rem; height: 2.4rem; font-size: 1.2rem; }
+    .nt-title { font-size: .92rem; }
+}

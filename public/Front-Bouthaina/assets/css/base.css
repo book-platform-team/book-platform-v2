@@ -1161,3 +1161,85 @@ a:focus, button:focus, input:focus, textarea:focus, select:focus {
     font-weight: 400;
     color: var(--text);
 }
+
+
+/* ========================================
+   🔔 جرس الإشعارات في الهيدر
+   ======================================== */
+
+.btn-notif {
+    position: relative;
+    width: 2.4rem; height: 2.4rem;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid var(--border);
+    color: var(--primary);
+    font-size: 1.25rem;
+    transition: var(--transition-sm);
+    flex-shrink: 0;
+}
+
+.btn-notif:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.notif-badge {
+    position: absolute;
+    top: -.3rem; left: -.3rem;
+    min-width: 1.15rem;
+    height: 1.15rem;
+    padding: 0 .3rem;
+    border-radius: 20px;
+    background: var(--primary-light);
+    color: #fff;
+    font-size: .62rem;
+    font-weight: 800;
+    display: grid;
+    place-items: center;
+    border: 2px solid #fff;
+    line-height: 1;
+}
+
+.notif-badge[hidden] { display: none; }
+
+
+/* ========================================
+   🔖 زر الحفظ في المكتبة
+   ======================================== */
+
+.btn-shelf {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    width: 100%;
+    padding: 0.85rem 1.2rem;
+    border: 2px solid var(--primary);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--primary);
+    font-family: inherit;
+    font-size: .92rem;
+    font-weight: 700;
+    transition: var(--transition);
+}
+
+.btn-shelf i { font-size: 1.2rem; }
+
+.btn-shelf:hover:not(:disabled) {
+    background: var(--primary);
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px var(--primary-glow);
+}
+
+.btn-shelf.saved {
+    background: var(--primary);
+    color: #fff;
+}
+
+.btn-shelf:disabled { opacity: .7; cursor: not-allowed; }

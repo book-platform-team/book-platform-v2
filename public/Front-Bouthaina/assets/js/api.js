@@ -117,6 +117,14 @@ function applyMockQuery(path, json) {
     data = data.filter(item => item.publication_type === type);
   }
 
+  /* ---------- رف المكتبة ---------- */
+  const shelf = params.get("shelf");
+  if (shelf === "favorites") {
+    data = data.filter(item => item.is_favorite);
+  } else if (shelf) {
+    data = data.filter(item => item.shelf === shelf);
+  }
+
   /* ---------- الترتيب ---------- */
   const sort = params.get("sort");
   if (sort === "popular") {

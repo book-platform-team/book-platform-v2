@@ -37,9 +37,53 @@ document.addEventListener("DOMContentLoaded", () => {
     setupReviewForm();
     setupQuoteForm();
     setupCopyShortLink();
+    setupShelfButton();
     gateGuestForms();
 
     loadBookDetails();
+
+
+    /* ========================================
+       🔖 الحفظ في مكتبتي
+       ----------------------------------------
+       الرف الافتراضي want_to_read — النية الأشيع
+       عند حفظ كتاب. النقل بين الرفوف يتم في
+       صفحة مكتبتي، لا هنا.
+       ======================================== */
+
+    function setupShelfButton() {
+        const btn = document.getElementById("shelfBtn");
+        if (!btn) return;
+
+        let saved = false;
+
+        btn.addEventListener("click", async () => {
+            if (!requireAuth("لحفظ الكتاب")) return;
+
+            const original = btn.innerHTML;
+            btn.disabled = true;
+
+            try {
+                if (saved) {
+                    await apiDelete(`/my/library/${bookId}`);
+                    saved = false;
+                    btn.classList.remove("saved");
+                    btn.innerHTML = `<i class='bx bx-bookmark'></i><span>احفظيه في مكتبتي</span>`;
+                } else {
+                    await apiPut("/my/library", { book_id: bookId, shelf: "want_to_read" });
+                    saved = true;
+                    btn.classList.add("saved");
+                    btn.innerHTML = `<i class='bx bxs-bookmark'></i><span>محفوظ في مكتبتي</span>`;
+                }
+            } catch (error) {
+                console.error("Error updating shelf:", error);
+                btn.innerHTML = original;
+                alert("تعذّر حفظ الكتاب");
+            } finally {
+                btn.disabled = false;
+            }
+        });
+    }
 
 
     /* ========================================
@@ -58,6 +102,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (reviewBox) showLoginRequired(reviewBox, "سجّلي الدخول لكتابة مراجعة");
         if (quoteBox)  showLoginRequired(quoteBox,  "سجّلي الدخول لإضافة اقتباس");
+
+        // زر الحفظ يبقى ظاهراً — requireAuth يتولّى التوجيه عند النقر
 
         if (rateBox) {
             rateBox.innerHTML = `

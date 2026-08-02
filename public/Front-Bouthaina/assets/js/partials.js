@@ -47,6 +47,7 @@ const HEADER_HTML = `
                         <a href="/login.html"><i class='bx bx-star'></i> مراجعات الكتب</a>
                         <a href="/login.html"><i class='bx bx-group'></i> مجتمع المثقفين</a>
                         <a href="/upload-book.html"><i class='bx bx-upload'></i> نشر كتاب</a>
+                        <a href="/about.html"><i class='bx bx-buildings'></i> عن الدار</a>
                         <a href="#" id="closeMenu" class="close-link"><i class='bx bx-x'></i> إغلاق</a>
                     </div>
                 </li>
@@ -249,6 +250,11 @@ function renderAuthArea() {
     `;
 
     const userHTML = `
+        <a href="/notifications.html" class="btn-notif" title="الإشعارات">
+            <i class='bx bx-bell'></i>
+            <span class="notif-badge" id="notifBadge" hidden>0</span>
+        </a>
+        <a href="/my-library.html" class="btn btn-login"><i class='bx bx-book-bookmark'></i> مكتبتي</a>
         <a href="/profile.html" class="btn btn-login"><i class='bx bx-user'></i> حسابي</a>
         <a href="#" class="btn btn-register" id="logoutBtn"><i class='bx bx-log-out'></i> خروج</a>
     `;
@@ -258,6 +264,8 @@ function renderAuthArea() {
     if (desktop) desktop.innerHTML = html;
     if (mobile)  mobile.innerHTML  = html;
 
+    if (loggedIn) loadNotifCount();
+
     document.querySelectorAll("#logoutBtn").forEach(btn => {
         btn.addEventListener("click", (e) => {
             e.preventDefault();
@@ -265,6 +273,67 @@ function renderAuthArea() {
             window.location.href = "/index.html";
         });
     });
+}
+
+
+/* ========================================
+   🔔 عدّاد الإشعارات
+   ----------------------------------------
+   العدّاد يعيش في مكان واحد (sessionStorage) لا في
+   كل صفحة على حدة. بدون ذلك، تعليمُ إشعار كمقروء
+   في صفحة ثم الانتقال لأخرى يُظهر الرقم القديم —
+   لأن كل صفحة تسأل الخادم من جديد.
+
+   sessionStorage لا localStorage: العدّاد يخصّ
+   الجلسة الحالية ولا معنى لبقائه بعد إغلاق المتصفح.
+   ======================================== */
+
+const NOTIF_KEY = "notif_unread";
+
+/** يقرأ العدّاد المحفوظ، أو null إن لم يُحفظ بعد */
+function getNotifCount() {
+    const v = sessionStorage.getItem(NOTIF_KEY);
+    return v === null ? null : (parseInt(v, 10) || 0);
+}
+
+/** يحفظ العدّاد ويحدّث كل الشارات في الصفحة */
+function setNotifCount(n) {
+    const value = Math.max(0, n);
+    sessionStorage.setItem(NOTIF_KEY, value);
+    paintNotifBadge(value);
+}
+
+/** يزيد أو ينقص العدّاد بمقدار */
+function bumpNotifCount(delta) {
+    setNotifCount((getNotifCount() ?? 0) + delta);
+}
+
+function paintNotifBadge(unread) {
+    document.querySelectorAll("#notifBadge").forEach(badge => {
+        badge.textContent = unread > 99 ? "٩٩+" : unread;
+        badge.hidden = unread === 0;
+    });
+}
+
+/**
+ * يعرض العدّاد المحفوظ فوراً (بلا وميض)، ثم يسأل
+ * الخادم مرة واحدة في الجلسة للتأكّد.
+ * فشلُه لا يُظهر خطأً — العدّاد ميزة إضافية لا أساسية.
+ */
+async function loadNotifCount() {
+    const cached = getNotifCount();
+
+    if (cached !== null) {
+        paintNotifBadge(cached);
+        return;                    // ✅ لا نسأل الخادم مجدداً في نفس الجلسة
+    }
+
+    try {
+        const res = await apiGet("/notifications/count");
+        setNotifCount(res.data?.unread ?? 0);
+    } catch {
+        /* صامت بقصد */
+    }
 }
 
 

@@ -1,0 +1,89 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "slug": "rihla-fi-dhakirat-alwatan",
+      "title": "رحلة في ذاكرة الوطن",
+      "cover": null,
+      "author": {
+        "id": 101,
+        "name": "الطاهر وطار",
+        "slug": "tahar-wattar"
+      },
+      "category": {
+        "id": 1,
+        "name": "الروايات والقصص الأدبية",
+        "slug": "novels"
+      },
+      "ratings_avg": 4.6,
+      "ratings_count": 18,
+      "publication_type": "house_edition",
+      "shelf": "want_to_read",
+      "is_favorite": true
+    },
+    {
+      "id": 4,
+      "slug": "tarikh-aljazair-alhadith",
+      "title": "تاريخ الجزائر الحديث",
+      "cover": null,
+      "author": {
+        "id": 104,
+        "name": "أبو القاسم سعد الله",
+        "slug": "saadallah"
+      },
+      "category": {
+        "id": 1,
+        "name": "التاريخ",
+        "slug": "history"
+      },
+      "ratings_avg": 4.7,
+      "ratings_count": 25,
+      "publication_type": "house_edition",
+      "shelf": "reading",
+      "is_favorite": false
+    },
+    {
+      "id": 8,
+      "slug": "alsira-alnabawiya-lilnashiin",
+      "title": "السيرة النبوية للناشئين",
+      "cover": null,
+      "author": {
+        "id": 108,
+        "name": "عبد الرحمن السحيم",
+        "slug": "alsuhaim"
+      },
+      "category": {
+        "id": 1,
+        "name": "الحياة الإسلامية",
+        "slug": "islamic-life"
+      },
+      "ratings_avg": 4.8,
+      "ratings_count": 31,
+      "publication_type": "house_edition",
+      "shelf": "read",
+      "is_favorite": true
+    },
+    {
+      "id": 2,
+      "slug": "asrar-alsahra",
+      "title": "أسرار الصحراء",
+      "cover": null,
+      "author": {
+        "id": 102,
+        "name": "آسيا جبار",
+        "slug": "assia-djebar"
+      },
+      "category": {
+        "id": 1,
+        "name": "الروايات والقصص الأدبية",
+        "slug": "novels"
+      },
+      "ratings_avg": 4.2,
+      "ratings_count": 7,
+      "publication_type": "house_edition",
+      "shelf": "want_to_read",
+      "is_favorite": false
+    }
+  ]
+}
