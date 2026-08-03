@@ -1243,3 +1243,23 @@ a:focus, button:focus, input:focus, textarea:focus, select:focus {
 }
 
 .btn-shelf:disabled { opacity: .7; cursor: not-allowed; }
+
+
+/* ========================================
+   ⚖️ سطر الموافقة على الشروط
+   ======================================== */
+
+.terms-consent {
+    font-size: .8rem;
+    color: var(--text-light);
+    text-align: center;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+.terms-consent a {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}

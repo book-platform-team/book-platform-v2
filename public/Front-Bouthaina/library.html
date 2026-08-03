@@ -17,8 +17,45 @@
     <div id="site-header"></div>
 
 
+    <!-- ⬇️ ترويسة القسم — تظهر فقط عند ?category= -->
+    <section class="cat-context" id="catContext" hidden>
+        <div class="wrap">
+            <nav class="crumbs" aria-label="مسار التنقّل">
+                <a href="/index.html">الرئيسية</a>
+                <i class='bx bx-chevron-left'></i>
+                <a href="/class.html">أقسام الكتب</a>
+                <i class='bx bx-chevron-left'></i>
+                <span id="catCrumb">…</span>
+            </nav>
+
+            <div class="cat-head">
+                <div class="cat-icon"><i class='bx bx-book' id="catIcon"></i></div>
+                <div class="cat-meta">
+                    <h1 id="catTitle">…</h1>
+                    <p id="catCount"></p>
+                </div>
+                <a href="/library.html" class="cat-clear" title="عرض كل الكتب">
+                    <i class='bx bx-x'></i>
+                    <span>كل الكتب</span>
+                </a>
+            </div>
+
+            <!-- الفروع كأزرار فلترة — بلا إعادة تحميل -->
+            <div class="cat-subs" id="catSubs"></div>
+
+            <div class="cat-search">
+                <i class='bx bx-search'></i>
+                <input type="text" id="catSearchInput" placeholder="ابحثي داخل هذا القسم...">
+                <button class="cat-search-clear" id="catSearchClear" hidden>
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+
     <!-- قسم البحث -->
-    <section class="search-section">
+    <section class="search-section" id="heroSection">
         <div class="search-glow"></div>
         <h1 class="gradient-text">سامي للطباعة و النشر و التوزيع</h1>
         <p>ابحث عن أي كتاب أو مؤلف بسهولة ويسر</p>

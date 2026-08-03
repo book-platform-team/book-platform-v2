@@ -352,6 +352,7 @@ Book    → belongsTo(Author), belongsTo(Category)
 | 10 | **تسجيل جوجل مؤجَّل — يُحذف الآن** | 1 أوت 2026 | حذف `SocialAuthController` وحقوله وروتاته |
 | 11 | **رف واحد لكل كتاب** — `unique(user_id, book_id)` | 1 أوت 2026 | النقل بين الرفوف `UPDATE` لا `INSERT`+`DELETE` |
 | 12 | **`is_favorite` عمود لا رف** | 1 أوت 2026 | مستقلّ عن الرف تماماً |
+| 13 | **الفلترة بقسم أب تشمل فروعه** | 2 أوت 2026 | `whereIn('category_id', [$cat->id, ...$cat->children->pluck('id')])` |
 
 ---
 

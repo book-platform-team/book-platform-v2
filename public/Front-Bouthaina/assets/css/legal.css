@@ -1,0 +1,433 @@
+/* ========================================
+   ⚖️ دار سامي — الصفحات القانونية و 404
+   ----------------------------------------
+   ⚠️ المشترك في base.css — لا يُكرَّر هنا.
+   يُستعمل في: terms.html · privacy.html · 404.html
+   ======================================== */
+
+
+/* ========================================
+   🎬 ترويسة الصفحة القانونية
+   ======================================== */
+
+.lg-hero {
+    padding: 3rem 0 2.5rem;
+    background: linear-gradient(180deg, #fdfbfa 0%, var(--bg-alt) 100%);
+    border-bottom: 1px solid var(--border);
+}
+
+.crumbs {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .82rem;
+    color: var(--text-light);
+    margin-bottom: 1.6rem;
+    flex-wrap: wrap;
+}
+
+.crumbs a:hover { color: var(--primary); }
+.crumbs i { font-size: 1rem; opacity: .5; }
+.crumbs span { color: var(--primary); font-weight: 700; }
+
+.lg-title {
+    font-size: clamp(1.7rem, 4vw, 2.6rem);
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: .6rem;
+}
+
+.lg-updated {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .85rem;
+    color: var(--text-light);
+}
+
+.lg-updated i { color: var(--primary); font-size: 1.05rem; }
+
+
+/* ========================================
+   📐 التخطيط: فهرس + محتوى
+   ======================================== */
+
+.lg-section { padding-top: 3rem; }
+
+.lg-layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+
+/* ---------- الفهرس الجانبي ---------- */
+
+.lg-toc {
+    position: sticky;
+    top: 5.5rem;               /* أسفل الهيدر الثابت */
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.4rem;
+}
+
+.lg-toc h2 {
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    color: var(--text-light);
+    margin-bottom: 1rem;
+    padding-bottom: .7rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.lg-toc nav {
+    display: flex;
+    flex-direction: column;
+    gap: .15rem;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.lg-toc a {
+    padding: .5rem .7rem;
+    border-radius: 8px;
+    font-size: .86rem;
+    color: var(--text-light);
+    border-right: 2px solid transparent;
+    transition: var(--transition-sm);
+}
+
+.lg-toc a:hover {
+    background: rgba(122,12,22,.06);
+    color: var(--primary);
+}
+
+/* القسم الظاهر حالياً — يُحدَّد من legal.js */
+.lg-toc a.active {
+    background: rgba(122,12,22,.08);
+    color: var(--primary);
+    font-weight: 700;
+    border-right-color: var(--primary);
+}
+
+
+/* ========================================
+   📄 المحتوى
+   ======================================== */
+
+.lg-content { max-width: 780px; }
+
+.lg-content section { margin-bottom: 2.8rem; }
+
+/* هامش علوي يمنع العنوان من الاختفاء خلف الهيدر عند القفز إليه */
+.lg-content section[id] { scroll-margin-top: 5.5rem; }
+
+.lg-content h2 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 1rem;
+    padding-bottom: .6rem;
+    border-bottom: 2px solid var(--border);
+    position: relative;
+}
+
+.lg-content h2::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; right: 0;
+    width: 2.5rem; height: 2px;
+    background: var(--primary-gradient);
+}
+
+.lg-content h3 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 1.4rem 0 .7rem;
+}
+
+.lg-content p {
+    color: var(--text-light);
+    line-height: 2.1;
+    margin-bottom: 1rem;
+    font-size: .95rem;
+}
+
+.lg-content strong { color: var(--text); font-weight: 800; }
+.lg-content em { font-style: normal; color: var(--primary); font-weight: 700; }
+
+.lg-content a:not(.btn-hero) {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.lg-content ul {
+    display: grid;
+    gap: .7rem;
+    margin-bottom: 1.2rem;
+    padding-right: .2rem;
+}
+
+.lg-content li {
+    position: relative;
+    padding-right: 1.4rem;
+    color: var(--text-light);
+    line-height: 1.9;
+    font-size: .94rem;
+}
+
+.lg-content li::before {
+    content: '';
+    position: absolute;
+    right: 0; top: .68rem;
+    width: .42rem; height: .42rem;
+    border-radius: 50%;
+    background: var(--primary);
+}
+
+.lg-lead {
+    font-size: 1.05rem !important;
+    line-height: 2.2 !important;
+    color: var(--text) !important;
+    padding: 1.3rem 1.5rem;
+    background: var(--bg-alt);
+    border-right: 4px solid var(--primary);
+    border-radius: var(--radius);
+}
+
+
+/* ---------- تنبيه المسودّة ---------- */
+
+.lg-note {
+    display: flex;
+    gap: .9rem;
+    align-items: flex-start;
+    background: rgba(255,193,7,.1);
+    border-right: 4px solid #ffc107;
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    margin-bottom: 2.5rem;
+}
+
+.lg-note i { font-size: 1.3rem; color: #d39e00; flex-shrink: 0; }
+.lg-note p { margin: 0; font-size: .88rem; color: var(--text); }
+
+
+/* ---------- فقرة مُبرَزة ---------- */
+
+.lg-highlight {
+    display: flex !important;
+    align-items: center;
+    gap: .8rem;
+    background: rgba(122,12,22,.06);
+    border-right: 4px solid var(--primary);
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    color: var(--text) !important;
+}
+
+.lg-highlight i { font-size: 1.4rem; color: var(--primary); flex-shrink: 0; }
+
+
+/* ---------- جدول ---------- */
+
+.lg-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.2rem;
+    font-size: .9rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.lg-table th {
+    background: var(--bg-alt);
+    color: var(--text);
+    font-weight: 800;
+    text-align: right;
+    padding: .8rem 1rem;
+    border-bottom: 2px solid var(--border);
+}
+
+.lg-table td {
+    padding: .8rem 1rem;
+    color: var(--text-light);
+    border-bottom: 1px solid var(--border);
+}
+
+.lg-table tr:last-child td { border-bottom: none; }
+.lg-table tbody tr:hover { background: rgba(122,12,22,.03); }
+
+
+/* ---------- بطاقات الحقوق ---------- */
+
+.lg-rights {
+    display: grid;
+    gap: .7rem;
+    margin-bottom: 1.2rem;
+}
+
+.lg-rights > div {
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: .9rem 1.1rem;
+    transition: var(--transition-sm);
+}
+
+.lg-rights > div:hover {
+    border-color: rgba(122,12,22,.3);
+    transform: translateX(-4px);
+}
+
+.lg-rights i {
+    font-size: 1.3rem;
+    color: var(--primary);
+    background: rgba(122,12,22,.08);
+    width: 2.4rem; height: 2.4rem;
+    border-radius: 10px;
+    display: grid; place-items: center;
+    flex-shrink: 0;
+}
+
+.lg-rights span { font-size: .92rem; color: var(--text-light); }
+
+
+/* ---------- روابط أسفل الصفحة ---------- */
+
+.lg-links {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--border);
+}
+
+
+/* ========================================
+   🚫 صفحة 404
+   ======================================== */
+
+.nf-section {
+    position: relative;
+    min-height: 70vh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    isolation: isolate;
+    background: #fdfbfa;
+    width: 100%;
+    max-width: 100vw;
+}
+
+.nf-mesh {
+    position: absolute;
+    inset: -30%;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(38% 46% at 30% 30%, rgba(122,12,22,.16), transparent 62%),
+        radial-gradient(34% 42% at 72% 70%, rgba(195,20,50,.12), transparent 60%);
+    filter: blur(26px);
+}
+
+.nf-inner {
+    text-align: center;
+    padding: 4.5rem 1.25rem;
+}
+
+.nf-code {
+    font-size: clamp(4.5rem, 16vw, 9rem);
+    font-weight: 900;
+    line-height: 1;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: .5rem;
+    opacity: .9;
+}
+
+.nf-title {
+    font-size: clamp(1.4rem, 3.5vw, 2.1rem);
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: .9rem;
+}
+
+.nf-text {
+    color: var(--text-light);
+    line-height: 2;
+    max-width: 480px;
+    margin: 0 auto 2.2rem;
+    font-size: .98rem;
+}
+
+.nf-actions {
+    display: flex;
+    gap: .8rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+}
+
+.nf-suggest {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: .88rem;
+    color: var(--text-light);
+}
+
+.nf-suggest a {
+    color: var(--primary);
+    font-weight: 700;
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+}
+
+.nf-suggest a:hover { border-bottom-color: var(--primary); }
+
+
+/* ========================================
+   📱 التجاوب
+   ======================================== */
+
+@media (max-width: 900px) {
+    .lg-layout { grid-template-columns: 1fr; gap: 2rem; }
+
+    /* الفهرس يصير شريطاً أفقياً فوق المحتوى */
+    .lg-toc { position: static; }
+    .lg-toc nav {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: .4rem;
+        padding-bottom: .4rem;
+        max-height: none;
+    }
+    .lg-toc a {
+        white-space: nowrap;
+        border-right: none;
+        border-bottom: 2px solid transparent;
+    }
+    .lg-toc a.active { border-right: none; border-bottom-color: var(--primary); }
+}
+
+@media (max-width: 600px) {
+    .lg-content h2 { font-size: 1.1rem; }
+    .lg-table { font-size: .84rem; }
+    .lg-table th, .lg-table td { padding: .6rem .7rem; }
+    .nf-actions { flex-direction: column; align-items: stretch; }
+    .nf-actions .btn-hero { justify-content: center; }
+}

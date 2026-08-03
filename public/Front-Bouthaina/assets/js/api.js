@@ -70,7 +70,44 @@ async function apiGet(path) {
   // في وضع mock نطبّق الفلترة والترتيب محلياً
   // حتى تتصرّف الملفات الثابتة كأنها API حقيقي،
   // وتصبح كل الحالات (فارغ · نتائج · ترتيب) قابلة للاختبار الآن.
-  return API.MOCK ? applyMockQuery(path, json) : json;
+  if (!API.MOCK) return json;
+
+  if (path.includes("category=")) await ensureCatTree();
+  return applyMockQuery(path, json);
+}
+
+
+/* ========================================
+   🌳 شجرة التصنيفات (وضع mock فقط)
+   ----------------------------------------
+   نحفظها مرة واحدة لنعرف فروع كل قسم،
+   فالفلترة بقسم أب يجب أن تشمل كتب فروعه.
+   ======================================== */
+
+let _catTree = null;
+
+async function ensureCatTree() {
+  if (_catTree) return _catTree;
+  try {
+    const res = await fetch("/mocks/categories.json");
+    const json = await res.json();
+    _catTree = json.data || [];
+  } catch {
+    _catTree = [];
+  }
+  return _catTree;
+}
+
+/** يرجّع سلاگ القسم وكل فروعه */
+function categoryFamily(slug) {
+  const cats = _catTree || [];
+
+  const parent = cats.find(c => c.slug === slug);
+  if (parent) {
+    return [slug, ...(parent.children || []).map(c => c.slug)];
+  }
+
+  return [slug];   // فرع — يُفلتر بنفسه فقط
 }
 
 
@@ -99,10 +136,13 @@ function applyMockQuery(path, json) {
     });
   }
 
-  /* ---------- تصنيف ---------- */
+  /* ---------- تصنيف ----------
+     القسم الأب يشمل كتب فروعه — وإلا اختفت
+     كتب "روايات عربية" عند تصفّح "الروايات". */
   const category = params.get("category");
   if (category) {
-    data = data.filter(item => item.category?.slug === category);
+    const family = categoryFamily(category);
+    data = data.filter(item => family.includes(item.category?.slug));
   }
 
   /* ---------- مؤلف ---------- */

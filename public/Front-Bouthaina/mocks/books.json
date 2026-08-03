@@ -13,8 +13,8 @@
       },
       "category": {
         "id": 1,
-        "name": "الروايات والقصص الأدبية",
-        "slug": "novels"
+        "name": "روايات عربية",
+        "slug": "arabic-novels"
       },
       "ratings_avg": 4.6,
       "ratings_count": 18,
@@ -32,8 +32,8 @@
       },
       "category": {
         "id": 1,
-        "name": "الروايات والقصص الأدبية",
-        "slug": "novels"
+        "name": "روايات عالمية",
+        "slug": "world-novels"
       },
       "ratings_avg": 4.2,
       "ratings_count": 7,
@@ -51,8 +51,8 @@
       },
       "category": {
         "id": 1,
-        "name": "الحياة الإسلامية",
-        "slug": "islamic-life"
+        "name": "الفقه الإسلامي",
+        "slug": "fiqh"
       },
       "ratings_avg": 4.9,
       "ratings_count": 42,
@@ -70,8 +70,8 @@
       },
       "category": {
         "id": 1,
-        "name": "التاريخ",
-        "slug": "history"
+        "name": "تاريخ الجزائر",
+        "slug": "algeria-history"
       },
       "ratings_avg": 4.7,
       "ratings_count": 25,
@@ -146,8 +146,8 @@
       },
       "category": {
         "id": 1,
-        "name": "الحياة الإسلامية",
-        "slug": "islamic-life"
+        "name": "السيرة النبوية",
+        "slug": "seerah"
       },
       "ratings_avg": 4.8,
       "ratings_count": 31,
@@ -203,8 +203,8 @@
       },
       "category": {
         "id": 1,
-        "name": "الروايات والقصص الأدبية",
-        "slug": "novels"
+        "name": "قصص قصيرة",
+        "slug": "short-stories"
       },
       "ratings_avg": 4.0,
       "ratings_count": 6,
@@ -222,8 +222,8 @@
       },
       "category": {
         "id": 1,
-        "name": "التاريخ",
-        "slug": "history"
+        "name": "التاريخ الإسلامي",
+        "slug": "islamic-history"
       },
       "ratings_avg": 4.3,
       "ratings_count": 13,

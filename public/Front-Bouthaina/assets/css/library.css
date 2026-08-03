@@ -547,6 +547,200 @@
 
 
 /* ========================================
+   🏷️ ترويسة سياق القسم
+   ----------------------------------------
+   تظهر بدل الهيرو عند ?category=
+   ======================================== */
+
+.cat-context {
+    padding: 2.5rem 0 2rem;
+    background: linear-gradient(180deg, #fdfbfa 0%, var(--bg-alt) 100%);
+    border-bottom: 1px solid var(--border);
+}
+
+.cat-context[hidden] { display: none; }
+
+.cat-context .crumbs {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .82rem;
+    color: var(--text-light);
+    margin-bottom: 1.4rem;
+    flex-wrap: wrap;
+}
+
+.cat-context .crumbs a:hover { color: var(--primary); }
+.cat-context .crumbs i { font-size: 1rem; opacity: .5; }
+.cat-context .crumbs span { color: var(--primary); font-weight: 700; }
+
+
+/* ---------- رأس القسم ---------- */
+
+.cat-head {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-bottom: 1.4rem;
+    flex-wrap: wrap;
+}
+
+.cat-icon {
+    width: 3.6rem; height: 3.6rem;
+    border-radius: 16px;
+    display: grid; place-items: center;
+    background: var(--primary-gradient);
+    color: #fff;
+    font-size: 1.8rem;
+    flex-shrink: 0;
+    box-shadow: 0 8px 22px var(--primary-glow);
+}
+
+.cat-meta { flex: 1; min-width: 200px; }
+
+.cat-meta h1 {
+    font-size: clamp(1.4rem, 3.2vw, 2rem);
+    font-weight: 900;
+    color: var(--text);
+    line-height: 1.3;
+    margin-bottom: .2rem;
+}
+
+.cat-meta p {
+    font-size: .86rem;
+    color: var(--text-light);
+}
+
+.cat-clear {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .55rem 1.1rem;
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 30px;
+    color: var(--text-light);
+    font-size: .84rem;
+    font-weight: 700;
+    transition: var(--transition-sm);
+    flex-shrink: 0;
+}
+
+.cat-clear:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+
+/* ---------- الفروع كأزرار ---------- */
+
+.cat-subs {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.4rem;
+}
+
+.cat-subs[hidden] { display: none; }
+
+.sub-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .45rem 1rem;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    color: var(--text-light);
+    font-family: inherit;
+    font-size: .84rem;
+    font-weight: 600;
+    transition: var(--transition-sm);
+    white-space: nowrap;
+}
+
+.sub-chip span {
+    font-size: .72rem;
+    font-weight: 800;
+    background: var(--bg-alt);
+    padding: 1px 7px;
+    border-radius: 20px;
+}
+
+.sub-chip:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.sub-chip.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+}
+
+.sub-chip.active span {
+    background: rgba(255,255,255,.25);
+    color: #fff;
+}
+
+
+/* ---------- البحث داخل القسم ---------- */
+
+.cat-search {
+    position: relative;
+    max-width: 460px;
+}
+
+.cat-search > i {
+    position: absolute;
+    right: 1.1rem; top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary);
+    font-size: 1.15rem;
+    pointer-events: none;
+}
+
+.cat-search input {
+    width: 100%;
+    padding: .8rem 3rem .8rem 2.6rem;
+    border: 2px solid var(--border);
+    border-radius: 40px;
+    font-family: inherit;
+    font-size: .92rem;
+    background: #fff;
+    color: var(--text);
+    transition: var(--transition-sm);
+}
+
+.cat-search input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+.cat-search-clear {
+    position: absolute;
+    left: .9rem; top: 50%;
+    transform: translateY(-50%);
+    width: 1.8rem; height: 1.8rem;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: var(--bg-alt);
+    border: none;
+    color: var(--text-light);
+    font-size: 1rem;
+    transition: var(--transition-sm);
+}
+
+.cat-search-clear:hover {
+    background: var(--primary);
+    color: #fff;
+}
+
+.cat-search-clear[hidden] { display: none; }
+
+
+/* ========================================
    📱 التجاوب
    ======================================== */
 
@@ -558,6 +752,12 @@
 }
 
 @media (max-width: 768px) {
+    .cat-context { padding: 2rem 0 1.6rem; }
+    .cat-icon { width: 3rem; height: 3rem; font-size: 1.5rem; }
+    .cat-clear span { display: none; }
+    .cat-subs { flex-wrap: nowrap; overflow-x: auto; padding-bottom: .4rem; }
+    .cat-search { max-width: 100%; }
+
     .search-section { padding: 60px 15px 45px; }
     .search-section h1 { font-size: 2rem; }
     .search-section p  { font-size: 1rem; }

@@ -175,9 +175,16 @@ const FOOTER_HTML = `
                 <h3><i class='bx bx-cog'></i> خدماتنا</h3>
                 <ul class="footer-links">
                     <li><a href="/upload-book.html"><i class='bx bx-chevron-left'></i> نشر كتاب</a></li>
-                    <!-- TODO: صفحات الاقتباسات والمراجعات — لاحقاً -->
-                    <li><a href="#"><i class='bx bx-chevron-left'></i> اقتباسات</a></li>
-                    <li><a href="#"><i class='bx bx-chevron-left'></i> مراجعات</a></li>
+                    <li><a href="/about.html#publish"><i class='bx bx-chevron-left'></i> شروط النشر</a></li>
+                    <li><a href="/about.html#contact"><i class='bx bx-chevron-left'></i> تواصل معنا</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3><i class='bx bx-file'></i> قانوني</h3>
+                <ul class="footer-links">
+                    <li><a href="/terms.html"><i class='bx bx-chevron-left'></i> شروط الاستخدام</a></li>
+                    <li><a href="/privacy.html"><i class='bx bx-chevron-left'></i> سياسة الخصوصية</a></li>
                 </ul>
             </div>
         </div>

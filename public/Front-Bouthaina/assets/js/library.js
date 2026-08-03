@@ -18,12 +18,32 @@ document.addEventListener("DOMContentLoaded", () => {
     const categoryList = document.getElementById("categoriesList");
     const authorsList  = document.getElementById("authorsList");
 
-    /* ---------- حالة الصفحة ---------- */
+    /* ---------- حالة الصفحة ----------
+       تُقرأ من الرابط أولاً: ?category=novels&q=...
+       هكذا يصبح الرابط قابلاً للمشاركة والحفظ. */
+
+    const urlParams = new URLSearchParams(location.search);
 
     const state = {
-        sort: "latest",     // latest | popular | trending
-        category: null,
-        q: null,
+        sort:     urlParams.get("sort") || "latest",
+        category: urlParams.get("category"),
+        sub:        null,                    // فرع داخل القسم
+        parentSlug: null,                    // الأب — لتعليم العمود الجانبي
+        q:        urlParams.get("q"),
+    };
+
+    /* عناصر ترويسة القسم */
+    const ctx = {
+        box:      document.getElementById("catContext"),
+        hero:     document.getElementById("heroSection"),
+        info:     document.querySelector(".info-section"),
+        crumb:    document.getElementById("catCrumb"),
+        title:    document.getElementById("catTitle"),
+        count:    document.getElementById("catCount"),
+        icon:     document.getElementById("catIcon"),
+        subs:     document.getElementById("catSubs"),
+        search:   document.getElementById("catSearchInput"),
+        clearBtn: document.getElementById("catSearchClear"),
     };
 
     /* ---------- التشغيل ---------- */
@@ -31,10 +51,143 @@ document.addEventListener("DOMContentLoaded", () => {
     initFilters();
     initHeroSearch();
     initInfoButtons();
+    initCatSearch();
 
+    applyContext();      // يقرّر شكل الصفحة قبل جلب أي شيء
     loadBooks();
     loadCategories();
     loadAuthors();
+
+
+    /* ========================================
+       🏷️ سياق القسم
+       ----------------------------------------
+       الصفحة نفسها تخدم حالتين: تصفّح عام،
+       وتصفّح قسم بعينه. الفرق في الترويسة فقط —
+       أما الفلترة والترتيب والشبكة فمشتركة،
+       فلا داعي لصفحة ثانية تكرّرها.
+       ======================================== */
+
+    async function applyContext() {
+        if (!state.category) return;           // تصفّح عام — لا شيء يتغيّر
+
+        // نُخفي الهيرو وقسم المعلومات — كلاهما ترويج عام
+        // لا محلّ له داخل قسم بعينه، ويجعل الصفحة تبدو كالرئيسية.
+        if (ctx.hero) ctx.hero.hidden = true;
+        if (ctx.info) ctx.info.hidden = true;
+        if (ctx.box)  ctx.box.hidden  = false;
+
+        try {
+            const res  = await apiGet("/categories");
+            const cats = res.data || [];
+
+            // القسم قد يكون رئيسياً أو فرعاً
+            let cat    = cats.find(c => c.slug === state.category);
+            let parent = null;
+
+            if (!cat) {
+                for (const c of cats) {
+                    const sub = (c.children || []).find(x => x.slug === state.category);
+                    if (sub) { cat = sub; parent = c; break; }
+                }
+            }
+
+            if (!cat) {
+                // قسم غير موجود — نعود للتصفّح العام بدل ترويسة فارغة
+                if (ctx.box)  ctx.box.hidden  = true;
+                if (ctx.hero) ctx.hero.hidden = false;
+                if (ctx.info) ctx.info.hidden = false;
+                state.category = null;
+                return;
+            }
+
+            // نحفظ الأب لتعليم العمود الجانبي لاحقاً
+            state.parentSlug = parent ? parent.slug : cat.slug;
+
+            renderContext(cat, parent);
+            highlightSidebar();
+
+        } catch (error) {
+            console.error("Error loading category context:", error);
+            if (ctx.title) ctx.title.textContent = "تصفّح القسم";
+        }
+    }
+
+    function renderContext(cat, parent) {
+        document.title = `${cat.name} - مكتبة سامي الرقمية`;
+
+        if (ctx.crumb) ctx.crumb.textContent = cat.name;
+        if (ctx.title) ctx.title.textContent = cat.name;
+        if (ctx.icon)  ctx.icon.className = `bx ${cat.icon || "bx-book"}`;
+
+        if (ctx.count) {
+            const n = cat.books_count ?? 0;
+            ctx.count.textContent = parent
+                ? `${n} كتاباً · ضمن ${parent.name}`
+                : `${n} كتاباً`;
+        }
+
+        renderSubs(cat.children || []);
+    }
+
+    /* الفروع أزرار فلترة لا روابط — التنقّل بينها
+       يجب أن يكون فورياً لا إعادة تحميل. */
+    function renderSubs(children) {
+        if (!ctx.subs) return;
+
+        if (children.length === 0) {
+            ctx.subs.hidden = true;
+            return;
+        }
+
+        ctx.subs.hidden = false;
+        ctx.subs.innerHTML =
+            `<button class="sub-chip active" data-sub="">الكل</button>` +
+            children.map(sub => `
+                <button class="sub-chip" data-sub="${escapeAttr(sub.slug)}">
+                    ${escapeText(sub.name)}
+                    <span>${sub.books_count ?? 0}</span>
+                </button>
+            `).join("");
+
+        ctx.subs.querySelectorAll(".sub-chip").forEach(chip => {
+            chip.addEventListener("click", () => {
+                ctx.subs.querySelectorAll(".sub-chip")
+                        .forEach(c => c.classList.remove("active"));
+                chip.classList.add("active");
+
+                state.sub = chip.dataset.sub || null;
+                loadBooks();
+            });
+        });
+    }
+
+    /* البحث داخل القسم — يبقى محصوراً فيه */
+    function initCatSearch() {
+        if (!ctx.search) return;
+
+        let timer = null;
+
+        ctx.search.addEventListener("input", () => {
+            const q = ctx.search.value.trim();
+            if (ctx.clearBtn) ctx.clearBtn.hidden = !q;
+
+            // تأخير بسيط يمنع طلباً عند كل حرف
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                state.q = q || null;
+                loadBooks();
+            }, 350);
+        });
+
+        ctx.clearBtn?.addEventListener("click", () => {
+            ctx.search.value = "";
+            ctx.clearBtn.hidden = true;
+            state.q = null;
+            loadBooks();
+            ctx.search.focus();
+        });
+    }
 
 
     /* ========================================
@@ -48,8 +201,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const params = new URLSearchParams({ sort: state.sort });
-            if (state.category) params.set("category", state.category);
-            if (state.q)        params.set("q", state.q);
+            // الفرع أضيق من القسم — يُقدَّم عليه عند وجوده
+            const cat = state.sub || state.category;
+            if (cat)     params.set("category", cat);
+            if (state.q) params.set("q", state.q);
+
+            syncUrl();
 
             const res   = await apiGet(`/books?${params.toString()}`);
             const books = res.data || [];
@@ -71,6 +228,33 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Error loading books:", error);
             showError(booksGrid, loadBooks);
         }
+    }
+
+
+    /* يعلّم القسم الحالي في العمود الجانبي.
+       إن كان المعروض فرعاً، نعلّم أباه — فالعمود
+       لا يعرض إلا الأقسام الرئيسية. */
+    function highlightSidebar() {
+        if (!categoryList || !state.category) return;
+
+        const slug = state.parentSlug || state.category;
+
+        categoryList.querySelectorAll("li").forEach(li => {
+            li.classList.toggle("active", li.dataset.category === slug);
+        });
+    }
+
+
+    /* يُبقي الرابط مطابقاً لحالة الصفحة —
+       حتى يعمل زر الرجوع وتكون المشاركة صحيحة */
+    function syncUrl() {
+        const p = new URLSearchParams();
+        if (state.category)          p.set("category", state.category);
+        if (state.q)                 p.set("q", state.q);
+        if (state.sort !== "latest") p.set("sort", state.sort);
+
+        const url = p.toString() ? `?${p}` : location.pathname;
+        history.replaceState(null, "", url);
     }
 
 
@@ -100,6 +284,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 </li>
             `).join("");
 
+            highlightSidebar();
+
             categoryList.querySelectorAll("li").forEach(li => {
                 li.addEventListener("click", () => {
                     const slug = li.dataset.category;
@@ -109,14 +295,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     categoryList.querySelectorAll("li").forEach(x => x.classList.remove("active"));
 
                     if (isActive) {
-                        state.category = null;
+                        // إلغاء الفلتر — نعود للتصفّح العام
+                        window.location.href = "/library.html";
                     } else {
-                        li.classList.add("active");
-                        state.category = slug;
+                        // ننتقل إلى سياق القسم كاملاً (ترويسة وفروع وبحث)
+                        window.location.href =
+                            `/library.html?category=${encodeURIComponent(slug)}`;
                     }
-
-                    loadBooks();
-                    booksGrid?.scrollIntoView({ behavior: "smooth", block: "start" });
                 });
             });
 
