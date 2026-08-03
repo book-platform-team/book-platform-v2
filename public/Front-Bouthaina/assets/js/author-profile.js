@@ -58,6 +58,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             document.title = `${author.name} - مكتبة سامي الرقمية`;
 
+            // وسوم المشاركة — الخادم يولّدها نهائياً (انظري API.md)
+            const desc = (author.bio || `كتب ${author.name} في مكتبة سامي الرقمية`)
+                            .slice(0, 155).trim();
+            document.querySelector('meta[name="description"]')?.setAttribute("content", desc);
+            document.querySelector('meta[property="og:title"]')?.setAttribute("content", author.name);
+            document.querySelector('meta[property="og:description"]')?.setAttribute("content", desc);
+            document.querySelector('meta[property="og:url"]')?.setAttribute("content", location.href);
+            document.querySelector('link[rel="canonical"]')?.setAttribute("href", location.href);
+
             observeReveals();
 
         } catch (error) {

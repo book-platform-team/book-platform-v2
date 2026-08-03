@@ -155,7 +155,57 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    /* ========================================
+       🔖 وسوم المشاركة الديناميكية
+       ----------------------------------------
+       ⚠️ حدّ تقني مهم: واتساب وفيسبوك يقرآن الوسوم
+       من HTML الأوّلي قبل تشغيل الجافاسكريبت،
+       فهذا التحديث لا يُغيّر بطاقة المشاركة.
+
+       الحلّ الحقيقي في الخادم: Laravel يولّد وسوم
+       كل كتاب في HTML مباشرة (مطلوب في API.md).
+       نُبقي هذا لأن بعض الأدوات تقرأ بعد التشغيل،
+       ولأن عنوان التبويب يستفيد منه على أي حال.
+       ======================================== */
+
+    function updateShareTags(book) {
+        const author = book.author?.name || "";
+        const title  = `${book.title}${author ? ` — ${author}` : ""}`;
+        const desc   = (book.description || "").slice(0, 155).trim();
+        const cover  = book.cover
+            ? new URL(book.cover, location.origin).href
+            : `${location.origin}/assets/img/og-default.png`;
+
+        setMeta("property", "og:title",       title);
+        setMeta("property", "og:description", desc);
+        setMeta("property", "og:image",       cover);
+        setMeta("property", "og:url",         location.href);
+        setMeta("name",     "twitter:title",       title);
+        setMeta("name",     "twitter:description", desc);
+        setMeta("name",     "twitter:image",       cover);
+        setMeta("name",     "description",         desc);
+
+        document.title = `${title} - مكتبة سامي الرقمية`;
+
+        const canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) canonical.href = location.href;
+    }
+
+    function setMeta(attr, key, value) {
+        if (!value) return;
+        let el = document.querySelector(`meta[${attr}="${key}"]`);
+        if (!el) {
+            el = document.createElement("meta");
+            el.setAttribute(attr, key);
+            document.head.appendChild(el);
+        }
+        el.setAttribute("content", value);
+    }
+
+
     function displayBookDetails(book) {
+        updateShareTags(book);
+
         const author   = book.author   || {};
         const category = book.category || {};
 

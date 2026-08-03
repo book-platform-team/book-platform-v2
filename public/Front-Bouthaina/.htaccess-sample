@@ -1,0 +1,45 @@
+# ========================================
+# إعدادات الخادم — نموذج
+# ⚠️ راجعيه مع مطوّرة الخادم قبل النشر،
+#    فقد يتعارض مع إعدادات Laravel.
+# ========================================
+
+# صفحة الخطأ
+ErrorDocument 404 /404.html
+
+# إجبار HTTPS
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# ضغط الملفات النصية
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript
+    AddOutputFilterByType DEFLATE application/json image/svg+xml
+</IfModule>
+
+# التخزين المؤقّت
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css               "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType image/png              "access plus 6 months"
+    ExpiresByType image/svg+xml          "access plus 6 months"
+    ExpiresByType font/ttf               "access plus 1 year"
+    # HTML لا يُخزَّن — حتى تصل التحديثات فوراً
+    ExpiresByType text/html              "access plus 0 seconds"
+</IfModule>
+
+# ترويسات أمنية
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# منع الوصول لمجلد البيانات الوهمية في الإنتاج
+<IfModule mod_rewrite.c>
+    RewriteRule ^mocks/ - [F,L]
+</IfModule>

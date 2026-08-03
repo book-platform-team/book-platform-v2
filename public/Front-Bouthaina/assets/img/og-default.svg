@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#7a0c16"/>
+      <stop offset="100%" stop-color="#c31432"/>
+    </linearGradient>
+    <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.5" fill="rgba(255,255,255,0.10)"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#dots)"/>
+
+  <!-- إطار داخلي -->
+  <rect x="56" y="56" width="1088" height="518" rx="28"
+        fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="2"/>
+
+  <text x="600" y="268" text-anchor="middle"
+        font-family="Cairo, Tahoma, sans-serif" font-size="76" font-weight="900"
+        fill="#ffffff" direction="rtl">سامي للطباعة والنشر والتوزيع</text>
+
+  <line x1="470" y1="316" x2="730" y2="316"
+        stroke="rgba(255,255,255,0.5)" stroke-width="3" stroke-linecap="round"/>
+
+  <text x="600" y="382" text-anchor="middle"
+        font-family="Cairo, Tahoma, sans-serif" font-size="34" font-weight="400"
+        fill="rgba(255,255,255,0.92)" direction="rtl">إصدارات منتقاة في الأدب والتاريخ والفكر</text>
+
+  <text x="600" y="440" text-anchor="middle"
+        font-family="Cairo, Tahoma, sans-serif" font-size="30" font-weight="400"
+        fill="rgba(255,255,255,0.75)" direction="rtl">ومنصّة تتيح للمؤلفين نشر كتبهم</text>
+
+  <text x="600" y="524" text-anchor="middle"
+        font-family="Tahoma, sans-serif" font-size="24" font-weight="600"
+        fill="rgba(255,255,255,0.6)" letter-spacing="2">sami-library.com</text>
+</svg>

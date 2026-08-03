@@ -1,0 +1,18 @@
+# مكتبة سامي الرقمية
+# https://sami-library.com
+
+User-agent: *
+Allow: /
+
+# صفحات الحساب — لا معنى لفهرستها
+Disallow: /profile.html
+Disallow: /my-library.html
+Disallow: /notifications.html
+Disallow: /login.html
+Disallow: /register.html
+
+# ملفات داخلية
+Disallow: /mocks/
+Disallow: /assets/js/
+
+Sitemap: https://sami-library.com/sitemap.xml
