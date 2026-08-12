@@ -16,9 +16,9 @@
         "name": "روايات عربية",
         "slug": "arabic-novels"
       },
-      "ratings_avg": 4.6,
-      "ratings_count": 18,
-      "publication_type": "house_edition"
+      "publication_type": "house_edition",
+      "is_paid": false,
+      "price": null
     },
     {
       "id": 2,
@@ -35,9 +35,9 @@
         "name": "روايات عالمية",
         "slug": "world-novels"
       },
-      "ratings_avg": 4.2,
-      "ratings_count": 7,
-      "publication_type": "house_edition"
+      "publication_type": "house_edition",
+      "is_paid": false,
+      "price": null
     },
     {
       "id": 3,
@@ -54,9 +54,9 @@
         "name": "الفقه الإسلامي",
         "slug": "fiqh"
       },
-      "ratings_avg": 4.9,
-      "ratings_count": 42,
-      "publication_type": "house_edition"
+      "publication_type": "house_edition",
+      "is_paid": false,
+      "price": null
     },
     {
       "id": 4,
@@ -73,9 +73,9 @@
         "name": "تاريخ الجزائر",
         "slug": "algeria-history"
       },
-      "ratings_avg": 4.7,
-      "ratings_count": 25,
-      "publication_type": "house_edition"
+      "publication_type": "house_edition",
+      "is_paid": true,
+      "price": 1200
     },
     {
       "id": 5,
@@ -88,13 +88,13 @@
         "slug": "ibrahim-elfiky"
       },
       "category": {
-        "id": 1,
-        "name": "التنمية البشرية وتطوير الذات",
-        "slug": "self-development"
+        "id": 9,
+        "name": "أخرى",
+        "slug": "other"
       },
-      "ratings_avg": 3.9,
-      "ratings_count": 11,
-      "publication_type": "author_submission"
+      "publication_type": "author_submission",
+      "is_paid": false,
+      "price": null
     },
     {
       "id": 6,
@@ -111,9 +111,9 @@
         "name": "العلوم السياسية",
         "slug": "political-science"
       },
-      "ratings_avg": 4.4,
-      "ratings_count": 15,
-      "publication_type": "house_edition"
+      "publication_type": "house_edition",
+      "is_paid": false,
+      "price": null
     },
     {
       "id": 7,
@@ -130,9 +130,9 @@
         "name": "الروايات والقصص الأدبية",
         "slug": "novels"
       },
-      "ratings_avg": 0,
-      "ratings_count": 0,
-      "publication_type": "house_edition"
+      "publication_type": "house_edition",
+      "is_paid": false,
+      "price": null
     },
     {
       "id": 8,
@@ -149,9 +149,9 @@
         "name": "السيرة النبوية",
         "slug": "seerah"
       },
-      "ratings_avg": 4.8,
-      "ratings_count": 31,
-      "publication_type": "house_edition"
+      "publication_type": "house_edition",
+      "is_paid": true,
+      "price": 1200
     },
     {
       "id": 9,
@@ -164,13 +164,13 @@
         "slug": "mostafa-mahmoud"
       },
       "category": {
-        "id": 1,
-        "name": "التنمية البشرية وتطوير الذات",
-        "slug": "self-development"
+        "id": 9,
+        "name": "أخرى",
+        "slug": "other"
       },
-      "ratings_avg": 4.1,
-      "ratings_count": 9,
-      "publication_type": "house_edition"
+      "publication_type": "house_edition",
+      "is_paid": false,
+      "price": null
     },
     {
       "id": 10,
@@ -187,9 +187,9 @@
         "name": "العلوم السياسية",
         "slug": "political-science"
       },
-      "ratings_avg": 4.5,
-      "ratings_count": 20,
-      "publication_type": "house_edition"
+      "publication_type": "house_edition",
+      "is_paid": false,
+      "price": null
     },
     {
       "id": 11,
@@ -206,9 +206,9 @@
         "name": "قصص قصيرة",
         "slug": "short-stories"
       },
-      "ratings_avg": 4.0,
-      "ratings_count": 6,
-      "publication_type": "author_submission"
+      "publication_type": "author_submission",
+      "is_paid": false,
+      "price": null
     },
     {
       "id": 12,
@@ -225,9 +225,9 @@
         "name": "التاريخ الإسلامي",
         "slug": "islamic-history"
       },
-      "ratings_avg": 4.3,
-      "ratings_count": 13,
-      "publication_type": "house_edition"
+      "publication_type": "house_edition",
+      "is_paid": true,
+      "price": 1200
     }
   ],
   "meta": {

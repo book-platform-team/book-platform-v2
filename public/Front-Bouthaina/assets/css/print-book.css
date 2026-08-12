@@ -1,0 +1,474 @@
+/* ========================================
+   🖨️ دار سامي — طباعة كتاب
+   ----------------------------------------
+   ⚠️ المشترك في base.css — لا يُكرَّر هنا.
+   ======================================== */
+
+
+/* ========================================
+   🎬 الترويسة
+   ======================================== */
+
+.pr-hero {
+    padding: 2.8rem 0 2.2rem;
+    background: linear-gradient(180deg, #fdfbfa 0%, var(--bg-alt) 100%);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+}
+
+.pr-hero h1 {
+    font-size: clamp(1.6rem, 4vw, 2.3rem);
+    font-weight: 900;
+    color: var(--text);
+    margin: .4rem 0 .7rem;
+}
+
+.pr-hero p {
+    color: var(--text-light);
+    font-size: .98rem;
+    line-height: 1.9;
+    max-width: 36rem;
+    margin: 0 auto;
+}
+
+.pr-hero strong { color: var(--primary); font-weight: 800; }
+
+.pr-section { padding-top: 2.5rem; }
+
+.pr-wrap {
+    max-width: 46rem;
+    width: 100%;
+    margin-inline: auto;
+}
+
+
+/* ========================================
+   🧭 مسار الخدمة
+   ----------------------------------------
+   يُعرَض قبل الاستمارة: من يعرف ما ينتظره
+   يملأ الحقول بثقة أكبر.
+   ======================================== */
+
+.pr-flow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1rem;
+    list-style: none;
+    margin-bottom: 2.2rem;
+}
+
+.pr-flow li {
+    display: flex;
+    gap: .8rem;
+    align-items: flex-start;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.1rem;
+}
+
+.fl-num {
+    width: 1.8rem; height: 1.8rem;
+    flex-shrink: 0;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: var(--primary-gradient);
+    color: #fff;
+    font-size: .8rem;
+    font-weight: 900;
+}
+
+.pr-flow b {
+    display: block;
+    font-size: .92rem;
+    color: var(--text);
+    margin-bottom: .2rem;
+}
+
+.pr-flow span:not(.fl-num) {
+    font-size: .8rem;
+    color: var(--text-light);
+    line-height: 1.7;
+}
+
+
+/* ========================================
+   📋 بطاقة الاستمارة
+   ======================================== */
+
+.pr-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.8rem;
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.pr-card[hidden] { display: none; }
+
+.pr-card-head {
+    padding-bottom: 1.2rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border);
+}
+
+.pr-card-head h2 {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: .3rem;
+}
+
+.pr-card-head h2 i { color: var(--primary); font-size: 1.4rem; }
+
+.pr-card-head p { font-size: .84rem; color: var(--text-light); }
+.pr-card-head span { color: var(--primary-light); font-weight: 800; }
+
+.pr-sep {
+    border: 0;
+    border-top: 1px solid var(--border);
+    margin: 1.5rem 0;
+}
+
+
+/* ---------- الحقول ---------- */
+
+.pr-card .field { margin-bottom: 1.15rem; min-width: 0; max-width: 100%; }
+
+.pr-card .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    min-width: 0;
+}
+
+.pr-card label {
+    display: block;
+    font-weight: 700;
+    font-size: .87rem;
+    color: var(--text);
+    margin-bottom: .42rem;
+}
+
+.pr-card label span { color: var(--primary-light); }
+
+.pr-card input,
+.pr-card textarea {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: .78rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: .92rem;
+    background: #fff;
+    color: var(--text);
+    transition: var(--transition-sm);
+    resize: vertical;
+}
+
+.pr-card input:focus,
+.pr-card textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+.pr-card .invalid { border-color: #dc3545; }
+
+.pr-card small {
+    display: block;
+    margin-top: .32rem;
+    font-size: .77rem;
+    color: var(--text-light);
+}
+
+/* مصيدة السبام — مخفيّة بصرياً وعن قارئات الشاشة */
+#pr_trap {
+    position: absolute;
+    left: -9999px;
+    width: 1px; height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+/* ========================================
+   📎 مناطق الاختيار
+   ======================================== */
+
+.pick-zone {
+    position: relative;
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2rem 1.4rem;
+    text-align: center;
+    background: var(--bg-alt);
+    transition: var(--transition-sm);
+    cursor: pointer;
+}
+
+.pick-zone[hidden] { display: none; }
+
+.pick-zone:hover,
+.pick-zone.over {
+    border-color: var(--primary);
+    background: rgba(122,12,22,.05);
+}
+
+.pick-zone input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.pick-zone > i {
+    font-size: 2.3rem;
+    color: var(--primary);
+    display: block;
+    margin-bottom: .5rem;
+}
+
+.pick-zone b {
+    display: block;
+    color: var(--text);
+    font-size: .95rem;
+    margin-bottom: .25rem;
+}
+
+.pick-zone small { color: var(--text-light); font-size: .8rem; }
+
+.pick-zone.invalid { border-color: #dc3545; }
+
+
+/* ---------- بعد الاختيار ---------- */
+
+.pick-done {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(122,12,22,.05);
+    border: 1px solid rgba(122,12,22,.2);
+    border-radius: var(--radius);
+}
+
+.pick-done[hidden] { display: none; }
+
+/* نسبة الغلاف الحقيقية — يرى ما سيصل الدار */
+.pick-done img {
+    width: 4.6rem;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 6px 16px rgba(0,0,0,.18);
+    background: var(--bg-alt);
+    flex-shrink: 0;
+}
+
+.pick-done.row > i {
+    font-size: 1.9rem;
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+.pick-info { flex: 1; min-width: 0; }
+
+.pick-info b {
+    display: block;
+    font-size: .9rem;
+    color: var(--text);
+    margin-bottom: .18rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pick-info span {
+    display: block;
+    font-size: .79rem;
+    color: var(--text-light);
+    margin-bottom: .6rem;
+}
+
+.pick-done.row .pick-info span { margin-bottom: 0; }
+
+.pick-change {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    padding: .42rem .95rem;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 25px;
+    color: var(--primary);
+    font-family: inherit;
+    font-size: .8rem;
+    font-weight: 700;
+    transition: var(--transition-sm);
+}
+
+.pick-change:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+}
+
+.pick-drop {
+    width: 2rem; height: 2rem;
+    flex-shrink: 0;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid var(--border);
+    color: var(--text-light);
+    transition: var(--transition-sm);
+}
+
+.pick-drop:hover { background: #dc3545; border-color: #dc3545; color: #fff; }
+
+
+/* ========================================
+   ⚠️ التنبيه والوعد
+   ======================================== */
+
+.alert {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .85rem 1rem;
+    border-radius: 12px;
+    font-size: .87rem;
+    font-weight: 600;
+    margin-bottom: 1.1rem;
+}
+
+.alert[hidden] { display: none; }
+
+.alert.err {
+    background: rgba(220,53,69,.1);
+    border-inline-start: 4px solid #dc3545;
+    color: #b02a37;
+}
+
+.alert i { font-size: 1.15rem; flex-shrink: 0; }
+
+.pr-promise {
+    display: flex;
+    gap: .8rem;
+    align-items: flex-start;
+    background: rgba(122,12,22,.06);
+    border-inline-start: 4px solid var(--primary);
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.3rem;
+}
+
+.pr-promise i {
+    font-size: 1.3rem;
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+.pr-promise p {
+    font-size: .87rem;
+    color: var(--text);
+    line-height: 1.85;
+}
+
+.pr-promise strong { color: var(--primary); font-weight: 800; }
+
+
+/* ========================================
+   📤 زر الإرسال
+   ======================================== */
+
+.btn-send {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    width: 100%;
+    padding: .95rem;
+    background: var(--primary-gradient);
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    font-family: inherit;
+    font-size: .96rem;
+    font-weight: 800;
+    transition: var(--transition);
+    box-shadow: 0 6px 20px var(--primary-glow);
+}
+
+.btn-send:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px var(--primary-glow);
+    color: #fff;
+}
+
+.btn-send:disabled { opacity: .7; cursor: not-allowed; transform: none; }
+
+.btn-send.inline { display: inline-flex; width: auto; padding: .85rem 2rem; }
+
+
+/* ========================================
+   ✅ التأكيد
+   ======================================== */
+
+.pr-done {
+    text-align: center;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 3rem 1.8rem;
+    box-shadow: var(--shadow);
+}
+
+.pr-done[hidden] { display: none; }
+
+.pr-done > i {
+    font-size: 3.8rem;
+    color: #28a745;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.pr-done h2 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: .8rem;
+}
+
+.pr-done p {
+    color: var(--text-light);
+    line-height: 2;
+    font-size: .95rem;
+    max-width: 30rem;
+    margin: 0 auto 1.8rem;
+}
+
+.pr-done b { color: var(--primary); font-weight: 700; }
+
+
+/* ========================================
+   📱 التجاوب
+   ======================================== */
+
+@media (max-width: 640px) {
+    .pr-card { padding: 1.4rem 1.1rem; }
+    .pr-card .grid-2 { grid-template-columns: 1fr; gap: 0; }
+    .pick-zone { padding: 1.6rem 1rem; }
+    .pick-done { flex-direction: column; text-align: center; }
+    .pick-done.row { flex-direction: row; text-align: right; }
+    .pr-done { padding: 2.2rem 1.2rem; }
+}

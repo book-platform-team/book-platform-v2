@@ -3,34 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نشر كتاب - مكتبة سامي الرقمية</title>
-
-
-    <meta name="description" content="ارفعي كتابك ليُراجَع من هيئة القراءة في دار سامي، ويُنشر باسمك في المكتبة.">
+    <title>نشر كتاب - دار سامي للطباعة والنشر والتوزيع</title>
+    <meta name="description" content="ارفع مخطوطك ليُراجَع من هيئة القراءة في دار سامي ويُنشر في المكتبة.">
     <link rel="canonical" href="https://sami-library.com/upload-book.html">
 
-    <!-- الأيقونة -->
     <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
-    <link rel="apple-touch-icon" href="/assets/img/favicon.svg">
     <meta name="theme-color" content="#7a0c16">
 
-    <!-- Open Graph — بطاقة المشاركة في واتساب وفيسبوك -->
-    <meta property="og:type"         content="website">
-    <meta property="og:site_name"    content="مكتبة سامي الرقمية">
-    <meta property="og:locale"       content="ar_DZ">
-    <meta property="og:url"          content="https://sami-library.com/upload-book.html">
-    <meta property="og:title"        content="نشر كتاب - مكتبة سامي الرقمية">
-    <meta property="og:description"  content="ارفعي كتابك ليُراجَع من هيئة القراءة في دار سامي، ويُنشر باسمك في المكتبة.">
-    <meta property="og:image"        content="https://sami-library.com/assets/img/og-default.png">
-    <meta property="og:image:width"  content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt"    content="مكتبة سامي الرقمية">
-
-    <!-- Twitter -->
-    <meta name="twitter:card"        content="summary_large_image">
-    <meta name="twitter:title"       content="نشر كتاب - مكتبة سامي الرقمية">
-    <meta name="twitter:description" content="ارفعي كتابك ليُراجَع من هيئة القراءة في دار سامي، ويُنشر باسمك في المكتبة.">
-    <meta name="twitter:image"       content="https://sami-library.com/assets/img/og-default.png">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
@@ -40,116 +19,391 @@
 
 <body data-page="upload">
 
-    <!-- ⬇️ الهيدر + قائمة الجوال + مودال البحث — يركّبهم partials.js -->
     <div id="site-header"></div>
 
 
-    <!-- ========================================
-         📤 صفحة نشر كتاب (مع نظام الموافقة)
-         ======================================== -->
-    <section class="upload-section">
-        <div class="container">
-            <div class="upload-card">
-
-                <div class="upload-header">
-                    <i class='bx bx-upload'></i>
-                    <h1>نشر كتاب جديد</h1>
-                    <p>بعد الرفع، سيراجع الأدمن كتابك قبل النشر للعامة</p>
-                </div>
-
-                <form id="uploadBookForm" enctype="multipart/form-data">
-
-                    <!-- العنوان (مطلوب) -->
-                    <div class="form-group">
-                        <label for="title">
-                            <i class='bx bx-book'></i> عنوان الكتاب <span class="required">*</span>
-                        </label>
-                        <input type="text" id="title" name="title" placeholder="أدخل عنوان الكتاب" required>
-                        <small>مثال: رحلة في عالم البرمجة</small>
-                    </div>
-
-                    <!-- الوصف (اختياري) -->
-                    <div class="form-group">
-                        <label for="description">
-                            <i class='bx bx-edit'></i> وصف الكتاب <span class="optional">(اختياري)</span>
-                        </label>
-                        <textarea id="description" name="description" rows="5" placeholder="اكتب وصفاً مختصراً لمحتوى الكتاب..."></textarea>
-                        <small>وصف جذاب يساعد القراء على اكتشاف كتابك</small>
-                    </div>
-
-                    <!-- التصنيف (مطلوب) — المؤلف يختار قسماً واحداً -->
-                    <div class="form-group">
-                        <label for="category_id">
-                            <i class='bx bx-category'></i> قسم الكتاب <span class="required">*</span>
-                        </label>
-                        <select id="category_id" name="category_id" required>
-                            <option value="">جارٍ تحميل الأقسام...</option>
-                        </select>
-                        <small>اختاري القسم الأقرب لموضوع الكتاب — قسم واحد فقط</small>
-                    </div>
-
-                    <!-- الملفات (مطلوب) -->
-                    <div class="form-group">
-                        <label for="files">
-                            <i class='bx bx-file'></i> ملف الكتاب <span class="required">*</span>
-                        </label>
-                        <div class="file-upload-wrapper">
-                            <input type="file" id="files" name="files[]" accept=".pdf,.epub" multiple required>
-                            <div class="file-upload-box">
-                                <i class='bx bx-cloud-upload'></i>
-                                <p>اسحب الملف هنا أو اضغط للاختيار</p>
-                                <small class="file-types">PDF أو EPUB فقط • الحدّ الأقصى 50 ميجابايت للملف</small>
-                            </div>
-                            <div class="file-list" id="fileList"></div>
-                        </div>
-                    </div>
-
-                    <!-- إقرار حقوق النشر -->
-                    <div class="form-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="rightsConfirm" required>
-                            <span>أُقرّ بأنني صاحب حقوق نشر هذا الكتاب أو أملك تصريحاً بنشره</span>
-                        </label>
-                    </div>
-
-                    <!-- رسالة الحالة -->
-                    <div class="alert alert-info" id="formAlert" style="display: none;">
-                        <i class='bx bx-info-circle'></i>
-                        <span id="alertMessage"></span>
-                    </div>
-
-                    <!-- زر الإرسال -->
-                    <button type="submit" class="btn-upload" id="submitBtn">
-                        <i class='bx bx-cloud-upload'></i>
-                        <span>رفع الكتاب للمراجعة</span>
-                    </button>
-                </form>
-
-                <!-- حالة التحميل -->
-                <div class="upload-status" id="uploadStatus" style="display: none;">
-                    <i class='bx bx-loader-alt bx-spin'></i>
-                    <p>جاري رفع الكتاب... يرجى الانتظار</p>
-                    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-                </div>
-
-                <!-- رسالة النجاح -->
-                <div class="upload-success" id="uploadSuccess" style="display: none;">
-                    <i class='bx bx-check-circle'></i>
-                    <h3>تم رفع كتابك بنجاح</h3>
-                    <p>سيتم مراجعة كتابك من قبل الإدارة. سيصلك إشعار عند الموافقة.</p>
-                    <a href="/library.html" class="btn-back">العودة للمكتبة</a>
-                </div>
-
-            </div>
+    <section class="up-hero">
+        <div class="wrap">
+            <span class="kicker">للمؤلفين</span>
+            <h1>انشر كتابك معنا</h1>
+            <p>
+                املأ الخطوات الثلاث، وسنقرأ عملك ونردّ على بريدك
+                <strong>خلال ٤٨ ساعة</strong>.
+            </p>
         </div>
     </section>
 
 
-    <!-- ⬇️ الفوتر + زر الصعود — يركّبهم partials.js -->
+    <section class="section up-section">
+        <div class="wrap up-wrap">
+
+            <!-- شريط التقدّم -->
+            <ol class="steps-bar" id="stepsBar">
+                <li class="step-dot active" data-step="1">
+                    <span class="dot">١</span>
+                    <b>بياناتك</b>
+                </li>
+                <li class="step-dot" data-step="2">
+                    <span class="dot">٢</span>
+                    <b>الكتاب</b>
+                </li>
+                <li class="step-dot" data-step="3">
+                    <span class="dot">٣</span>
+                    <b>الملف</b>
+                </li>
+            </ol>
+
+
+            <form id="submitForm" novalidate>
+
+                <!-- ══════ الخطوة ١ ══════ -->
+                <fieldset class="step active" data-step="1">
+                    <legend class="step-legend">
+                        <h2>بيانات المؤلف</h2>
+                        <p>لن يظهر بريدك ولا هاتفك للزوّار — نستعملهما للتواصل معك فقط.</p>
+                    </legend>
+
+                    <div class="grid-2">
+                        <div class="field">
+                            <label for="author_name">الاسم واللقب <span>*</span></label>
+                            <input type="text" id="author_name" name="author_name" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="author_title">الرتبة العلمية</label>
+                            <select id="author_title" name="author_title">
+                                <option value="none">بلا رتبة</option>
+                                <option value="professor">أستاذ</option>
+                                <option value="doctor">دكتور</option>
+                                <option value="researcher">باحث</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="field">
+                            <label for="author_email">البريد الإلكتروني <span>*</span></label>
+                            <input type="email" id="author_email" name="author_email" dir="ltr" required>
+                            <small>هنا يصلك ردّنا على الطلب</small>
+                        </div>
+
+                        <div class="field">
+                            <label for="author_phone">رقم الهاتف <span>*</span></label>
+                            <input type="tel" id="author_phone" name="author_phone" dir="ltr" required>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="author_address">العنوان <span>*</span></label>
+                        <input type="text" id="author_address" name="author_address" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="author_bio">نبذة عنك <span>*</span></label>
+                        <textarea id="author_bio" name="author_bio" rows="4" required
+                                  placeholder="سطور قليلة تُعرّف بك — تظهر في صفحتك بعد النشر"></textarea>
+                    </div>
+
+                    <div class="field">
+                        <label for="author_photo">صورتك <em>(اختياري)</em></label>
+                        <div class="file-pick" id="photoPick">
+                            <input type="file" id="author_photo" name="author_photo" accept="image/*">
+                            <i class='bx bx-user-circle'></i>
+                            <span id="photoLabel">اختر صورة — اختياري</span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="author_extra">معلومات أخرى <em>(اختياري)</em></label>
+                        <textarea id="author_extra" name="author_extra" rows="3"
+                                  placeholder="مؤلفات سابقة، روابط، أو أي شيء تودّ إخبارنا به"></textarea>
+                    </div>
+
+                    <!-- الموافقة على الشروط — بوّابة الانتقال للخطوة الثانية -->
+                    <div class="terms-gate">
+                        <button type="button" class="btn-terms" id="openTerms">
+                            <i class='bx bx-file'></i>
+                            <span>اقرأ شروط النشر</span>
+                        </button>
+
+                        <label class="agree-box" for="agree_terms">
+                            <input type="checkbox" id="agree_terms" disabled>
+                            <span>
+                                أوافق على <b>شروط النشر</b> و<b>سياسة الخصوصية</b>
+                                <small id="agreeHint">اقرأ الشروط أولاً لتفعيل الموافقة</small>
+                            </span>
+                        </label>
+                    </div>
+
+                    <div class="step-nav">
+                        <span></span>
+                        <button type="button" class="btn-next" data-go="2">
+                            التالي <i class='bx bx-left-arrow-alt'></i>
+                        </button>
+                    </div>
+                </fieldset>
+
+
+                <!-- ══════ الخطوة ٢ ══════ -->
+                <fieldset class="step" data-step="2">
+                    <legend class="step-legend">
+                        <h2>بيانات الكتاب</h2>
+                        <p>ما ستراه هذه البيانات في صفحة الكتاب بعد نشره.</p>
+                    </legend>
+
+                    <div class="field">
+                        <label for="book_title">عنوان الكتاب <span>*</span></label>
+                        <input type="text" id="book_title" name="book_title" required>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="field">
+                            <label for="category_id">القسم <span>*</span></label>
+                            <select id="category_id" name="category_id" required>
+                                <option value="">جارٍ تحميل الأقسام...</option>
+                            </select>
+                            <small>اختر الأقرب — وإن لم تجد، اختر «أخرى»</small>
+                        </div>
+
+                        <div class="field">
+                            <label for="language">اللغة</label>
+                            <select id="language" name="language">
+                                <option value="ar" selected>العربية</option>
+                                <option value="fr">الفرنسية</option>
+                                <option value="en">الإنجليزية</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="field">
+                            <label for="pages">عدد الصفحات <span>*</span></label>
+                            <input type="number" id="pages" name="pages" min="1" inputmode="numeric" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="publication_year">سنة الإصدار <em>(اختياري)</em></label>
+                            <input type="number" id="publication_year" name="publication_year"
+                                   min="1900" max="2100" inputmode="numeric">
+                        </div>
+                    </div>
+
+                    <!-- الإتاحة: سؤال نعم/لا -->
+                    <div class="field">
+                        <label>هل تتيح محتوى الكتاب بالمجّان؟ <span>*</span></label>
+                        <div class="pay-choice">
+                            <label class="pay-opt">
+                                <input type="radio" name="is_paid" value="0" checked>
+                                <span>
+                                    <i class='bx bx-check-circle'></i>
+                                    <b>نعم</b>
+                                    <small>يُنزَّل مجاناً من الموقع</small>
+                                </span>
+                            </label>
+
+                            <label class="pay-opt">
+                                <input type="radio" name="is_paid" value="1">
+                                <span>
+                                    <i class='bx bx-x-circle'></i>
+                                    <b>لا</b>
+                                    <small>يُطلَب ويُرسَل بعد الدفع</small>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="field" id="priceField" hidden>
+                        <label for="price">حدّد سعر الكتاب بالدينار الجزائري <span>*</span></label>
+                        <input type="number" id="price" name="price" min="1" step="50"
+                               inputmode="numeric" placeholder="مثال: 1200">
+                        <small>يظهر السعر في صفحة الكتاب، ويُرسَل بعد تأكيد الدفع</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="legal_deposit">رقم الإيداع القانوني <span>*</span></label>
+                        <input type="text" id="legal_deposit" name="legal_deposit" required
+                               placeholder="رقم الإيداع لدى المكتبة الوطنية">
+                        <small>إن لم يكن لكتابك إيداع بعد، تواصل معنا قبل الإرسال</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="book_description">نبذة عن الكتاب في 50 كلمة <span>*</span></label>
+                        <textarea id="book_description" name="book_description" rows="6" required
+                                  placeholder="عمّ يتحدّث الكتاب؟ ولمن كُتب؟"></textarea>
+                    </div>
+
+                    <div class="step-nav">
+                        <button type="button" class="btn-back" data-go="1">
+                            <i class='bx bx-right-arrow-alt'></i> رجوع
+                        </button>
+                        <button type="button" class="btn-next" data-go="3">
+                            التالي <i class='bx bx-left-arrow-alt'></i>
+                        </button>
+                    </div>
+                </fieldset>
+
+
+                <!-- ══════ الخطوة ٣ ══════ -->
+                <fieldset class="step" data-step="3">
+                    <legend class="step-legend">
+                        <h2>الملف والغلاف</h2>
+                        <p>ملف الكتاب بصيغة PDF أو EPUB، مع صورة الغلاف.</p>
+                    </legend>
+
+                    <div class="field">
+                        <label for="file">الملف <span>*</span></label>
+                        <div class="drop-zone" id="dropZone">
+                            <input type="file" id="file" name="file" accept=".pdf,.epub" required>
+                            <i class='bx bx-cloud-upload'></i>
+                            <b>اسحب الملف هنا أو اضغط للاختيار</b>
+                            <small>PDF أو EPUB · حتى ٥٠ ميجابايت</small>
+                        </div>
+                        <div class="file-chosen" id="fileChosen" hidden>
+                            <i class='bx bxs-file-blank'></i>
+                            <div>
+                                <b id="fileName"></b>
+                                <span id="fileSize"></span>
+                            </div>
+                            <button type="button" class="file-drop" id="fileRemove" aria-label="إزالة">
+                                <i class='bx bx-x'></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- غلاف الكتاب — إجباري: كتاب بلا غلاف يبدو ناقصاً في المكتبة -->
+                    <div class="field">
+                        <label for="cover">غلاف الكتاب <span>*</span></label>
+
+                        <div class="cover-zone" id="coverZone">
+                            <input type="file" id="cover" name="cover" accept="image/*" required>
+                            <i class='bx bx-image-add'></i>
+                            <b>اختر صورة الغلاف</b>
+                            <small>JPG أو PNG · يُفضَّل عرض ٦٠٠ بكسل ونسبة ٢:٣</small>
+                        </div>
+
+                        <div class="cover-chosen" id="coverChosen" hidden>
+                            <img id="coverPreview" alt="معاينة الغلاف">
+                            <div class="cover-info">
+                                <b id="coverName"></b>
+                                <span id="coverSize"></span>
+                                <button type="button" class="cover-change" id="coverRemove">
+                                    <i class='bx bx-refresh'></i> تغيير الصورة
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- إقرار الحقوق — الدار مسؤولة قانونياً عمّا تنشره -->
+                    <label class="rights-box" for="rights_confirmed">
+                        <input type="checkbox" id="rights_confirmed" name="rights_confirmed" required>
+                        <span>
+                            <b>أُقرّ بأنني صاحب حقوق نشر هذا العمل</b>
+                            أو أملك تصريحاً مكتوباً بنشره، وأتحمّل مسؤولية
+                            أي مطالبة تتعلّق بحقوق الملكية الفكرية.
+                        </span>
+                    </label>
+
+                    <div class="alert" id="formAlert" hidden></div>
+
+                    <div class="step-nav">
+                        <button type="button" class="btn-back" data-go="2">
+                            <i class='bx bx-right-arrow-alt'></i> رجوع
+                        </button>
+                        <button type="submit" class="btn-submit" id="submitBtn">
+                            <i class='bx bx-send'></i> إرسال الطلب
+                        </button>
+                    </div>
+                </fieldset>
+
+            </form>
+
+
+            <!-- ══════ بعد الإرسال ══════ -->
+            <div class="done" id="doneBox" hidden>
+                <i class='bx bx-check-circle'></i>
+                <h2>شكراً، وصلنا طلبك</h2>
+                <p>
+                    ستراجع هيئة القراءة عملك، ويصلك الردّ على
+                    <b id="doneEmail"></b> <strong>خلال ٤٨ ساعة</strong> —
+                    بالقبول أو بالاعتذار مع بيان السبب.
+                </p>
+                <a href="/index.html" class="btn-submit">
+                    <i class='bx bx-book-open'></i> العودة إلى المكتبة
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ========================================
+         📜 نافذة شروط النشر
+         ======================================== -->
+    <div class="terms-overlay" id="termsOverlay" hidden>
+        <div class="terms-box" role="dialog" aria-modal="true" aria-labelledby="termsTitle">
+
+            <button class="terms-close" id="termsClose" aria-label="إغلاق">
+                <i class='bx bx-x'></i>
+            </button>
+
+            <h2 id="termsTitle"><i class='bx bx-file'></i> شروط النشر</h2>
+
+            <div class="terms-scroll" id="termsScroll">
+
+                <h3>ما نطلبه منك</h3>
+                <ul>
+                    <li>أن تكون صاحب حقوق النصّ، أو تملك تصريحاً مكتوباً بنشره.</li>
+                    <li>عمل مكتمل — لا نستقبل مسوّدات غير منتهية.</li>
+                    <li>ملف بصيغة PDF أو EPUB واضح ومقروء، مع صورة غلاف.</li>
+                    <li>رقم الإيداع القانوني للكتاب.</li>
+                    <li>ألّا يكون العمل منشوراً لدى دار أخرى بعقد سارٍ.</li>
+                    <li>ألّا يحتوي ما يخالف القانون أو يحرّض على الكراهية.</li>
+                </ul>
+
+                <h3>ما نقدّمه لك</h3>
+                <ul>
+                    <li>قراءة جادّة وردّ مكتوب خلال ٤٨ ساعة.</li>
+                    <li>مراجعة لغوية وتدقيق قبل الإصدار.</li>
+                    <li>صفحة خاصة بك وبكتابك في المكتبة الرقمية.</li>
+                    <li>بقاء حقوق الملكية الفكرية لك كاملةً.</li>
+                </ul>
+
+                <h3>المراجعة والقبول</h3>
+                <ul>
+                    <li>رفع الكتاب لا يعني قبوله — كل عمل يُدرَس على حدة.</li>
+                    <li>للدار أن ترفض أي عمل، ويصلك السبب مكتوباً.</li>
+                    <li>يصلك الردّ على البريد الذي أدخلته، فتأكّد من صحّته.</li>
+                </ul>
+
+                <h3>بياناتك</h3>
+                <ul>
+                    <li>لا يظهر بريدك ولا هاتفك ولا عنوانك للزوّار.</li>
+                    <li>تُستعمل للتواصل معك بشأن كتابك فقط.</li>
+                    <li>يمكنك طلب حذفها في أي وقت.</li>
+                </ul>
+
+                <p class="terms-more">
+                    التفاصيل الكاملة في
+                    <a href="/terms.html" target="_blank">شروط الاستخدام</a>
+                    و<a href="/privacy.html" target="_blank">سياسة الخصوصية</a>.
+                </p>
+
+            </div>
+
+            <div class="terms-foot">
+                <p id="scrollHint"><i class='bx bx-down-arrow-alt'></i> انزل حتى نهاية الشروط</p>
+                <button type="button" class="btn-agree" id="agreeBtn" disabled>
+                    <i class='bx bx-check'></i> موافق على الشروط
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+
     <div id="site-footer"></div>
 
-
-    <!-- ⚠️ الترتيب إجباري: api ثم partials ثم ملف الصفحة -->
     <script src="/assets/js/api.js"></script>
     <script src="/assets/js/partials.js"></script>
     <script src="/assets/js/upload-book.js"></script>

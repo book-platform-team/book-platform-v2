@@ -17,9 +17,9 @@
           "name": "روايات عربية",
           "slug": "arabic-novels"
         },
-        "ratings_avg": 4.6,
-        "ratings_count": 18,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": false,
+        "price": null
       },
       {
         "id": 2,
@@ -36,9 +36,9 @@
           "name": "روايات عالمية",
           "slug": "world-novels"
         },
-        "ratings_avg": 4.2,
-        "ratings_count": 7,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": false,
+        "price": null
       },
       {
         "id": 3,
@@ -55,9 +55,9 @@
           "name": "الفقه الإسلامي",
           "slug": "fiqh"
         },
-        "ratings_avg": 4.9,
-        "ratings_count": 42,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": false,
+        "price": null
       },
       {
         "id": 4,
@@ -74,9 +74,9 @@
           "name": "تاريخ الجزائر",
           "slug": "algeria-history"
         },
-        "ratings_avg": 4.7,
-        "ratings_count": 25,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": true,
+        "price": 1200
       },
       {
         "id": 5,
@@ -93,9 +93,9 @@
           "name": "التنمية البشرية وتطوير الذات",
           "slug": "self-development"
         },
-        "ratings_avg": 3.9,
-        "ratings_count": 11,
-        "publication_type": "author_submission"
+        "publication_type": "author_submission",
+        "is_paid": false,
+        "price": null
       },
       {
         "id": 6,
@@ -112,9 +112,9 @@
           "name": "العلوم السياسية",
           "slug": "political-science"
         },
-        "ratings_avg": 4.4,
-        "ratings_count": 15,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": false,
+        "price": null
       }
     ],
     "featured": [
@@ -133,9 +133,9 @@
           "name": "روايات عربية",
           "slug": "arabic-novels"
         },
-        "ratings_avg": 4.6,
-        "ratings_count": 18,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": false,
+        "price": null
       },
       {
         "id": 4,
@@ -152,9 +152,9 @@
           "name": "تاريخ الجزائر",
           "slug": "algeria-history"
         },
-        "ratings_avg": 4.7,
-        "ratings_count": 25,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": true,
+        "price": 1200
       },
       {
         "id": 8,
@@ -171,9 +171,9 @@
           "name": "السيرة النبوية",
           "slug": "seerah"
         },
-        "ratings_avg": 4.8,
-        "ratings_count": 31,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": true,
+        "price": 1200
       }
     ],
     "house_editions": [
@@ -192,9 +192,9 @@
           "name": "روايات عربية",
           "slug": "arabic-novels"
         },
-        "ratings_avg": 4.6,
-        "ratings_count": 18,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": false,
+        "price": null
       },
       {
         "id": 2,
@@ -211,9 +211,9 @@
           "name": "روايات عالمية",
           "slug": "world-novels"
         },
-        "ratings_avg": 4.2,
-        "ratings_count": 7,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": false,
+        "price": null
       },
       {
         "id": 3,
@@ -230,9 +230,9 @@
           "name": "الفقه الإسلامي",
           "slug": "fiqh"
         },
-        "ratings_avg": 4.9,
-        "ratings_count": 42,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": false,
+        "price": null
       },
       {
         "id": 4,
@@ -249,9 +249,9 @@
           "name": "تاريخ الجزائر",
           "slug": "algeria-history"
         },
-        "ratings_avg": 4.7,
-        "ratings_count": 25,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": true,
+        "price": 1200
       },
       {
         "id": 6,
@@ -268,9 +268,9 @@
           "name": "العلوم السياسية",
           "slug": "political-science"
         },
-        "ratings_avg": 4.4,
-        "ratings_count": 15,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": false,
+        "price": null
       },
       {
         "id": 7,
@@ -287,9 +287,9 @@
           "name": "الروايات والقصص الأدبية",
           "slug": "novels"
         },
-        "ratings_avg": 0,
-        "ratings_count": 0,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": false,
+        "price": null
       }
     ],
     "categories": [

@@ -10,22 +10,14 @@ const API = {
 
 
 /* ========================================
-   🔐 المصادقة
+   📨 الترويسات
+   ----------------------------------------
+   لا مصادقة في هذه النسخة — كل الـendpoints
+   عامّة. أُزيلت دالة التوكن وترويسة Authorization.
    ======================================== */
 
-function authToken() {
-  return localStorage.getItem("auth_token");
-}
-
-function isLoggedIn() {
-  return !!authToken();
-}
-
 function headers() {
-  const h = { "Accept": "application/json" };
-  const t = authToken();
-  if (t) h["Authorization"] = "Bearer " + t;
-  return h;
+  return { "Accept": "application/json" };
 }
 
 

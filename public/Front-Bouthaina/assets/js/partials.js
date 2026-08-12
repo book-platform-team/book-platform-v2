@@ -31,33 +31,20 @@ const HEADER_HTML = `
         <div class="nav-right desktop-nav">
             <ul class="link main-links">
                 <li><a href="/index.html" class="nav-link" data-nav="home"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
-                <li><a href="/library.html" class="nav-link" data-nav="library"><i class='bx bx-book-alt'></i> المكتبة</a></li>
                 <li><a href="/class.html" class="nav-link" data-nav="class"><i class='bx bx-category'></i> أقسام الكتب</a></li>
-                <li><a href="/author.html" class="nav-link" data-nav="author"><i class='bx bx-user-pin'></i> مؤلفو الكتب</a></li>
-
-                <li class="dropdown">
-                    <button class="dropbtn nav-link" id="menuBtn">
-                        القائمة <i class='bx bx-chevron-down icon'></i>
-                    </button>
-                    <div class="dropdown-content" id="dropdownMenu">
-                        <a href="/class.html"><i class='bx bx-book-open'></i> أقسام الكتب</a>
-                        <a href="/author.html"><i class='bx bx-user'></i> مؤلفو الكتب</a>
-                        <!-- TODO: صفحات الاقتباسات والمراجعات والمجتمع — لاحقاً -->
-                        <a href="/login.html"><i class='bx bx-quote-right'></i> اقتباسات الكتب</a>
-                        <a href="/login.html"><i class='bx bx-star'></i> مراجعات الكتب</a>
-                        <a href="/login.html"><i class='bx bx-group'></i> مجتمع المثقفين</a>
-                        <a href="/upload-book.html"><i class='bx bx-upload'></i> نشر كتاب</a>
-                        <a href="/about.html"><i class='bx bx-buildings'></i> عن الدار</a>
-                        <a href="#" id="closeMenu" class="close-link"><i class='bx bx-x'></i> إغلاق</a>
-                    </div>
-                </li>
-
-                <li><a href="#" class="nav-link search-trigger"><i class='bx bx-search-alt-2'></i> بــحـــث</a></li>
+                <li><a href="/author.html" class="nav-link" data-nav="author"><i class='bx bx-user-pin'></i> المؤلفون</a></li>
+                <li><a href="/upload-book.html" class="nav-link" data-nav="upload"><i class='bx bx-upload'></i> نشر كتاب</a></li>
+                <li><a href="/print-book.html" class="nav-link" data-nav="print"><i class='bx bx-printer'></i> طباعة كتاب</a></li>
+                
             </ul>
         </div>
 
         <div class="nav-left desktop-nav">
-            <div class="link auth-links" id="authArea"></div>
+            <a href="/favorites.html" class="btn-fav-link" data-nav="favorites">
+                <i class='bx bx-heart'></i>
+                <span>مفضّلاتي</span>
+                <b class="fav-count" id="favCount" hidden>0</b>
+            </a>
         </div>
     </div>
 </header>
@@ -70,23 +57,12 @@ const HEADER_HTML = `
         </div>
         <ul class="mobile-links">
             <li><a href="/index.html" class="mobile-link" data-nav="home"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
-            <li><a href="/library.html" class="mobile-link" data-nav="library"><i class='bx bx-book-alt'></i> المكتبة</a></li>
             <li><a href="/class.html" class="mobile-link" data-nav="class"><i class='bx bx-category'></i> أقسام الكتب</a></li>
-            <li><a href="/author.html" class="mobile-link" data-nav="author"><i class='bx bx-user-pin'></i> مؤلفو الكتب</a></li>
-            <li class="mobile-dropdown">
-                <button class="mobile-dropbtn" id="mobileMenuBtn">
-                    <i class='bx bx-menu'></i> القائمة <i class='bx bx-chevron-down icon'></i>
-                </button>
-                <div class="mobile-dropdown-content" id="mobileDropdownMenu">
-                    <a href="/class.html"><i class='bx bx-book-open'></i> أقسام الكتب</a>
-                    <a href="/author.html"><i class='bx bx-user'></i> مؤلفو الكتب</a>
-                    <a href="/login.html"><i class='bx bx-quote-right'></i> اقتباسات الكتب</a>
-                    <a href="/login.html"><i class='bx bx-star'></i> مراجعات الكتب</a>
-                    <a href="/upload-book.html"><i class='bx bx-upload'></i> نشر كتاب</a>
-                </div>
-            </li>
-            <li><a href="#" class="mobile-link search-trigger"><i class='bx bx-search-alt-2'></i> بــحـــث</a></li>
-            <li class="mobile-auth" id="mobileAuthArea"></li>
+            <li><a href="/author.html" class="mobile-link" data-nav="author"><i class='bx bx-user-pin'></i> المؤلفون</a></li>
+            <li><a href="/upload-book.html" class="mobile-link" data-nav="upload"><i class='bx bx-upload'></i> نشر كتاب</a></li>
+            <li><a href="/print-book.html" class="mobile-link" data-nav="print"><i class='bx bx-printer'></i> طباعة كتاب</a></li>
+            <li><a href="/favorites.html" class="mobile-link" data-nav="favorites"><i class='bx bx-heart'></i> مفضّلاتي</a></li>
+            
         </ul>
     </div>
 </div>
@@ -138,26 +114,36 @@ const SEARCH_MODAL_HTML = `
 const FOOTER_HTML = `
 <footer class="light-footer">
     <div class="footer-container">
-        <div class="footer-brand">
-            <p class="brand-desc">
-                الملكية الفكرية محفوظة للمؤلفين المذكورين على الكتب والمكتبة غير مسؤولة عن أفكار المؤلفين.
-                يتم نشر الكتب القديمة والمنسية التي أصبحت في الماضي للحفاظ على التراث العربي والإسلامي،
-                والكتب التي يتم قبول نشرها من قبل مؤلفيها.
-            </p>
-            <div class="social-media-buttons">
-                <a href="#" class="social-btn facebook" title="فيسبوك"><i class='bx bxl-facebook'></i></a>
-                <a href="#" class="social-btn instagram" title="إنستغرام"><i class='bx bxl-instagram'></i></a>
-                <a href="#" class="social-btn twitter" title="تويتر"><i class='bx bxl-twitter'></i></a>
+
+        <!-- تنويه الحقوق + الإبلاغ -->
+        <div class="footer-rights">
+            <i class='bx bx-shield-quarter'></i>
+            <div>
+                <p>
+                    حقوق الكتب المنشورة عبر منصّة دار سامي محفوظة لمؤلفيها وناشريها.
+                </p>
+                <p>
+                               لا يُنشر أي كتاب دون موافقة صريحة من المؤلف أو الجهة المالكة للحقوق.
+
+                </p>
+                <p>
+                    إن نُشر كتابك دون علمك أو دون إذنك، أبلغنا لإيقاف عرضه فوراً.
+                </p>
+                <button class="btn-report" id="openReport" type="button">
+                    <i class='bx bx-flag'></i>
+                    <span>الإبلاغ عن كتاب</span>
+                </button>
             </div>
         </div>
 
         <div class="footer-grid">
+
             <div class="footer-column">
                 <h3><i class='bx bx-message-square-detail'></i> تواصل معنا</h3>
                 <ul class="contact-info">
-                    <li><i class='bx bx-map'></i><span>🇩🇿 الجزائر</span></li>
+                    <li><i class='bx bx-map'></i><span>الجزائر</span></li>
                     <li><i class='bx bx-envelope'></i><span>contact@sami-library.com</span></li>
-                    <li><i class='bx bx-phone'></i><span>+213 555 123 456</span></li>
+                    <li><i class='bx bx-phone'></i><span dir="ltr">+213 555 123 456</span></li>
                 </ul>
             </div>
 
@@ -165,37 +151,43 @@ const FOOTER_HTML = `
                 <h3><i class='bx bx-link-alt'></i> روابط سريعة</h3>
                 <ul class="footer-links">
                     <li><a href="/index.html"><i class='bx bx-chevron-left'></i> الرئيسية</a></li>
-                    <li><a href="/library.html"><i class='bx bx-chevron-left'></i> المكتبة</a></li>
                     <li><a href="/class.html"><i class='bx bx-chevron-left'></i> أقسام الكتب</a></li>
                     <li><a href="/author.html"><i class='bx bx-chevron-left'></i> المؤلفون</a></li>
+                    <li><a href="/favorites.html"><i class='bx bx-chevron-left'></i> مفضّلاتي</a></li>
                 </ul>
             </div>
 
             <div class="footer-column">
                 <h3><i class='bx bx-cog'></i> خدماتنا</h3>
                 <ul class="footer-links">
+                    <li><a href="/about.html"><i class='bx bx-chevron-left'></i> عن الدار</a></li>
                     <li><a href="/upload-book.html"><i class='bx bx-chevron-left'></i> نشر كتاب</a></li>
-                    <li><a href="/about.html#publish"><i class='bx bx-chevron-left'></i> شروط النشر</a></li>
+                    <li><a href="/print-book.html"><i class='bx bx-chevron-left'></i> طباعة كتاب</a></li>
                     <li><a href="/about.html#contact"><i class='bx bx-chevron-left'></i> تواصل معنا</a></li>
                 </ul>
             </div>
 
-            <div class="footer-column">
-                <h3><i class='bx bx-file'></i> قانوني</h3>
-                <ul class="footer-links">
-                    <li><a href="/terms.html"><i class='bx bx-chevron-left'></i> شروط الاستخدام</a></li>
-                    <li><a href="/privacy.html"><i class='bx bx-chevron-left'></i> سياسة الخصوصية</a></li>
-                </ul>
-            </div>
+        </div>
+
+        <!-- أزرار التواصل الاجتماعي -->
+        <div class="social-media-buttons">
+            <a href="#" class="social-btn facebook" title="فيسبوك"><i class='bx bxl-facebook'></i></a>
+            <a href="#" class="social-btn instagram" title="إنستغرام"><i class='bx bxl-instagram'></i></a>
+            <a href="#" class="social-btn twitter" title="تويتر"><i class='bx bxl-twitter'></i></a>
         </div>
 
         <div class="footer-bottom">
             <p>
                 حقوق الملكية © <span id="currentYear">2026</span>
                 <span class="gradient-text">مكتبة سامي الرقمية</span>
-                - جميع الحقوق محفوظة
             </p>
+            <nav class="footer-legal">
+                <a href="/terms.html">شروط الاستخدام</a>
+                <span>·</span>
+                <a href="/privacy.html">سياسة الخصوصية</a>
+            </nav>
         </div>
+
     </div>
 
     <button class="scroll-to-top" id="scrollToTop" title="العودة للأعلى">
@@ -203,7 +195,6 @@ const FOOTER_HTML = `
     </button>
 </footer>
 `;
-
 
 /* ========================================
    4️⃣ التركيب
@@ -218,16 +209,16 @@ function mountPartials() {
     }
 
     if (footerSlot) {
-        footerSlot.innerHTML = FOOTER_HTML;
+        footerSlot.innerHTML = FOOTER_HTML + REPORT_HTML;
     }
 
     markActiveLink();
-    renderAuthArea();
-    initDropdown();
     initMobileNav();
     initSearchModal();
     initScrollToTop();
     initCurrentYear();
+    initReport();
+    paintFavCount();
 }
 
 
@@ -243,137 +234,56 @@ function markActiveLink() {
 }
 
 
-/* ---------- منطقة الحساب ---------- */
-
-function renderAuthArea() {
-    const loggedIn = (typeof isLoggedIn === "function") ? isLoggedIn() : false;
-
-    const desktop = document.getElementById("authArea");
-    const mobile  = document.getElementById("mobileAuthArea");
-
-    const guestHTML = `
-        <a href="/login.html" class="btn btn-login"><i class='bx bx-log-in'></i> دخول</a>
-        <a href="/register.html" class="btn btn-register"><i class='bx bx-user-plus'></i> إنشاء حساب</a>
-    `;
-
-    const userHTML = `
-        <a href="/notifications.html" class="btn-notif" title="الإشعارات">
-            <i class='bx bx-bell'></i>
-            <span class="notif-badge" id="notifBadge" hidden>0</span>
-        </a>
-        <a href="/my-library.html" class="btn btn-login"><i class='bx bx-book-bookmark'></i> مكتبتي</a>
-        <a href="/profile.html" class="btn btn-login"><i class='bx bx-user'></i> حسابي</a>
-        <a href="#" class="btn btn-register" id="logoutBtn"><i class='bx bx-log-out'></i> خروج</a>
-    `;
-
-    const html = loggedIn ? userHTML : guestHTML;
-
-    if (desktop) desktop.innerHTML = html;
-    if (mobile)  mobile.innerHTML  = html;
-
-    if (loggedIn) loadNotifCount();
-
-    document.querySelectorAll("#logoutBtn").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            e.preventDefault();
-            localStorage.removeItem("auth_token");
-            window.location.href = "/index.html";
-        });
-    });
-}
-
-
 /* ========================================
-   🔔 عدّاد الإشعارات
+   ❤️ المفضّلة — تُحفظ في متصفّح الزائر
    ----------------------------------------
-   العدّاد يعيش في مكان واحد (sessionStorage) لا في
-   كل صفحة على حدة. بدون ذلك، تعليمُ إشعار كمقروء
-   في صفحة ثم الانتقال لأخرى يُظهر الرقم القديم —
-   لأن كل صفحة تسأل الخادم من جديد.
-
-   sessionStorage لا localStorage: العدّاد يخصّ
-   الجلسة الحالية ولا معنى لبقائه بعد إغلاق المتصفح.
+   لا حسابات في هذه النسخة، فالمفضّلة تعيش في
+   localStorage. هذا يعني أنها تخصّ هذا المتصفّح
+   وحده: تضيع عند مسح بيانات التصفّح، ولا تنتقل
+   إلى جهاز آخر. صفحة المفضّلة تُخبر الزائر بذلك
+   صراحة — إخفاؤه يجعله يظنّها محفوظة على حساب،
+   ولا حساب أصلاً.
    ======================================== */
 
-const NOTIF_KEY = "notif_unread";
+const FAV_KEY = "sami_favorites";
 
-/** يقرأ العدّاد المحفوظ، أو null إن لم يُحفظ بعد */
-function getNotifCount() {
-    const v = sessionStorage.getItem(NOTIF_KEY);
-    return v === null ? null : (parseInt(v, 10) || 0);
-}
-
-/** يحفظ العدّاد ويحدّث كل الشارات في الصفحة */
-function setNotifCount(n) {
-    const value = Math.max(0, n);
-    sessionStorage.setItem(NOTIF_KEY, value);
-    paintNotifBadge(value);
-}
-
-/** يزيد أو ينقص العدّاد بمقدار */
-function bumpNotifCount(delta) {
-    setNotifCount((getNotifCount() ?? 0) + delta);
-}
-
-function paintNotifBadge(unread) {
-    document.querySelectorAll("#notifBadge").forEach(badge => {
-        badge.textContent = unread > 99 ? "٩٩+" : unread;
-        badge.hidden = unread === 0;
-    });
-}
-
-/**
- * يعرض العدّاد المحفوظ فوراً (بلا وميض)، ثم يسأل
- * الخادم مرة واحدة في الجلسة للتأكّد.
- * فشلُه لا يُظهر خطأً — العدّاد ميزة إضافية لا أساسية.
- */
-async function loadNotifCount() {
-    const cached = getNotifCount();
-
-    if (cached !== null) {
-        paintNotifBadge(cached);
-        return;                    // ✅ لا نسأل الخادم مجدداً في نفس الجلسة
+function getFavorites() {
+    try {
+        const raw = localStorage.getItem(FAV_KEY);
+        const arr = raw ? JSON.parse(raw) : [];
+        return Array.isArray(arr) ? arr : [];
+    } catch {
+        return [];
     }
+}
+
+function isFavorite(id) {
+    return getFavorites().includes(String(id));
+}
+
+function toggleFavorite(id) {
+    const key  = String(id);
+    const list = getFavorites();
+    const i    = list.indexOf(key);
+
+    if (i === -1) list.push(key);
+    else          list.splice(i, 1);
 
     try {
-        const res = await apiGet("/notifications/count");
-        setNotifCount(res.data?.unread ?? 0);
+        localStorage.setItem(FAV_KEY, JSON.stringify(list));
     } catch {
-        /* صامت بقصد */
+        return isFavorite(id);   // التخزين ممتلئ أو معطّل
     }
+
+    paintFavCount();
+    return i === -1;
 }
 
-
-/* ---------- القائمة المنسدلة ---------- */
-
-function initDropdown() {
-    const menuBtn         = document.getElementById("menuBtn");
-    const dropdownContent = document.getElementById("dropdownMenu");
-    const closeMenu       = document.getElementById("closeMenu");
-
-    if (menuBtn && dropdownContent) {
-        menuBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            dropdownContent.classList.toggle("show");
-            menuBtn.classList.toggle("active");
-        });
-    }
-
-    if (closeMenu && dropdownContent) {
-        closeMenu.addEventListener("click", (e) => {
-            e.preventDefault();
-            dropdownContent.classList.remove("show");
-            menuBtn?.classList.remove("active");
-        });
-    }
-
-    document.addEventListener("click", (e) => {
-        if (menuBtn && dropdownContent &&
-            !menuBtn.contains(e.target) &&
-            !dropdownContent.contains(e.target)) {
-            dropdownContent.classList.remove("show");
-            menuBtn.classList.remove("active");
-        }
+function paintFavCount() {
+    const n = getFavorites().length;
+    document.querySelectorAll("#favCount").forEach(el => {
+        el.textContent = n > 99 ? "٩٩+" : n;
+        el.hidden = n === 0;
     });
 }
 
@@ -405,16 +315,6 @@ function initMobileNav() {
         if (e.target === mobileNavOverlay) closeNav();
     });
 
-    const mobileMenuBtn      = document.getElementById("mobileMenuBtn");
-    const mobileDropdownMenu = document.getElementById("mobileDropdownMenu");
-
-    if (mobileMenuBtn && mobileDropdownMenu) {
-        mobileMenuBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            mobileDropdownMenu.classList.toggle("show");
-            mobileMenuBtn.classList.toggle("active");
-        });
-    }
 }
 
 
@@ -502,12 +402,6 @@ function initCurrentYear() {
 }
 
 
-/* ========================================
-   🚀 التشغيل الفوري
-   ======================================== */
-
-mountPartials();
-
 
 /* ========================================
    🎭 حالات العرض المشتركة
@@ -558,34 +452,6 @@ function showError(el, retryFn, message = "تعذّر تحميل البيانا�
     }
 }
 
-/** يتطلّب تسجيل الدخول */
-function showLoginRequired(el, message = "سجّلي الدخول لعرض هذا المحتوى") {
-    if (!el) return;
-    const next = encodeURIComponent(window.location.pathname + window.location.search);
-    el.innerHTML = `
-        <div class="state-box">
-            <i class='bx bx-lock-alt'></i>
-            <p>${message}</p>
-            <a href="/login.html?redirect=${next}" class="btn-retry">
-                <i class='bx bx-log-in'></i> تسجيل الدخول
-            </a>
-        </div>
-    `;
-}
-
-/**
- * يتحقّق من الدخول قبل أي إجراء يحتاجه.
- * يرجّع true إذا كان المستخدم مسجّلاً، وإلا يوجّهه ويرجّع false.
- */
-function requireAuth(actionLabel = "") {
-    if (isLoggedIn()) return true;
-    const next = encodeURIComponent(window.location.pathname + window.location.search);
-    alert(`يجب تسجيل الدخول ${actionLabel}`);
-    window.location.href = `/login.html?redirect=${next}`;
-    return false;
-}
-
-
 /* ========================================
    🧱 مكوّنات مشتركة
    ----------------------------------------
@@ -612,6 +478,7 @@ function renderStars(average) {
 function renderBookCard(book) {
     const author = book.author || {};
     const slug   = book.slug || book.id;
+    const id     = book.id;
 
     const cover = book.cover
         ? `<img src="${escapeAttr(book.cover)}" alt="${escapeAttr(book.title)}" loading="lazy">`
@@ -621,29 +488,59 @@ function renderBookCard(book) {
         ? `<span class="badge-house">من إصداراتنا</span>`
         : "";
 
-    const rating = Number(book.ratings_avg) || 0;
-    const ratingHTML = book.ratings_count
-        ? `<div class="book-rating">${renderStars(rating)}
-               <span>${rating.toFixed(1)}</span></div>`
-        : `<div class="book-rating muted">
-               <i class='bx bx-star'></i><span>بلا تقييم</span></div>`;
+    // السعر يظهر للمدفوع فقط — المجاني هو الأصل فلا يُعلَن
+    const priceHTML = book.is_paid
+        ? `<div class="book-price"><i class='bx bx-purchase-tag'></i>
+               <span>${formatPrice(book.price)}</span></div>`
+        : "";
+
+    const fav = isFavorite(id);
 
     return `
         <article class="book-card">
             <a href="/book.html?slug=${encodeURIComponent(slug)}" class="book-image">
                 ${cover}${badge}
             </a>
+            <button class="card-fav${fav ? " on" : ""}" data-book="${escapeAttr(id)}"
+                    type="button" aria-label="${fav ? "إزالة من المفضّلة" : "إضافة للمفضّلة"}">
+                <i class='bx ${fav ? "bxs-heart" : "bx-heart"}'></i>
+            </button>
             <h3><a href="/book.html?slug=${encodeURIComponent(slug)}">${escapeText(book.title)}</a></h3>
             <p>${escapeText(author.name || "")}</p>
-            ${ratingHTML}
+            ${priceHTML}
         </article>
     `;
+}
+
+/** السعر بالدينار الجزائري */
+function formatPrice(value) {
+    return (Number(value) || 0).toLocaleString("ar-DZ") + " دج";
+}
+
+/** يربط أزرار القلب — يُستدعى بعد كل رسم */
+function bindFavButtons(container) {
+    (container || document).querySelectorAll(".card-fav").forEach(btn => {
+        if (btn.dataset.bound) return;
+        btn.dataset.bound = "1";
+
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const added = toggleFavorite(btn.dataset.book);
+            btn.classList.toggle("on", added);
+            btn.setAttribute("aria-label", added ? "إزالة من المفضّلة" : "إضافة للمفضّلة");
+            const icon = btn.querySelector("i");
+            if (icon) icon.className = added ? "bx bxs-heart" : "bx bx-heart";
+        });
+    });
 }
 
 /** يرسم مجموعة كروت في حاوية */
 function renderBookGrid(el, books) {
     if (!el) return;
     el.innerHTML = books.map(renderBookCard).join("");
+    bindFavButtons(el);
 }
 
 
@@ -695,3 +592,197 @@ function observeReveals() {
 }
 
 document.addEventListener("DOMContentLoaded", observeReveals);
+
+
+/* ========================================
+   🚩 نافذة الإبلاغ عن كتاب
+   ----------------------------------------
+   مكانها الفوتر لتكون في متناول الزائر من أي
+   صفحة — بلاغ حقوق النشر لا يُنتظر أن يعود
+   صاحبه إلى الرئيسية ليقدّمه.
+   ======================================== */
+
+const REPORT_HTML = `
+<div class="report-overlay" id="reportOverlay" hidden>
+    <div class="report-box" role="dialog" aria-modal="true" aria-labelledby="reportTitle">
+
+        <button class="report-close" id="reportClose" aria-label="إغلاق">
+            <i class='bx bx-x'></i>
+        </button>
+
+        <div class="report-head">
+            <i class='bx bx-flag'></i>
+            <h2 id="reportTitle">الإبلاغ عن كتاب</h2>
+            <p>تصل بلاغات حقوق النشر إلى الإدارة مباشرة، وتُراجَع بأولوية.</p>
+        </div>
+
+        <form id="reportForm" novalidate>
+            <div class="field">
+                <label for="rp_name">اسمك <span>*</span></label>
+                <input type="text" id="rp_name" required>
+            </div>
+
+            <div class="field">
+                <label for="rp_email">بريدك الإلكتروني <span>*</span></label>
+                <input type="email" id="rp_email" dir="ltr" required>
+                <small>نراسلك عليه بنتيجة البلاغ</small>
+            </div>
+
+            <div class="field">
+                <label for="rp_book">عنوان الكتاب أو رابطه <span>*</span></label>
+                <input type="text" id="rp_book" required
+                       placeholder="اكتب العنوان أو الصق رابط صفحة الكتاب">
+            </div>
+
+            <div class="field">
+                <label for="rp_reason">سبب البلاغ <span>*</span></label>
+                <select id="rp_reason" required>
+                    <option value="">اختر السبب</option>
+                    <option value="owner">أنا صاحب حقوق هذا العمل ولم آذن بنشره</option>
+                    <option value="agent">أمثّل صاحب الحقوق أو دار النشر</option>
+                    <option value="content">محتوى مخالف أو مسيء</option>
+                    <option value="other">سبب آخر</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="rp_message">تفاصيل البلاغ <span>*</span></label>
+                <textarea id="rp_message" rows="5" required
+                          placeholder="اشرح المشكلة، وأرفق ما يثبت حقّك إن أمكن"></textarea>
+            </div>
+
+            <input type="text" id="rp_trap" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+            <div class="alert" id="reportAlert" hidden></div>
+
+            <button type="submit" class="btn-send" id="reportSubmit">
+                <i class='bx bx-send'></i> إرسال البلاغ
+            </button>
+        </form>
+
+        <div class="report-done" id="reportDone" hidden>
+            <i class='bx bx-check-circle'></i>
+            <h3>وصلنا بلاغك</h3>
+            <p>
+                ستراجعه الإدارة بأولوية، ويصلك الردّ على بريدك.
+                وإن ثبت الحقّ، يُوقَف عرض الكتاب فوراً.
+            </p>
+            <button class="btn-send" id="reportOk" type="button">حسناً</button>
+        </div>
+
+    </div>
+</div>
+`;
+
+
+function initReport() {
+    const overlay = document.getElementById("reportOverlay");
+    const form    = document.getElementById("reportForm");
+    const doneBox = document.getElementById("reportDone");
+    const alertEl = document.getElementById("reportAlert");
+    const submit  = document.getElementById("reportSubmit");
+
+    if (!overlay) return;
+
+    const open  = () => {
+        overlay.hidden = false;
+        document.body.style.overflow = "hidden";
+        setTimeout(() => document.getElementById("rp_name")?.focus(), 200);
+    };
+
+    const close = () => {
+        overlay.hidden = true;
+        document.body.style.overflow = "";
+    };
+
+    document.getElementById("openReport")?.addEventListener("click", open);
+    document.getElementById("reportClose")?.addEventListener("click", close);
+    document.getElementById("reportOk")?.addEventListener("click", close);
+
+    overlay.addEventListener("click", e => { if (e.target === overlay) close(); });
+    document.addEventListener("keydown", e => {
+        if (e.key === "Escape" && !overlay.hidden) close();
+    });
+
+    form?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // مصيدة السبام: البشر لا يرون هذا الحقل.
+        // نتظاهر بالنجاح حتى لا يعرف الروبوت أنه كُشِف.
+        if (document.getElementById("rp_trap")?.value) return showDone();
+
+        const v = id => document.getElementById(id)?.value.trim() || "";
+
+        const data = {
+            name:    v("rp_name"),
+            email:   v("rp_email"),
+            subject: v("rp_book"),
+            message: v("rp_message"),
+            type:    "copyright",
+        };
+        const reason = v("rp_reason");
+
+        if (!data.name)    return bad("rp_name", "الرجاء كتابة اسمك");
+        if (!data.email)   return bad("rp_email", "الرجاء كتابة بريدك");
+        if (!/^\S+@\S+\.\S+$/.test(data.email))
+                            return bad("rp_email", "صيغة البريد غير صحيحة");
+        if (!data.subject) return bad("rp_book", "الرجاء تحديد الكتاب");
+        if (!reason)       return bad("rp_reason", "الرجاء اختيار سبب البلاغ");
+        if (!data.message) return bad("rp_message", "الرجاء كتابة تفاصيل البلاغ");
+
+        const labels = {
+            owner: "صاحب الحقوق", agent: "ممثّل صاحب الحقوق",
+            content: "محتوى مخالف", other: "سبب آخر",
+        };
+        data.message = `[${labels[reason] || "بلاغ"}]\n\n${data.message}`;
+
+        const original = submit.innerHTML;
+        submit.disabled  = true;
+        submit.innerHTML = `<i class='bx bx-loader-alt bx-spin'></i> جارٍ الإرسال...`;
+
+        try {
+            await apiPost("/contact", data);
+            showDone();
+        } catch (error) {
+            console.error("Error sending report:", error);
+            showAlert(error.message || "تعذّر إرسال البلاغ، حاول مرة أخرى");
+            submit.disabled  = false;
+            submit.innerHTML = original;
+        }
+    });
+
+    form?.addEventListener("input", e => {
+        e.target.classList.remove("invalid");
+        if (alertEl) alertEl.hidden = true;
+    });
+
+    function showDone() {
+        if (form)    form.hidden    = true;
+        if (doneBox) doneBox.hidden = false;
+    }
+
+    function bad(id, msg) {
+        showAlert(msg);
+        const el = document.getElementById(id);
+        el?.classList.add("invalid");
+        el?.focus();
+        return false;
+    }
+
+    function showAlert(text) {
+        if (!alertEl) return;
+        alertEl.hidden = false;
+        alertEl.className = "alert err";
+        alertEl.innerHTML = `<i class='bx bx-error-circle'></i><span>${escapeText(text)}</span>`;
+    }
+}
+
+/* ========================================
+   🚀 التشغيل — بعد تعريف كل القوالب
+   ----------------------------------------
+   ⚠️ لا تنقلي هذا السطر للأعلى: mountPartials
+   تستعمل REPORT_HTML المعرّف أدناه، و const
+   لا يُرفع فيتوقّف التنفيذ عند أوّل استعمال.
+   ======================================== */
+
+mountPartials();

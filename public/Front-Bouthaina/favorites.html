@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مفضّلاتي - مكتبة سامي الرقمية</title>
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+    <meta name="theme-color" content="#7a0c16">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/assets/css/favorites.css">
+</head>
+
+<body data-page="favorites">
+
+    <div id="site-header"></div>
+
+
+    <section class="fav-hero">
+        <div class="wrap">
+            <span class="kicker">محفوظاتك</span>
+            <h1>مفضّلاتي</h1>
+
+            <!-- تنبيه صريح: الزائر يستحقّ أن يعرف أين تُحفظ -->
+            <div class="fav-note">
+                <i class='bx bx-info-circle'></i>
+                <p>
+                    مفضّلاتك محفوظة في هذا المتصفّح وحده. تختفي إن مسحتِ
+                    بيانات التصفّح، ولا تظهر على جهاز آخر.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="section">
+        <div class="wrap">
+            <div class="fav-bar" id="favBar" hidden>
+                <span id="favSummary"></span>
+                <button class="btn-clear" id="clearAll" type="button">
+                    <i class='bx bx-trash'></i> مسح الكل
+                </button>
+            </div>
+
+            <div class="books-grid" id="favGrid"></div>
+        </div>
+    </section>
+
+
+    <div id="site-footer"></div>
+
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/partials.js"></script>
+    <script src="/assets/js/favorites.js"></script>
+</body>
+</html>

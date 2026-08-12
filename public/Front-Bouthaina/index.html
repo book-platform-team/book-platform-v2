@@ -5,32 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>سامي للطباعة والنشر والتوزيع</title>
 
-
     <meta name="description" content="دار سامي للطباعة والنشر والتوزيع — إصدارات منتقاة في الأدب والتاريخ والفكر، ومنصّة تتيح للمؤلفين نشر كتبهم.">
     <link rel="canonical" href="https://sami-library.com/">
 
-    <!-- الأيقونة -->
     <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
     <link rel="apple-touch-icon" href="/assets/img/favicon.svg">
     <meta name="theme-color" content="#7a0c16">
 
-    <!-- Open Graph — بطاقة المشاركة في واتساب وفيسبوك -->
     <meta property="og:type"         content="website">
     <meta property="og:site_name"    content="مكتبة سامي الرقمية">
     <meta property="og:locale"       content="ar_DZ">
     <meta property="og:url"          content="https://sami-library.com/">
     <meta property="og:title"        content="سامي للطباعة والنشر والتوزيع">
-    <meta property="og:description"  content="دار سامي للطباعة والنشر والتوزيع — إصدارات منتقاة في الأدب والتاريخ والفكر، ومنصّة تتيح للمؤلفين نشر كتبهم.">
+    <meta property="og:description"  content="إصدارات منتقاة في الأدب والتاريخ والفكر، ومنصّة تتيح للمؤلفين نشر كتبهم.">
     <meta property="og:image"        content="https://sami-library.com/assets/img/og-default.png">
     <meta property="og:image:width"  content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt"    content="مكتبة سامي الرقمية">
-
-    <!-- Twitter -->
     <meta name="twitter:card"        content="summary_large_image">
-    <meta name="twitter:title"       content="سامي للطباعة والنشر والتوزيع">
-    <meta name="twitter:description" content="دار سامي للطباعة والنشر والتوزيع — إصدارات منتقاة في الأدب والتاريخ والفكر، ومنصّة تتيح للمؤلفين نشر كتبهم.">
-    <meta name="twitter:image"       content="https://sami-library.com/assets/img/og-default.png">
+
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
@@ -44,211 +36,145 @@
 
 
     <!-- ========================================
-         🎬 الهيرو
+         🏷️ ترويسة القسم — تظهر عند ?category=
          ======================================== -->
-    <section class="hero">
-        <div class="hero-mesh" aria-hidden="true"></div>
-        <div class="hero-grain" aria-hidden="true"></div>
+    <section class="cat-context" id="catContext" hidden>
+        <div class="wrap">
+            <nav class="crumbs" aria-label="مسار التنقّل">
+                <a href="/index.html">الرئيسية</a>
+                <i class='bx bx-chevron-left'></i>
+                <a href="/class.html">أقسام الكتب</a>
+                <i class='bx bx-chevron-left'></i>
+                <span id="catCrumb">…</span>
+            </nav>
 
-        <div class="hero-inner">
-            <span class="hero-eyebrow reveal">دار نشر جزائرية</span>
-
-            <h1 class="hero-title reveal" style="--d:.08s">
-                <span class="line">سامي للطباعة</span>
-                <span class="line">والنشر <em>والتوزيع</em></span>
-            </h1>
-
-            <p class="hero-sub reveal" style="--d:.16s">
-                نختار ما يستحق أن يُقرأ، ونفتح الباب للمؤلفين
-                الذين ينتظرون أول كتاب يحمل أسماءهم.
-            </p>
-
-            <div class="hero-actions reveal" style="--d:.24s">
-                <a href="/library.html" class="btn-hero primary">
-                    <i class='bx bx-book-open'></i>
-                    <span>تصفّح الإصدارات</span>
-                </a>
-                <a href="/upload-book.html" class="btn-hero ghost">
-                    <i class='bx bx-upload'></i>
-                    <span>انشر معنا</span>
+            <div class="cat-head">
+                <div class="cat-icon"><i class='bx bx-book' id="catIcon"></i></div>
+                <div class="cat-meta">
+                    <h1 id="catTitle">…</h1>
+                    <p id="catCount"></p>
+                </div>
+                <a href="/index.html" class="cat-clear" title="عرض كل الكتب">
+                    <i class='bx bx-x'></i><span>كل الكتب</span>
                 </a>
             </div>
 
-            <!-- إحصائيات بعدّاد متحرّك -->
-            <div class="hero-stats reveal" style="--d:.32s">
-                <div class="hstat">
-                    <b class="counter" data-to="0" id="statBooks">0</b>
-                    <span>كتاب</span>
-                </div>
-                <div class="hstat">
-                    <b class="counter" data-to="0" id="statAuthors">0</b>
-                    <span>مؤلف</span>
-                </div>
-                <div class="hstat">
-                    <b class="counter" data-to="0" id="statDownloads">0</b>
-                    <span>تحميل</span>
-                </div>
-            </div>
+            <div class="cat-subs" id="catSubs"></div>
+        </div>
+    </section>
+
+
+    <!-- ========================================
+         🔍 الواجهة الأولى
+         ======================================== -->
+    <section class="search-section" id="heroSection">
+        <div class="hero-bg" aria-hidden="true">
+            <span class="orb orb-1"></span>
+            <span class="orb orb-2"></span>
+            <span class="hero-grain"></span>
         </div>
 
-        <a href="#latest" class="hero-scroll" aria-label="انزل للأسفل">
+        <div class="hero-inner">
+            <span class="hero-eyebrow">
+                <i class='bx bx-book-reader'></i> دار نشر جزائرية
+            </span>
+
+            <h1 class="hero-title">
+                <span>سامي للطباعة</span>
+                <span>والنشر <em>والتوزيع</em></span>
+            </h1>
+
+            <p class="hero-sub">
+                نختار ما يستحقّ أن يُقرأ، ونفتح الباب للمؤلفين
+                الذين ينتظرون أوّل كتاب يحمل أسماءهم
+            </p>
+
+            <div class="search-shell">
+                <i class='bx bx-search'></i>
+                <input type="text" id="searchInput"
+                       placeholder="ابحث عن كتاب أو كاتب"
+                       autocomplete="off" aria-label="بحث">
+                <button class="search-go" id="searchGo" aria-label="بحث">
+                    <i class='bx bx-left-arrow-alt'></i>
+                </button>
+            </div>
+            <ul class="suggestions" id="suggestions"></ul>
+        </div>
+
+        <a href="#books" class="hero-scroll" aria-label="انزل للكتب">
             <i class='bx bx-chevron-down'></i>
         </a>
     </section>
 
 
     <!-- ========================================
-         📚 أحدث إصداراتنا
+         📚 المحتوى: الكتب + العمود الجانبي
          ======================================== -->
-    <section class="section" id="latest">
-        <div class="wrap">
-            <header class="section-head reveal">
-                <div>
-                    <span class="kicker">جديدنا</span>
-                    <h2>أحدث الإصدارات</h2>
+    <main class="container" id="books">
+
+        <section class="books">
+            <h2 class="section-title" id="booksTitle">
+                <i class='bx bx-book-bookmark'></i> إصداراتنا
+            </h2>
+
+            <div class="books-grid" id="booksGrid"></div>
+        </section>
+
+
+        <aside class="side-col" id="sideCol">
+
+            <div class="side-block">
+                <div class="side-head">
+                    <h3><i class='bx bx-category'></i> أقسام الكتب</h3>
+                    <a href="/class.html" class="side-more" title="كل الأقسام">
+                        <i class='bx bx-chevron-left'></i>
+                    </a>
                 </div>
-                <a href="/library.html" class="link-more">
-                    كل الكتب <i class='bx bx-chevron-left'></i>
-                </a>
-            </header>
-
-            <div class="books-grid stagger" id="latestBooks"></div>
-        </div>
-    </section>
-
-
-    <!-- ========================================
-         🏛️ من نحن
-         ======================================== -->
-    <section class="section about-band">
-        <div class="wrap about-grid">
-            <div class="about-text reveal">
-                <span class="kicker">من نحن</span>
-                <h2>دار تُصغي قبل أن تطبع</h2>
-                <!-- نص مؤقت — يُستبدل بنص العميل -->
-                <p>
-                    بدأت الدار من قناعة بسيطة: أن الكتاب الجيد يستحق ناشراً يقرأه
-                    قبل أن يطبعه. نشتغل مع المؤلف على النصّ، ونرافقه من المسودّة
-                    الأولى حتى النسخة التي تصل إلى القارئ.
-                </p>
-                <p>
-                    نُصدر في الأدب والتاريخ والفكر والدراسات الإسلامية، ونفتح
-                    منصّتنا الرقمية للمؤلفين الجدد ليصل عملهم إلى قرّاء لم يكونوا
-                    ليصلوا إليهم بالطباعة وحدها.
-                </p>
-                <a href="/about.html" class="btn-hero ghost sm">
-                    <span>تعرّف على الدار</span>
-                    <i class='bx bx-chevron-left'></i>
-                </a>
+                <ul class="categories-list" id="categoriesList"></ul>
             </div>
 
-            <ul class="about-points stagger">
-                <li>
-                    <i class='bx bx-check-shield'></i>
-                    <div>
-                        <b>مراجعة قبل النشر</b>
-                        <span>كل كتاب يمرّ على هيئة القراءة قبل أن يُنشر</span>
-                    </div>
-                </li>
-                <li>
-                    <i class='bx bx-book-heart'></i>
-                    <div>
-                        <b>إصدارات منتقاة</b>
-                        <span>نُصدر أقلّ، ونهتمّ أكثر بما نُصدر</span>
-                    </div>
-                </li>
-                <li>
-                    <i class='bx bx-world'></i>
-                    <div>
-                        <b>ورقي ورقمي</b>
-                        <span>الكتاب نفسه بين يديك وعلى شاشتك</span>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </section>
-
-
-    <!-- ========================================
-         📂 الأقسام
-         ======================================== -->
-    <section class="section">
-        <div class="wrap">
-            <header class="section-head reveal">
-                <div>
-                    <span class="kicker">تصفّح</span>
-                    <h2>أقسام المكتبة</h2>
+            <div class="side-block">
+                <div class="side-head">
+                    <h3><i class='bx bx-user'></i> المؤلفون</h3>
+                    <a href="/author.html" class="side-more" title="كل المؤلفين">
+                        <i class='bx bx-chevron-left'></i>
+                    </a>
                 </div>
-                <a href="/class.html" class="link-more">
-                    كل الأقسام <i class='bx bx-chevron-left'></i>
-                </a>
-            </header>
-
-            <div class="cats-grid stagger" id="homeCategories"></div>
-        </div>
-    </section>
-
-
-    <!-- ========================================
-         ✍️ مؤلفونا
-         ======================================== -->
-    <section class="section authors-band">
-        <div class="wrap">
-            <header class="section-head reveal">
-                <div>
-                    <span class="kicker">أسماء</span>
-                    <h2>مؤلفو الدار</h2>
-                </div>
-                <a href="/author.html" class="link-more">
-                    كل المؤلفين <i class='bx bx-chevron-left'></i>
-                </a>
-            </header>
-
-            <div class="authors-strip stagger" id="homeAuthors"></div>
-        </div>
-    </section>
-
-
-    <!-- ========================================
-         🚀 انشر معنا
-         ======================================== -->
-    <section class="publish-cta">
-        <div class="wrap">
-            <div class="cta-head reveal">
-                <span class="kicker light">للمؤلفين</span>
-                <h2>عندك مخطوط؟ نحن نقرأه</h2>
-                <p>ثلاث خطوات تفصل بين ملفٍ على حاسوبك وكتابٍ في المكتبة</p>
+                <ul class="authors-list" id="authorsList"></ul>
             </div>
 
-            <ol class="steps stagger">
-                <li>
-                    <span class="num">١</span>
-                    <b>ارفع كتابك</b>
-                    <span class="desc">عنوان ووصف وملف PDF أو EPUB</span>
-                </li>
-                <li>
-                    <span class="num">٢</span>
-                    <b>نقرأ ونراجع</b>
-                    <span class="desc">هيئة القراءة تدرس العمل وتردّ عليك</span>
-                </li>
-                <li>
-                    <span class="num">٣</span>
-                    <b>يُنشر باسمك</b>
-                    <span class="desc">صفحة خاصة بك وبكتابك في المكتبة</span>
-                </li>
-            </ol>
+        </aside>
+    </main>
 
-            <div class="cta-actions reveal">
-                <a href="/upload-book.html" class="btn-hero light">
+
+    <!-- ========================================
+         🚀 انشر أو اطبع
+         ======================================== -->
+
+        <section class="publish-band" id="publishSection">
+          <div class="pb-bg" aria-hidden="true">
+            <span class="pb-orb pb-orb-1"></span>
+            <span class="pb-orb pb-orb-2"></span>
+            <span class="pb-dots"></span>
+          </div>
+
+          <div class="wrap">
+            <div class="pb-actions">
+                <a href="/upload-book.html" class="pb-card">
                     <i class='bx bx-upload'></i>
-                    <span>ابدأ الآن</span>
+                    <b>نشر كتاب مجاناً</b>
+                    <span>ارفع مخطوطك ليُراجَع ويُنشر في المكتبة</span>
                 </a>
-                <a href="/about.html" class="btn-hero outline-light">
-                    <span>شروط النشر</span>
+
+                <a href="/print-book.html" class="pb-card">
+                    <i class='bx bx-printer'></i>
+                    <b>طباعة كتاب</b>
+                    <span>أرسل معلوماتك ويصلك عرض السعر</span>
                 </a>
             </div>
-        </div>
-    </section>
+          </div>
+        </section>
+ 
 
 
     <div id="site-footer"></div>

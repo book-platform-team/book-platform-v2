@@ -24,6 +24,8 @@
     "edition": "الطبعة الثانية",
     "isbn": "978-9947-0-1234-5",
     "publication_type": "house_edition",
+    "is_paid": true,
+    "price": 1200,
     "published_at": "2026-01-14T10:00:00Z",
     "downloads_count": 1412,
     "views_count": 8930,

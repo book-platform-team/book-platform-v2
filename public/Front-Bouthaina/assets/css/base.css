@@ -1161,52 +1161,6 @@ a:focus, button:focus, input:focus, textarea:focus, select:focus {
     font-weight: 400;
     color: var(--text);
 }
-
-
-/* ========================================
-   🔔 جرس الإشعارات في الهيدر
-   ======================================== */
-
-.btn-notif {
-    position: relative;
-    width: 2.4rem; height: 2.4rem;
-    display: grid; place-items: center;
-    border-radius: 50%;
-    background: #fff;
-    border: 2px solid var(--border);
-    color: var(--primary);
-    font-size: 1.25rem;
-    transition: var(--transition-sm);
-    flex-shrink: 0;
-}
-
-.btn-notif:hover {
-    background: var(--primary);
-    border-color: var(--primary);
-    color: #fff;
-    transform: translateY(-2px);
-}
-
-.notif-badge {
-    position: absolute;
-    top: -.3rem; left: -.3rem;
-    min-width: 1.15rem;
-    height: 1.15rem;
-    padding: 0 .3rem;
-    border-radius: 20px;
-    background: var(--primary-light);
-    color: #fff;
-    font-size: .62rem;
-    font-weight: 800;
-    display: grid;
-    place-items: center;
-    border: 2px solid #fff;
-    line-height: 1;
-}
-
-.notif-badge[hidden] { display: none; }
-
-
 /* ========================================
    🔖 زر الحفظ في المكتبة
    ======================================== */
@@ -1262,4 +1216,457 @@ a:focus, button:focus, input:focus, textarea:focus, select:focus {
     font-weight: 700;
     text-decoration: underline;
     text-underline-offset: 2px;
+}
+
+
+/* ========================================
+   ❤️ المفضّلة — الهيدر والكرت
+   ======================================== */
+
+.btn-fav-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .45rem 1.1rem;
+    border: 2px solid var(--primary);
+    border-radius: 25px;
+    color: var(--primary);
+    background: #fff;
+    font-size: .8rem;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: var(--transition);
+}
+
+.btn-fav-link i { font-size: 1.05rem; }
+
+.btn-fav-link:hover,
+.btn-fav-link.active {
+    background: var(--primary);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.fav-count {
+    background: var(--primary-light);
+    color: #fff;
+    font-size: .66rem;
+    font-weight: 800;
+    min-width: 1.15rem;
+    padding: 0 .3rem;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.btn-fav-link:hover .fav-count,
+.btn-fav-link.active .fav-count {
+    background: rgba(255,255,255,.28);
+}
+
+.fav-count[hidden] { display: none; }
+
+
+/* ---------- قلب على كرت الكتاب ---------- */
+
+.book-card { position: relative; }
+
+.card-fav {
+    position: absolute;
+    top: .7rem; left: .7rem;
+    width: 2.1rem; height: 2.1rem;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,.94);
+    border: none;
+    color: var(--text-light);
+    font-size: 1.1rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,.14);
+    transition: var(--transition-sm);
+    z-index: 3;
+}
+
+.card-fav:hover { transform: scale(1.12); color: var(--primary-light); }
+.card-fav.on    { color: var(--primary-light); }
+
+
+
+
+/* ========================================
+   💰 السعر على الكرت
+   ----------------------------------------
+   يظهر للمدفوع فقط — المجاني هو الأصل
+   في هذه المكتبة فلا يُعلَن عنه.
+   ======================================== */
+
+.book-price {
+    margin-top: .7rem;
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .25rem .8rem;
+    border-radius: 20px;
+    background: rgba(22,140,73,.1);
+    border: 1px solid rgba(22,140,73,.25);
+    font-size: .82rem;
+    font-weight: 800;
+    color: #168c49;
+}
+
+.book-price i { font-size: .95rem; }
+
+
+/* ========================================
+   ⚖️ تنويه الحقوق في الفوتر
+   ======================================== */
+
+.footer-rights {
+    display: flex;
+    gap: 1.1rem;
+    align-items: flex-start;
+    padding: 2.2rem 1rem;
+    border-bottom: 2px solid var(--border);
+    max-width: 54rem;
+    margin: 0 auto;
+}
+
+.footer-rights > i {
+    font-size: 1.9rem;
+    color: var(--primary);
+    flex-shrink: 0;
+    opacity: .7;
+}
+
+.footer-rights p {
+    font-size: .86rem;
+    color: var(--text-light);
+    line-height: 1.9;
+    margin-bottom: .4rem;
+}
+
+.btn-report {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    margin-top: .9rem;
+    padding: .55rem 1.3rem;
+    background: #fff;
+    border: 2px solid var(--primary);
+    border-radius: 30px;
+    color: var(--primary);
+    font-family: inherit;
+    font-size: .84rem;
+    font-weight: 800;
+    transition: var(--transition);
+}
+
+.btn-report:hover {
+    background: var(--primary);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px var(--primary-glow);
+}
+
+
+/* ---------- شريط الفوتر السفلي ---------- */
+
+.footer-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    border-top: 2px solid var(--border);
+    padding: 1.3rem 1rem;
+    text-align: center;
+}
+
+.social-media-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .8rem;
+    width: 100%;
+}
+
+.footer-bottom p { font-size: .87rem; color: var(--text-light); }
+
+.footer-legal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .6rem;
+    font-size: .85rem;
+}
+
+.footer-legal a { color: var(--text-light); transition: var(--transition-sm); }
+.footer-legal a:hover { color: var(--primary); }
+.footer-legal span { color: var(--border); }
+
+/* ========================================
+   🚩 نافذة الإبلاغ
+   ======================================== */
+
+.report-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.6);
+    backdrop-filter: blur(6px);
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem;
+    overflow-y: auto;
+}
+
+.report-overlay[hidden] { display: none; }
+
+.report-box {
+    position: relative;
+    background: #fff;
+    border-radius: var(--radius-lg);
+    max-width: 34rem;
+    width: 100%;
+    padding: 2rem 1.8rem;
+    box-shadow: 0 20px 50px rgba(0,0,0,.3);
+    animation: reportIn .35s cubic-bezier(.22,.61,.36,1);
+    max-height: 92vh;
+    overflow-y: auto;
+    text-align: right;
+}
+
+@keyframes reportIn {
+    from { opacity: 0; transform: translateY(18px) scale(.98); }
+    to   { opacity: 1; transform: none; }
+}
+
+.report-close {
+    position: absolute;
+    top: 1rem; left: 1rem;
+    width: 2.2rem; height: 2.2rem;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: var(--bg-alt);
+    border: none;
+    color: var(--text);
+    font-size: 1.2rem;
+    transition: var(--transition-sm);
+}
+
+.report-close:hover { background: var(--primary); color: #fff; transform: rotate(90deg); }
+
+.report-head {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.1rem;
+    border-bottom: 2px solid var(--border);
+}
+
+.report-head > i {
+    font-size: 2.3rem; color: var(--primary);
+    display: block; margin-bottom: .45rem;
+}
+
+.report-head h2 {
+    font-size: 1.3rem; font-weight: 900;
+    color: var(--text); margin-bottom: .35rem;
+}
+
+.report-head p { font-size: .85rem; color: var(--text-light); line-height: 1.7; }
+
+.report-box .field { margin-bottom: 1.05rem; }
+
+.report-box label {
+    display: block; font-weight: 700; font-size: .85rem;
+    color: var(--text); margin-bottom: .4rem;
+}
+
+.report-box label span { color: var(--primary-light); }
+
+.report-box input,
+.report-box select,
+.report-box textarea {
+    width: 100%;
+    padding: .72rem .95rem;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: .9rem;
+    background: #fff;
+    color: var(--text);
+    transition: var(--transition-sm);
+    resize: vertical;
+}
+
+.report-box input:focus,
+.report-box select:focus,
+.report-box textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+.report-box .invalid { border-color: #dc3545; }
+
+.report-box small {
+    display: block; margin-top: .3rem;
+    font-size: .76rem; color: var(--text-light);
+}
+
+/* مصيدة السبام — مخفيّة بصرياً وعن قارئات الشاشة */
+#rp_trap {
+    position: absolute; left: -9999px;
+    width: 1px; height: 1px; opacity: 0; pointer-events: none;
+}
+
+.alert {
+    display: flex; align-items: center; gap: .6rem;
+    padding: .85rem 1rem; border-radius: 12px;
+    font-size: .87rem; font-weight: 600; margin-bottom: 1rem;
+}
+
+.alert[hidden] { display: none; }
+
+.alert.err {
+    background: rgba(220,53,69,.1);
+    border-inline-start: 4px solid #dc3545;
+    color: #b02a37;
+}
+
+.alert i { font-size: 1.15rem; flex-shrink: 0; }
+
+.btn-send {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: .5rem; width: 100%; padding: .88rem;
+    background: var(--primary-gradient);
+    color: #fff; border: none; border-radius: 30px;
+    font-family: inherit; font-size: .94rem; font-weight: 800;
+    transition: var(--transition);
+    box-shadow: 0 6px 18px var(--primary-glow);
+}
+
+.btn-send:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px var(--primary-glow);
+    color: #fff;
+}
+
+.btn-send:disabled { opacity: .7; cursor: not-allowed; transform: none; }
+
+.report-done { text-align: center; padding: 1rem 0; }
+.report-done[hidden] { display: none; }
+
+.report-done > i {
+    font-size: 3.3rem; color: #28a745;
+    display: block; margin-bottom: .7rem;
+}
+
+.report-done h3 {
+    font-size: 1.2rem; font-weight: 900;
+    color: var(--text); margin-bottom: .5rem;
+}
+
+.report-done p {
+    color: var(--text-light); line-height: 1.9;
+    font-size: .89rem; margin-bottom: 1.4rem;
+}
+
+
+@media (max-width: 700px) {
+    .footer-rights { flex-direction: column; gap: .8rem; padding: 1.8rem 1rem; }
+    .footer-bottom { flex-direction: column; text-align: center; gap: .7rem; }
+    .report-box { padding: 1.6rem 1.2rem; }
+}
+
+/* شبكة أمان: لا شيء يتجاوز عرض الشاشة */
+html, body { max-width: 100%; overflow-x: hidden; }
+fieldset { min-width: 0; }
+
+
+/* ════════════════════════════════════════
+   🎯 الإصلاح النهائي — التجاوز الأفقي
+   ────────────────────────────────────────
+   ثلاثة عناصر تمدّ منطقة التمرير:
+
+   1) .navbar::before  وميض عند left:-100%
+      في LTR يُقصّ بصمت، وفي RTL اليسار هو
+      اتجاه الفائض فيُحسب كاملاً.
+
+   2) .mobile-nav  عند right:-100% وهي fixed.
+      العناصر الثابتة لا تنحصر بـoverflow
+      على html أو body — قاعدة في المتصفحات.
+      الحلّ: transform بدل right، فالتحويلات
+      لا تدخل في حساب مساحة التمرير.
+
+   3) <select> يرث عرضاً أدنى من أطول خياره،
+      و 1fr تعني minmax(auto,1fr) فيرفض العمود
+      أن يصغر — وهذا سبب إزاحة الخطوة الثانية.
+   ════════════════════════════════════════ */
+
+/* ── 1) الوميض ── */
+.navbar::before { display: none !important; }
+
+.navbar {
+    overflow: hidden;
+    box-sizing: border-box;
+    width: auto;
+    max-width: 100%;
+}
+
+.navbar > * { min-width: 0; }
+
+.header-anim {
+    box-sizing: border-box;
+    max-width: 100vw;
+}
+
+
+/* ── 2) قائمة الجوال ── */
+.mobile-nav {
+    right: 0 !important;
+    transform: translateX(105%);
+    transition: transform .4s cubic-bezier(.4, 0, .2, 1) !important;
+    will-change: transform;
+}
+
+.mobile-nav-overlay.active .mobile-nav {
+    right: 0 !important;
+    transform: translateX(0);
+}
+
+.mobile-nav-overlay {
+    max-width: 100vw;
+    overflow: hidden;
+}
+
+
+/* ── 3) الشبكات والقوائم ── */
+.grid-2,
+.pay-choice {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+select, input, textarea {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+select { text-overflow: ellipsis; }
+
+@media (max-width: 640px) {
+    .grid-2,
+    .pay-choice { grid-template-columns: minmax(0, 1fr); }
+}
+
+
+/* ── شبكة الأمان ── */
+html { overflow-x: hidden; }
+
+body {
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
 }

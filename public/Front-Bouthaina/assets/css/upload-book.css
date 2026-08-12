@@ -1,415 +1,1000 @@
 /* ========================================
-   📤 صفحة رفع/نشر كتاب
+   📤 دار سامي — نشر كتاب
+   ⚠️ المشترك في base.css
    ======================================== */
 
-.upload-section {
-    padding: 60px 20px 70px;
-    background: linear-gradient(180deg, #fff 0%, #faf7f5 50%, #f5f0ed 100%);
-    min-height: 80vh;
+.up-hero {
+    padding: 2.8rem 0 2.2rem;
+    background: linear-gradient(180deg, #fdfbfa 0%, var(--bg-alt) 100%);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
 }
 
-.upload-section .container {
-    max-width: 700px;
+.up-hero h1 {
+    font-size: clamp(1.6rem, 4vw, 2.3rem);
+    font-weight: 900;
+    color: var(--text);
+    margin: .4rem 0 .7rem;
+}
+
+.up-hero p {
+    color: var(--text-light);
+    font-size: .98rem;
+    max-width: 34rem;
     margin: 0 auto;
 }
 
-.upload-card {
-    background: #fff;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-    overflow: hidden;
+.up-hero strong { color: var(--primary); font-weight: 800; }
+
+.up-wrap { max-width: 46rem; }
+
+
+/* ========================================
+   🧭 شريط الخطوات
+   ======================================== */
+
+.steps-bar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    list-style: none;
+    margin-bottom: 2.5rem;
+    position: relative;
 }
 
-/* رأس بطاقة الرفع */
-.upload-header {
-    background: var(--primary-gradient);
-    padding: 40px 30px;
+/* الخطّ الواصل بين النقاط */
+.steps-bar::before {
+    content: '';
+    position: absolute;
+    top: 1.35rem;
+    inset-inline: 12%;
+    height: 2px;
+    background: var(--border);
+    z-index: 0;
+}
+
+.step-dot {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem;
+    flex: 1;
     text-align: center;
-    color: #fff;
 }
 
-.upload-header i {
-    font-size: 3rem;
-    margin-bottom: 15px;
-    display: block;
-}
-
-.upload-header h1 {
-    font-size: 2rem;
-    font-weight: 900;
-    margin-bottom: 10px;
-}
-
-.upload-header p {
-    opacity: 0.9;
+.step-dot .dot {
+    width: 2.7rem; height: 2.7rem;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid var(--border);
+    color: var(--text-light);
+    font-weight: 800;
     font-size: 1rem;
+    transition: var(--transition);
 }
 
-/* النموذج */
-#uploadBookForm {
-    padding: 40px 30px;
+.step-dot b {
+    font-size: .84rem;
+    font-weight: 600;
+    color: var(--text-light);
+    transition: color .3s;
 }
 
-.form-group {
-    margin-bottom: 30px;
+.step-dot.active .dot {
+    background: var(--primary-gradient);
+    border-color: var(--primary);
+    color: #fff;
+    box-shadow: 0 6px 18px var(--primary-glow);
+    transform: scale(1.06);
 }
 
-.form-group label {
+.step-dot.active b { color: var(--primary); font-weight: 800; }
+
+/* الخطوة المنجزة تُعلَّم بصح — تُطمئن المؤلف أنه تقدّم */
+.step-dot.done .dot {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+    font-size: 0;
+}
+
+.step-dot.done .dot::after {
+    content: '✓';
+    font-size: 1.1rem;
+}
+
+.step-dot.done { cursor: pointer; }
+.step-dot.done b { color: var(--primary); }
+
+
+/* ========================================
+   📋 الخطوات
+   ======================================== */
+
+.step {
+    display: none;
+    border: none;
+    padding: 0;
+    animation: stepIn .4s cubic-bezier(.22,.61,.36,1);
+}
+
+.step.active { display: block; }
+
+@keyframes stepIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+}
+
+.step-legend {
+    display: block;
+    width: 100%;
+    padding: 0 0 1.4rem;
+    margin-bottom: 1.6rem;
+    border-bottom: 2px solid var(--border);
+}
+
+.step-legend h2 {
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: .3rem;
+}
+
+.step-legend p { font-size: .87rem; color: var(--text-light); }
+
+
+/* ---------- الحقول ---------- */
+
+.field { margin-bottom: 1.2rem; }
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.field label {
     display: block;
     font-weight: 700;
+    font-size: .88rem;
     color: var(--text);
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    margin-bottom: .45rem;
 }
 
-.form-group label i {
-    color: var(--primary);
-    font-size: 1.2rem;
-}
+.field label span { color: var(--primary-light); }
 
-.form-group .required {
-    color: var(--primary-light);
-}
-
-.form-group .optional {
-    color: var(--text-light);
-    font-weight: 400;
-}
-
-.form-group input[type="text"],
-.form-group textarea {
+.field input,
+.field select,
+.field textarea {
     width: 100%;
-    padding: 14px 18px;
+    padding: .8rem 1rem;
     border: 2px solid var(--border);
     border-radius: 12px;
-    font-size: 1rem;
     font-family: inherit;
-    transition: var(--transition-sm);
+    font-size: .93rem;
     background: #fff;
+    color: var(--text);
+    transition: var(--transition-sm);
+    resize: vertical;
 }
 
-.form-group input:focus,
-.form-group textarea:focus {
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 4px var(--primary-glow);
 }
 
-.form-group small {
+.field .invalid { border-color: #dc3545; }
+
+.field small {
     display: block;
+    margin-top: .35rem;
+    font-size: .78rem;
     color: var(--text-light);
-    font-size: 0.85rem;
-    margin-top: 6px;
 }
 
-/* ========================================
-   📎 رفع الملفات
-   ======================================== */
 
-.file-upload-wrapper {
+/* ---------- اختيار الصورة ---------- */
+
+.file-pick {
     position: relative;
-}
-
-.file-upload-wrapper input[type="file"] {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    right: 0;
-    opacity: 0;
-    cursor: pointer;
-    z-index: 2;
-}
-
-.file-upload-box {
-    padding: 40px 20px;
-    border: 3px dashed var(--border);
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    padding: .8rem 1rem;
+    border: 2px dashed var(--border);
     border-radius: 12px;
+    color: var(--text-light);
+    font-size: .9rem;
+    cursor: pointer;
+    transition: var(--transition-sm);
+}
+
+.file-pick:hover { border-color: var(--primary); color: var(--primary); }
+.file-pick i { font-size: 1.3rem; color: var(--primary); }
+
+.file-pick input {
+    position: absolute; inset: 0;
+    opacity: 0; cursor: pointer;
+}
+
+
+/* ---------- منطقة رفع الملف ---------- */
+
+.drop-zone {
+    position: relative;
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem 1.5rem;
     text-align: center;
     background: var(--bg-alt);
     transition: var(--transition-sm);
+    cursor: pointer;
 }
 
-.file-upload-wrapper:hover .file-upload-box {
+.drop-zone:hover,
+.drop-zone.over {
     border-color: var(--primary);
-    background: rgba(122, 12, 22, 0.05);
+    background: rgba(122,12,22,.05);
 }
 
-.file-upload-box i {
-    font-size: 3rem;
+.drop-zone input {
+    position: absolute; inset: 0;
+    opacity: 0; cursor: pointer;
+}
+
+.drop-zone i {
+    font-size: 2.6rem;
     color: var(--primary);
-    margin-bottom: 15px;
     display: block;
+    margin-bottom: .6rem;
 }
 
-.file-upload-box p {
-    font-weight: 600;
+.drop-zone b {
+    display: block;
     color: var(--text);
-    margin-bottom: 5px;
+    font-size: .98rem;
+    margin-bottom: .3rem;
 }
 
-.file-upload-box .file-types {
-    color: var(--text-light);
-    font-size: 0.85rem;
-}
+.drop-zone small { color: var(--text-light); font-size: .82rem; }
 
-/* قائمة الملفات المختارة */
-.file-list {
-    margin-top: 15px;
-}
-
-.file-item {
+.file-chosen {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px 15px;
-    background: var(--bg-alt);
-    border-radius: 10px;
-    margin-bottom: 8px;
+    gap: .9rem;
+    padding: 1rem 1.2rem;
+    background: rgba(122,12,22,.06);
+    border: 1px solid rgba(122,12,22,.2);
+    border-radius: var(--radius);
+}
+
+.file-chosen[hidden] { display: none; }
+
+.file-chosen > i { font-size: 1.8rem; color: var(--primary); }
+.file-chosen div { flex: 1; min-width: 0; }
+.file-chosen b {
+    display: block; font-size: .92rem; color: var(--text);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.file-chosen span { font-size: .8rem; color: var(--text-light); }
+
+.file-drop {
+    width: 2rem; height: 2rem;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid var(--border);
+    color: var(--text-light);
     transition: var(--transition-sm);
 }
 
-.file-item:hover {
-    background: rgba(122, 12, 22, 0.08);
-}
+.file-drop:hover { background: #dc3545; border-color: #dc3545; color: #fff; }
 
-.file-item i {
-    color: var(--primary);
-    font-size: 1.3rem;
-}
 
-.file-item .file-name {
-    flex: 1;
-    font-size: 0.9rem;
-    color: var(--text);
-    font-weight: 500;
-}
+/* ---------- إقرار الحقوق ---------- */
 
-.file-item .file-size {
-    font-size: 0.8rem;
-    color: var(--text-light);
-}
-
-.file-item .remove-file {
-    color: var(--primary-light);
+.rights-box {
+    display: flex;
+    gap: .9rem;
+    align-items: flex-start;
+    padding: 1.2rem;
+    background: var(--bg-alt);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
     cursor: pointer;
     transition: var(--transition-sm);
-    padding: 5px;
-    border-radius: 5px;
+    margin-bottom: 1.2rem;
 }
 
-.file-item .remove-file:hover {
-    color: var(--primary-dark);
-    background: rgba(122, 12, 22, 0.1);
+.rights-box:hover { border-color: var(--primary); }
+
+.rights-box input {
+    width: 1.15rem; height: 1.15rem;
+    margin-top: .25rem;
+    accent-color: var(--primary);
+    flex-shrink: 0;
 }
 
-/* ========================================
-   📢 رسائل التنبيه
-   ======================================== */
+.rights-box input.invalid { outline: 2px solid #dc3545; outline-offset: 2px; }
+
+.rights-box span {
+    font-size: .87rem;
+    color: var(--text-light);
+    line-height: 1.8;
+}
+
+.rights-box b {
+    display: block;
+    color: var(--text);
+    font-weight: 800;
+    margin-bottom: .2rem;
+}
+
+
+/* ---------- التنبيه ---------- */
 
 .alert {
-    padding: 15px 20px;
-    border-radius: 12px;
-    margin-bottom: 25px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 0.95rem;
-    animation: slideDown 0.3s ease;
-}
-
-.alert i {
-    font-size: 1.3rem;
-}
-
-.alert-info {
-    background: rgba(122, 12, 22, 0.08);
-    border-right: 4px solid var(--primary);
-    color: var(--text);
-}
-
-.alert-success {
-    background: rgba(40, 167, 69, 0.1);
-    border-right: 4px solid #28a745;
-    color: #28a745;
-}
-
-.alert-error {
-    background: rgba(220, 53, 69, 0.1);
-    border-right: 4px solid #dc3545;
-    color: #dc3545;
-}
-
-/* ========================================
-   🔘 زر الرفع
-   ======================================== */
-
-.btn-upload {
-    width: 100%;
-    padding: 16px;
-    background: var(--primary-gradient);
-    color: #fff;
-    border: none;
+    gap: .6rem;
+    padding: .9rem 1.1rem;
     border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    font-family: inherit;
-    cursor: pointer;
-    transition: var(--transition);
+    font-size: .89rem;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+}
+
+.alert[hidden] { display: none; }
+
+.alert.err {
+    background: rgba(220,53,69,.1);
+    border-inline-start: 4px solid #dc3545;
+    color: #b02a37;
+}
+
+.alert i { font-size: 1.2rem; flex-shrink: 0; }
+
+
+/* ---------- أزرار التنقّل ---------- */
+
+.step-nav {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
-    box-shadow: 0 4px 15px var(--primary-glow);
-}
-
-.btn-upload:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px var(--primary-glow);
-}
-
-.btn-upload:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-    transform: none;
-}
-
-/* ========================================
-   ⏳ حالة التحميل
-   ======================================== */
-
-.upload-status {
-    padding: 30px;
-    text-align: center;
-    background: var(--bg-alt);
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
     border-top: 2px solid var(--border);
 }
 
-.upload-status i {
-    font-size: 2.5rem;
-    color: var(--primary);
-    margin-bottom: 15px;
-    display: block;
-}
-
-.upload-status p {
-    color: var(--text);
-    margin-bottom: 20px;
-    font-weight: 600;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 8px;
-    background: var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
+.btn-next, .btn-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .85rem 1.9rem;
     background: var(--primary-gradient);
-    border-radius: 10px;
-    width: 0%;
-    transition: width 0.3s ease;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    font-family: inherit;
+    font-size: .93rem;
+    font-weight: 800;
+    transition: var(--transition);
+    box-shadow: 0 6px 18px var(--primary-glow);
 }
+
+.btn-next:hover, .btn-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px var(--primary-glow);
+    color: #fff;
+}
+
+.btn-submit:disabled { opacity: .7; cursor: not-allowed; transform: none; }
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .8rem 1.5rem;
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 30px;
+    color: var(--text-light);
+    font-family: inherit;
+    font-size: .9rem;
+    font-weight: 700;
+    transition: var(--transition-sm);
+}
+
+.btn-back:hover { border-color: var(--primary); color: var(--primary); }
+
 
 /* ========================================
-   ✅ رسالة النجاح
+   ✅ التأكيد
    ======================================== */
 
-.upload-success {
-    padding: 50px 30px;
+.done {
     text-align: center;
-    background: linear-gradient(135deg, rgba(40, 167, 69, 0.05) 0%, rgba(32, 136, 56, 0.08) 100%);
+    padding: 3rem 1.5rem;
 }
 
-.upload-success i {
+.done[hidden] { display: none; }
+
+.done > i {
     font-size: 4rem;
     color: #28a745;
-    margin-bottom: 20px;
     display: block;
+    margin-bottom: 1rem;
 }
 
-.upload-success h3 {
-    font-size: 1.8rem;
-    color: #28a745;
-    margin-bottom: 15px;
-}
-
-.upload-success p {
+.done h2 {
+    font-size: 1.6rem;
+    font-weight: 900;
     color: var(--text);
-    margin-bottom: 25px;
-    font-size: 1rem;
+    margin-bottom: .8rem;
+}
+
+.done p {
+    color: var(--text-light);
+    line-height: 2;
+    max-width: 32rem;
+    margin: 0 auto 2rem;
+    font-size: .95rem;
+}
+
+.done b { color: var(--primary); font-weight: 700; }
+.done strong { color: var(--text); font-weight: 800; }
+
+
+/* ========================================
+   📱 التجاوب
+   ======================================== */
+
+@media (max-width: 640px) {
+    .grid-2 { grid-template-columns: 1fr; gap: 0; }
+    .steps-bar::before { inset-inline: 18%; }
+    .step-dot .dot { width: 2.3rem; height: 2.3rem; font-size: .9rem; }
+    .step-dot b { font-size: .76rem; }
+    .step-nav { flex-direction: column-reverse; }
+    .step-nav button { width: 100%; justify-content: center; }
+    .drop-zone { padding: 2rem 1rem; }
+}
+
+
+/* ---------- اختيار مجاني/مدفوع ---------- */
+
+.pay-choice {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .8rem;
+}
+
+.pay-opt { cursor: pointer; margin: 0; }
+
+.pay-opt input { position: absolute; opacity: 0; pointer-events: none; }
+
+.pay-opt span {
+    display: block;
+    padding: 1.1rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    background: #fff;
+    text-align: center;
+    transition: var(--transition-sm);
+}
+
+.pay-opt span i {
+    font-size: 1.6rem;
+    color: var(--text-light);
+    display: block;
+    margin-bottom: .4rem;
+    transition: color .25s;
+}
+
+.pay-opt span b {
+    display: block;
+    font-size: .95rem;
+    color: var(--text);
+    margin-bottom: .15rem;
+}
+
+.pay-opt span small {
+    font-size: .76rem;
+    color: var(--text-light);
     line-height: 1.6;
 }
 
-.btn-back {
-    display: inline-block;
-    padding: 12px 30px;
-    background: var(--primary-gradient);
-    color: #fff;
-    border-radius: 10px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: var(--transition);
+.pay-opt:hover span { border-color: var(--primary); }
+
+.pay-opt input:checked + span {
+    border-color: var(--primary);
+    background: rgba(122,12,22,.05);
+    box-shadow: 0 0 0 3px var(--primary-glow);
 }
 
-.btn-back:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px var(--primary-glow);
+.pay-opt input:checked + span i { color: var(--primary); }
+
+#priceField[hidden] { display: none; }
+
+@media (max-width: 640px) {
+    .pay-choice { grid-template-columns: 1fr; }
 }
 
 /* ========================================
-   📱 Responsive
+   🖼️ غلاف الكتاب
    ======================================== */
 
-@media (max-width: 768px) {
-    .upload-section {
-        padding: 45px 15px 55px;
-    }
-    
-    .upload-header {
-        padding: 30px 20px;
-    }
-    
-    .upload-header h1 {
-        font-size: 1.7rem;
-    }
-    
-    #uploadBookForm,
-    .upload-status,
-    .upload-success {
-        padding: 30px 20px;
-    }
-    
-    .file-upload-box {
-        padding: 30px 15px;
-    }
-    
-    .file-upload-box i {
-        font-size: 2.5rem;
-    }
+.cover-zone {
+    position: relative;
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    background: var(--bg-alt);
+    transition: var(--transition-sm);
+    cursor: pointer;
 }
 
-@media (max-width: 480px) {
-    .upload-header h1 {
-        font-size: 1.5rem;
-    }
-    
-    .btn-upload {
-        font-size: 1rem;
-        padding: 14px;
-    }
-    
-    .file-item {
-        flex-wrap: wrap;
-    }
-    
-    .file-item .file-size {
-        width: 100%;
-        margin-top: 5px;
-    }
+.cover-zone[hidden] { display: none; }
+
+.cover-zone:hover {
+    border-color: var(--primary);
+    background: rgba(122,12,22,.05);
+}
+
+.cover-zone input {
+    position: absolute; inset: 0;
+    opacity: 0; cursor: pointer;
+}
+
+.cover-zone i {
+    font-size: 2.3rem;
+    color: var(--primary);
+    display: block;
+    margin-bottom: .5rem;
+}
+
+.cover-zone b {
+    display: block;
+    color: var(--text);
+    font-size: .96rem;
+    margin-bottom: .25rem;
+}
+
+.cover-zone small { color: var(--text-light); font-size: .8rem; }
+
+.cover-zone.invalid { border-color: #dc3545; }
+
+
+/* ---------- المعاينة ---------- */
+
+.cover-chosen {
+    display: flex;
+    gap: 1.1rem;
+    align-items: center;
+    padding: 1.1rem;
+    background: rgba(122,12,22,.05);
+    border: 1px solid rgba(122,12,22,.2);
+    border-radius: var(--radius);
+}
+
+.cover-chosen[hidden] { display: none; }
+
+/* نسبة الغلاف الحقيقية — المؤلف يرى ما سيراه القارئ */
+.cover-chosen img {
+    width: 5.5rem;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.18);
+    background: var(--bg-alt);
+    flex-shrink: 0;
+}
+
+.cover-info { flex: 1; min-width: 0; }
+
+.cover-info b {
+    display: block;
+    font-size: .92rem;
+    color: var(--text);
+    margin-bottom: .2rem;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+.cover-info span {
+    display: block;
+    font-size: .8rem;
+    color: var(--text-light);
+    margin-bottom: .7rem;
+}
+
+.cover-change {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .45rem 1rem;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 25px;
+    color: var(--primary);
+    font-family: inherit;
+    font-size: .82rem;
+    font-weight: 700;
+    transition: var(--transition-sm);
+}
+
+.cover-change:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+}
+/* ========================================
+   🔧 منع الخروج عن الشاشة
+   ----------------------------------------
+   fieldset يفرض min-width = أعرض محتوى فيه،
+   فحقلٌ واحد عريض يدفع الصفحة كلّها جانباً.
+   و legend عنصر استثنائي في التدفّق، فنحوّله
+   إلى كتلة عادية.
+   ======================================== */
+
+.up-section,
+.up-wrap {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.up-wrap { max-width: 46rem; margin-inline: auto; }
+
+/* ⭐ السطر الحاسم — fieldset لا يحترم العرض بدونه */
+.step {
+    min-width: 0 !important;
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 0;
+    border: 0;
+    margin: 0;
+}
+
+.step-legend {
+    display: block;
+    float: none;
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 0;
+    margin: 0 0 1.6rem;
+}
+
+.grid-2 {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.grid-2 > .field,
+.field {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.field input,
+.field select,
+.field textarea {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.steps-bar {
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 0;
+}
+
+.pay-choice { min-width: 0; max-width: 100%; }
+
+
+/* ========================================
+   📜 بوّابة شروط النشر
+   ======================================== */
+
+.terms-gate {
+    background: var(--bg-alt);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.2rem;
+    margin-bottom: 1.2rem;
+}
+
+.btn-terms {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .6rem 1.3rem;
+    background: #fff;
+    border: 2px solid var(--primary);
+    border-radius: 30px;
+    color: var(--primary);
+    font-family: inherit;
+    font-size: .87rem;
+    font-weight: 800;
+    transition: var(--transition);
+    margin-bottom: 1rem;
+}
+
+.btn-terms:hover {
+    background: var(--primary);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.agree-box {
+    display: flex;
+    gap: .7rem;
+    align-items: flex-start;
+    cursor: pointer;
+    margin: 0;
+}
+
+.agree-box input {
+    width: 1.1rem; height: 1.1rem;
+    margin-top: .2rem;
+    accent-color: var(--primary);
+    flex-shrink: 0;
+}
+
+.agree-box input:disabled { cursor: not-allowed; opacity: .5; }
+
+.agree-box input.invalid { outline: 2px solid #dc3545; outline-offset: 2px; }
+
+.agree-box span {
+    font-size: .89rem;
+    color: var(--text);
+    line-height: 1.7;
+}
+
+.agree-box b { color: var(--primary); font-weight: 800; }
+
+.agree-box small {
+    display: block;
+    font-size: .78rem;
+    color: var(--text-light);
+    margin-top: .2rem;
+}
+
+
+/* ---------- النافذة ---------- */
+
+.terms-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.6);
+    backdrop-filter: blur(6px);
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem;
+}
+
+.terms-overlay[hidden] { display: none; }
+
+.terms-box {
+    position: relative;
+    background: #fff;
+    border-radius: var(--radius-lg);
+    max-width: 38rem;
+    width: 100%;
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 50px rgba(0,0,0,.3);
+    animation: termsIn .35s cubic-bezier(.22,.61,.36,1);
+}
+
+@keyframes termsIn {
+    from { opacity: 0; transform: translateY(18px) scale(.98); }
+    to   { opacity: 1; transform: none; }
+}
+
+.terms-close {
+    position: absolute;
+    top: 1rem; left: 1rem;
+    width: 2.2rem; height: 2.2rem;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: var(--bg-alt);
+    border: none;
+    color: var(--text);
+    font-size: 1.2rem;
+    transition: var(--transition-sm);
+    z-index: 2;
+}
+
+.terms-close:hover {
+    background: var(--primary);
+    color: #fff;
+    transform: rotate(90deg);
+}
+
+.terms-box > h2 {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: var(--text);
+    padding: 1.6rem 1.8rem 1.1rem;
+    border-bottom: 2px solid var(--border);
+}
+
+.terms-box > h2 i { color: var(--primary); }
+
+.terms-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.4rem 1.8rem;
+}
+
+.terms-scroll h3 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 1.3rem 0 .6rem;
+}
+
+.terms-scroll h3:first-child { margin-top: 0; }
+
+.terms-scroll ul {
+    display: grid;
+    gap: .55rem;
+    margin-bottom: .8rem;
+    list-style: none;
+}
+
+.terms-scroll li {
+    position: relative;
+    padding-inline-start: 1.1rem;
+    font-size: .88rem;
+    color: var(--text-light);
+    line-height: 1.85;
+}
+
+.terms-scroll li::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0; top: .72rem;
+    width: .38rem; height: .38rem;
+    border-radius: 50%;
+    background: var(--primary);
+}
+
+.terms-more {
+    margin-top: 1.2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-size: .85rem;
+    color: var(--text-light);
+    line-height: 1.8;
+}
+
+.terms-more a {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.terms-foot {
+    padding: 1.1rem 1.8rem 1.5rem;
+    border-top: 2px solid var(--border);
+    background: var(--bg-alt);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+#scrollHint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+    font-size: .82rem;
+    color: var(--text-light);
+    margin-bottom: .8rem;
+}
+
+#scrollHint[hidden] { display: none; }
+
+#scrollHint i { animation: hintBob 1.8s ease-in-out infinite; }
+
+@keyframes hintBob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(4px); }
+}
+
+.btn-agree {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    width: 100%;
+    padding: .85rem;
+    background: var(--primary-gradient);
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    font-family: inherit;
+    font-size: .93rem;
+    font-weight: 800;
+    transition: var(--transition);
+    box-shadow: 0 6px 18px var(--primary-glow);
+}
+
+.btn-agree:hover:not(:disabled) { transform: translateY(-3px); }
+
+.btn-agree:disabled {
+    background: var(--border);
+    color: var(--text-light);
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+    .terms-box > h2 { padding: 1.3rem 1.2rem 1rem; font-size: 1.1rem; }
+    .terms-scroll { padding: 1.1rem 1.2rem; }
+    .terms-foot { padding: 1rem 1.2rem 1.3rem; }
+}
+
+/* ========================================
+   🎯 إصلاح إزاحة الخطوة الثانية
+   ----------------------------------------
+   grid-template-columns: 1fr 1fr تعني ضمنياً
+   minmax(auto, 1fr) — و auto تساوي عرض أطول
+   محتوى في العمود. و <select> عرضه الأدنى =
+   أطول خيار فيه، وأسماء الأقسام طويلة، فيرفض
+   العمود أن يصغر وتتجاوز الشبكة عرض الشاشة.
+
+   minmax(0, 1fr) يرفع هذا القيد.
+   ======================================== */
+
+.up-wrap .grid-2,
+.pr-card .grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* <select> يرث عرضاً أدنى من أطول خياراته */
+.field select,
+.field input,
+.field textarea,
+.pr-card select,
+.pr-card input,
+.pr-card textarea {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* النصّ الطويل داخل القائمة يُقصّ بدل أن يمدّها */
+.field select { text-overflow: ellipsis; }
+
+/* الشبكات الأخرى في الاستمارة */
+.pay-choice { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+@media (max-width: 640px) {
+    .up-wrap .grid-2,
+    .pr-card .grid-2,
+    .pay-choice { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* الحقول الاختيارية تُعلَّم صراحةً —
+   الصمت يجعل المستخدم يظنّها مطلوبة */
+.field label em {
+    font-style: normal;
+    font-size: .76rem;
+    font-weight: 500;
+    color: var(--text-light);
 }

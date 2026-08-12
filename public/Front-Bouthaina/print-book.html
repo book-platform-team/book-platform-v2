@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طباعة كتاب - دار سامي للطباعة والنشر والتوزيع</title>
+    <meta name="description" content="اطبع كتابك مع دار سامي — أرسل المعلومات الأولية ونرسل لك عرض السعر.">
+    <link rel="canonical" href="https://sami-library.com/print-book.html">
+
+    <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+    <meta name="theme-color" content="#7a0c16">
+
+    <meta property="og:type"        content="website">
+    <meta property="og:site_name"   content="مكتبة سامي الرقمية">
+    <meta property="og:locale"      content="ar_DZ">
+    <meta property="og:title"       content="طباعة كتاب - دار سامي">
+    <meta property="og:description" content="أرسل المعلومات الأولية ونرسل لك عرض سعر الطباعة.">
+    <meta property="og:image"       content="https://sami-library.com/assets/img/og-default.png">
+    <meta name="twitter:card"       content="summary_large_image">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/assets/css/print-book.css">
+</head>
+
+<body data-page="print">
+
+    <div id="site-header"></div>
+
+
+    <section class="pr-hero">
+        <div class="wrap">
+            <span class="kicker">خدمة الطباعة</span>
+            <h1>اطبع كتابك معنا</h1>
+            <p>
+                أرسل لنا <strong>المعلومات الأوّلية</strong> عن كتابك،
+                ونرسل لك عرض سعر الطباعة على بريدك.
+            </p>
+        </div>
+    </section>
+
+
+    <section class="section pr-section">
+        <div class="wrap pr-wrap">
+
+            <!-- كيف تسير الخدمة — قبل الاستمارة، فالوضوح يسبق الطلب -->
+            <ol class="pr-flow">
+                <li>
+                    <span class="fl-num">١</span>
+                    <div>
+                        <b>ترسل المعلومات الأوّلية</b>
+                        <span>بيانات الكتاب وعدد النسخ والملف</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="fl-num">٢</span>
+                    <div>
+                        <b>نراجع ونحسب</b>
+                        <span>نُقدّر تكلفة الطباعة حسب الحجم والعدد</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="fl-num">٣</span>
+                    <div>
+                        <b>يصلك عرض السعر</b>
+                        <span>ونكمل باقي الإجراءات عبر البريد</span>
+                    </div>
+                </li>
+            </ol>
+
+
+            <form id="printForm" class="pr-card" novalidate>
+
+                <header class="pr-card-head">
+                    <h2><i class='bx bx-list-check'></i> المعلومات الأوّلية</h2>
+                    <p>الحقول المعلَّمة بـ<span>*</span> مطلوبة.</p>
+                </header>
+
+                <!-- ── مقدّم الطلب ── -->
+                <div class="grid-2">
+                    <div class="field">
+                        <label for="pr_name">الاسم واللقب <span>*</span></label>
+                        <input type="text" id="pr_name" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="pr_email">البريد الإلكتروني <span>*</span></label>
+                        <input type="email" id="pr_email" dir="ltr" required>
+                        <small>هنا يصلك عرض السعر</small>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="pr_phone">رقم الهاتف</label>
+                    <input type="tel" id="pr_phone" dir="ltr">
+                </div>
+
+                <hr class="pr-sep">
+
+                <!-- ── بيانات الكتاب ── -->
+                <div class="grid-2">
+                    <div class="field">
+                        <label for="pr_book">اسم الكتاب <span>*</span></label>
+                        <input type="text" id="pr_book" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="pr_author">اسم المؤلف <span>*</span></label>
+                        <input type="text" id="pr_author" required>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="field">
+                        <label for="pr_pages">عدد صفحات الكتاب <span>*</span></label>
+                        <input type="number" id="pr_pages" min="1" inputmode="numeric" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="pr_copies">عدد النسخ المطلوبة <span>*</span></label>
+                        <input type="number" id="pr_copies" min="1" inputmode="numeric" required
+                               placeholder="مثال: 100">
+                        <small>كلّما زاد العدد انخفضت تكلفة النسخة</small>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="pr_notes">ملاحظات إضافية</label>
+                    <textarea id="pr_notes" rows="3"
+                              placeholder="نوع الورق، الغلاف، القياس، أو أي طلب خاص"></textarea>
+                </div>
+
+                <hr class="pr-sep">
+
+                <!-- ── الملفات ── -->
+                <div class="field">
+                    <label for="pr_cover">صورة الكتاب <span>*</span></label>
+
+                    <div class="pick-zone" id="coverZone">
+                        <input type="file" id="pr_cover" accept="image/*" required>
+                        <i class='bx bx-image-add'></i>
+                        <b>اختر صورة الغلاف</b>
+                        <small>JPG أو PNG · حتى ٥ ميجابايت</small>
+                    </div>
+
+                    <div class="pick-done" id="coverDone" hidden>
+                        <img id="coverPreview" alt="معاينة الغلاف">
+                        <div class="pick-info">
+                            <b id="coverName"></b>
+                            <span id="coverSize"></span>
+                            <button type="button" class="pick-change" id="coverRemove">
+                                <i class='bx bx-refresh'></i> تغيير
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="pr_file">ملف الكتاب PDF <span>*</span></label>
+
+                    <div class="pick-zone" id="fileZone">
+                        <input type="file" id="pr_file" accept=".pdf" required>
+                        <i class='bx bx-cloud-upload'></i>
+                        <b>اسحب الملف هنا أو اضغط للاختيار</b>
+                        <small>PDF فقط · حتى ٥٠ ميجابايت</small>
+                    </div>
+
+                    <div class="pick-done row" id="fileDone" hidden>
+                        <i class='bx bxs-file-pdf'></i>
+                        <div class="pick-info">
+                            <b id="fileName"></b>
+                            <span id="fileSize"></span>
+                        </div>
+                        <button type="button" class="pick-drop" id="fileRemove" aria-label="إزالة">
+                            <i class='bx bx-x'></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- مصيدة سبام — مخفيّة عن المستخدم -->
+                <input type="text" id="pr_trap" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+                <div class="alert" id="prAlert" hidden></div>
+
+                <div class="pr-promise">
+                    <i class='bx bx-info-circle'></i>
+                    <p>
+                        سنراجع المعلومات ونرسل لك بريداً محدَّداً فيه
+                        <strong>سعر الطباعة</strong>، ونكمل باقي الإجراءات عبر البريد.
+                    </p>
+                </div>
+
+                <button type="submit" class="btn-send" id="prSubmit">
+                    <i class='bx bx-send'></i> إرسال المعلومات
+                </button>
+
+            </form>
+
+
+            <!-- ══════ بعد الإرسال ══════ -->
+            <div class="pr-done" id="prDone" hidden>
+                <i class='bx bx-check-circle'></i>
+                <h2>وصلتنا معلوماتك</h2>
+                <p>
+                    سنراجعها ونرسل لك عرض سعر الطباعة على
+                    <b id="doneEmail"></b>، ونكمل باقي الإجراءات عبر البريد.
+                </p>
+                <a href="/index.html" class="btn-send inline">
+                    <i class='bx bx-book-open'></i> العودة إلى المكتبة
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+
+    <div id="site-footer"></div>
+
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/partials.js"></script>
+    <script src="/assets/js/print-book.js"></script>
+</body>
+</html>

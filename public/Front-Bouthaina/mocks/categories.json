@@ -7,24 +7,35 @@
       "slug": "novels",
       "icon": "bx-book",
       "books_count": 23,
+      "is_fallback": false,
       "children": [
         {
           "id": 11,
           "name": "روايات عربية",
           "slug": "arabic-novels",
-          "books_count": 9
+          "books_count": 9,
+          "is_fallback": false
         },
         {
           "id": 12,
           "name": "روايات عالمية",
           "slug": "world-novels",
-          "books_count": 6
+          "books_count": 6,
+          "is_fallback": false
         },
         {
           "id": 13,
           "name": "قصص قصيرة",
           "slug": "short-stories",
-          "books_count": 8
+          "books_count": 8,
+          "is_fallback": false
+        },
+        {
+          "id": 14,
+          "name": "أخرى",
+          "slug": "novels-other",
+          "books_count": 0,
+          "is_fallback": true
         }
       ]
     },
@@ -34,24 +45,35 @@
       "slug": "islamic-life",
       "icon": "bx-moon",
       "books_count": 31,
+      "is_fallback": false,
       "children": [
         {
           "id": 21,
           "name": "الفقه الإسلامي",
           "slug": "fiqh",
-          "books_count": 12
+          "books_count": 12,
+          "is_fallback": false
         },
         {
           "id": 22,
           "name": "السيرة النبوية",
           "slug": "seerah",
-          "books_count": 10
+          "books_count": 10,
+          "is_fallback": false
         },
         {
           "id": 23,
           "name": "التفسير",
           "slug": "tafsir",
-          "books_count": 9
+          "books_count": 9,
+          "is_fallback": false
+        },
+        {
+          "id": 24,
+          "name": "أخرى",
+          "slug": "islamic-other",
+          "books_count": 0,
+          "is_fallback": true
         }
       ]
     },
@@ -61,24 +83,35 @@
       "slug": "history",
       "icon": "bx-time-five",
       "books_count": 18,
+      "is_fallback": false,
       "children": [
         {
           "id": 31,
           "name": "تاريخ الجزائر",
           "slug": "algeria-history",
-          "books_count": 8
+          "books_count": 8,
+          "is_fallback": false
         },
         {
           "id": 32,
           "name": "التاريخ الإسلامي",
           "slug": "islamic-history",
-          "books_count": 6
+          "books_count": 6,
+          "is_fallback": false
         },
         {
           "id": 33,
           "name": "الحضارات القديمة",
           "slug": "ancient",
-          "books_count": 4
+          "books_count": 4,
+          "is_fallback": false
+        },
+        {
+          "id": 34,
+          "name": "أخرى",
+          "slug": "history-other",
+          "books_count": 0,
+          "is_fallback": true
         }
       ]
     },
@@ -88,24 +121,35 @@
       "slug": "self-development",
       "icon": "bx-trending-up",
       "books_count": 14,
+      "is_fallback": false,
       "children": [
         {
           "id": 41,
           "name": "تطوير الذات",
           "slug": "self",
-          "books_count": 7
+          "books_count": 7,
+          "is_fallback": false
         },
         {
           "id": 42,
           "name": "الإدارة والقيادة",
           "slug": "leadership",
-          "books_count": 4
+          "books_count": 4,
+          "is_fallback": false
         },
         {
           "id": 43,
           "name": "الصحة النفسية",
           "slug": "mental-health",
-          "books_count": 3
+          "books_count": 3,
+          "is_fallback": false
+        },
+        {
+          "id": 44,
+          "name": "أخرى",
+          "slug": "self-other",
+          "books_count": 0,
+          "is_fallback": true
         }
       ]
     },
@@ -115,20 +159,39 @@
       "slug": "political-science",
       "icon": "bx-landscape",
       "books_count": 9,
+      "is_fallback": false,
       "children": [
         {
           "id": 51,
           "name": "العلاقات الدولية",
           "slug": "intl-relations",
-          "books_count": 4
+          "books_count": 4,
+          "is_fallback": false
         },
         {
           "id": 52,
           "name": "الفكر السياسي",
           "slug": "political-thought",
-          "books_count": 5
+          "books_count": 5,
+          "is_fallback": false
+        },
+        {
+          "id": 53,
+          "name": "أخرى",
+          "slug": "political-other",
+          "books_count": 0,
+          "is_fallback": true
         }
       ]
+    },
+    {
+      "id": 9,
+      "name": "أخرى",
+      "slug": "other",
+      "icon": "bx-dots-horizontal-rounded",
+      "books_count": 2,
+      "is_fallback": true,
+      "children": []
     }
   ]
 }
