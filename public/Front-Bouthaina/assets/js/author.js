@@ -4,155 +4,185 @@
    ⚠️ الهيدر · قائمة الجوال · مودال البحث · الفوتر ·
       زر الصعود · السنة  →  كلها في partials.js
       لا تُكرَّر هنا.
+   ----------------------------------------
+   لا تقييم — أُزيل مع بقية أثر التقييمات.
+   البطاقة رابط <a> لا <div> بحدث نقر: تعمل
+   بلوحة المفاتيح، وتُفتح في تبويب جديد بالزرّ
+   الأوسط، ويقرأها محرّك البحث.
    ======================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* ---------- عناصر الصفحة ---------- */
-
-    const authorsGrid       = document.getElementById("authorsGrid");
-    const noAuthors         = document.getElementById("noAuthors");
-    const noResults         = document.getElementById("noResults");
-    const authorSearchInput = document.getElementById("authorSearchInput");
-    const clearSearch       = document.getElementById("clearSearch");
+    const grid      = document.getElementById("authorsGrid");
+    const countLine = document.getElementById("authorsCount");
+    const noResults = document.getElementById("noResults");
+    const noAuthors = document.getElementById("noAuthors");
+    const loadError = document.getElementById("loadError");
+    const searchBox = document.getElementById("authorSearchInput");
+    const clearBtn  = document.getElementById("clearSearch");
 
     let allAuthors = [];
 
+    if (!grid) return;
+
 
     /* ========================================
-       🔹 جلب المؤلفين
+       📥 الجلب
        ======================================== */
 
     async function loadAuthors() {
-        if (!authorsGrid) return;
-
-        authorsGrid.innerHTML = `
-            <div class="loading-authors">
-                <i class='bx bx-loader-alt bx-spin'></i>
-                <p>جارٍ تحميل المؤلفين...</p>
-            </div>
-        `;
+        show(grid);
+        hide(noResults, noAuthors, loadError, countLine);
+        skeleton(10);
 
         try {
             // شكل الرد المتفق عليه في API.md: { success, data: [...] }
-            const result  = await apiGet("/authors");
-            const authors = result.data || [];
+            const res  = await apiGet("/authors");
+            const list = res.data || [];
 
-            if (authors.length > 0) {
-                allAuthors = authors;
-                displayAuthors(allAuthors);
-                if (noAuthors) noAuthors.style.display = "none";
-            } else {
-                allAuthors = [];
-                authorsGrid.innerHTML = "";
-                if (noAuthors) noAuthors.style.display = "block";
-            }
-        } catch (error) {
-            console.error("Error loading authors:", error);
-            authorsGrid.innerHTML = `
-                <div class="error-message">
-                    <i class='bx bx-error-circle'></i>
-                    <p>حدث خطأ في تحميل المؤلفين</p>
-                </div>
-            `;
-        }
-    }
+            // ترتيب أبجدي عربي — المكتبة تُرتَّب، لا تُكوَّم
+            allAuthors = list.slice().sort((a, b) =>
+                String(a.name || "").localeCompare(String(b.name || ""), "ar"));
 
-
-    /* ========================================
-       🔹 عرض بطاقات المؤلفين
-       ======================================== */
-
-    function displayAuthors(authors) {
-        if (!authorsGrid) return;
-
-        authorsGrid.innerHTML = "";
-
-        if (authors.length === 0) {
-            if (noResults) noResults.style.display = "block";
-            return;
-        }
-
-        if (noResults) noResults.style.display = "none";
-
-        authors.forEach(author => {
-            const card = document.createElement("div");
-            card.className = "author-card";
-            card.dataset.author = author.name;
-
-            card.addEventListener("click", () => {
-                // TODO: author-profile.html تُبنى في اليوم الخامس
-                window.location.href =
-                    `/author-profile.html?slug=${author.slug || author.id}`;
-            });
-
-            const photo = author.photo
-                ? `<img src="${author.photo}" alt="${author.name}" class="author-image">`
-                : `<div class="author-photo-fallback">${author.name.charAt(0)}</div>`;
-
-            card.innerHTML = `
-                <div class="author-card-inner">
-                    <div class="author-image-wrapper">${photo}</div>
-                    <div class="author-info">
-                        <h3 class="author-name">${author.name}</h3>
-                        <div class="author-stats">
-                            <span class="stat-item">
-                                <i class='bx bx-book'></i>
-                                ${author.books_count || 0} كتاب
-                            </span>
-                            <span class="stat-item">
-                                <i class='bx bx-star'></i>
-                                ${author.rating || "0.0"}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="author-card-footer">
-                        <span class="view-profile">
-                            عرض الملف <i class='bx bx-chevron-left'></i>
-                        </span>
-                    </div>
-                </div>
-            `;
-
-            authorsGrid.appendChild(card);
-        });
-    }
-
-
-    /* ========================================
-       🔹 البحث في المؤلفين
-       ======================================== */
-
-    if (authorSearchInput) {
-
-        authorSearchInput.addEventListener("input", () => {
-            const query = authorSearchInput.value.trim().toLowerCase();
-
-            if (clearSearch) clearSearch.style.display = query ? "flex" : "none";
-
-            if (query === "") {
-                displayAuthors(allAuthors);
+            if (allAuthors.length === 0) {
+                grid.innerHTML = "";
+                hide(grid);
+                show(noAuthors);
                 return;
             }
 
-            const filtered = allAuthors.filter(a =>
-                a.name.toLowerCase().includes(query)
-            );
+            apply();
 
-            displayAuthors(filtered);
-        });
-
-        if (clearSearch) {
-            clearSearch.addEventListener("click", () => {
-                authorSearchInput.value = "";
-                authorSearchInput.dispatchEvent(new Event("input"));
-                authorSearchInput.focus();
-            });
+        } catch (error) {
+            console.error("Error loading authors:", error);
+            grid.innerHTML = "";
+            hide(grid);
+            show(loadError);
         }
     }
 
+    document.getElementById("retryBtn")?.addEventListener("click", loadAuthors);
 
-    /* ---------- التشغيل ---------- */
+
+    /* ========================================
+       🔎 البحث
+       ======================================== */
+
+    function apply() {
+        const q = (searchBox?.value || "").trim().toLowerCase();
+
+        const list = q
+            ? allAuthors.filter(a =>
+                String(a.name || "").toLowerCase().includes(q) ||
+                String(a.nationality || "").toLowerCase().includes(q))
+            : allAuthors;
+
+        render(list);
+    }
+
+    searchBox?.addEventListener("input", () => {
+        if (clearBtn) clearBtn.hidden = !searchBox.value;
+        apply();
+    });
+
+    clearBtn?.addEventListener("click", () => {
+        if (!searchBox) return;
+        searchBox.value = "";
+        clearBtn.hidden = true;
+        searchBox.focus();
+        apply();
+    });
+
+
+    /* ========================================
+       🎴 الرسم
+       ----------------------------------------
+       كل قيمة تمرّ على escapeText أو escapeAttr.
+       أسماء المؤلفين ستأتي يوماً من استمارة نشر
+       مفتوحة بلا حساب — أي من إدخال زائر.
+       ======================================== */
+
+    function render(list) {
+        if (list.length === 0) {
+            grid.innerHTML = "";
+            hide(grid, countLine);
+            show(noResults);
+            return;
+        }
+
+        hide(noResults);
+        show(grid);
+
+        if (countLine) {
+            countLine.textContent = `${arabize(list.length)} ${plural(list.length)}`;
+            countLine.hidden = false;
+        }
+
+        grid.innerHTML = list.map((a, i) => card(a, i)).join("");
+    }
+
+    function card(a, i) {
+        const name = String(a.name || "—");
+        const href = `/author-profile.html?slug=${encodeURIComponent(a.slug || a.id)}`;
+
+        const avatar = a.photo
+            ? `<img src="${escapeAttr(a.photo)}" alt="${escapeAttr(name)}" loading="lazy">`
+            : escapeText(name.trim().charAt(0) || "؟");
+
+        // السطر التعريفي يُبنى ممّا توفّر فقط —
+        // «— · —» أسوأ من سطر أقصر
+        const bits = [];
+        if (a.nationality) bits.push(escapeText(a.nationality));
+        if (a.birth_year) {
+            bits.push(escapeText(
+                `${a.birth_year}${a.death_year ? ` — ${a.death_year}` : ""}`));
+        }
+
+        const books = Number(a.books_count) || 0;
+
+        return `
+            <a class="au-card" href="${escapeAttr(href)}" style="--i:${i}">
+                <span class="au-ava">${avatar}</span>
+                <b class="au-name">${escapeText(name)}</b>
+                ${bits.length ? `<span class="au-meta">${bits.join(" · ")}</span>` : ""}
+                <span class="au-books">
+                    <i class='bx bx-book'></i>
+                    ${arabize(books)} ${books === 1 ? "كتاب" : "كتب"}
+                </span>
+            </a>
+        `;
+    }
+
+    /* هياكل انتظار بشكل البطاقة نفسها — الانتقال من
+       التحميل إلى المحتوى لا يقفز بالتخطيط */
+    function skeleton(n) {
+        grid.innerHTML = Array.from({ length: n }, (_, i) => `
+            <div class="au-card skel" style="--i:${i}">
+                <span class="au-ava"></span>
+                <span class="sk-line w70"></span>
+                <span class="sk-line w45"></span>
+                <span class="sk-line pill"></span>
+            </div>
+        `).join("");
+    }
+
+
+    /* ---------- مساعدات ---------- */
+
+    function show(...els) { els.forEach(e => { if (e) e.hidden = false; }); }
+    function hide(...els) { els.forEach(e => { if (e) e.hidden = true;  }); }
+
+    function arabize(n) {
+        return String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
+    }
+
+    function plural(n) {
+        if (n === 1) return "مؤلف";
+        if (n === 2) return "مؤلفان";
+        if (n <= 10) return "مؤلفين";
+        return "مؤلفاً";
+    }
+
 
     loadAuthors();
 });

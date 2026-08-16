@@ -3,283 +3,433 @@
    ----------------------------------------
    ⚠️ المشترك (الهيدر · القائمة · المودال · الفوتر ·
       المتغيرات · الخط) في base.css — لا يُكرَّر هنا.
+   ----------------------------------------
+   🎨 لون واحد — عنّابي الدار — بعشر درجات.
+
+   ما كان يُتعب العين ليس اللون بل أنّ درجةً واحدة
+   منه (700#) كانت تؤدّي خمس وظائف: حدّ ونصّ وخلفية
+   وزرّ وأيقونة. السلّم يوزّع الأدوار:
+
+     25 / 50    أسطح
+     100        خلفية عنصر
+     200 / 300  حدود
+     700        الأفعال وحدها
+     800 / 900  نصوص فوق الفواتح
+
+   والقاعدة الحاسمة: لا تُستعمل 700 خلفيةً لمساحة
+   كبيرة أبداً — للأزرار والتفاصيل الصغيرة فقط.
+
+   ⚠️ الدرجات معرَّفة هنا محلياً لتعمل الصفحة وحدها.
+      إن نقلتِها إلى :root في base.css فاحذفي الكتلة
+      التالية واستعملي --c-* مباشرةً في كل الصفحات.
    ======================================== */
+
+.au-hero,
+.au-section {
+    --c-25:  #fffafa;
+    --c-50:  #fcf1f2;
+    --c-100: #dfcdcf;
+    --c-200: #b39799;
+    --c-300: #90666a;
+    --c-400: #84444b;
+    --c-700: #7a0c16;
+    --c-800: #5e0810;
+    --c-900: #3e040a;
+
+    --c-glow: rgba(122, 12, 22, .16);
+    --c-soft: rgba(122, 12, 22, .10);
+}
 
 
 /* ========================================
-   👥 قسم المؤلفين
+   🎬 الترويسة
    ======================================== */
 
-.authors-section {
-    padding: 60px 20px 80px;
-    background: linear-gradient(180deg, #fff 0%, #faf7f5 100%);
-    min-height: 60vh;
-}
-
-.authors-section .container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.authors-title {
-    text-align: center;
-    margin-bottom: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-}
-
-.authors-title i {
-    font-size: 3rem;
-    color: var(--primary);
-}
-
-.authors-title h1 {
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: var(--primary);
-}
-
-
-/* ========================================
-   🔍 مربع البحث
-   ======================================== */
-
-.search-container {
-    margin: 40px auto;
-    max-width: 550px;
-}
-
-.search-box {
-    position: relative;
-    display: flex;
-    align-items: center;
+.au-hero {
+    padding: 3rem 0 2.4rem;
     background: #fff;
-    border: 2px solid var(--primary);
-    border-radius: 60px;
-    padding: 6px 18px;
-    transition: var(--transition-sm);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-    animation: fadeSlide 0.6s ease;
+    border-bottom: 1px solid var(--c-200);
 }
 
-.search-box:focus-within {
-    border-color: var(--primary-light);
-    box-shadow: 0 10px 30px rgba(122, 12, 22, 0.15);
-    transform: translateY(-2px);
+.au-kicker {
+    display: inline-block;
+    font-size: .76rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+    color: var(--c-800);
+    background: var(--c-100);
+    border-radius: 20px;
+    padding: .28rem .9rem;
 }
 
-@keyframes fadeSlide {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
+/* العنوان بلون النصّ لا بلون الدار */
+.au-hero h1 {
+    font-size: clamp(1.7rem, 4vw, 2.4rem);
+    font-weight: 900;
+    color: var(--text);
+    letter-spacing: -.01em;
+    margin: .7rem 0 .6rem;
 }
 
-.search-icon {
-    color: var(--primary);
-    font-size: 1.4rem;
-    margin-left: 12px;
-    flex-shrink: 0;
+.au-hero p {
+    color: var(--text-light);
+    font-size: .97rem;
+    line-height: 1.9;
+    max-width: 38rem;
 }
 
-.search-input {
+/* الخلفية بيضاء — البطاقة وحدها مصبوغة، فيبقى
+   الصبغ حيث ينفع ولا يظهر خطّ فاصل عند الفوتر */
+.au-section {
+    padding-top: 2rem;
+    background: #fff;
+}
+
+
+/* ========================================
+   🔍 البحث
+   ======================================== */
+
+.au-tools {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.au-search {
+    display: flex;
+    align-items: center;
+    gap: .55rem;
     flex: 1;
-    padding: 12px 5px;
+    min-width: 15rem;
+    max-width: 24rem;
+    padding: .7rem 1rem;
+    background: #fff;
+    border: 1px solid var(--c-200);
+    border-radius: 12px;
+    transition: border-color .25s ease, box-shadow .25s ease;
+}
+
+.au-search:focus-within {
+    border-color: var(--c-700);
+    box-shadow: 0 0 0 4px var(--c-glow);
+}
+
+.au-search > i {
+    font-size: 1.15rem;
+    color: var(--text-light);
+    flex-shrink: 0;
+    transition: color .25s ease;
+}
+
+.au-search:focus-within > i { color: var(--c-700); }
+
+.au-search input {
+    flex: 1;
+    min-width: 0;
     border: none;
     outline: none;
-    font-size: 1rem;
-    font-family: inherit;
     background: transparent;
+    font-family: inherit;
+    font-size: .93rem;
     color: var(--text);
 }
 
-.search-input::placeholder { color: #999; transition: opacity 0.3s; }
-.search-box:focus-within .search-input::placeholder { opacity: 0.5; }
+.au-search input::placeholder { color: var(--text-light); opacity: .75; }
 
-.clear-search {
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    background: var(--primary);
-    color: #fff;
-    border: none;
-    display: flex; align-items: center; justify-content: center;
-    transition: var(--transition-sm);
+/* المتصفّح يرسم زرّ مسح خاصاً به لـtype=search */
+.au-search input::-webkit-search-cancel-button { -webkit-appearance: none; }
+
+.au-clear {
+    width: 1.6rem; height: 1.6rem;
     flex-shrink: 0;
+    display: grid; place-items: center;
+    border: none;
+    border-radius: 50%;
+    background: var(--bg-alt);
+    color: var(--text-light);
+    font-size: 1rem;
+    transition: background .2s ease, color .2s ease, transform .25s ease;
 }
 
-.clear-search:hover {
-    background: var(--primary-light);
-    transform: rotate(90deg) scale(1.1);
+.au-clear[hidden] { display: none; }
+
+.au-clear:hover {
+    background: var(--c-700);
+    color: #fff;
+    transform: rotate(90deg);
 }
+
+.au-count {
+    font-size: .82rem;
+    color: var(--text-light);
+    white-space: nowrap;
+}
+
+.au-count[hidden] { display: none; }
 
 
 /* ========================================
-   🎴 شبكة المؤلفين
+   🎴 الشبكة — كروت عمودية
    ======================================== */
 
-.authors-grid {
+.au-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 25px;
-    padding: 10px 5px;
-    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
+    gap: 1rem;
 }
 
+.au-grid[hidden] { display: none; }
 
-/* ========================================
-   📦 بطاقة المؤلف
-   ======================================== */
 
-.author-card {
-    background: #fff;
-    border: 2px solid #e8d5d5;
-    border-radius: 20px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: var(--transition-sm);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-    width: 100%;
-}
+/* ---------- البطاقة ---------- */
 
-.author-card:hover {
-    transform: translateY(-8px);
-    border-color: var(--primary);
-    box-shadow: 0 15px 40px rgba(122, 12, 22, 0.2);
-}
-
-.author-card-inner {
-    padding: 25px 20px;
+.au-card {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 15px;
-    height: 100%;
+    gap: .1rem;
+    padding: 1.6rem 1rem 1.1rem;
+    background: var(--c-25);
+    border: 1px solid var(--c-200);
+    border-radius: 18px;
+    color: inherit;
+    overflow: hidden;
+    transition: border-color .28s ease, box-shadow .28s ease,
+                transform .28s cubic-bezier(.16, 1, .3, 1);
+    animation: cardIn .42s cubic-bezier(.16, 1, .3, 1) both;
+    animation-delay: calc(var(--i, 0) * 35ms);
+}
+
+@keyframes cardIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* شريط علويّ يُكشف عند اللمس — بديلٌ هادئ عن
+   تلوين البطاقة كلّها */
+.au-card::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 3px;
+    background: var(--c-700);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform .32s cubic-bezier(.16, 1, .3, 1);
+}
+
+.au-card:hover::before,
+.au-card:focus-visible::before { transform: scaleX(1); }
+
+/* الظلّ عند اللمس فقط — ظلٌّ دائم على الجميع
+   يجعل الصفحة تطفو ولا شيء فيها يبرز */
+/* البطاقة تنزل درجةً في السلّم عند اللمس —
+   25 ← 100 — بدل أن تتلوّن فجأةً بلون الدار */
+.au-card:hover {
+    background: var(--c-100);
+    border-color: var(--c-300);
+    box-shadow: 0 12px 30px var(--c-soft);
+    transform: translateY(-4px);
+}
+
+.au-card:focus-visible {
+    outline: none;
+    border-color: var(--c-700);
+    box-shadow: 0 0 0 4px var(--c-glow);
 }
 
 
-/* ---------- صورة المؤلف ---------- */
+/* ---------- الصورة ---------- */
 
-.author-image-wrapper {
-    position: relative;
-    width: 110px; height: 110px;
-    flex-shrink: 0;
-}
-
-.author-image {
-    width: 100%; height: 100%;
+.au-ava {
+    width: 4.5rem; height: 4.5rem;
+    display: grid; place-items: center;
     border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid var(--primary);
-    transition: var(--transition-sm);
+    overflow: hidden;
+    background: var(--c-100);
+    color: var(--c-800);
+    font-size: 1.7rem;
+    font-weight: 900;
+    margin-bottom: .85rem;
+    transition: background .28s ease, color .28s ease, transform .28s ease;
 }
 
-.author-card:hover .author-image {
+.au-ava img { width: 100%; height: 100%; object-fit: cover; }
+
+.au-card:hover .au-ava {
+    background: var(--c-700);
+    color: #fff;
     transform: scale(1.05);
 }
 
-/* ⭐ بديل الصورة الغائبة — الحرف الأول من الاسم */
-.author-photo-fallback {
-    width: 100%; height: 100%;
-    border-radius: 50%;
-    background: var(--primary-gradient);
-    color: #fff;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 2.6rem;
+
+/* ---------- النصّ ---------- */
+
+.au-name {
+    font-size: .97rem;
     font-weight: 800;
-    border: 3px solid var(--primary);
-    transition: var(--transition-sm);
+    color: var(--text);
+    line-height: 1.55;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color .22s ease;
 }
 
-.author-card:hover .author-photo-fallback { transform: scale(1.05); }
+.au-card:hover .au-name { color: var(--c-800); }
 
-
-/* ---------- معلومات المؤلف ---------- */
-
-.author-info {
+.au-meta {
+    font-size: .77rem;
+    color: var(--text-light);
+    line-height: 1.7;
     width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* ---------- عدد الكتب ---------- */
+
+.au-books {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    margin-top: .9rem;
+    padding: .3rem .85rem;
+    border-radius: 20px;
+    background: #fff;
+    border: 1px solid var(--c-200);
+    font-size: .78rem;
+    font-weight: 700;
+    color: var(--c-800);
+    transition: background .28s ease, color .28s ease, border-color .28s ease;
+}
+
+.au-books i { font-size: .92rem; }
+
+/* على سطحٍ مصبوغ، الأبيض هو ما يبرز — فالحبّة
+   بيضاء في السكون، وتنقلب إلى لون الدار عند اللمس */
+.au-card:hover .au-books {
+    background: var(--c-700);
+    border-color: var(--c-700);
+    color: #fff;
+}
+
+
+/* ========================================
+   💀 هيكل الانتظار
+   ======================================== */
+
+.au-card.skel {
+    pointer-events: none;
+    animation: none;
+}
+
+.au-card.skel .au-ava { background: var(--c-100); }
+
+.sk-line {
+    height: .7rem;
+    border-radius: 6px;
+    background: var(--c-100);
+}
+
+.sk-line.w70 { width: 70%; }
+.sk-line.w45 { width: 45%; margin-top: .5rem; }
+.sk-line.pill { width: 4.5rem; height: 1.4rem; border-radius: 20px; margin-top: .9rem; }
+
+.au-card.skel .au-ava,
+.sk-line { animation: pulse 1.4s ease-in-out infinite; }
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: .45; }
+}
+
+
+/* ========================================
+   🫙 الحالات الفارغة
+   ======================================== */
+
+.au-empty {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    text-align: center;
+    gap: .4rem;
+    padding: 3.5rem 1.5rem;
+    background: var(--c-25);
+    border: 1px dashed var(--c-300);
+    border-radius: var(--radius-lg);
 }
 
-.author-name {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1.4;
+.au-empty[hidden] { display: none; }
+
+.au-empty > i {
+    font-size: 2.6rem;
+    color: var(--c-400);
+    opacity: 1;
+    margin-bottom: .3rem;
 }
 
-.author-stats {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    padding: 10px 0;
-    border-top: 1px dashed #e0e0e0;
-    border-bottom: 1px dashed #e0e0e0;
-    width: 100%;
-}
-
-.author-stats .stat-item {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 0.88rem;
-    color: var(--text-light);
-}
-
-.author-stats .stat-item i {
-    color: var(--primary);
+.au-empty b {
     font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--text);
 }
 
-.author-bio {
-    font-size: 0.88rem;
+.au-empty span {
+    font-size: .87rem;
     color: var(--text-light);
-    line-height: 1.6;
+    line-height: 1.85;
+    max-width: 24rem;
 }
 
+.au-empty.err > i { color: #c0392b; opacity: .6; }
 
-/* ---------- تذييل البطاقة ---------- */
-
-.author-card-footer {
-    width: 100%;
-    margin-top: auto;
-    padding-top: 15px;
-    border-top: 1px solid #f0f0f0;
-}
-
-.view-profile {
-    font-size: 0.88rem;
-    color: var(--primary);
-    font-weight: 600;
+/* الزرّ عنّابي لأنه فعل لا تصفّح — وهو الموضع
+   الوحيد الذي يظهر فيه لون الدار في هذه الصفحة */
+.au-cta {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    transition: gap 0.3s;
-}
-
-.author-card:hover .view-profile { gap: 10px; }
-
-
-/* ---------- زر "كن أول مؤلف" ---------- */
-
-.btn-become-author {
-    display: inline-block;
-    margin-top: 18px;
-    padding: 12px 28px;
+    gap: .45rem;
+    margin-top: 1.1rem;
+    padding: .7rem 1.6rem;
     background: var(--primary-gradient);
     color: #fff;
-    border-radius: 25px;
-    font-weight: 700;
+    border: 2px solid transparent;
+    border-radius: 30px;
+    font-family: inherit;
+    font-size: .88rem;
+    font-weight: 800;
     transition: var(--transition);
-    box-shadow: 0 4px 15px var(--primary-glow);
+    box-shadow: 0 6px 18px var(--primary-glow);
 }
 
-.btn-become-author:hover {
+.au-cta:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px var(--primary-glow);
+    box-shadow: 0 10px 26px var(--primary-glow);
+    color: #fff;
+}
+
+.au-cta.ghost {
+    background: #fff;
+    color: var(--c-800);
+    border-color: var(--c-300);
+    box-shadow: none;
+}
+
+.au-cta.ghost:hover {
+    background: var(--c-700);
+    border-color: var(--c-700);
     color: #fff;
 }
 
@@ -288,18 +438,29 @@
    📱 التجاوب
    ======================================== */
 
-@media (max-width: 768px) {
-    .authors-title h1 { font-size: 1.8rem; }
-    .authors-title i  { font-size: 2.5rem; }
-    .authors-grid {
-        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-        gap: 20px;
-    }
+@media (max-width: 720px) {
+    .au-hero { padding: 2.2rem 0 1.8rem; }
+    .au-tools { flex-direction: column; align-items: stretch; }
+    .au-search { max-width: none; }
+    .au-count { text-align: center; }
 }
 
-@media (max-width: 480px) {
-    .authors-section { padding: 45px 15px 60px; }
-    .authors-grid    { grid-template-columns: 1fr; }
-    .author-image-wrapper { width: 95px; height: 95px; }
-    .author-photo-fallback { font-size: 2.2rem; }
+@media (max-width: 520px) {
+    .au-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+    .au-card { padding: 1.3rem .7rem 1rem; border-radius: 15px; }
+    .au-ava  { width: 3.6rem; height: 3.6rem; font-size: 1.35rem; }
+    .au-name { font-size: .89rem; }
+    .au-meta { font-size: .72rem; }
+    .au-books { font-size: .72rem; padding: .25rem .7rem; }
+}
+
+
+/* من يطلب تقليل الحركة يجب أن يجدها ساكنة */
+@media (prefers-reduced-motion: reduce) {
+    .au-card { animation: none; }
+    .au-card:hover { transform: none; }
+    .au-card:hover .au-ava { transform: none; }
+    .au-card::before { transition: none; }
+    .au-card.skel .au-ava,
+    .sk-line { animation: none; }
 }

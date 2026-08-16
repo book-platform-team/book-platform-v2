@@ -45,32 +45,6 @@
     <section class="section pr-section">
         <div class="wrap pr-wrap">
 
-            <!-- كيف تسير الخدمة — قبل الاستمارة، فالوضوح يسبق الطلب -->
-            <ol class="pr-flow">
-                <li>
-                    <span class="fl-num">١</span>
-                    <div>
-                        <b>ترسل المعلومات الأوّلية</b>
-                        <span>بيانات الكتاب وعدد النسخ والملف</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="fl-num">٢</span>
-                    <div>
-                        <b>نراجع ونحسب</b>
-                        <span>نُقدّر تكلفة الطباعة حسب الحجم والعدد</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="fl-num">٣</span>
-                    <div>
-                        <b>يصلك عرض السعر</b>
-                        <span>ونكمل باقي الإجراءات عبر البريد</span>
-                    </div>
-                </li>
-            </ol>
-
-
             <form id="printForm" class="pr-card" novalidate>
 
                 <header class="pr-card-head">
@@ -107,77 +81,134 @@
                     </div>
 
                     <div class="field">
-                        <label for="pr_author">اسم المؤلف <span>*</span></label>
-                        <input type="text" id="pr_author" required>
-                    </div>
-                </div>
-
-                <div class="grid-2">
-                    <div class="field">
                         <label for="pr_pages">عدد صفحات الكتاب <span>*</span></label>
                         <input type="number" id="pr_pages" min="1" inputmode="numeric" required>
                     </div>
+                </div>
 
+
+                <!-- ══ قائمتان من مكوّن واحد ══
+                     الأصلي <select> يبدو مختلفاً في كل متصفّح، وجاره
+                     هنا قائمة مبنيّة يدوياً (لأنّ المتعدّد لا ينسدل
+                     أصلاً). فبُني الاثنان من مكوّن واحد: نفس الشكل،
+                     نفس الحركة، ولا فرق بين متصفّح وآخر. -->
+                <div class="grid-2">
+
+                    <!-- حجم الكتاب — اختيار مفرد -->
                     <div class="field">
-                        <label for="pr_copies">عدد النسخ المطلوبة <span>*</span></label>
-                        <input type="number" id="pr_copies" min="1" inputmode="numeric" required
-                               placeholder="مثال: 100">
-                        <small>كلّما زاد العدد انخفضت تكلفة النسخة</small>
-                    </div>
-                </div>
+                        <label for="sizeToggle">حجم الكتاب <span>*</span></label>
 
-                <div class="field">
-                    <label for="pr_notes">ملاحظات إضافية</label>
-                    <textarea id="pr_notes" rows="3"
-                              placeholder="نوع الورق، الغلاف، القياس، أو أي طلب خاص"></textarea>
-                </div>
-
-                <hr class="pr-sep">
-
-                <!-- ── الملفات ── -->
-                <div class="field">
-                    <label for="pr_cover">صورة الكتاب <span>*</span></label>
-
-                    <div class="pick-zone" id="coverZone">
-                        <input type="file" id="pr_cover" accept="image/*" required>
-                        <i class='bx bx-image-add'></i>
-                        <b>اختر صورة الغلاف</b>
-                        <small>JPG أو PNG · حتى ٥ ميجابايت</small>
-                    </div>
-
-                    <div class="pick-done" id="coverDone" hidden>
-                        <img id="coverPreview" alt="معاينة الغلاف">
-                        <div class="pick-info">
-                            <b id="coverName"></b>
-                            <span id="coverSize"></span>
-                            <button type="button" class="pick-change" id="coverRemove">
-                                <i class='bx bx-refresh'></i> تغيير
+                        <div class="drop" id="sizeDrop" data-mode="single">
+                            <button type="button" class="drop-toggle" id="sizeToggle"
+                                    aria-expanded="false" aria-controls="sizePanel">
+                                <span class="drop-label placeholder" id="sizeLabel">اختر الحجم</span>
+                                <i class='bx bx-chevron-down'></i>
                             </button>
+
+                            <div class="drop-panel" id="sizePanel" hidden>
+                                <label class="drop-item">
+                                    <input type="radio" name="pr_size" value="A4"
+                                           data-label="A4">
+                                    <span class="di-main">
+                                        <b>A4</b>
+                                        <small>٢١ × ٢٩٫٧ سم</small>
+                                    </span>
+                                    <i class='bx bx-check'></i>
+                                </label>
+
+                                <label class="drop-item">
+                                    <input type="radio" name="pr_size" value="A5"
+                                           data-label="A5">
+                                    <span class="di-main">
+                                        <b>A5</b>
+                                        <small>١٤٫٨ × ٢١ سم</small>
+                                    </span>
+                                    <i class='bx bx-check'></i>
+                                </label>
+
+                                <label class="drop-item">
+                                    <input type="radio" name="pr_size" value="16x24"
+                                           data-label="١٦ × ٢٤ سم">
+                                    <span class="di-main">
+                                        <b>١٦ × ٢٤</b>
+                                        <small>سنتيمتر</small>
+                                    </span>
+                                    <i class='bx bx-check'></i>
+                                </label>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="field">
-                    <label for="pr_file">ملف الكتاب PDF <span>*</span></label>
 
-                    <div class="pick-zone" id="fileZone">
-                        <input type="file" id="pr_file" accept=".pdf" required>
-                        <i class='bx bx-cloud-upload'></i>
-                        <b>اسحب الملف هنا أو اضغط للاختيار</b>
-                        <small>PDF فقط · حتى ٥٠ ميجابايت</small>
-                    </div>
+                    <!-- عدد النسخ — اختيار متعدّد، حتى ثلاث كمّيات -->
+                    <div class="field">
+                        <label for="qtyToggle">عدد النسخ المطلوبة للنشر <span>*</span></label>
 
-                    <div class="pick-done row" id="fileDone" hidden>
-                        <i class='bx bxs-file-pdf'></i>
-                        <div class="pick-info">
-                            <b id="fileName"></b>
-                            <span id="fileSize"></span>
+                        <div class="drop" id="qtyDrop" data-mode="multi">
+                            <button type="button" class="drop-toggle" id="qtyToggle"
+                                    aria-expanded="false" aria-controls="qtyPanel">
+                                <span class="drop-label placeholder" id="qtyLabel">اختر الكميات</span>
+                                <i class='bx bx-chevron-down'></i>
+                            </button>
+
+                            <div class="drop-panel" id="qtyPanel" hidden>
+                                <p class="drop-cap" id="qtyCap">اختر حتى ٣ كمّيات</p>
+
+                                <label class="drop-item">
+                                    <input type="checkbox" name="pr_copies" value="20">
+                                    <span class="di-main"><b>٢٠</b> <small>نسخة</small></span>
+                                    <i class='bx bx-check'></i>
+                                </label>
+
+                                <label class="drop-item">
+                                    <input type="checkbox" name="pr_copies" value="50">
+                                    <span class="di-main"><b>٥٠</b> <small>نسخة</small></span>
+                                    <i class='bx bx-check'></i>
+                                </label>
+
+                                <label class="drop-item">
+                                    <input type="checkbox" name="pr_copies" value="100">
+                                    <span class="di-main"><b>١٠٠</b> <small>نسخة</small></span>
+                                    <i class='bx bx-check'></i>
+                                </label>
+
+                                <label class="drop-item">
+                                    <input type="checkbox" name="pr_copies" value="200">
+                                    <span class="di-main"><b>٢٠٠</b> <small>نسخة</small></span>
+                                    <i class='bx bx-check'></i>
+                                </label>
+
+                                <label class="drop-item">
+                                    <input type="checkbox" name="pr_copies" value="500">
+                                    <span class="di-main"><b>٥٠٠</b> <small>نسخة</small></span>
+                                    <i class='bx bx-check'></i>
+                                </label>
+
+                                <label class="drop-item">
+                                    <input type="checkbox" name="pr_copies" value="1000">
+                                    <span class="di-main"><b>١٠٠٠</b> <small>نسخة</small></span>
+                                    <i class='bx bx-check'></i>
+                                </label>
+                            </div>
                         </div>
-                        <button type="button" class="pick-drop" id="fileRemove" aria-label="إزالة">
-                            <i class='bx bx-x'></i>
-                        </button>
                     </div>
+
                 </div>
+
+                <ul class="pr-notes">
+                    <li>
+                        <i class='bx bx-trending-down'></i>
+                        <span>كلّما زاد العدد انخفضت تكلفة النسخة. اختر حتى ثلاث كميات ونرسل لك سعر كلٍّ منها.</span>
+                    </li>
+                    <li>
+                        <i class='bx bx-book-bookmark'></i>
+                        <span>
+                            يُحتفَظ بـ<strong>ثماني نسخ</strong> من العدد المطبوع:
+                            نسختان لدار النشر وستّ نسخ للمكتبة الوطنية.
+                        </span>
+                    </li>
+                </ul>
+
 
                 <!-- مصيدة سبام — مخفيّة عن المستخدم -->
                 <input type="text" id="pr_trap" tabindex="-1" autocomplete="off" aria-hidden="true">

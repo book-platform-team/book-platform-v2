@@ -4,6 +4,12 @@
    استمارة من ثلاث خطوات. لا حسابات — البريد
    هو قناة التواصل الوحيدة مع المؤلف.
    ----------------------------------------
+   الإتاحة تُستنتج ولا تُسأل:
+     ملف مرفوع  → يُنزَّل مجاناً
+     سعر محدَّد  → يُعرض للبيع
+     الاثنان     → الاثنان معاً
+     لا شيء      → تعريفٌ بالكتاب فقط
+   ----------------------------------------
    العقد: POST /api/submissions  (multipart)
    ======================================== */
 
@@ -16,7 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const submitBtn = document.getElementById("submitBtn");
     const doneBox   = document.getElementById("doneBox");
 
-    const MAX_BYTES = 50 * 1024 * 1024;
+    const MAX_BYTES  = 50 * 1024 * 1024;
+    const MAX_COVER  = 5 * 1024 * 1024;
+    const TIERS      = [2, 3, 4];
     let current = 1;
 
 
@@ -187,6 +195,136 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ========================================
+       💰 الإتاحة والتسعير
+       ----------------------------------------
+       لا سؤال «مجاني أم مدفوع». الملف والسعر
+       اختياران مستقلّان، وحالة الكتاب تُقرأ
+       منهما. هذا يسمح بحالة كانت مستحيلة في
+       التصميم السابق: نسخة رقمية مجانية ونسخ
+       مطبوعة تُباع في الوقت نفسه.
+       ======================================== */
+
+    const priceInput = document.getElementById("price");
+    const tiersBlock = document.getElementById("tiersBlock");
+    const availText  = document.getElementById("availText");
+    const availNote  = document.getElementById("availNote");
+
+    function unitPrice() {
+        const n = Number(val("price"));
+        return n > 0 ? n : 0;
+    }
+
+    function hasFile() {
+        return !!document.getElementById("file")?.files?.[0];
+    }
+
+    function tierInput(qty) {
+        return document.getElementById(`price_${qty}`);
+    }
+
+    function syncSale() {
+        const unit = unitPrice();
+
+        // لا تخفيض على سعرٍ غير موجود
+        if (tiersBlock) tiersBlock.hidden = unit <= 0;
+
+        if (unit <= 0) {
+            // حقل مخفيّ لا يُترك محتفظاً بقيمته — وإلا أُرسل
+            // سعر جملة لكتاب لم يعد يُباع أصلاً
+            TIERS.forEach(q => {
+                const el = tierInput(q);
+                if (el) { el.value = ""; el.classList.remove("invalid"); }
+            });
+        }
+
+        TIERS.forEach(q => updateTierHint(q, unit));
+        syncSaleRequired();
+        updateAvailNote();
+    }
+
+    /* التوفير يُحسب أمام المؤلف لحظةَ الكتابة —
+       رقمٌ مجرّد لا يقول له إن كان عرضه مغرياً */
+    function updateTierHint(qty, unit) {
+        const el   = tierInput(qty);
+        const hint = document.querySelector(`.tier-hint[data-hint="${qty}"]`);
+        if (!el || !hint) return;
+
+        const v    = Number(el.value);
+        const full = unit * qty;
+
+        if (!unit || !v) {
+            hint.textContent = unit ? `بلا تخفيض: ${fmt(full)} دج` : "";
+            hint.className   = "tier-hint";
+            return;
+        }
+
+        if (v >= full) {
+            hint.textContent = `أعلى من ${fmt(full)} دج — ليس تخفيضاً`;
+            hint.className   = "tier-hint bad";
+            return;
+        }
+
+        const save = full - v;
+        const pct  = Math.round((save / full) * 100);
+        hint.textContent = `توفير ${fmt(save)} دج (${pct}٪)`;
+        hint.className   = "tier-hint good";
+    }
+
+    /* ملخّص حيّ: المؤلف يقرأ نتيجة اختياره قبل الإرسال،
+       لا بعد أسبوع حين يجد صفحة كتابه بلا أي إجراء */
+    function updateAvailNote() {
+        if (!availText || !availNote) return;
+
+        const f = hasFile();
+        const p = unitPrice() > 0;
+
+        let text, tone;
+
+        if (f && p) {
+            text = "سيُتاح كتابك للتنزيل مجاناً، وتُعرض نسخه المطبوعة للبيع.";
+            tone = "ok";
+        } else if (f) {
+            text = "سيُتاح كتابك للتنزيل مجاناً من الموقع.";
+            tone = "ok";
+        } else if (p) {
+            text = "سيُعرض كتابك للبيع، دون نسخة رقمية مجانية.";
+            tone = "ok";
+        } else {
+            text = "لم ترفع ملفاً ولم تحدّد سعراً — سيُعرض التعريف بكتابك فقط، دون تنزيل أو بيع.";
+            tone = "warn";
+        }
+
+        const changed = availText.textContent !== text;
+
+        availText.textContent = text;
+        availNote.className   = `avail-note ${tone}`;
+
+        // إعادة تشغيل الحركة تحتاج قراءة تُجبر المتصفّح
+        // على إعادة الحساب — وإلا لم يرَ الصنف قد أُزيل
+        if (changed) {
+            void availNote.offsetWidth;
+            availNote.classList.add("flash");
+        }
+    }
+
+    /* النجمة تظهر لحظة كتابة السعر — لا عند
+       الضغط على «التالي» فيُفاجأ المؤلف */
+    function syncSaleRequired() {
+        const req = document.getElementById("saleReq");
+        if (req) req.hidden = !unitPrice();
+    }
+
+    priceInput?.addEventListener("input", () => {
+        syncSale();
+        syncSaleRequired();
+    });
+
+    TIERS.forEach(q => {
+        tierInput(q)?.addEventListener("input", () => updateTierHint(q, unitPrice()));
+    });
+
+
+    /* ========================================
        ✅ التحقّق — خطوة بخطوة
        ----------------------------------------
        نتحقّق عند الانتقال لا عند الإرسال، حتى لا
@@ -206,7 +344,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!name)  return fail("author_name", "الرجاء كتابة الاسم واللقب");
             if (!email) return fail("author_email", "الرجاء كتابة البريد الإلكتروني");
-            if (!/^\S+@\S+\.\S+$/.test(email))
+            if (!isEmail(email))
                 return fail("author_email", "صيغة البريد غير صحيحة");
 
             if (!val("author_phone"))   return fail("author_phone", "الرجاء كتابة رقم الهاتف");
@@ -226,27 +364,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!val("book_description"))
                 return fail("book_description", "الرجاء كتابة نبذة عن الكتاب");
-
-            // السعر مطلوب فقط إن اختار المؤلف «لا» في سؤال المجّانية
-            if (isPaid()) {
-                const price = Number(val("price"));
-                if (!price || price <= 0)
-                    return fail("price", "الرجاء تحديد سعر الكتاب");
-            }
         }
 
         if (step === 3) {
-            const f = document.getElementById("file")?.files?.[0];
-            if (!f) return fail("file", "الرجاء اختيار ملف الكتاب");
 
-            if (f.size > MAX_BYTES)
-                return fail("file", `حجم الملف ${humanSize(f.size)} — الحدّ الأقصى ٥٠ ميجابايت`);
-
+            /* ١ · الغلاف — الشيء الوحيد المطلوب */
             const cov = document.getElementById("cover")?.files?.[0];
             if (!cov) return fail("cover", "الرجاء اختيار صورة غلاف الكتاب");
 
-            if (cov.size > 5 * 1024 * 1024)
+            if (cov.size > MAX_COVER)
                 return fail("cover", `حجم الغلاف ${humanSize(cov.size)} — الحدّ الأقصى ٥ ميجابايت`);
+
+            /* ٢ · الملف — اختياري، لكن إن وُجد فله حدّ */
+            const f = document.getElementById("file")?.files?.[0];
+            if (f && f.size > MAX_BYTES)
+                return fail("file", `حجم الملف ${humanSize(f.size)} — الحدّ الأقصى ٥٠ ميجابايت`);
+
+            /* ٣ · السعر — اختياري، لكن الرقم السالب أو الصفر خطأ لا اختيار */
+            const rawPrice = val("price");
+            if (rawPrice && Number(rawPrice) <= 0)
+                return fail("price", "سعر النسخة يجب أن يكون أكبر من صفر");
+
+            /* بريد المشترين — مطلوب متى وُجد سعر.
+               لم يعد له بديل: بريد الخطوة الأولى لا يُنشر
+               (وعدنا المؤلف بذلك)، فكتابٌ بسعر بلا بريد
+               يُعرض للبيع دون وسيلة شراء. */
+            const mail = val("sale_email");
+
+            if (unitPrice() && !mail)
+                return fail("sale_email",
+                    "حدّدتَ سعراً — الرجاء كتابة بريد التواصل مع المشترين");
+
+            if (mail && !isEmail(mail))
+                return fail("sale_email", "صيغة بريد التواصل غير صحيحة");
+
+            /* ٤ · أسعار الجملة — يجب أن تكون تخفيضاً فعلياً */
+            const unit = unitPrice();
+            if (unit) {
+                for (const q of TIERS) {
+                    const el = tierInput(q);
+                    const v  = Number(el?.value || 0);
+                    if (!el?.value) continue;
+
+                    if (v <= 0)
+                        return fail(`price_${q}`, `سعر ${q} نسخ يجب أن يكون أكبر من صفر`);
+
+                    if (v >= unit * q)
+                        return fail(`price_${q}`,
+                            `سعر ${q} نسخ (${fmt(v)} دج) يجب أن يقلّ عن ${fmt(unit * q)} دج — وإلّا فليس تخفيضاً`);
+                }
+            }
 
             if (!document.getElementById("rights_confirmed")?.checked)
                 return fail("rights_confirmed", "لا يمكن إرسال الطلب دون الإقرار بحقوق النشر");
@@ -256,6 +423,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function val(id) { return document.getElementById(id)?.value.trim() || ""; }
+
+    function isEmail(v) { return /^\S+@\S+\.\S+$/.test(v); }
 
     function fail(id, msg) {
         showAlert("err", msg);
@@ -270,29 +439,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     form?.addEventListener("input", e => e.target.classList.remove("invalid"));
-
-
-    /* ========================================
-       💰 مجاني أم مدفوع
-       ----------------------------------------
-       حقل السعر يظهر فقط عند اختيار «لا» —
-       عرضه دائماً يوحي بأن الدفع هو الأصل.
-       ======================================== */
-
-    function isPaid() {
-        return document.querySelector('input[name="is_paid"]:checked')?.value === "1";
-    }
-
-    document.querySelectorAll('input[name="is_paid"]').forEach(r => {
-        r.addEventListener("change", () => {
-            const field = document.getElementById("priceField");
-            if (field) field.hidden = !isPaid();
-            if (!isPaid()) {
-                const p = document.getElementById("price");
-                if (p) { p.value = ""; p.classList.remove("invalid"); }
-            }
-        });
-    });
 
 
     /* ========================================
@@ -316,12 +462,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (dropZone)   dropZone.hidden   = true;
         if (fileChosen) fileChosen.hidden = false;
+
+        updateAvailNote();
     }
 
     document.getElementById("fileRemove")?.addEventListener("click", () => {
         fileInput.value = "";
         if (dropZone)   dropZone.hidden   = false;
         if (fileChosen) fileChosen.hidden = true;
+        updateAvailNote();
     });
 
     /* السحب والإفلات */
@@ -397,6 +546,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* ========================================
        📤 الإرسال
+       ----------------------------------------
+       لا نرسل حقل حالة. الخادم يستنتج الإتاحة
+       من وجود file ووجود price — فحقلٌ يصف ما
+       تصفه الحقول الأخرى يفتح باب التناقض.
        ======================================== */
 
     form?.addEventListener("submit", async (e) => {
@@ -421,11 +574,20 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             if (photo?.files?.[0])      fd.append("author_photo", photo.files[0]);
-            if (fileInput?.files?.[0])  fd.append("file", fileInput.files[0]);
             if (coverInput?.files?.[0]) fd.append("cover", coverInput.files[0]);
+            if (fileInput?.files?.[0])  fd.append("file", fileInput.files[0]);
 
-            fd.append("is_paid", isPaid() ? "1" : "0");
-            if (isPaid()) fd.append("price", val("price"));
+            // التسعير — لا يُرسل منه إلا ما مُلئ فعلاً
+            if (unitPrice()) {
+                fd.append("price", String(unitPrice()));
+
+                TIERS.forEach(q => {
+                    const v = val(`price_${q}`);
+                    if (v) fd.append(`price_${q}`, v);
+                });
+
+                fd.append("sale_email", val("sale_email"));
+            }
 
             fd.append("rights_confirmed", "1");
 
@@ -474,4 +636,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const i = Math.floor(Math.log(bytes) / Math.log(1024));
         return `${(bytes / Math.pow(1024, i)).toFixed(1)} ${units[i]}`;
     }
+
+    /* فاصل الآلاف مسافةٌ لا نقطة — «2.102» تُقرأ
+       فاصلةً عشرية فيظنّ المؤلف السعر ديناريْن */
+    function fmt(n) {
+        return String(Math.round(Number(n))).replace(/\B(?=(\d{3})+(?!\d))/g, "\u202F");
+    }
+
+
+    /* الحالة الابتدائية تُضبط قبل أن يلمس المؤلف شيئاً */
+    syncSale();
 });

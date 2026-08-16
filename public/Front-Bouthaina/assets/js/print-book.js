@@ -6,7 +6,11 @@
    استمارة واحدة تُرسَل إلى الإدارة، فتردّ
    بعرض سعر على بريد مقدّم الطلب.
 
+   لا مرفقات في هذه الاستمارة، فالإرسال JSON
+   عادي لا multipart — أبسط على الطرفين.
+
    العقد: POST /api/contact  (type = print_request)
+   ملاحظة للخادم: copies مصفوفة أعداد، لا رقماً.
    ======================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -18,94 +22,133 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!form) return;
 
-    const MAX_FILE  = 50 * 1024 * 1024;   // ملف الكتاب
-    const MAX_COVER =  5 * 1024 * 1024;   // صورة الغلاف
+    const MAX_QTY = 3;   // أقصى عدد كمّيات في الطلب الواحد
 
 
     /* ========================================
-       🖼️ صورة الغلاف
+       ▾ مكوّن القائمة
        ----------------------------------------
-       معاينة فورية: صاحب الطلب يرى ما أرسله
-       قبل أن يضغط إرسال.
+       مكوّن واحد يخدم الحقلين. الأصلي <select>
+       يبدو مختلفاً في كل متصفّح، و<select multiple>
+       لا ينسدل أصلاً بل يبقى صندوقاً يُختار منه
+       بـCtrl — فبُني الاثنان يدوياً ليتطابقا.
+
+       التحديد يُعلَّم بصنفٍ من الـJS لا بـ:has()،
+       فيعمل على متصفّحات أقدم دون شرط.
        ======================================== */
 
-    const coverInput = document.getElementById("pr_cover");
-    const coverZone  = document.getElementById("coverZone");
-    const coverDone  = document.getElementById("coverDone");
+    function makeDrop(rootId, onChange) {
+        const root   = document.getElementById(rootId);
+        if (!root) return null;
 
-    coverInput?.addEventListener("change", () => {
-        const f = coverInput.files?.[0];
-        if (!f) return;
+        const toggle = root.querySelector(".drop-toggle");
+        const panel  = root.querySelector(".drop-panel");
+        const inputs = [...root.querySelectorAll("input")];
+        const single = root.dataset.mode === "single";
 
-        const img = document.getElementById("coverPreview");
-        if (img) {
-            // نُحرّر الرابط السابق حتى لا تتراكم في الذاكرة
-            if (img.dataset.url) URL.revokeObjectURL(img.dataset.url);
-            const url = URL.createObjectURL(f);
-            img.src = url;
-            img.dataset.url = url;
+        function open(state) {
+            panel.hidden = !state;
+            toggle.setAttribute("aria-expanded", String(state));
+            root.classList.toggle("open", state);
         }
 
-        setText("coverName", f.name);
-        setText("coverSize", humanSize(f.size));
+        toggle.addEventListener("click", () => open(panel.hidden));
 
-        if (coverZone) coverZone.hidden = true;
-        if (coverDone) coverDone.hidden = false;
-    });
+        // النقر خارج القائمة يُغلقها — سلوك القوائم المعتاد
+        document.addEventListener("click", e => {
+            if (!root.contains(e.target)) open(false);
+        });
 
-    document.getElementById("coverRemove")?.addEventListener("click", () => {
-        coverInput.value = "";
-        if (coverZone) coverZone.hidden = false;
-        if (coverDone) coverDone.hidden = true;
-    });
+        document.addEventListener("keydown", e => {
+            if (e.key === "Escape" && !panel.hidden) {
+                open(false);
+                toggle.focus();
+            }
+        });
 
+        inputs.forEach(inp => {
+            inp.addEventListener("change", () => {
+                inputs.forEach(i => i.closest(".drop-item")?.classList.toggle("on", i.checked));
+                onChange?.();
 
-    /* ========================================
-       📄 ملف الكتاب
-       ======================================== */
+                // الاختيار المفرد ينتهي بالاختيار، فنُغلق —
+                // لكن بعد لحظة تكفي لرؤية علامة الصحّ تظهر
+                if (single) setTimeout(() => open(false), 190);
+            });
+        });
 
-    const fileInput = document.getElementById("pr_file");
-    const fileZone  = document.getElementById("fileZone");
-    const fileDone  = document.getElementById("fileDone");
-
-    fileInput?.addEventListener("change", showFile);
-
-    function showFile() {
-        const f = fileInput.files?.[0];
-        if (!f) return;
-
-        setText("fileName", f.name);
-        setText("fileSize", humanSize(f.size));
-
-        if (fileZone) fileZone.hidden = true;
-        if (fileDone) fileDone.hidden = false;
+        return { root, toggle, panel, inputs, open };
     }
 
-    document.getElementById("fileRemove")?.addEventListener("click", () => {
-        fileInput.value = "";
-        if (fileZone) fileZone.hidden = false;
-        if (fileDone) fileDone.hidden = true;
+
+    /* ---------- حجم الكتاب ---------- */
+
+    const sizeLabelEl = document.getElementById("sizeLabel");
+
+    const sizeDrop = makeDrop("sizeDrop", () => {
+        const picked = sizeDrop.inputs.find(i => i.checked);
+
+        if (sizeLabelEl) {
+            sizeLabelEl.textContent = picked?.dataset.label || "اختر الحجم";
+            sizeLabelEl.className   = picked ? "drop-label" : "drop-label placeholder";
+        }
+
+        sizeDrop.root.classList.remove("invalid");
+        hideAlert();
     });
 
-    /* السحب والإفلات */
-    ["dragenter", "dragover"].forEach(ev =>
-        fileZone?.addEventListener(ev, e => {
-            e.preventDefault();
-            fileZone.classList.add("over");
-        }));
+    function chosenSize() {
+        return sizeDrop?.inputs.find(i => i.checked)?.value || "";
+    }
 
-    ["dragleave", "drop"].forEach(ev =>
-        fileZone?.addEventListener(ev, e => {
-            e.preventDefault();
-            fileZone.classList.remove("over");
-        }));
 
-    fileZone?.addEventListener("drop", e => {
-        const f = e.dataTransfer?.files?.[0];
-        if (!f) return;
-        fileInput.files = e.dataTransfer.files;
-        showFile();
-    });
+    /* ---------- الكميات ---------- */
+
+    const qtyLabelEl = document.getElementById("qtyLabel");
+    const qtyCap     = document.getElementById("qtyCap");
+
+    const qtyDrop = makeDrop("qtyDrop", syncQty);
+
+    function chosenQty() {
+        return qtyDrop ? qtyDrop.inputs.filter(b => b.checked).map(b => Number(b.value)) : [];
+    }
+
+    /* عند بلوغ الحدّ نُعطّل ما لم يُختَر بدل أن نمنع
+       النقر بصمت: المستخدم يرى أنّ الباب أُغلق، ويبقى
+       قادراً على إلغاء اختيارٍ ليفتح مكاناً. */
+    function syncQty() {
+        if (!qtyDrop) return;
+
+        const picked = chosenQty();
+        const full   = picked.length >= MAX_QTY;
+
+        qtyDrop.inputs.forEach(b => {
+            b.disabled = full && !b.checked;
+            b.closest(".drop-item")?.classList.toggle("off", b.disabled);
+        });
+
+        if (qtyLabelEl) {
+            if (picked.length === 0) {
+                qtyLabelEl.textContent = "اختر الكميات";
+                qtyLabelEl.className   = "drop-label placeholder";
+            } else {
+                qtyLabelEl.textContent = picked.map(arabize).join(" · ") + " نسخة";
+                qtyLabelEl.className   = "drop-label";
+            }
+        }
+
+        if (qtyCap) {
+            qtyCap.textContent = full
+                ? `بلغتَ الحدّ — ${arabize(MAX_QTY)} كمّيات`
+                : `اختر حتى ${arabize(MAX_QTY)} كمّيات`;
+            qtyCap.classList.toggle("full", full);
+        }
+
+        if (picked.length) {
+            qtyDrop.root.classList.remove("invalid");
+            hideAlert();
+        }
+    }
 
 
     /* ========================================
@@ -115,32 +158,31 @@ document.addEventListener("DOMContentLoaded", () => {
     function validate() {
         clearMarks();
 
-        const name    = v("pr_name");
-        const email   = v("pr_email");
-        const book    = v("pr_book");
-        const author  = v("pr_author");
-        const pages   = Number(v("pr_pages"));
-        const copies  = Number(v("pr_copies"));
+        const name  = v("pr_name");
+        const email = v("pr_email");
+        const book  = v("pr_book");
+        const pages = Number(v("pr_pages"));
 
-        if (!name)   return bad("pr_name",   "الرجاء كتابة الاسم واللقب");
-        if (!email)  return bad("pr_email",  "الرجاء كتابة البريد الإلكتروني");
+        if (!name)  return bad("pr_name",  "الرجاء كتابة الاسم واللقب");
+        if (!email) return bad("pr_email", "الرجاء كتابة البريد الإلكتروني");
         if (!/^\S+@\S+\.\S+$/.test(email))
-                     return bad("pr_email",  "صيغة البريد غير صحيحة");
-        if (!book)   return bad("pr_book",   "الرجاء كتابة اسم الكتاب");
-        if (!author) return bad("pr_author", "الرجاء كتابة اسم الكاتب");
+                    return bad("pr_email", "صيغة البريد غير صحيحة");
+        if (!book)  return bad("pr_book",  "الرجاء كتابة اسم الكتاب");
 
-        if (!pages  || pages  < 1) return bad("pr_pages",  "الرجاء تحديد عدد الصفحات");
-        if (!copies || copies < 1) return bad("pr_copies", "الرجاء تحديد عدد النسخ المطلوبة");
+        if (!pages || pages < 1)
+            return bad("pr_pages", "الرجاء تحديد عدد الصفحات");
 
-        const cov = coverInput?.files?.[0];
-        if (!cov) return bad("pr_cover", "الرجاء اختيار صورة الكتاب");
-        if (cov.size > MAX_COVER)
-            return bad("pr_cover", `حجم الصورة ${humanSize(cov.size)} — الحدّ الأقصى ٥ ميجابايت`);
+        // نفتح القائمة مع رسالة الخطأ — الإشارة إلى حقلٍ
+        // مغلق لا تدلّ المستخدم على ما ينقصه
+        if (!chosenSize()) {
+            sizeDrop?.open(true);
+            return badDrop("sizeDrop", "الرجاء اختيار حجم الكتاب");
+        }
 
-        const f = fileInput?.files?.[0];
-        if (!f) return bad("pr_file", "الرجاء اختيار ملف الكتاب");
-        if (f.size > MAX_FILE)
-            return bad("pr_file", `حجم الملف ${humanSize(f.size)} — الحدّ الأقصى ٥٠ ميجابايت`);
+        if (chosenQty().length === 0) {
+            qtyDrop?.open(true);
+            return badDrop("qtyDrop", "الرجاء اختيار عدد النسخ المطلوبة — كمّية واحدة على الأقل");
+        }
 
         return true;
     }
@@ -164,34 +206,31 @@ document.addEventListener("DOMContentLoaded", () => {
         submit.innerHTML = `<i class='bx bx-loader-alt bx-spin'></i> جارٍ الإرسال...`;
 
         try {
-            const fd = new FormData();
-
-            fd.append("type",    "print_request");
-            fd.append("name",    v("pr_name"));
-            fd.append("email",   v("pr_email"));
-            fd.append("phone",   v("pr_phone"));
-            fd.append("subject", `طلب طباعة: ${v("pr_book")}`);
+            const copies = chosenQty();
+            const size   = chosenSize();
 
             /* نجمع البيانات في نصّ واحد مرتّب — الإدارة تقرأ
                رسالة واحدة مفهومة لا حقولاً متناثرة. */
-            fd.append("message",
+            const message =
                 `طلب طباعة كتاب\n\n` +
                 `• اسم الكتاب: ${v("pr_book")}\n` +
-                `• اسم الكاتب: ${v("pr_author")}\n` +
                 `• عدد الصفحات: ${v("pr_pages")}\n` +
-                `• عدد النسخ المطلوبة: ${v("pr_copies")}\n` +
-                (v("pr_notes") ? `\nملاحظات:\n${v("pr_notes")}\n` : "")
-            );
+                `• حجم الكتاب: ${sizeText(size)}\n` +
+                `• الكميات المطلوب تسعيرها: ${copies.join(" · ")} نسخة\n`;
 
-            fd.append("book_title",  v("pr_book"));
-            fd.append("book_author", v("pr_author"));
-            fd.append("pages",       v("pr_pages"));
-            fd.append("copies",      v("pr_copies"));
+            await apiPost("/contact", {
+                type:       "print_request",
+                name:       v("pr_name"),
+                email:      v("pr_email"),
+                phone:      v("pr_phone"),
+                subject:    `طلب طباعة: ${v("pr_book")}`,
+                message,
+                book_title: v("pr_book"),
+                pages:      Number(v("pr_pages")),
+                size,                  // A4 | A5 | 16x24
+                copies,                // مصفوفة: حتى ثلاثة أعداد
+            });
 
-            if (coverInput?.files?.[0]) fd.append("cover", coverInput.files[0]);
-            if (fileInput?.files?.[0])  fd.append("file",  fileInput.files[0]);
-
-            await apiPost("/contact", fd, true);
             showDone();
 
         } catch (error) {
@@ -220,10 +259,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("input", e => {
         e.target.classList.remove("invalid");
-        if (alertBox) alertBox.hidden = true;
+        hideAlert();
     });
 
     function v(id) { return document.getElementById(id)?.value.trim() || ""; }
+
+    function arabize(n) {
+        return String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
+    }
+
+    function sizeText(code) {
+        return { "A4": "A4", "A5": "A5", "16x24": "١٦ × ٢٤ سم" }[code] || code;
+    }
 
     function setText(id, val) {
         const el = document.getElementById(id);
@@ -235,6 +282,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const el = document.getElementById(id);
         el?.classList.add("invalid");
         el?.focus();
+        return false;
+    }
+
+    /* القائمة ليست حقلاً واحداً، فلا تصلح عليها
+       علامة invalid المعتادة — نُعلّم الحاوية كلّها */
+    function badDrop(id, msg) {
+        showAlert(msg);
+        const box = document.getElementById(id);
+        box?.classList.add("invalid");
+        box?.scrollIntoView({ behavior: "smooth", block: "center" });
         return false;
     }
 
@@ -250,10 +307,11 @@ document.addEventListener("DOMContentLoaded", () => {
         alertBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
 
-    function humanSize(bytes) {
-        if (!bytes) return "٠ بايت";
-        const units = ["بايت", "كيلوبايت", "ميجابايت", "جيجابايت"];
-        const i = Math.floor(Math.log(bytes) / Math.log(1024));
-        return `${(bytes / Math.pow(1024, i)).toFixed(1)} ${units[i]}`;
+    function hideAlert() {
+        if (alertBox) alertBox.hidden = true;
     }
+
+
+    /* الحالة الابتدائية تُضبط قبل أن يلمس المستخدم شيئاً */
+    syncQty();
 });

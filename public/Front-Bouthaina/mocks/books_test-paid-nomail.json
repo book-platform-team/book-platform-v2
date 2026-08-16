@@ -1,0 +1,36 @@
+{
+  "success": true,
+  "data": {
+    "id": 9003,
+    "slug": "test-paid-nomail",
+    "title": "اختبار — مدفوع بلا بريد بيع",
+    "subtitle": null,
+    "description": "الحالة الحدّية: المؤلف لم يكتب بريد تواصل مع المشترين. بريده الشخصي موجود في البيانات (author.email) لكن يجب ألّا يُستعمل ولا يظهر — وعدناه بذلك في شروط النشر.\n\nالمتوقّع: بطاقة السعر تظهر، والزرّ معطَّل نصّه «الطلب غير متاح حالياً»، وتحته سطر يحيل إلى مراسلة الدار. ولا تُفتح نافذة الطلب.",
+    "cover": null,
+    "author": {
+      "id": 112,
+      "name": "شكيب أرسلان",
+      "slug": "shakib-arslan",
+      "photo": null,
+      "email": "author.test2@example.com"
+    },
+    "category": {
+      "id": 32,
+      "name": "التاريخ الإسلامي",
+      "slug": "islamic-history"
+    },
+    "language": "ar",
+    "pages": 468,
+    "publication_year": 2021,
+    "edition": "الطبعة الثانية",
+    "isbn": "978-9947-1-0023-5",
+    "publication_type": "house_edition",
+    "is_paid": true,
+    "price": 1500,
+    "sale_email": null,
+    "published_at": "2026-03-04T10:30:00Z",
+    "downloads_count": 0,
+    "views_count": 7690,
+    "files": []
+  }
+}

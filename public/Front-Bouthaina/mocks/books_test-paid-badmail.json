@@ -1,0 +1,35 @@
+{
+  "success": true,
+  "data": {
+    "id": 9005,
+    "slug": "test-paid-badmail",
+    "title": "اختبار — بريد بيع ملوَّث",
+    "subtitle": null,
+    "description": "اختبار أمني: بريد البيع يحاول تهريب معامل bcc إلى رابط Gmail. التعبير النمطي في book.js يرفضه بسبب &، فيُعامَل الكتاب كأنه بلا بريد بيع.\n\nالمتوقّع: زرّ معطَّل، ولا يظهر النصّ الملوَّث في أي مكان من الصفحة.",
+    "cover": null,
+    "author": {
+      "id": 112,
+      "name": "شكيب أرسلان",
+      "slug": "shakib-arslan",
+      "photo": null
+    },
+    "category": {
+      "id": 32,
+      "name": "التاريخ الإسلامي",
+      "slug": "islamic-history"
+    },
+    "language": "ar",
+    "pages": 468,
+    "publication_year": 2021,
+    "edition": "الطبعة الثانية",
+    "isbn": "978-9947-1-0023-5",
+    "publication_type": "house_edition",
+    "is_paid": true,
+    "price": 1500,
+    "sale_email": "author@example.com&bcc=attacker@evil.com",
+    "published_at": "2026-03-04T10:30:00Z",
+    "downloads_count": 0,
+    "views_count": 7690,
+    "files": []
+  }
+}

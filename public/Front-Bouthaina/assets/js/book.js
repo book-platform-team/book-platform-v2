@@ -5,6 +5,16 @@
       المفضّلة  →  كلها في partials.js
    ----------------------------------------
    لا تقييم · لا مراجعات · لا اقتباسات.
+   ----------------------------------------
+   الشراء: الدار خارج المعاملة. الطلب يذهب من
+   القارئ إلى المؤلف مباشرةً، ولا مال يمرّ عبر
+   الموقع ولا رقم حساب يُعرض.
+
+   وجهة الطلب: sale_email وحده — البريد الذي
+   كتبه المؤلف عمداً لتواصل الدفع. بريده الشخصي
+   في الخطوة الأولى لا يُعرض أبداً (وعدناه بذلك
+   في شروط النشر)، وبريد الدار لا علاقة له.
+   فإن غاب sale_email، يُعطَّل زرّ الطلب.
    ======================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -12,16 +22,36 @@ document.addEventListener("DOMContentLoaded", () => {
     const params = new URLSearchParams(location.search);
     const ref    = params.get("slug") || params.get("id");
 
-    /* بيانات الدار — تُضبط من الخادم لاحقاً عبر /api/settings.
-       ⚠️ أرقام مؤقّتة: يجب استبدالها ببيانات الدار الحقيقية
-       قبل النشر، وإلّا حوّل الزوّار إلى حساب غير موجود. */
-    const HOUSE = {
-        email:  "contact@sami-library.com",
-        ccp:    "0000000000 00",              // رقم بريدي موب
-        holder: "دار سامي للطباعة والنشر والتوزيع",
-    };
+    /* ========================================
+       🔒 وجهة الطلب
+       ----------------------------------------
+       استمارة النشر مفتوحة بلا حساب، فالبريد
+       القادم منها بيانات غير موثوقة حتى تراجعها
+       الدار. نتعامل معه على هذا الأساس:
 
+       ١ — لا يُعرض إلا sale_email. البريد الشخصي
+           للمؤلف لا يظهر أبداً، وبريد الدار لا
+           علاقة له بالمعاملة.
 
+       ٢ — يمرّ على تعبير صارم قبل أي استعمال.
+           المرفوض هنا ليس الصيغ الغريبة فحسب، بل
+           محاولة تهريب معاملات إلى رابط Gmail:
+           «x@y.com&bcc=evil@x.com» يُرفض بسبب &.
+
+       ٣ — يُكتب بـtextContent لا innerHTML.
+
+       وهذه كلّها طبقة ثانية. الحاجز الأول أن
+       يبقى الطلب pending حتى توافق عليه الدار،
+       وأن يُؤكَّد البريد برابط — كلاهما في الخادم.
+       ======================================== */
+
+    const MAIL_RE = /^[^\s@<>"'`,;&=?/\\]+@[^\s@<>"'`,;&=?/\\]+\.[A-Za-z]{2,}$/;
+
+    function orderEmail(b) {
+        const mail = String(b?.sale_email || "").trim();
+        if (!mail || mail.length > 254) return "";
+        return MAIL_RE.test(mail) ? mail : "";
+    }
 
     let book = null;
 
@@ -61,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setText("bookDescription", "تحقّقي من الرابط أو من الاتصال بالسيرفر.");
 
         // لا معنى لعرض أقسام فارغة لكتاب لم يُحمَّل
-        ["authorSection", "moreByAuthor", "relatedSection", "descSection"]
+        ["authorSection", "shareSection", "moreByAuthor", "relatedSection", "descSection"]
             .forEach(id => document.getElementById(id)?.remove());
         document.getElementById("bookActions")?.remove();
     }
@@ -106,7 +136,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         /* ---------- المعطيات ---------- */
         setText("factLang",  languageLabel(b.language));
-        setText("factSize",  file?.size_human || "—");
         setText("factPages", b.pages ? `${b.pages}` : "—");
         setText("factYear",  b.publication_year || "—");
 
@@ -137,17 +166,37 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!box) return;
 
         if (b.is_paid) {
-            box.innerHTML = `
+            const price = `
                 <div class="price-tag">
                     <i class='bx bx-purchase-tag'></i>
                     <span>${formatPrice(b.price)}</span>
-                </div>
+                </div>`;
+
+            // بلا بريد للمؤلف لا وجهة للطلب — نُعطّل الزرّ
+            // بدل أن نفتح نافذةً لا تؤدّي إلى شيء
+            if (!orderEmail(b)) {
+                box.innerHTML = price + `
+                    <button class="btn-act disabled" disabled>
+                        <i class='bx bx-envelope'></i> الطلب غير متاح حالياً
+                    </button>
+                    <p class="act-hint">
+                        <i class='bx bx-info-circle'></i>
+                        <span>
+                            بيانات التواصل مع المؤلف غير متوفّرة —
+                            <a href="/about.html#contact">راسل الدار</a> للاستفسار
+                        </span>
+                    </p>
+                `;
+                return;
+            }
+
+            box.innerHTML = price + `
                 <button class="btn-act primary" id="buyBtn" type="button">
-                    <i class='bx bx-envelope'></i> احصل على الكتاب
+                    <i class='bx bx-cart-alt'></i> اطلب الكتاب
                 </button>
                 <p class="act-hint">
                     <i class='bx bx-info-circle'></i>
-                    تُرسَل النسخة إلى بريدك بعد تأكيد التحويل
+                    حدّد عدد النسخ، ثم أرسل طلبك إلى المؤلف مباشرةً
                 </p>
             `;
             return;
@@ -162,15 +211,22 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const url = `/api/books/${b.id}/download/${file.id}`;
+        // url جاهز من الخادم إن وُجد (روابط موقَّتة)،
+        // وإلّا فمسار التنزيل المعتاد
+        const url = file.url || `/api/books/${b.id}/download/${file.id}`;
 
         box.innerHTML = `
-            <a class="btn-act primary" href="${url}" download>
+            <a class="btn-act primary" href="${escapeAttr(url)}" download>
                 <i class='bx bx-download'></i> تحميل الكتاب
             </a>
-            <a class="btn-act ghost" href="${url}" target="_blank" rel="noopener">
+            <a class="btn-act ghost" href="${escapeAttr(url)}" target="_blank" rel="noopener">
                 <i class='bx bx-book-open'></i> قراءة
             </a>
+            ${file.size_human ? `
+                <p class="act-hint">
+                    <i class='bx bx-file'></i>
+                    ${escapeText(String(file.type || "").toUpperCase())} · ${escapeText(file.size_human)}
+                </p>` : ""}
         `;
     }
 
@@ -297,12 +353,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ========================================
-       💳 نافذة الشراء
+       🛒 نافذة الطلب
        ----------------------------------------
-       بدل مطالبة الزائر بكتابة رسالة من الصفر،
-       نجهّزها له: العنوان والمتن مكتوبان، ولا يبقى
-       عليه إلا إرفاق صورة الوصل. كلّ حقل يُطلب منه
-       كتابته هو فرصة لخطأ أو انسحاب.
+       الدار ليست وسيطاً: لا حساب بريدي ولا وصل
+       تحويل. القارئ يحدّد عدد النسخ، فتُبنى له
+       رسالة جاهزة تذهب إلى بريد المؤلف.
+
+       أسعار الجملة التي حدّدها المؤلف عند النشر
+       (price_2 · price_3 · price_4) تُطبَّق هنا —
+       وإلّا كانت بيانات تُجمَع ولا تُستعمل.
        ======================================== */
 
     function initBuyModal(b) {
@@ -311,61 +370,140 @@ document.addEventListener("DOMContentLoaded", () => {
         const overlay = document.getElementById("buyOverlay");
         if (!overlay) return;
 
+        // renderActions عطّل الزرّ أصلاً في هذه الحالة،
+        // لكن لا نبني نافذة بلا وجهة على أي حال
+        const target = orderEmail(b);
+        if (!target) return;
+
         setText("buyBookTitle", b.title);
-        setText("buyPrice", formatPrice(b.price));
-        setText("ribHolder", HOUSE.holder);
-        setText("ribNumber", HOUSE.ccp);
-        setText("houseEmail", HOUSE.email);
+        setText("buyUnitPrice", formatPrice(b.price));
+        setText("targetEmail", target);
 
-        /* الرسالة الجاهزة */
-        const subject = `طلب كتاب: ${b.title}`;
-        const body =
-            `السلام عليكم،\n\n` +
-            `حوّلت مبلغ الكتاب التالي وأرفقت وصل التسديد:\n\n` +
-            `• اسم الكتاب: ${b.title}\n` +
-            `• اسم المؤلف: ${b.author?.name || "—"}\n` +
-            `• المبلغ المحوَّل: ${formatPrice(b.price)}\n\n` +
-            `مرفق طيّه وصل تسديد المبلغ.\n\n` +
-            `الاسم: \n` +
-            `رقم الهاتف: \n\n` +
-            `وشكراً.`;
+        const qtyInput = document.getElementById("buyQty");
+        const totalBox = document.getElementById("buyTotal");
+        const btAmount = document.getElementById("btAmount");
+        const btLabel  = document.getElementById("btLabel");
+        const btSave   = document.getElementById("btSave");
+        const mailBtn  = document.getElementById("mailBtn");
+        const copyMsg  = document.getElementById("copyMsgBtn");
 
-            /* mailto يعتمد على برنامج بريد مثبَّت على الجهاز —
-           ومعظم من يستعمل Gmail من المتصفّح لا يملك واحداً،
-           فلا يحدث شيء عند النقر. لذلك نفتح Gmail مباشرة،
-           ونترك النسخ كبديل مضمون في كل الحالات. */
+        const unit = Number(b.price) || 0;
+        const MAXQ = 99;
 
-        const gmailUrl =
-            `https://mail.google.com/mail/?view=cm&fs=1` +
-            `&to=${encodeURIComponent(HOUSE.email)}` +
-            `&su=${encodeURIComponent(subject)}` +
-            `&body=${encodeURIComponent(body)}`;
 
-        const mail = document.getElementById("mailBtn");
-        if (mail) {
-            mail.href   = gmailUrl;
-            mail.target = "_blank";
-            mail.rel    = "noopener";
+        /* ---------- التسعير ---------- */
+
+        function tierPrice(q) {
+            const t = Number(b[`price_${q}`] || 0);
+            return t > 0 ? t : 0;
         }
 
-        // زرّ النسخ — يعمل بلا بريد ولا حساب جوجل
-        const copyMsg = document.getElementById("copyMsgBtn");
+        function totalFor(q) {
+            return tierPrice(q) || unit * q;
+        }
+
+        function qty() {
+            const n = Math.floor(Number(qtyInput?.value) || 1);
+            return Math.min(Math.max(n, 1), MAXQ);
+        }
+
+
+        /* ---------- التحديث ---------- */
+
+        function sync() {
+            const q     = qty();
+            if (qtyInput) qtyInput.value = q;
+
+            const total = totalFor(q);
+            const plain = unit * q;
+
+            // نسخة واحدة: السعر معروض أصلاً في الأعلى،
+            // فإظهار «المجموع = نفس الرقم» ضجيج
+            if (totalBox) totalBox.hidden = q < 2;
+
+            if (btLabel)  btLabel.textContent  = `المجموع · ${q} نسخ`;
+            if (btAmount) btAmount.textContent = formatPrice(total);
+
+            if (btSave) {
+                const save = plain - total;
+                if (save > 0) {
+                    const pct = Math.round((save / plain) * 100);
+                    btSave.textContent = `سعر جملة حدّده المؤلف — توفير ${formatPrice(save)} (${pct}٪)`;
+                    btSave.hidden = false;
+                } else {
+                    btSave.hidden = true;
+                }
+            }
+
+            buildMessage(q, total);
+        }
+
+
+        /* ---------- الرسالة الجاهزة ---------- */
+
+        let subject = "", body = "";
+
+        function buildMessage(q, total) {
+            subject = `طلب كتاب: ${b.title}`;
+            /* لا نطلب اسماً ولا هاتفاً: الرسالة تصل من بريد
+               المشتري نفسه، فالمؤلف يردّ عليه مباشرةً. كل
+               سطر فارغ يُترك للمستخدم ليملأه فرصة انسحاب. */
+            body =
+                `السلام عليكم،\n\n` +
+                `أرغب في الحصول على الكتاب التالي:\n\n` +
+                `• اسم الكتاب: ${b.title}\n` +
+                `• اسم المؤلف: ${b.author?.name || "—"}\n` +
+                `• عدد النسخ المطلوبة: ${q}\n` +
+                `• المبلغ الإجمالي: ${formatPrice(total)}\n\n` +
+                `أرجو إعلامي بطريقة الدفع والتسليم.`;
+
+            /* mailto يعتمد على برنامج بريد مثبَّت على الجهاز —
+               ومعظم من يستعمل Gmail من المتصفّح لا يملك واحداً،
+               فلا يحدث شيء عند النقر. لذلك نفتح Gmail مباشرة،
+               ونترك النسخ كبديل مضمون في كل الحالات. */
+            if (mailBtn) {
+                mailBtn.href =
+                    `https://mail.google.com/mail/?view=cm&fs=1` +
+                    `&to=${encodeURIComponent(target)}` +
+                    `&su=${encodeURIComponent(subject)}` +
+                    `&body=${encodeURIComponent(body)}`;
+                mailBtn.target = "_blank";
+                mailBtn.rel    = "noopener";
+            }
+        }
+
+
+        /* ---------- المقياس ---------- */
+
+        document.getElementById("qtyMinus")?.addEventListener("click", () => {
+            if (qtyInput) qtyInput.value = Math.max(1, qty() - 1);
+            sync();
+        });
+
+        document.getElementById("qtyPlus")?.addEventListener("click", () => {
+            if (qtyInput) qtyInput.value = Math.min(MAXQ, qty() + 1);
+            sync();
+        });
+
+        qtyInput?.addEventListener("input", sync);
+        qtyInput?.addEventListener("blur",  sync);
+
+        sync();
+
+
+        /* ---------- النسخ ---------- */
+
         copyMsg?.addEventListener("click", () => {
             navigator.clipboard.writeText(
-                `إلى: ${HOUSE.email}\nالموضوع: ${subject}\n\n${body}`
-            ).then(() => {
-                const old = copyMsg.innerHTML;
-                copyMsg.innerHTML = `<i class='bx bx-check'></i><span>نُسخت الرسالة</span>`;
-                copyMsg.classList.add("done");
-                setTimeout(() => {
-                    copyMsg.innerHTML = old;
-                    copyMsg.classList.remove("done");
-                }, 2200);
-            });
+                `إلى: ${target}\nالموضوع: ${subject}\n\n${body}`
+            ).then(() => flash(copyMsg,
+                `<i class='bx bx-check'></i><span>نُسخت الرسالة</span>`, 2200));
         });
-    
 
-      
+        copyBtn("mailCopy", () => target);
+
+
+        /* ---------- الفتح والإغلاق ---------- */
 
         const open  = () => { overlay.hidden = false; document.body.style.overflow = "hidden"; };
         const close = () => { overlay.hidden = true;  document.body.style.overflow = ""; };
@@ -377,24 +515,24 @@ document.addEventListener("DOMContentLoaded", () => {
         document.addEventListener("keydown", e => {
             if (e.key === "Escape" && !overlay.hidden) close();
         });
-
-        copyBtn("ribCopy",  () => HOUSE.ccp);
-        copyBtn("mailCopy", () => HOUSE.email);
     }
 
     function copyBtn(id, getText) {
         const btn = document.getElementById(id);
         btn?.addEventListener("click", () => {
-            navigator.clipboard.writeText(getText()).then(() => {
-                const old = btn.innerHTML;
-                btn.innerHTML = `<i class='bx bx-check'></i>`;
-                btn.classList.add("done");
-                setTimeout(() => {
-                    btn.innerHTML = old;
-                    btn.classList.remove("done");
-                }, 1600);
-            });
+            navigator.clipboard.writeText(getText())
+                .then(() => flash(btn, `<i class='bx bx-check'></i>`, 1600));
         });
+    }
+
+    function flash(btn, html, ms) {
+        const old = btn.innerHTML;
+        btn.innerHTML = html;
+        btn.classList.add("done");
+        setTimeout(() => {
+            btn.innerHTML = old;
+            btn.classList.remove("done");
+        }, ms);
     }
 
 

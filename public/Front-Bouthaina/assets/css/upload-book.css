@@ -467,65 +467,6 @@
 }
 
 
-/* ---------- اختيار مجاني/مدفوع ---------- */
-
-.pay-choice {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: .8rem;
-}
-
-.pay-opt { cursor: pointer; margin: 0; }
-
-.pay-opt input { position: absolute; opacity: 0; pointer-events: none; }
-
-.pay-opt span {
-    display: block;
-    padding: 1.1rem 1rem;
-    border: 2px solid var(--border);
-    border-radius: 14px;
-    background: #fff;
-    text-align: center;
-    transition: var(--transition-sm);
-}
-
-.pay-opt span i {
-    font-size: 1.6rem;
-    color: var(--text-light);
-    display: block;
-    margin-bottom: .4rem;
-    transition: color .25s;
-}
-
-.pay-opt span b {
-    display: block;
-    font-size: .95rem;
-    color: var(--text);
-    margin-bottom: .15rem;
-}
-
-.pay-opt span small {
-    font-size: .76rem;
-    color: var(--text-light);
-    line-height: 1.6;
-}
-
-.pay-opt:hover span { border-color: var(--primary); }
-
-.pay-opt input:checked + span {
-    border-color: var(--primary);
-    background: rgba(122,12,22,.05);
-    box-shadow: 0 0 0 3px var(--primary-glow);
-}
-
-.pay-opt input:checked + span i { color: var(--primary); }
-
-#priceField[hidden] { display: none; }
-
-@media (max-width: 640px) {
-    .pay-choice { grid-template-columns: 1fr; }
-}
-
 /* ========================================
    🖼️ غلاف الكتاب
    ======================================== */
@@ -695,7 +636,6 @@
     padding-inline: 0;
 }
 
-.pay-choice { min-width: 0; max-width: 100%; }
 
 
 /* ========================================
@@ -981,13 +921,9 @@
 /* النصّ الطويل داخل القائمة يُقصّ بدل أن يمدّها */
 .field select { text-overflow: ellipsis; }
 
-/* الشبكات الأخرى في الاستمارة */
-.pay-choice { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
 @media (max-width: 640px) {
     .up-wrap .grid-2,
-    .pr-card .grid-2,
-    .pay-choice { grid-template-columns: minmax(0, 1fr); }
+    .pr-card .grid-2 { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* الحقول الاختيارية تُعلَّم صراحةً —
@@ -998,3 +934,373 @@
     font-weight: 500;
     color: var(--text-light);
 }
+
+
+
+/* ========================================
+   🔢 الخطوة الثالثة — الغلاف والإتاحة
+   ----------------------------------------
+   مبدأ التصميم هنا: الاختياري يجب أن يبدو
+   اختيارياً. كتلٌ هادئة بحدٍّ خفيف وخلفية
+   شبه بيضاء، تُضيء عند العمل فيها فقط.
+   ======================================== */
+
+/* ---------- الرقم ---------- */
+
+.ord {
+    display: inline-grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background: rgba(122,12,22,.08);
+    color: var(--primary);
+    font-size: .8rem;
+    font-weight: 800;
+    line-height: 1;
+    flex: 0 0 auto;
+    margin-inline-end: .65rem;
+    vertical-align: -.35rem;
+    transition: background .3s ease, color .3s ease;
+}
+
+.field label .ord { vertical-align: -.4rem; }
+
+
+/* ---------- الكتلة الاختيارية ---------- */
+
+.opt-block {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 1.4rem;
+    margin-bottom: 1.5rem;
+    background: #fdfcfc;
+    transition: border-color .35s ease, background .35s ease, box-shadow .35s ease;
+}
+
+/* تُضيء عند العمل فيها — لا قبل ذلك */
+.opt-block:focus-within {
+    background: #fff;
+    border-color: rgba(122,12,22,.35);
+    box-shadow: 0 8px 30px rgba(122,12,22,.07);
+}
+
+.opt-block:focus-within .ord {
+    background: var(--primary);
+    color: #fff;
+}
+
+.opt-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin-bottom: 1.5rem;
+}
+
+.opt-head > div { flex: 1 1 auto; min-width: 0; }
+
+.opt-head b {
+    display: block;
+    font-size: .97rem;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: .3rem;
+}
+
+.opt-head small {
+    display: block;
+    font-size: .82rem;
+    color: var(--text-light);
+    line-height: 1.85;
+}
+
+/* شارة رمادية هادئة — لا تنافس العنوان على الانتباه */
+.opt-tag {
+    flex: 0 0 auto;
+    font-style: normal;
+    font-size: .71rem;
+    font-weight: 700;
+    letter-spacing: .01em;
+    color: var(--text-light);
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: .22rem .75rem;
+    margin-inline-start: .8rem;
+    margin-top: .1rem;
+    white-space: nowrap;
+}
+
+.opt-block .field:last-child { margin-bottom: 0; }
+
+
+/* ---------- حقل بعملة ---------- */
+
+.money { position: relative; }
+
+.money input {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: .8rem 1rem;
+    padding-inline-end: 3rem;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: .93rem;
+    font-weight: 600;
+    background: #fff;
+    color: var(--text);
+    transition: border-color .25s ease, box-shadow .25s ease;
+}
+
+.money input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+.money input.invalid { border-color: #dc3545; }
+
+.money .cur {
+    position: absolute;
+    inset-inline-end: .95rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: .82rem;
+    font-weight: 700;
+    color: var(--text-light);
+    pointer-events: none;
+}
+
+/* أسهم الزيادة والنقصان تزاحم العملة ولا تُستعمل */
+.money input::-webkit-outer-spin-button,
+.money input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.money input[type=number] { -moz-appearance: textfield; appearance: textfield; }
+
+
+/* ========================================
+   🏷️ أسعار النسخ المتعدّدة
+   ======================================== */
+
+.tiers {
+    margin-top: 1.6rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.tiers[hidden] { display: none; }
+
+/* دخولٌ من الأعلى بانزلاقٍ يتباطأ في نهايته —
+   الحقل يستقرّ بدل أن يتوقّف فجأةً */
+.tiers:not([hidden]) {
+    animation: tiersIn .45s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+@keyframes tiersIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: none; }
+}
+
+.tiers-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin-bottom: 1.3rem;
+}
+
+.tiers-head > div { flex: 1 1 auto; min-width: 0; }
+
+.tiers-head b {
+    display: block;
+    font-size: .93rem;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: .3rem;
+}
+
+.tiers-head small {
+    display: block;
+    font-size: .81rem;
+    color: var(--text-light);
+    line-height: 1.85;
+}
+
+/* auto-fit بدل ثلاثة أعمدة ثابتة — الشبكة تنزل
+   إلى عمودين ثم عمود من نفسها، بلا نقطة قطعٍ
+   واحدة تكسر كل شيء دونها */
+.tier-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: 1.1rem .9rem;
+}
+
+/* ظهورٌ متدرّج: الحقول تتتابع لا تقفز معاً */
+.tier {
+    min-width: 0;
+    animation: tierIn .45s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.tier:nth-child(1) { animation-delay: .06s; }
+.tier:nth-child(2) { animation-delay: .12s; }
+.tier:nth-child(3) { animation-delay: .18s; }
+
+@keyframes tierIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: none; }
+}
+
+.tier label {
+    display: block;
+    font-weight: 700;
+    font-size: .85rem;
+    color: var(--text);
+    margin-bottom: .45rem;
+}
+
+/* السطر تحت الحقل يحجز مكانه سلفاً —
+   ظهور النصّ لا يجب أن يزحزح ما تحته */
+.tier-hint {
+    display: block;
+    margin-top: .45rem;
+    font-size: .77rem;
+    line-height: 1.6;
+    min-height: 1.25rem;
+    color: var(--text-light);
+    transition: color .3s ease;
+}
+
+.tier-hint.good,
+.tier-hint.bad {
+    font-weight: 700;
+    animation: hintIn .3s ease both;
+}
+
+.tier-hint.good { color: #1a7f37; }
+.tier-hint.bad  { color: #c02434; }
+
+@keyframes hintIn {
+    from { opacity: 0; transform: translateY(-3px); }
+    to   { opacity: 1; transform: none; }
+}
+
+
+/* ========================================
+   ℹ️ الملاحظات والملخّص
+   ======================================== */
+
+/* ملاحظة تشرح قاعدةً — ليست خطأً،
+   فلا تأخذ ألوان الخطأ ولا حدّته */
+.field-note {
+    display: flex;
+    align-items: flex-start;
+    gap: .6rem;
+    margin-top: 1.2rem;
+    padding: .85rem 1rem;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: .81rem;
+    line-height: 1.9;
+    color: var(--text-light);
+}
+
+.field-note[hidden] { display: none; }
+
+.field-note i {
+    color: var(--primary);
+    opacity: .75;
+    font-size: 1.05rem;
+    flex-shrink: 0;
+    margin-top: .28rem;
+}
+
+/* ملخّص حيّ لما سيحدث للكتاب.
+   الأخضر تأكيد، والعنبري تنبيهٌ لا خطأ —
+   الحالة مسموحة، لكن المؤلف يجب أن يعرفها */
+.avail-note {
+    display: flex;
+    align-items: flex-start;
+    gap: .65rem;
+    padding: 1rem 1.15rem;
+    border: 1px solid transparent;
+    border-radius: 14px;
+    font-size: .88rem;
+    font-weight: 600;
+    line-height: 1.9;
+    margin: 1.8rem 0 1.4rem;
+    transition: background .35s ease, color .35s ease, border-color .35s ease;
+}
+
+.avail-note i {
+    font-size: 1.15rem;
+    flex-shrink: 0;
+    margin-top: .3rem;
+    opacity: .85;
+}
+
+.avail-note.ok {
+    background: rgba(26,127,55,.07);
+    border-color: rgba(26,127,55,.22);
+    color: #166534;
+}
+
+.avail-note.warn {
+    background: rgba(180,120,10,.09);
+    border-color: rgba(180,120,10,.25);
+    color: #8a5a09;
+}
+
+/* وميضة واحدة عند تغيّر الحالة — تلفت النظر
+   إلى أنّ شيئاً تبدّل دون أن تُزعج */
+.avail-note.flash { animation: availFlash .6s ease; }
+
+@keyframes availFlash {
+    0%   { transform: none; }
+    30%  { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,0,0,.07); }
+    100% { transform: none; box-shadow: none; }
+}
+
+
+/* ========================================
+   📱 التجاوب
+   ======================================== */
+
+@media (max-width: 640px) {
+    .opt-block  { padding: 1.2rem 1rem; }
+    .opt-head   { flex-wrap: wrap; }
+    .opt-tag    { margin-inline-start: 0; margin-top: .6rem; order: 3; }
+    .tier-grid  { gap: .9rem; }
+    .avail-note { font-size: .85rem; }
+}
+
+
+/* من يطلب تقليل الحركة يجب أن يجدها ساكنة —
+   الاستمارة تعمل تماماً بلا أي حركة */
+@media (prefers-reduced-motion: reduce) {
+    .tiers:not([hidden]),
+    .tier,
+    .tier-hint.good,
+    .tier-hint.bad,
+    .avail-note.flash {
+        animation: none;
+    }
+}
+
+
+/* ---------- نجمة الحقل المشروط ---------- */
+
+/* بريد المشترين يصير مطلوباً لحظة كتابة سعر —
+   النجمة تظهر معه لا عند محاولة الانتقال */
+.field label .req {
+    color: var(--primary-light);
+    font-weight: 800;
+}
+
+.field label .req[hidden] { display: none; }

@@ -181,7 +181,6 @@
     gap: .8rem;
     flex-wrap: wrap;
     align-items: center;
-    margin-bottom: 1.8rem;
 }
 
 .btn-act {
@@ -260,46 +259,6 @@
 .act-hint i { color: var(--primary); font-size: 1rem; }
 
 
-/* ---------- المشاركة ---------- */
-
-.bk-share {
-    padding-top: 1.4rem;
-    border-top: 1px solid var(--border);
-}
-
-.bk-share > span {
-    display: block;
-    font-size: .84rem;
-    font-weight: 700;
-    color: var(--text-light);
-    margin-bottom: .7rem;
-}
-
-.share-row { display: flex; gap: .6rem; flex-wrap: wrap; }
-
-.share-btn {
-    width: 2.6rem; height: 2.6rem;
-    display: grid; place-items: center;
-    border-radius: 50%;
-    color: #fff;
-    font-size: 1.2rem;
-    border: none;
-    transition: var(--transition);
-    box-shadow: 0 4px 12px rgba(0,0,0,.14);
-}
-
-.share-btn.whatsapp { background: linear-gradient(135deg,#25d366,#128c7e); }
-.share-btn.facebook { background: linear-gradient(135deg,#1877f2,#0d5bca); }
-.share-btn.telegram { background: linear-gradient(135deg,#0088cc,#006699); }
-.share-btn.copy     { background: linear-gradient(135deg,#6c757d,#5a6268); }
-
-.share-btn:hover {
-    transform: translateY(-4px) scale(1.08);
-    box-shadow: 0 8px 20px rgba(0,0,0,.22);
-    color: #fff;
-}
-
-
 /* ========================================
    📄 الأقسام
    ======================================== */
@@ -311,6 +270,9 @@
     background: var(--bg-alt);
     border-block: 1px solid var(--border);
 }
+
+/* قسم المشاركة سطرٌ واحد — لا يحتاج ٣rem فوق وتحت */
+.bk-section.slim { padding: 1.8rem 0; }
 
 .bk-h2 {
     display: flex;
@@ -436,6 +398,48 @@
 
 
 /* ========================================
+   🔗 المشاركة — قسم مستقلّ تحت المؤلف
+   ======================================== */
+
+.bk-share {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.bk-share > span {
+    font-size: .88rem;
+    font-weight: 700;
+    color: var(--text-light);
+}
+
+.share-row { display: flex; gap: .6rem; flex-wrap: wrap; }
+
+.share-btn {
+    width: 2.6rem; height: 2.6rem;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.2rem;
+    border: none;
+    transition: var(--transition);
+    box-shadow: 0 4px 12px rgba(0,0,0,.14);
+}
+
+.share-btn.whatsapp { background: linear-gradient(135deg,#25d366,#128c7e); }
+.share-btn.facebook { background: linear-gradient(135deg,#1877f2,#0d5bca); }
+.share-btn.telegram { background: linear-gradient(135deg,#0088cc,#006699); }
+.share-btn.copy     { background: linear-gradient(135deg,#6c757d,#5a6268); }
+
+.share-btn:hover {
+    transform: translateY(-4px) scale(1.08);
+    box-shadow: 0 8px 20px rgba(0,0,0,.22);
+    color: #fff;
+}
+
+
+/* ========================================
    📚 شبكة الكتب
    ======================================== */
 
@@ -447,7 +451,7 @@
 
 
 /* ========================================
-   💳 نافذة الشراء
+   🛒 نافذة الطلب
    ======================================== */
 
 .buy-overlay {
@@ -469,11 +473,11 @@
     position: relative;
     background: #fff;
     border-radius: var(--radius-lg);
-    max-width: 36rem;
+    max-width: 32rem;
     width: 100%;
     padding: 2rem 1.8rem;
     box-shadow: 0 20px 50px rgba(0,0,0,.3);
-    animation: buyIn .35s cubic-bezier(.22,.61,.36,1);
+    animation: buyIn .35s cubic-bezier(.16, 1, .3, 1);
     max-height: 92vh;
     overflow-y: auto;
 }
@@ -519,7 +523,9 @@
 }
 
 .buy-price {
-    display: inline-block;
+    display: inline-flex;
+    align-items: baseline;
+    gap: .4rem;
     padding: .5rem 1.4rem;
     background: rgba(22,140,73,.1);
     border: 2px solid rgba(22,140,73,.3);
@@ -529,113 +535,158 @@
     font-weight: 900;
 }
 
+.buy-price small { font-size: .74rem; font-weight: 700; opacity: .8; }
 
-/* ---------- الخطوات ---------- */
 
-.buy-steps { list-style: none; display: grid; gap: 1.5rem; }
+/* ---------- عدد النسخ ---------- */
 
-.buy-steps li { display: flex; gap: .9rem; align-items: flex-start; }
+.buy-qty { margin-bottom: 1.2rem; }
 
-.bs-num {
-    width: 1.9rem; height: 1.9rem;
-    flex-shrink: 0;
-    display: grid; place-items: center;
-    border-radius: 50%;
-    background: var(--primary-gradient);
-    color: #fff;
-    font-size: .82rem;
-    font-weight: 900;
-}
-
-.bs-body { flex: 1; min-width: 0; }
-
-.bs-body > b {
+.buy-qty > label {
     display: block;
-    font-size: .98rem;
-    color: var(--text);
-    margin-bottom: .5rem;
-}
-
-.bs-body p {
-    font-size: .87rem;
-    color: var(--text-light);
-    line-height: 1.85;
-    margin-bottom: .7rem;
-}
-
-.bs-body strong { color: var(--text); font-weight: 700; }
-
-.bs-body small {
-    display: block;
-    margin-top: .5rem;
-    font-size: .79rem;
-    color: var(--text-light);
-}
-
-
-/* ---------- بطاقة الحساب ---------- */
-
-.rib-box {
-    background: var(--bg-alt);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-}
-
-.rib-row {
-    display: flex;
-    align-items: center;
-    gap: .7rem;
-    padding: .65rem .9rem;
-    border-bottom: 1px solid var(--border);
-    font-size: .85rem;
-}
-
-.rib-row:last-child { border-bottom: none; }
-
-.rib-row > span {
-    color: var(--text-light);
-    font-weight: 600;
-    width: 6rem;
-    flex-shrink: 0;
-}
-
-.rib-row > b {
-    flex: 1;
-    color: var(--text);
+    font-size: .89rem;
     font-weight: 700;
-    word-break: break-all;
+    color: var(--text);
+    margin-bottom: .7rem;
+    text-align: center;
 }
 
-.rib-main { background: rgba(122,12,22,.05); }
-.rib-main > b { font-family: monospace; font-size: .92rem; letter-spacing: .04em; }
+.qty-stepper {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: .6rem;
+}
 
-.rib-copy {
-    width: 1.9rem; height: 1.9rem;
-    flex-shrink: 0;
-    display: grid; place-items: center;
-    border-radius: 8px;
+.qs-btn {
+    width: 2.9rem;
+    display: grid;
+    place-items: center;
+    border: 2px solid var(--border);
+    border-radius: 12px;
     background: #fff;
-    border: 1px solid var(--border);
     color: var(--primary);
-    font-size: 1rem;
+    font-size: 1.3rem;
+    transition: border-color .2s ease, background .2s ease,
+                color .2s ease, transform .18s ease;
+}
+
+.qs-btn:hover {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: #fff;
+}
+
+.qs-btn:active { transform: scale(.93); }
+
+.qty-stepper input {
+    width: 6rem;
+    padding: .75rem .5rem;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    background: #fff;
+    font-family: inherit;
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: var(--text);
+    text-align: center;
     transition: var(--transition-sm);
 }
 
-.rib-copy:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
-.rib-copy.done  { background: #28a745; border-color: #28a745; color: #fff; }
+.qty-stepper input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+/* الأسهم الأصلية تزاحم الرقم ولا تُستعمل — الأزرار تكفي */
+.qty-stepper input::-webkit-outer-spin-button,
+.qty-stepper input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.qty-stepper input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 
 
-/* ---------- زر البريد الجاهز ---------- */
+/* ---------- المجموع ---------- */
+
+.buy-total {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: .9rem 1.1rem;
+    margin-bottom: 1.4rem;
+    animation: totalIn .3s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.buy-total[hidden] { display: none; }
+
+@keyframes totalIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: none; }
+}
+
+.bt-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.bt-row > span {
+    font-size: .87rem;
+    font-weight: 700;
+    color: var(--text-light);
+}
+
+.bt-row > b {
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: #168c49;
+}
+
+.bt-save {
+    margin-top: .55rem;
+    padding-top: .55rem;
+    border-top: 1px dashed var(--border);
+    font-size: .79rem;
+    font-weight: 700;
+    color: #168c49;
+    line-height: 1.7;
+}
+
+.bt-save[hidden] { display: none; }
+
+
+/* ---------- الإرسال ---------- */
+
+.bs-lead {
+    font-size: .89rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: .8rem;
+}
+
+.mail-actions {
+    display: flex;
+    gap: .6rem;
+    flex-wrap: wrap;
+}
 
 .btn-mail {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: .5rem;
-    padding: .75rem 1.5rem;
+    flex: 1;
+    min-width: 12rem;
+    padding: .78rem 1.4rem;
     background: var(--primary-gradient);
     color: #fff;
+    border: 2px solid transparent;
     border-radius: 30px;
+    font-family: inherit;
     font-size: .88rem;
     font-weight: 800;
     transition: var(--transition);
@@ -650,34 +701,69 @@
 
 .btn-mail i { font-size: 1.15rem; }
 
+.btn-mail.ghost {
+    background: #fff;
+    color: var(--primary);
+    border-color: var(--primary);
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.btn-mail.ghost:hover { background: var(--primary); color: #fff; }
+
+.btn-mail.done {
+    background: #28a745 !important;
+    border-color: #28a745 !important;
+    color: #fff !important;
+}
+
 .mail-manual {
     display: flex;
     align-items: center;
     gap: .5rem;
     flex-wrap: wrap;
-    margin-top: .8rem;
+    margin-top: .9rem;
     font-size: .82rem;
     color: var(--text-light);
 }
 
-.mail-manual b { color: var(--text); font-weight: 700; }
+.mail-manual b {
+    color: var(--text);
+    font-weight: 700;
+    word-break: break-all;
+}
+
+.copy-mini {
+    width: 1.9rem; height: 1.9rem;
+    flex-shrink: 0;
+    display: grid; place-items: center;
+    border-radius: 8px;
+    background: #fff;
+    border: 1px solid var(--border);
+    color: var(--primary);
+    font-size: 1rem;
+    transition: var(--transition-sm);
+}
+
+.copy-mini:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
+.copy-mini.done  { background: #28a745; border-color: #28a745; color: #fff; }
 
 
 /* ---------- ملاحظة ---------- */
 
 .buy-note {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: .5rem;
-    margin-top: 1.6rem;
+    margin-top: 1.5rem;
     padding-top: 1.2rem;
     border-top: 1px solid var(--border);
-    font-size: .83rem;
+    font-size: .82rem;
+    line-height: 1.85;
     color: var(--text-light);
 }
 
-.buy-note i { color: var(--primary); font-size: 1.05rem; flex-shrink: 0; }
-.buy-note a { color: var(--primary); font-weight: 700; text-decoration: underline; }
+.buy-note i { color: var(--primary); font-size: 1.05rem; flex-shrink: 0; margin-top: .25rem; }
 
 
 /* ========================================
@@ -700,39 +786,34 @@
     .bk-author { flex-direction: column; align-items: center; text-align: center; }
     .books-grid { grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 1.1rem; }
     .buy-box { padding: 1.6rem 1.2rem; }
-    .rib-row { flex-wrap: wrap; }
-    .rib-row > span { width: 100%; }
-}
-
-/* ---------- أزرار البريد ---------- */
-
-.mail-actions {
-    display: flex;
-    gap: .6rem;
-    flex-wrap: wrap;
-}
-
-.btn-mail.ghost {
-    background: #fff;
-    color: var(--primary);
-    border: 2px solid var(--primary);
-    box-shadow: none;
-    font-family: inherit;
-    cursor: pointer;
-}
-
-.btn-mail.ghost:hover {
-    background: var(--primary);
-    color: #fff;
-}
-
-.btn-mail.done {
-    background: #28a745 !important;
-    border-color: #28a745 !important;
-    color: #fff !important;
-}
-
-@media (max-width: 480px) {
     .mail-actions { flex-direction: column; }
-    .mail-actions > * { justify-content: center; }
+    .btn-mail { min-width: 0; }
+}
+
+
+/* من يطلب تقليل الحركة يجب أن يجدها ساكنة */
+@media (prefers-reduced-motion: reduce) {
+    .buy-box, .buy-total { animation: none; }
+    .qs-btn:active { transform: none; }
+}
+
+
+/* ---------- فقرات فيها عناصر سطرية ---------- */
+
+/* .buy-note و .act-hint عنصران flex، وأي <strong>
+   أو <a> يُترك عارياً بداخلهما يصير عنصراً مستقلاً
+   في الصفّ فتنقسم الفقرة أعمدةً. النصّ ملفوف في
+   span، وهذه القاعدة تضمن أن يتدفّق كفقرة واحدة. */
+
+.buy-note > span,
+.act-hint > span {
+    flex: 1;
+    min-width: 0;
+}
+
+.act-hint > span a {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
 }

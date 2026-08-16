@@ -41,15 +41,15 @@
             <ol class="steps-bar" id="stepsBar">
                 <li class="step-dot active" data-step="1">
                     <span class="dot">١</span>
-                    <b>بياناتك</b>
+                    <b>البيانات الشخصية</b>
                 </li>
                 <li class="step-dot" data-step="2">
                     <span class="dot">٢</span>
-                    <b>الكتاب</b>
+                    <b>بيانات الكتاب</b>
                 </li>
                 <li class="step-dot" data-step="3">
                     <span class="dot">٣</span>
-                    <b>الملف</b>
+                    <b>تحميل الكتاب</b>
                 </li>
             </ol>
 
@@ -105,7 +105,7 @@
                     </div>
 
                     <div class="field">
-                        <label for="author_photo">صورتك <em>(اختياري)</em></label>
+                        <label for="author_photo">الصورة الشخصية <em>(اختياري)</em></label>
                         <div class="file-pick" id="photoPick">
                             <input type="file" id="author_photo" name="author_photo" accept="image/*">
                             <i class='bx bx-user-circle'></i>
@@ -144,7 +144,10 @@
                 </fieldset>
 
 
-                <!-- ══════ الخطوة ٢ ══════ -->
+                <!-- ══════ الخطوة ٢ ══════
+                     بيانات الكتاب وحدها. سؤال المجّانية انتقل إلى
+                     الخطوة الثالثة، حيث صار يُستنتج ممّا يقدّمه
+                     المؤلف بدل أن يُسأل عنه مباشرةً. -->
                 <fieldset class="step" data-step="2">
                     <legend class="step-legend">
                         <h2>بيانات الكتاب</h2>
@@ -188,42 +191,10 @@
                         </div>
                     </div>
 
-                    <!-- الإتاحة: سؤال نعم/لا -->
-                    <div class="field">
-                        <label>هل تتيح محتوى الكتاب بالمجّان؟ <span>*</span></label>
-                        <div class="pay-choice">
-                            <label class="pay-opt">
-                                <input type="radio" name="is_paid" value="0" checked>
-                                <span>
-                                    <i class='bx bx-check-circle'></i>
-                                    <b>نعم</b>
-                                    <small>يُنزَّل مجاناً من الموقع</small>
-                                </span>
-                            </label>
-
-                            <label class="pay-opt">
-                                <input type="radio" name="is_paid" value="1">
-                                <span>
-                                    <i class='bx bx-x-circle'></i>
-                                    <b>لا</b>
-                                    <small>يُطلَب ويُرسَل بعد الدفع</small>
-                                </span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="field" id="priceField" hidden>
-                        <label for="price">حدّد سعر الكتاب بالدينار الجزائري <span>*</span></label>
-                        <input type="number" id="price" name="price" min="1" step="50"
-                               inputmode="numeric" placeholder="مثال: 1200">
-                        <small>يظهر السعر في صفحة الكتاب، ويُرسَل بعد تأكيد الدفع</small>
-                    </div>
-
                     <div class="field">
                         <label for="legal_deposit">رقم الإيداع القانوني <span>*</span></label>
                         <input type="text" id="legal_deposit" name="legal_deposit" required
                                placeholder="رقم الإيداع لدى المكتبة الوطنية">
-                        <small>إن لم يكن لكتابك إيداع بعد، تواصل معنا قبل الإرسال</small>
                     </div>
 
                     <div class="field">
@@ -243,36 +214,24 @@
                 </fieldset>
 
 
-                <!-- ══════ الخطوة ٣ ══════ -->
+                <!-- ══════ الخطوة ٣ ══════
+                     الغلاف وحده مطلوب. الملف والسعر اختياران
+                     مستقلّان: من رفع ملفاً أتاح كتابه مجاناً،
+                     ومن حدّد سعراً عرضه للبيع، ومن فعل الاثنين
+                     جمعهما. الحالة تُستنتج، ولا تُسأل. -->
                 <fieldset class="step" data-step="3">
                     <legend class="step-legend">
-                        <h2>الملف والغلاف</h2>
-                        <p>ملف الكتاب بصيغة PDF أو EPUB، مع صورة الغلاف.</p>
+                        <h2>الغلاف وإتاحة الكتاب</h2>
+                        <p>الغلاف مطلوب. أمّا الملف والسعر فأنت من يقرّر — وما تتركه فارغاً لا يُعرض.</p>
                     </legend>
 
-                    <div class="field">
-                        <label for="file">الملف <span>*</span></label>
-                        <div class="drop-zone" id="dropZone">
-                            <input type="file" id="file" name="file" accept=".pdf,.epub" required>
-                            <i class='bx bx-cloud-upload'></i>
-                            <b>اسحب الملف هنا أو اضغط للاختيار</b>
-                            <small>PDF أو EPUB · حتى ٥٠ ميجابايت</small>
-                        </div>
-                        <div class="file-chosen" id="fileChosen" hidden>
-                            <i class='bx bxs-file-blank'></i>
-                            <div>
-                                <b id="fileName"></b>
-                                <span id="fileSize"></span>
-                            </div>
-                            <button type="button" class="file-drop" id="fileRemove" aria-label="إزالة">
-                                <i class='bx bx-x'></i>
-                            </button>
-                        </div>
-                    </div>
 
-                    <!-- غلاف الكتاب — إجباري: كتاب بلا غلاف يبدو ناقصاً في المكتبة -->
+                    <!-- ══ ١ · الغلاف — مطلوب من الجميع ══ -->
                     <div class="field">
-                        <label for="cover">غلاف الكتاب <span>*</span></label>
+                        <label for="cover">
+                            <span class="ord">١</span>
+                            غلاف الكتاب <span>*</span>
+                        </label>
 
                         <div class="cover-zone" id="coverZone">
                             <input type="file" id="cover" name="cover" accept="image/*" required>
@@ -291,6 +250,141 @@
                                 </button>
                             </div>
                         </div>
+
+                        <small>الغلاف مطلوب دائماً — هو ما يراه القارئ في المكتبة قبل أي شيء.</small>
+                    </div>
+
+
+                    <!-- ══ ٢ · الملف — من رفعه أتاح كتابه مجاناً ══ -->
+                    <div class="opt-block">
+                        <div class="opt-head">
+                            <span class="ord">٢</span>
+                            <div>
+                                <b>لنشر الكتاب بالمجّان — ارفع الملف</b>
+                                <small>يُنزَّل من الموقع مباشرةً دون مقابل. اتركه فارغاً إن لم ترغب.</small>
+                            </div>
+                            <em class="opt-tag">اختياري</em>
+                        </div>
+
+                        <div class="field">
+                            <div class="drop-zone" id="dropZone">
+                                <input type="file" id="file" name="file" accept=".pdf,.epub">
+                                <i class='bx bx-cloud-upload'></i>
+                                <b>اسحب الملف هنا أو اضغط للاختيار</b>
+                                <small>PDF أو EPUB · حتى ٥٠ ميجابايت</small>
+                            </div>
+
+                            <div class="file-chosen" id="fileChosen" hidden>
+                                <i class='bx bxs-file-blank'></i>
+                                <div>
+                                    <b id="fileName"></b>
+                                    <span id="fileSize"></span>
+                                </div>
+                                <button type="button" class="file-drop" id="fileRemove" aria-label="إزالة">
+                                    <i class='bx bx-x'></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- ══ ٣ · البيع — سعر النسخة وبريد المشترين ══ -->
+                    <div class="opt-block">
+                        <div class="opt-head">
+                            <span class="ord">٣</span>
+                            <div>
+                                <b>لبيع الكتاب — حدّد سعر النسخة</b>
+                                <small>تُعرض النسخة المطبوعة للبيع، ويتواصل المشتري عبر البريد الذي تحدّده.</small>
+                            </div>
+                            <em class="opt-tag">اختياري</em>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="field">
+                                <label for="price">سعر النسخة الواحدة</label>
+                                <div class="money">
+                                    <input type="number" id="price" name="price" min="1" step="50"
+                                           inputmode="numeric" placeholder="1200">
+                                    <span class="cur">دج</span>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="sale_email">
+                                    بريد التواصل مع المشترين
+                                    <span class="req" id="saleReq" hidden>*</span>
+                                </label>
+                                <input type="email" id="sale_email" name="sale_email" dir="ltr"
+                                       placeholder="mail@example.com">
+                                <small id="saleHint">
+                                    <b>هذا البريد وحده يظهر في صفحة كتابك</b> —
+                                    بريدك في الخطوة الأولى يبقى خاصاً بالدار ولا يراه أحد.
+                                </small>
+                            </div>
+                        </div>
+
+
+                        <!-- ══ ٤ · أسعار النسخ المتعدّدة ══
+                             تظهر بعد تحديد سعر النسخة الواحدة فقط —
+                             تخفيضٌ على سعرٍ غير موجود لا معنى له. -->
+                        <div class="tiers" id="tiersBlock" hidden>
+                            <div class="tiers-head">
+                                <span class="ord">٤</span>
+                                <div>
+                                    <b>أسعار النسخ المتعدّدة</b>
+                                    <small>سعر مخفَّض لمن يشتري أكثر من نسخة. املأ ما تشاء واترك الباقي.</small>
+                                </div>
+                                <em class="opt-tag">اختياري</em>
+                            </div>
+
+                            <div class="tier-grid">
+                                <div class="tier">
+                                    <label for="price_2">نسختان</label>
+                                    <div class="money">
+                                        <input type="number" id="price_2" name="price_2" min="1" step="50"
+                                               inputmode="numeric" data-qty="2">
+                                        <span class="cur">دج</span>
+                                    </div>
+                                    <small class="tier-hint" data-hint="2"></small>
+                                </div>
+
+                                <div class="tier">
+                                    <label for="price_3">ثلاث نسخ</label>
+                                    <div class="money">
+                                        <input type="number" id="price_3" name="price_3" min="1" step="50"
+                                               inputmode="numeric" data-qty="3">
+                                        <span class="cur">دج</span>
+                                    </div>
+                                    <small class="tier-hint" data-hint="3"></small>
+                                </div>
+
+                                <div class="tier">
+                                    <label for="price_4">أربع نسخ</label>
+                                    <div class="money">
+                                        <input type="number" id="price_4" name="price_4" min="1" step="50"
+                                               inputmode="numeric" data-qty="4">
+                                        <span class="cur">دج</span>
+                                    </div>
+                                    <small class="tier-hint" data-hint="4"></small>
+                                </div>
+                            </div>
+
+                            <p class="field-note">
+                                <i class='bx bx-info-circle'></i>
+                                <span>
+                                    السعر هنا لمجموع النسخ لا للنسخة الواحدة، ويجب أن يقلّ عن
+                                    ضربها في سعر النسخة — وإلّا لم يكن تخفيضاً.
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <!-- ملخّص حيّ لما سيحدث للكتاب —
+                         المؤلف يرى نتيجة اختياراته قبل أن يرسل -->
+                    <div class="avail-note" id="availNote">
+                        <i class='bx bx-info-circle'></i>
+                        <span id="availText"></span>
                     </div>
 
 
@@ -355,7 +449,7 @@
                 <ul>
                     <li>أن تكون صاحب حقوق النصّ، أو تملك تصريحاً مكتوباً بنشره.</li>
                     <li>عمل مكتمل — لا نستقبل مسوّدات غير منتهية.</li>
-                    <li>ملف بصيغة PDF أو EPUB واضح ومقروء، مع صورة غلاف.</li>
+                    <li>صورة غلاف واضحة — مطلوبة من كل عمل.</li>
                     <li>رقم الإيداع القانوني للكتاب.</li>
                     <li>ألّا يكون العمل منشوراً لدى دار أخرى بعقد سارٍ.</li>
                     <li>ألّا يحتوي ما يخالف القانون أو يحرّض على الكراهية.</li>
@@ -369,6 +463,15 @@
                     <li>بقاء حقوق الملكية الفكرية لك كاملةً.</li>
                 </ul>
 
+                <h3>إتاحة الكتاب</h3>
+                <ul>
+                    <li>رفع ملف الكتاب اختياري — من رفعه أتاحه للتنزيل مجاناً.</li>
+                    <li>تحديد سعر النسخة اختياري — من حدّده عرض كتابه للبيع، ولزمه بريد تواصل مع المشترين.</li>
+                    <li>يمكنك الجمع بينهما: نسخة رقمية مجانية ونسخ مطبوعة تُباع.</li>
+                    <li>إن تركتهما معاً فارغين، عُرض التعريف بالكتاب دون تنزيل أو بيع.</li>
+                    <li>يمكنك تغيير هذا القرار لاحقاً بمراسلة الدار.</li>
+                </ul>
+
                 <h3>المراجعة والقبول</h3>
                 <ul>
                     <li>رفع الكتاب لا يعني قبوله — كل عمل يُدرَس على حدة.</li>
@@ -380,6 +483,8 @@
                 <ul>
                     <li>لا يظهر بريدك ولا هاتفك ولا عنوانك للزوّار.</li>
                     <li>تُستعمل للتواصل معك بشأن كتابك فقط.</li>
+                    <li>بريد التواصل مع المشترين وحده يُنشر في صفحة كتابك، ولا يُنشر إلا إن كتبتَه بنفسك.</li>
+                    <li>الدفع والتسليم يجريان بينك وبين المشتري مباشرةً — الدار ليست طرفاً فيهما.</li>
                     <li>يمكنك طلب حذفها في أي وقت.</li>
                 </ul>
 

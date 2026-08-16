@@ -85,11 +85,6 @@
                         <a href="#" id="factCat">—</a>
                     </li>
                     <li>
-                        <i class='bx bx-hdd'></i>
-                        <b>الحجم</b>
-                        <span id="factSize">—</span>
-                    </li>
-                    <li>
                         <i class='bx bx-file-blank'></i>
                         <b>عدد الصفحات</b>
                         <span id="factPages">—</span>
@@ -103,16 +98,6 @@
 
                 <!-- أزرار الإجراء — تُبنى حسب مجاني/مدفوع -->
                 <div class="bk-actions" id="bookActions"></div>
-
-                <div class="bk-share">
-                    <span>شارك الكتاب</span>
-                    <div class="share-row">
-                        <a href="#" class="share-btn whatsapp" id="shareWhatsApp" title="واتساب"><i class='bx bxl-whatsapp'></i></a>
-                        <a href="#" class="share-btn facebook" id="shareFacebook" title="فيسبوك"><i class='bx bxl-facebook'></i></a>
-                        <a href="#" class="share-btn telegram" id="shareTelegram" title="تيليجرام"><i class='bx bxl-telegram'></i></a>
-                        <button class="share-btn copy" id="copyLink" title="نسخ الرابط"><i class='bx bx-link'></i></button>
-                    </div>
-                </div>
             </div>
 
         </div>
@@ -121,6 +106,7 @@
 
     <!-- ========================================
          📖 نبذة عن الكتاب
+         — مباشرةً تحت معلومات الكتاب
          ======================================== -->
     <section class="bk-section" id="descSection">
         <div class="wrap">
@@ -154,9 +140,27 @@
 
 
     <!-- ========================================
+         🔗 مشاركة الكتاب — تحت المؤلف
+         ======================================== -->
+    <section class="bk-section slim" id="shareSection">
+        <div class="wrap">
+            <div class="bk-share">
+                <span>شارك رابط الكتاب</span>
+                <div class="share-row">
+                    <a href="#" class="share-btn whatsapp" id="shareWhatsApp" title="واتساب"><i class='bx bxl-whatsapp'></i></a>
+                    <a href="#" class="share-btn facebook" id="shareFacebook" title="فيسبوك"><i class='bx bxl-facebook'></i></a>
+                    <a href="#" class="share-btn telegram" id="shareTelegram" title="تيليجرام"><i class='bx bxl-telegram'></i></a>
+                    <button class="share-btn copy" id="copyLink" title="نسخ الرابط"><i class='bx bx-link'></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ========================================
          📚 كتب أخرى للمؤلف
          ======================================== -->
-    <section class="bk-section" id="moreByAuthor" hidden>
+    <section class="bk-section band" id="moreByAuthor" hidden>
         <div class="wrap">
             <div class="bk-head">
                 <h2 class="bk-h2"><i class='bx bx-library'></i> كتب أخرى للمؤلف</h2>
@@ -172,7 +176,7 @@
     <!-- ========================================
          🔗 كتب ذات صلة
          ======================================== -->
-    <section class="bk-section band" id="relatedSection">
+    <section class="bk-section" id="relatedSection">
         <div class="wrap">
             <div class="bk-head">
                 <h2 class="bk-h2"><i class='bx bx-book-alt'></i> كتب ذات صلة</h2>
@@ -186,7 +190,12 @@
 
 
     <!-- ========================================
-         💳 نافذة شراء الكتاب المدفوع
+         🛒 نافذة طلب الكتاب المدفوع
+         ----------------------------------------
+         الدار خرجت من المعاملة: الطلب يذهب من
+         القارئ إلى بريد البيع الذي حدّده المؤلف،
+         ولا مال يمرّ عبر الموقع. البريد الشخصي
+         للمؤلف وبريد الدار لا يظهران هنا إطلاقاً.
          ======================================== -->
     <div class="buy-overlay" id="buyOverlay" hidden>
         <div class="buy-box" role="dialog" aria-modal="true" aria-labelledby="buyTitle">
@@ -196,86 +205,74 @@
             </button>
 
             <div class="buy-head">
-                <h2 id="buyTitle">الحصول على الكتاب</h2>
+                <h2 id="buyTitle">طلب الكتاب</h2>
                 <p class="buy-book" id="buyBookTitle">—</p>
-                <div class="buy-price" id="buyPrice">—</div>
+                <div class="buy-price">
+                    <span id="buyUnitPrice">—</span>
+                    <small>للنسخة الواحدة</small>
+                </div>
             </div>
 
-            <ol class="buy-steps">
+            <!-- ١ · عدد النسخ -->
+            <div class="buy-qty">
+                <label for="buyQty">حدّد عدد النسخ المطلوبة</label>
 
-                <li>
-                    <span class="bs-num">١</span>
-                    <div class="bs-body">
-                        <b>حوّل المبلغ إلى حساب بريدي موب الخاص بالدار</b>
-                        <div class="rib-box">
-                            <div class="rib-row">
-                                <span>صاحب الحساب</span>
-                                <b id="ribHolder">دار سامي للطباعة والنشر والتوزيع</b>
-                            </div>
-                            <div class="rib-row rib-main">
-                                <span>الحساب البريدي</span>
-                                <b id="ribNumber" dir="ltr">—</b>
-                                <button class="rib-copy" id="ribCopy" type="button" title="نسخ">
-                                    <i class='bx bx-copy'></i>
-                                </button>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </li>
+                <div class="qty-stepper">
+                    <button type="button" class="qs-btn" id="qtyMinus" aria-label="إنقاص نسخة">
+                        <i class='bx bx-minus'></i>
+                    </button>
+                    <input type="number" id="buyQty" value="1" min="1" max="99"
+                           inputmode="numeric" aria-label="عدد النسخ">
+                    <button type="button" class="qs-btn" id="qtyPlus" aria-label="زيادة نسخة">
+                        <i class='bx bx-plus'></i>
+                    </button>
+                </div>
+            </div>
 
-                <li>
-                    <span class="bs-num">٢</span>
-                    <div class="bs-body">
-                        <b>أرسل رسالة إلى بريد الدار</b>
-                        <p>
-                            تتضمّن <strong>اسم الكتاب</strong> و<strong>اسم المؤلف</strong>،
-                            ومرفقاً بها <strong>وصل تسديد المبلغ</strong>.
-                        </p>
+            <!-- ٢ · المجموع — يظهر عند أكثر من نسخة -->
+            <div class="buy-total" id="buyTotal" hidden>
+                <div class="bt-row">
+                    <span id="btLabel">المجموع</span>
+                    <b id="btAmount">—</b>
+                </div>
+                <p class="bt-save" id="btSave" hidden></p>
+            </div>
 
-                        <div class="mail-actions">
-                            <a href="#" class="btn-mail" id="mailBtn">
-                                <i class='bx bxl-gmail'></i>
-                                <span>افتح في Gmail</span>
-                            </a>
+            <!-- ٣ · الإرسال -->
+            <div class="buy-send">
+                <p class="bs-lead">أرسل طلبك إلى بريد المؤلف:</p>
 
-                            <button type="button" class="btn-mail ghost" id="copyMsgBtn">
-                                <i class='bx bx-copy'></i>
-                                <span>انسخ الرسالة</span>
-                            </button>
-                        </div>
+                <div class="mail-actions">
+                    <a href="#" class="btn-mail" id="mailBtn">
+                        <i class='bx bxl-gmail'></i>
+                        <span>أرسل الطلب بالبريد</span>
+                    </a>
 
-                        
+                    <button type="button" class="btn-mail ghost" id="copyMsgBtn">
+                        <i class='bx bx-copy'></i>
+                        <span>انسخ رسالة جاهزة</span>
+                    </button>
+                </div>
 
-                        <div class="mail-manual">
-                            <span>أو أرسل يدوياً إلى</span>
-                            <b id="houseEmail" dir="ltr">contact@sami-library.com</b>
-                            <button class="rib-copy" id="mailCopy" type="button" title="نسخ">
-                                <i class='bx bx-copy'></i>
-                            </button>
-                        </div>
-                    </div>
-                </li>
+                <div class="mail-manual">
+                    <span>أو أرسل يدوياً إلى</span>
+                    <b id="targetEmail" dir="ltr">—</b>
+                    <button class="copy-mini" id="mailCopy" type="button" title="نسخ">
+                        <i class='bx bx-copy'></i>
+                    </button>
+                </div>
+            </div>
 
-                <li>
-                    <span class="bs-num">٣</span>
-                    <div class="bs-body">
-                        <b>نراجع ونرسل لك الكتاب</b>
-                        <p>
-                            نراجع الرسائل الواردة، وبعد التأكّد من صحّة المعلومات
-                            نرسل لك الكتاب على بريدك الإلكتروني.
-                        </p>
-                    </div>
-                </li>
-
-            </ol>
-
-
-
+            <!-- النصّ كلّه في span واحد: العنصر flex، ولو تُرك
+                 <strong> عارياً لصار عنصراً مستقلاً في الصفّ
+                 فانقسمت الفقرة إلى أعمدة متجاورة -->
             <p class="buy-note">
                 <i class='bx bx-info-circle'></i>
-                للاستفسار عن الطلب، تواصل معنا من
-                <a href="/about.html#contact">صفحة التواصل</a>.
+                <span>
+                    تُكمَل باقي الإجراءات — الدفع والتسليم — بينك وبين المؤلف عبر البريد،
+                    <strong>والدار ليست طرفاً في المعاملة</strong>، فتحقّق من هوية من
+                    تراسله قبل تحويل أي مبلغ.
+                </span>
             </p>
 
         </div>
