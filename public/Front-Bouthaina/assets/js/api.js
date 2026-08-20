@@ -4,20 +4,55 @@
    ======================================== */
 
 const API = {
-  BASE: "",      // فارغ = نفس الدومين
-  MOCK: true,    // ⭐ true = يقرأ من /mocks   |   false = يقرأ من السيرفر
+  BASE: "",         // فارغ = نفس الدومين
+  MOCK: true,       // ⭐ true = يقرأ من /mocks   |   false = يقرأ من السيرفر
+  mockSend: null,   // معالج اختياري لمحاكاة الطلبات (يسجّله auth.js)
 };
 
 
 /* ========================================
-   📨 الترويسات
+   📨 الترويسات والجلسة
    ----------------------------------------
-   لا مصادقة في هذه النسخة — كل الـendpoints
-   عامّة. أُزيلت دالة التوكن وترويسة Authorization.
+   🔒 الجلسة كوكي httpOnly عبر Sanctum — لا رمز
+      في localStorage ولا ترويسة Authorization.
+
+      السبب: الرمز المخزَّن في localStorage يقرؤه
+      الجافاسكريبت، فثغرة XSS واحدة تكفي لسرقته.
+      الكوكي httpOnly لا يصل إليه الجافاسكريبت
+      أصلاً، فلا يُسرق بهذه الطريقة.
+
+      وهذا يعني أنّ الواجهة لا تحمل شيئاً سرّياً
+      إطلاقاً: كل الطلبات ترسل الكوكي وحدها بفضل
+      credentials: "include".
    ======================================== */
 
 function headers() {
-  return { "Accept": "application/json" };
+  return {
+    "Accept": "application/json",
+    "X-Requested-With": "XMLHttpRequest",
+  };
+}
+
+/* Sanctum يطلب رمز CSRF في كل طلب يغيّر البيانات.
+   يُقرأ من كوكي XSRF-TOKEN التي يضعها الخادم. */
+function csrfToken() {
+  const hit = document.cookie
+    .split("; ")
+    .find(c => c.startsWith("XSRF-TOKEN="));
+  return hit ? decodeURIComponent(hit.split("=")[1]) : "";
+}
+
+/* تُستدعى مرة قبل أول طلب يغيّر البيانات */
+let _csrfReady = false;
+
+async function ensureCsrf() {
+  if (API.MOCK || _csrfReady) return;
+  try {
+    await fetch(API.BASE + "/sanctum/csrf-cookie", { credentials: "include" });
+    _csrfReady = true;
+  } catch (e) {
+    console.warn("تعذّر جلب كوكي CSRF:", e);
+  }
 }
 
 
@@ -48,7 +83,10 @@ function mockPath(path) {
 async function apiGet(path) {
   const url = API.MOCK ? mockPath(path) : API.BASE + "/api" + path;
 
-  const res = await fetch(url, { headers: headers() });
+  const res = await fetch(url, {
+    headers: headers(),
+    credentials: "include",   // الجلسة كوكي — لا بدّ من إرسالها
+  });
 
   if (!res.ok) {
     throw {
@@ -157,14 +195,14 @@ function applyMockQuery(path, json) {
     data = data.filter(item => item.shelf === shelf);
   }
 
-  /* ---------- الترتيب ---------- */
+  /* ---------- الترتيب ----------
+     أُزيل sort=rating و sort=popular: كانا يعتمدان
+     على ratings_avg و ratings_count، وقد ألغى العميل
+     التقييمات فلم تعد الحقول موجودة أصلاً. ترتيبٌ
+     بحقلٍ غير موجود يُرجع القائمة كما هي بصمت. */
   const sort = params.get("sort");
-  if (sort === "popular") {
-    data.sort((a, b) => (b.ratings_count || 0) - (a.ratings_count || 0));
-  } else if (sort === "rating") {
-    data.sort((a, b) => (b.ratings_avg || 0) - (a.ratings_avg || 0));
-  } else if (sort === "trending") {
-    data.sort((a, b) => (b.views_count || b.ratings_count || 0) - (a.views_count || a.ratings_count || 0));
+  if (sort === "trending") {
+    data.sort((a, b) => (b.views_count || 0) - (a.views_count || 0));
   } else if (sort === "title") {
     data.sort((a, b) => String(a.title || "").localeCompare(String(b.title || ""), "ar"));
   } else if (sort === "latest") {
@@ -190,14 +228,31 @@ function applyMockQuery(path, json) {
 
 async function apiSend(method, path, body, isForm) {
 
-  // في وضع mock لا نرسل شيئاً — نرجّع نجاحاً صامتاً
   if (API.MOCK) {
     console.info(`[MOCK] ${method} ${path}`, body);
     await delay(400);   // محاكاة زمن الشبكة
+
+    /* بعض المسارات تحتاج ردّاً حقيقياً لا نجاحاً صامتاً:
+       تسجيل الدخول يجب أن يفشل بكلمة سرّ خاطئة، وإلّا
+       لم نستطع اختبار حالات الخطأ أصلاً. auth.js يسجّل
+       معالجاً هنا، ويبقى الباقي على النجاح الصامت. */
+    if (typeof API.mockSend === "function") {
+      const hit = await API.mockSend(method, path, body);
+      if (hit) {
+        if (hit.ok === false) throw hit.json;
+        return hit.json;
+      }
+    }
+
     return { success: true, data: null, message: "وضع تجريبي — لم يُرسل شيء" };
   }
 
-  const opts = { method, headers: headers() };
+  await ensureCsrf();
+
+  const opts = { method, headers: headers(), credentials: "include" };
+
+  const xsrf = csrfToken();
+  if (xsrf) opts.headers["X-XSRF-TOKEN"] = xsrf;
 
   if (isForm) {
     opts.body = body;   // FormData: المتصفح يضبط Content-Type وحده

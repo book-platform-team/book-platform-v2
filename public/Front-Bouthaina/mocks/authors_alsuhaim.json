@@ -1,0 +1,33 @@
+{
+  "success": true,
+  "data": {
+    "id": 108,
+    "name": "عبد الرحمن السحيم",
+    "slug": "alsuhaim",
+    "bio": "باحث شرعي يهتمّ بتبسيط السيرة والعلوم الشرعية لغير المتخصّصين، وله عناية خاصة بمخاطبة الناشئة.",
+    "photo": null,
+    "books_count": 1,
+    "books": [
+      {
+        "id": 8,
+        "slug": "alsira-alnabawiya-lilnashiin",
+        "title": "السيرة النبوية للناشئين",
+        "cover": null,
+        "author": {
+          "id": 108,
+          "name": "عبد الرحمن السحيم",
+          "slug": "alsuhaim"
+        },
+        "category": {
+          "id": 22,
+          "name": "السيرة النبوية",
+          "slug": "seerah"
+        },
+        "publication_type": "house_edition",
+        "is_paid": true,
+        "price": 1200
+      }
+    ],
+    "title": "researcher"
+  }
+}

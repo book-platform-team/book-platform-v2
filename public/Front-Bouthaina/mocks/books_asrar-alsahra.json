@@ -1,0 +1,41 @@
+{
+  "success": true,
+  "data": {
+    "id": 2,
+    "slug": "asrar-alsahra",
+    "title": "أسرار الصحراء",
+    "subtitle": null,
+    "description": "رواية تجري في الجنوب حيث المسافات تُقاس بالصبر لا بالكيلومترات. تتبع امرأةً تعود إلى قرية جدّتها بحثاً عن حكاية ناقصة، فتجد أنّ الصحراء تحفظ ما تنساه المدن. الأسرار هنا ليست ألغازاً تُحلّ، بل صمتٌ متوارث يُفكّ بالتدريج.",
+    "cover": null,
+    "author": {
+      "id": 102,
+      "name": "آسيا جبار",
+      "slug": "assia-djebar",
+      "photo": null
+    },
+    "category": {
+      "id": 12,
+      "name": "روايات عالمية",
+      "slug": "world-novels"
+    },
+    "language": "ar",
+    "pages": 192,
+    "publication_year": 2023,
+    "edition": "الطبعة الأولى",
+    "isbn": "978-9947-0-2231-8",
+    "publication_type": "house_edition",
+    "is_paid": false,
+    "published_at": "2026-02-03T09:30:00Z",
+    "downloads_count": 864,
+    "views_count": 5120,
+    "files": [
+      {
+        "id": 21,
+        "type": "pdf",
+        "size": 3210000,
+        "size_human": "3.1 MB",
+        "url": "/mocks/sample-book.pdf"
+      }
+    ]
+  }
+}

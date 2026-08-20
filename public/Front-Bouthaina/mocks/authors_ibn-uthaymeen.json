@@ -4,14 +4,9 @@
     "id": 103,
     "name": "محمد بن صالح العثيمين",
     "slug": "ibn-uthaymeen",
-    "bio": "فقيه ومدرّس، عُرف بأسلوبٍ تعليمي يبسّط المسائل دون أن يفرّط في دقّتها. ترك شروحاً ودروساً في الفقه والعقيدة يعتمد عليها طلبة العلم.",
+    "bio": "فقيه ومدرّس، عُرف بتبسيط المسائل الفقهية وربطها بواقع الناس. تركت دروسه وشروحه أثراً واسعاً في التعليم الشرعي المعاصر.",
     "photo": null,
-    "nationality": "السعودية",
-    "birth_year": 1929,
-    "death_year": 2001,
-    "is_house_author": false,
     "books_count": 1,
-    "rating": 4.9,
     "books": [
       {
         "id": 3,
@@ -24,14 +19,15 @@
           "slug": "ibn-uthaymeen"
         },
         "category": {
-          "id": 1,
-          "name": "الحياة الإسلامية",
-          "slug": "islamic-life"
+          "id": 21,
+          "name": "الفقه الإسلامي",
+          "slug": "fiqh"
         },
-        "ratings_avg": 4.9,
-        "ratings_count": 42,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": false,
+        "price": null
       }
-    ]
+    ],
+    "title": "doctor"
   }
 }

@@ -1,0 +1,41 @@
+{
+  "success": true,
+  "data": {
+    "id": 7,
+    "slug": "hikayat-min-alqasba",
+    "title": "حكايات من القصبة",
+    "subtitle": null,
+    "description": "مجموعة حكايات من أزقّة القصبة، حيث الجيران عائلة واحدة والأسرار لا تبقى طويلاً. يكتب المؤلف عن الناس العاديين: البائع، والخيّاطة، والطفل الذي يعرف كلّ الدروب. لا بطولات هنا، بل حياة تُروى كما هي.",
+    "cover": null,
+    "author": {
+      "id": 107,
+      "name": "مولود فرعون",
+      "slug": "mouloud-feraoun",
+      "photo": null
+    },
+    "category": {
+      "id": 1,
+      "name": "الروايات والقصص الأدبية",
+      "slug": "novels"
+    },
+    "language": "ar",
+    "pages": 176,
+    "publication_year": 2023,
+    "edition": "الطبعة الأولى",
+    "isbn": "978-9947-0-6678-2",
+    "publication_type": "house_edition",
+    "is_paid": false,
+    "published_at": "2026-03-29T16:00:00Z",
+    "downloads_count": 940,
+    "views_count": 4880,
+    "files": [
+      {
+        "id": 71,
+        "type": "pdf",
+        "size": 2760000,
+        "size_human": "2.6 MB",
+        "url": "/mocks/sample-book.pdf"
+      }
+    ]
+  }
+}

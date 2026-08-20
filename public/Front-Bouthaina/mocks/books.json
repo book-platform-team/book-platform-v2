@@ -12,13 +12,15 @@
         "slug": "tahar-wattar"
       },
       "category": {
-        "id": 1,
+        "id": 11,
         "name": "روايات عربية",
         "slug": "arabic-novels"
       },
       "publication_type": "house_edition",
       "is_paid": false,
-      "price": null
+      "price": 900,
+      "price_print": 900,
+      "price_digital": null
     },
     {
       "id": 2,
@@ -31,13 +33,15 @@
         "slug": "assia-djebar"
       },
       "category": {
-        "id": 1,
+        "id": 12,
         "name": "روايات عالمية",
         "slug": "world-novels"
       },
       "publication_type": "house_edition",
       "is_paid": false,
-      "price": null
+      "price": null,
+      "price_print": null,
+      "price_digital": null
     },
     {
       "id": 3,
@@ -50,13 +54,15 @@
         "slug": "ibn-uthaymeen"
       },
       "category": {
-        "id": 1,
+        "id": 21,
         "name": "الفقه الإسلامي",
         "slug": "fiqh"
       },
       "publication_type": "house_edition",
       "is_paid": false,
-      "price": null
+      "price": null,
+      "price_print": null,
+      "price_digital": null
     },
     {
       "id": 4,
@@ -69,13 +75,15 @@
         "slug": "saadallah"
       },
       "category": {
-        "id": 1,
+        "id": 31,
         "name": "تاريخ الجزائر",
         "slug": "algeria-history"
       },
       "publication_type": "house_edition",
       "is_paid": true,
-      "price": 1200
+      "price": 1200,
+      "price_print": 1200,
+      "price_digital": null
     },
     {
       "id": 5,
@@ -88,13 +96,15 @@
         "slug": "ibrahim-elfiky"
       },
       "category": {
-        "id": 9,
-        "name": "أخرى",
-        "slug": "other"
+        "id": 41,
+        "name": "تطوير الذات",
+        "slug": "self"
       },
       "publication_type": "author_submission",
       "is_paid": false,
-      "price": null
+      "price": null,
+      "price_print": null,
+      "price_digital": null
     },
     {
       "id": 6,
@@ -107,13 +117,15 @@
         "slug": "ali-alwardi"
       },
       "category": {
-        "id": 1,
+        "id": 5,
         "name": "العلوم السياسية",
         "slug": "political-science"
       },
       "publication_type": "house_edition",
       "is_paid": false,
-      "price": null
+      "price": null,
+      "price_print": null,
+      "price_digital": null
     },
     {
       "id": 7,
@@ -132,7 +144,9 @@
       },
       "publication_type": "house_edition",
       "is_paid": false,
-      "price": null
+      "price": null,
+      "price_print": null,
+      "price_digital": null
     },
     {
       "id": 8,
@@ -145,13 +159,15 @@
         "slug": "alsuhaim"
       },
       "category": {
-        "id": 1,
+        "id": 22,
         "name": "السيرة النبوية",
         "slug": "seerah"
       },
       "publication_type": "house_edition",
       "is_paid": true,
-      "price": 1200
+      "price": 600,
+      "price_print": 1400,
+      "price_digital": 600
     },
     {
       "id": 9,
@@ -170,7 +186,9 @@
       },
       "publication_type": "house_edition",
       "is_paid": false,
-      "price": null
+      "price": null,
+      "price_print": null,
+      "price_digital": null
     },
     {
       "id": 10,
@@ -183,13 +201,15 @@
         "slug": "malek-bennabi"
       },
       "category": {
-        "id": 1,
+        "id": 5,
         "name": "العلوم السياسية",
         "slug": "political-science"
       },
       "publication_type": "house_edition",
       "is_paid": false,
-      "price": null
+      "price": null,
+      "price_print": null,
+      "price_digital": null
     },
     {
       "id": 11,
@@ -202,13 +222,15 @@
         "slug": "reda-houhou"
       },
       "category": {
-        "id": 1,
+        "id": 13,
         "name": "قصص قصيرة",
         "slug": "short-stories"
       },
       "publication_type": "author_submission",
       "is_paid": false,
-      "price": null
+      "price": null,
+      "price_print": null,
+      "price_digital": null
     },
     {
       "id": 12,
@@ -221,19 +243,21 @@
         "slug": "shakib-arslan"
       },
       "category": {
-        "id": 1,
+        "id": 32,
         "name": "التاريخ الإسلامي",
         "slug": "islamic-history"
       },
       "publication_type": "house_edition",
       "is_paid": true,
-      "price": 1200
+      "price": 1800,
+      "price_print": 1800,
+      "price_digital": null
     }
   ],
   "meta": {
     "current_page": 1,
-    "last_page": 3,
-    "per_page": 12,
-    "total": 34
+    "last_page": 1,
+    "per_page": 24,
+    "total": 12
   }
 }

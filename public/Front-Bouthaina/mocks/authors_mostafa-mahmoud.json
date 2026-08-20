@@ -1,0 +1,33 @@
+{
+  "success": true,
+  "data": {
+    "id": 109,
+    "name": "مصطفى محمود",
+    "slug": "mostafa-mahmoud",
+    "bio": "طبيب وكاتب انتقل من السؤال العلمي إلى السؤال الفلسفي والديني. اشتُهر بقدرته على تحويل المسائل الكبرى إلى نصٍّ يقرأه غير المتخصّص دون أن يشعر بثقله.",
+    "photo": null,
+    "books_count": 1,
+    "books": [
+      {
+        "id": 9,
+        "slug": "muqaddima-fi-alfalsafa",
+        "title": "مقدمة في الفلسفة",
+        "cover": null,
+        "author": {
+          "id": 109,
+          "name": "مصطفى محمود",
+          "slug": "mostafa-mahmoud"
+        },
+        "category": {
+          "id": 9,
+          "name": "أخرى",
+          "slug": "other"
+        },
+        "publication_type": "house_edition",
+        "is_paid": false,
+        "price": null
+      }
+    ],
+    "title": "doctor"
+  }
+}

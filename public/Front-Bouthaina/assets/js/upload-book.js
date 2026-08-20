@@ -4,13 +4,31 @@
    استمارة من ثلاث خطوات. لا حسابات — البريد
    هو قناة التواصل الوحيدة مع المؤلف.
    ----------------------------------------
-   الإتاحة تُستنتج ولا تُسأل:
-     ملف مرفوع  → يُنزَّل مجاناً
-     سعر محدَّد  → يُعرض للبيع
-     الاثنان     → الاثنان معاً
-     لا شيء      → تعريفٌ بالكتاب فقط
+   الإتاحة تُستنتج ولا تُسأل. وسعران مستقلّان:
+
+     price_print   نسخة مطبوعة تُشحن
+     price_digital الملف نفسه
+
+     ملف بلا سعر إلكتروني  → تنزيل مجاني
+     سعر إلكتروني          → يُباع رقمياً (بملف أو بدونه)
+     سعر ورقي              → نسخ مطبوعة تُطلب
+     ملف + سعر ورقي        → مجاني رقمياً ومباع ورقياً
+     لا ملف ولا سعر         → تعريفٌ بالكتاب فقط
+
+   ولا يُشترط رفع الملف لبيع النسخة الإلكترونية:
+   المؤلف قد يفضّل إرسالها بنفسه بعد الاتفاق، وهو
+   ما يفعله كثيرون فعلاً.
    ----------------------------------------
    العقد: POST /api/submissions  (multipart)
+   ----------------------------------------
+   🔐 البوّابة والحساب:
+     من نشر معنا سابقاً له حساب — يسجّل الدخول
+     فتُملأ الخطوة الأولى من بياناته. ومن لم ينشر
+     يملأها ويُنشأ حسابه من الاستمارة نفسها، فلا
+     استمارة تسجيل منفصلة في الموقع.
+
+     أي: كل مؤلف يمرّ بالخطوة الأولى مرّة واحدة
+     في حياته، ثم لا يعيدها أبداً.
    ======================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -26,6 +44,140 @@ document.addEventListener("DOMContentLoaded", () => {
     const MAX_COVER  = 5 * 1024 * 1024;
     const TIERS      = [2, 3, 4];
     let current = 1;
+
+    const gate      = document.getElementById("gate");
+    const gateAsk   = document.getElementById("gateAsk");
+    const gateLogin = document.getElementById("gateLogin");
+    const pwBlock   = document.getElementById("pwBlock");
+    const knownBar  = document.getElementById("knownBar");
+
+    let account = null;   // المؤلف الداخل، أو null
+
+
+    /* ========================================
+       🚪 البوّابة
+       ----------------------------------------
+       الاستمارة والشريط مخفيّان في الـHTML حتى
+       تُحسم الحالة. إظهارهما ثم إخفاؤهما يجعل
+       الصفحة تقفز أمام المؤلف.
+
+       ⚠️ إن فشل كل شيء تُعرض البوّابة على أي حال —
+       صفحة فارغة أسوأ من بوّابة بلا حساب.
+       ======================================== */
+
+    function showForm() {
+        if (gate) gate.hidden = true;
+        if (bar)  bar.hidden  = false;
+        if (form) form.hidden = false;
+    }
+
+    function showGate() {
+        if (gate)      gate.hidden      = false;
+        if (gateAsk)   gateAsk.hidden   = false;
+        if (gateLogin) gateLogin.hidden = true;
+    }
+
+    /** يملأ الخطوة الأولى من الحساب ويخفي كلمة السرّ */
+    function applyAccount(user) {
+        account = user;
+        if (!user) return;
+
+        const map = {
+            author_name:    user.name,
+            author_email:   user.email,
+            author_phone:   user.phone,
+            author_address: user.address,
+            author_bio:     user.bio,
+            author_extra:   user.extra,
+            author_title:   user.title,
+        };
+
+        Object.entries(map).forEach(([id, v]) => {
+            const el = document.getElementById(id);
+            if (el && v != null && v !== "") el.value = v;
+        });
+
+        // البريد هوية الحساب — تغييره هنا يعني حساباً آخر
+        const mail = document.getElementById("author_email");
+        if (mail) {
+            mail.readOnly = true;
+            mail.classList.add("locked");
+            mail.title = "بريد حسابك — لتغييره استعمل صفحة «حسابي»";
+        }
+
+        if (pwBlock)  pwBlock.hidden  = true;    // له كلمة سرّ أصلاً
+        if (knownBar) knownBar.hidden = false;
+
+        const nameOut = document.getElementById("knownName");
+        if (nameOut) nameOut.textContent = user.name || "بك";
+    }
+
+    document.querySelectorAll("[data-gate]").forEach(btn => {
+        btn.addEventListener("click", () => {
+            if (btn.dataset.gate === "new") return showForm();
+
+            if (gateAsk)   gateAsk.hidden   = true;
+            if (gateLogin) gateLogin.hidden = false;
+
+            AuthUI.mount(document.getElementById("gateMount"), {
+                onDone: user => { applyAccount(user); showForm(); },
+
+                // «اضغط هنا» داخل البوّابة لا يغادر الصفحة —
+                // نحن فيها أصلاً، فنعرض الخطوة الأولى مباشرةً
+                onNoAccount: () => showForm(),
+            });
+        });
+    });
+
+    document.getElementById("gateBack")?.addEventListener("click", showGate);
+
+    document.getElementById("logoutBtn")?.addEventListener("click", async () => {
+        await Auth.logout();
+        location.reload();
+    });
+
+    /* الداخل أصلاً لا يُسأل. وأي عطب في طبقة الحساب
+       يجب ألّا يترك الصفحة بيضاء — لذلك try/catch. */
+    try {
+        Auth.onReady(user => {
+            if (user) { applyAccount(user); showForm(); }
+            else      { showGate(); }
+        });
+    } catch (e) {
+        console.error("تعذّر فحص الجلسة:", e);
+        showGate();
+    }
+
+    // شبكة أمان أخيرة: إن لم يُحسم شيء خلال ثانيتين،
+    // تُعرض البوّابة بدل أن يقف الزائر أمام فراغ
+    setTimeout(() => {
+        if (gate && gate.hidden && form && form.hidden) showGate();
+    }, 2000);
+
+
+    /* ========================================
+       🔑 كلمة سرّ الحساب الجديد
+       ======================================== */
+
+    const pw1 = document.getElementById("password");
+    const pw2 = document.getElementById("password2");
+
+    document.querySelectorAll(".pw-block .auth-eye").forEach(btn => {
+        AuthUI.eye(btn, btn.parentElement.querySelector("input"));
+    });
+
+    AuthUI.meter(pw1,
+        document.querySelector(".pw-block .pw-meter span"),
+        document.getElementById("pwNote"));
+
+    pw2?.addEventListener("input", () => {
+        const note = document.getElementById("pw2Note");
+        if (!note) return;
+        if (!pw2.value) { note.textContent = ""; note.className = ""; return; }
+        const same = pw2.value === pw1.value;
+        note.textContent = same ? "متطابقتان ✓" : "غير متطابقتين";
+        note.className   = same ? "pw-ok" : "pw-bad";
+    });
 
 
     /* ========================================
@@ -171,6 +323,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const hint = document.getElementById("agreeHint");
         if (hint) hint.textContent = "شكراً — يمكنك المتابعة";
 
+        // الأيقونة تنبض لتلفت النظر — وتتوقّف بمجرّد
+        // القراءة، فنبضٌ بلا سبب يصير إزعاجاً
+        document.getElementById("openTerms")?.classList.add("read");
+
         closeTerms();
     });
 
@@ -204,15 +360,20 @@ document.addEventListener("DOMContentLoaded", () => {
        مطبوعة تُباع في الوقت نفسه.
        ======================================== */
 
-    const priceInput = document.getElementById("price");
-    const tiersBlock = document.getElementById("tiersBlock");
-    const availText  = document.getElementById("availText");
-    const availNote  = document.getElementById("availNote");
+    const printInput   = document.getElementById("price_print");
+    const digitalInput = document.getElementById("price_digital");
+    const tiersBlock   = document.getElementById("tiersBlock");
+    const availText    = document.getElementById("availText");
+    const availNote    = document.getElementById("availNote");
 
-    function unitPrice() {
-        const n = Number(val("price"));
+    const num = id => {
+        const n = Number(val(id));
         return n > 0 ? n : 0;
-    }
+    };
+
+    const printPrice   = () => num("price_print");
+    const digitalPrice = () => num("price_digital");
+    const anyPrice     = () => printPrice() || digitalPrice();
 
     function hasFile() {
         return !!document.getElementById("file")?.files?.[0];
@@ -223,14 +384,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function syncSale() {
-        const unit = unitPrice();
+        const unit = printPrice();
 
-        // لا تخفيض على سعرٍ غير موجود
+        // أسعار الجملة للورقية وحدها — لا معنى لشراء
+        // ثلاث نسخ من ملفٍ إلكتروني واحد
         if (tiersBlock) tiersBlock.hidden = unit <= 0;
 
         if (unit <= 0) {
-            // حقل مخفيّ لا يُترك محتفظاً بقيمته — وإلا أُرسل
-            // سعر جملة لكتاب لم يعد يُباع أصلاً
+            // حقل مخفيّ لا يُترك محتفظاً بقيمته
             TIERS.forEach(q => {
                 const el = tierInput(q);
                 if (el) { el.value = ""; el.classList.remove("invalid"); }
@@ -239,11 +400,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
         TIERS.forEach(q => updateTierHint(q, unit));
         syncSaleRequired();
+        syncDigitalNote();
+        syncSellSummary();
         updateAvailNote();
     }
 
-    /* التوفير يُحسب أمام المؤلف لحظةَ الكتابة —
-       رقمٌ مجرّد لا يقول له إن كان عرضه مغرياً */
+    /* النجمة تظهر لحظة كتابة أي سعر — لا عند
+       الضغط على «إرسال» فيُفاجأ المؤلف */
+    function syncSaleRequired() {
+        const req = document.getElementById("saleReq");
+        if (req) req.hidden = !anyPrice();
+    }
+
+    function syncDigitalNote() {
+        const note = document.getElementById("digitalNote");
+        if (!note) return;
+        note.textContent = digitalPrice()
+            ? "الملف يُباع بهذا السعر ولن يُنزَّل مجاناً."
+            : "اتركه فارغاً ليُنزَّل الملف مجاناً.";
+        note.classList.toggle("hot", !!digitalPrice());
+    }
+
+    /* التوفير يُحسب أمام المؤلف لحظةَ الكتابة */
     function updateTierHint(qty, unit) {
         const el   = tierInput(qty);
         const hint = document.querySelector(`.tier-hint[data-hint="${qty}"]`);
@@ -270,25 +448,29 @@ document.addEventListener("DOMContentLoaded", () => {
         hint.className   = "tier-hint good";
     }
 
-    /* ملخّص حيّ: المؤلف يقرأ نتيجة اختياره قبل الإرسال،
-       لا بعد أسبوع حين يجد صفحة كتابه بلا أي إجراء */
+    /* ملخّص حيّ: المؤلف يقرأ نتيجة اختياره قبل الإرسال */
     function updateAvailNote() {
         if (!availText || !availNote) return;
 
         const f = hasFile();
-        const p = unitPrice() > 0;
+        const d = digitalPrice();
+        const p = printPrice();
+
+        const bits = [];
+        if (f && !d) bits.push("يُنزَّل الملف مجاناً");
+        if (d)       bits.push(`لقد أتحت نسخة كتابك إلكترونيا للبيع عن طريق اللإيميل بـالسعر${fmt(d)} دج`);
+        if (p)       bits.push(`تُطلب النسخة الورقية بـ${fmt(p)} دج`);
 
         let text, tone;
 
-        if (f && p) {
-            text = "سيُتاح كتابك للتنزيل مجاناً، وتُعرض نسخه المطبوعة للبيع.";
+        if (bits.length) {
+            text = " " + bits.join("، و") + ".";
             tone = "ok";
-        } else if (f) {
-            text = "سيُتاح كتابك للتنزيل مجاناً من الموقع.";
-            tone = "ok";
-        } else if (p) {
-            text = "سيُعرض كتابك للبيع، دون نسخة رقمية مجانية.";
-            tone = "ok";
+
+            /* بيع النسخة الإلكترونية بلا ملف مسموح — المؤلف
+               يرسلها بنفسه — لكنه يستحقّ التذكير */
+            if (d && !f) text += "";
+
         } else {
             text = "لم ترفع ملفاً ولم تحدّد سعراً — سيُعرض التعريف بكتابك فقط، دون تنزيل أو بيع.";
             tone = "warn";
@@ -299,28 +481,64 @@ document.addEventListener("DOMContentLoaded", () => {
         availText.textContent = text;
         availNote.className   = `avail-note ${tone}`;
 
-        // إعادة تشغيل الحركة تحتاج قراءة تُجبر المتصفّح
-        // على إعادة الحساب — وإلا لم يرَ الصنف قد أُزيل
         if (changed) {
             void availNote.offsetWidth;
             availNote.classList.add("flash");
         }
     }
 
-    /* النجمة تظهر لحظة كتابة السعر — لا عند
-       الضغط على «التالي» فيُفاجأ المؤلف */
-    function syncSaleRequired() {
-        const req = document.getElementById("saleReq");
-        if (req) req.hidden = !unitPrice();
+    /* ========================================
+       ▾ طيّ كتلة البيع
+       ----------------------------------------
+       مغلقة افتراضياً: أغلب من ينشر يريد كتاباً
+       مجانياً، وعرض أربعة حقول أسعار عليه يوحي
+       بأنّ البيع مطلوب.
+
+       والقيم لا تُمسح عند الطيّ — تبقى ويظهر
+       ملخّصها، فلا يظنّ المؤلف أنّ ما كتبه ضاع.
+       ======================================== */
+
+    const sellBlock  = document.getElementById("sellBlock");
+    const sellBody   = document.getElementById("sellBody");
+    const sellToggle = document.getElementById("sellToggle");
+    const sellSum    = document.getElementById("sellSum");
+
+    function openSell(state) {
+        if (!sellBody || !sellToggle) return;
+        sellBody.hidden = !state;
+        sellToggle.setAttribute("aria-expanded", String(state));
+        sellBlock?.classList.toggle("open", state);
+        syncSellSummary();
     }
 
-    priceInput?.addEventListener("input", () => {
-        syncSale();
-        syncSaleRequired();
-    });
+    function syncSellSummary() {
+        if (!sellSum) return;
+
+        const closed = sellBody?.hidden;
+        const bits = [];
+        if (printPrice())   bits.push(`ورقية ${fmt(printPrice())} دج`);
+        if (digitalPrice()) bits.push(`إلكترونية ${fmt(digitalPrice())} دج`);
+
+        const show = closed && bits.length > 0;
+        sellSum.hidden = !show;
+
+        const out = document.getElementById("sellSumText");
+        if (out && show) out.textContent = bits.join(" · ");
+    }
+
+    sellToggle?.addEventListener("click", () => openSell(sellBody?.hidden === true));
+
+    /* إن فشل التحقّق على حقل بداخلها وهي مطويّة،
+       فتحُها ضروري — وإلّا أشار الخطأ إلى ما لا يُرى */
+    function ensureSellOpen() {
+        if (sellBody?.hidden) openSell(true);
+    }
+
+    printInput?.addEventListener("input", syncSale);
+    digitalInput?.addEventListener("input", syncSale);
 
     TIERS.forEach(q => {
-        tierInput(q)?.addEventListener("input", () => updateTierHint(q, unitPrice()));
+        tierInput(q)?.addEventListener("input", () => updateTierHint(q, printPrice()));
     });
 
 
@@ -350,6 +568,15 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!val("author_phone"))   return fail("author_phone", "الرجاء كتابة رقم الهاتف");
             if (!val("author_address")) return fail("author_address", "الرجاء كتابة العنوان");
             if (!val("author_bio"))     return fail("author_bio", "الرجاء كتابة نبذة عنك");
+
+            // كلمة السرّ للمؤلف الجديد وحده — الداخل له واحدة
+            if (!account) {
+                const problem = Auth.passwordProblem(val("password"));
+                if (problem) return fail("password", problem);
+
+                if (val("password") !== (pw2?.value || ""))
+                    return fail("password2", "كلمتا السرّ غير متطابقتين");
+            }
         }
 
         if (step === 2) {
@@ -380,31 +607,39 @@ document.addEventListener("DOMContentLoaded", () => {
             if (f && f.size > MAX_BYTES)
                 return fail("file", `حجم الملف ${humanSize(f.size)} — الحدّ الأقصى ٥٠ ميجابايت`);
 
-            /* ٣ · السعر — اختياري، لكن الرقم السالب أو الصفر خطأ لا اختيار */
-            const rawPrice = val("price");
-            if (rawPrice && Number(rawPrice) <= 0)
-                return fail("price", "سعر النسخة يجب أن يكون أكبر من صفر");
+            /* ٣ · الأسعار — اختيارية، لكن الصفر والسالب خطأ لا اختيار */
+            for (const [id, name] of [["price_print", "الورقية"], ["price_digital", "الإلكترونية"]]) {
+                const raw = val(id);
+                if (raw && Number(raw) <= 0) {
+                    ensureSellOpen();
+                    return fail(id, `سعر النسخة ${name} يجب أن يكون أكبر من صفر`);
+                }
+            }
 
-            /* بريد المشترين — مطلوب متى وُجد سعر.
-               لم يعد له بديل: بريد الخطوة الأولى لا يُنشر
-               (وعدنا المؤلف بذلك)، فكتابٌ بسعر بلا بريد
-               يُعرض للبيع دون وسيلة شراء. */
+            /* بريد المشترين — مطلوب متى وُجد أي سعر.
+               لم يعد له بديل: بريد الخطوة الأولى لا يُنشر. */
             const mail = val("sale_email");
 
-            if (unitPrice() && !mail)
+            if (anyPrice() && !mail) {
+                ensureSellOpen();
                 return fail("sale_email",
-                    "حدّدتَ سعراً — الرجاء كتابة بريد التواصل مع المشترين");
+                    "حدّدت سعراً — الرجاء كتابة بريد التواصل مع المشترين");
+            }
 
-            if (mail && !isEmail(mail))
+            if (mail && !isEmail(mail)) {
+                ensureSellOpen();
                 return fail("sale_email", "صيغة بريد التواصل غير صحيحة");
+            }
 
-            /* ٤ · أسعار الجملة — يجب أن تكون تخفيضاً فعلياً */
-            const unit = unitPrice();
+            /* ٤ · أسعار الجملة الورقية — يجب أن تكون تخفيضاً فعلياً */
+            const unit = printPrice();
             if (unit) {
                 for (const q of TIERS) {
                     const el = tierInput(q);
                     const v  = Number(el?.value || 0);
                     if (!el?.value) continue;
+
+                    ensureSellOpen();
 
                     if (v <= 0)
                         return fail(`price_${q}`, `سعر ${q} نسخ يجب أن يكون أكبر من صفر`);
@@ -578,20 +813,33 @@ document.addEventListener("DOMContentLoaded", () => {
             if (fileInput?.files?.[0])  fd.append("file", fileInput.files[0]);
 
             // التسعير — لا يُرسل منه إلا ما مُلئ فعلاً
-            if (unitPrice()) {
-                fd.append("price", String(unitPrice()));
+            if (printPrice())   fd.append("price_print",   String(printPrice()));
+            if (digitalPrice()) fd.append("price_digital", String(digitalPrice()));
 
+            // أسعار الجملة للورقية وحدها
+            if (printPrice()) {
                 TIERS.forEach(q => {
                     const v = val(`price_${q}`);
                     if (v) fd.append(`price_${q}`, v);
                 });
-
-                fd.append("sale_email", val("sale_email"));
             }
+
+            if (anyPrice()) {
+                const mail = val("sale_email");
+                if (mail) fd.append("sale_email", mail);
+            }
+
+            // كلمة السرّ تُرسل مرّة واحدة: عند إنشاء الحساب
+            if (!account) fd.append("password", val("password"));
 
             fd.append("rights_confirmed", "1");
 
-            await apiPost("/submissions", fd, true);
+            const res = await apiPost("/submissions", fd, true);
+
+            /* الخادم أنشأ الحساب وفتح الجلسة، فنعتمد المستخدم
+               فوراً — بدونه يبقى الهيدر بلا «حسابي» حتى إعادة
+               تحميل الصفحة، فيظنّ المؤلف أنّ الحساب لم يُنشأ. */
+            if (!account && res?.data?.user) Auth.adopt(res.data.user);
 
             // نُظهر التأكيد بدل الاستمارة — الطلب انتهى
             form.hidden = true;

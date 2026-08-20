@@ -1,0 +1,41 @@
+{
+  "success": true,
+  "data": {
+    "id": 6,
+    "slug": "aldawla-walmujtama",
+    "title": "الدولة والمجتمع في الفكر السياسي العربي",
+    "subtitle": null,
+    "description": "بحث في العلاقة المتوتّرة بين الدولة والمجتمع في التجربة العربية: متى تصير الدولة امتداداً للمجتمع، ومتى تصير جسماً غريباً عنه؟ يقرأ المؤلف النصوص السياسية الكلاسيكية بعين عالم الاجتماع لا بعين الفقيه.",
+    "cover": null,
+    "author": {
+      "id": 106,
+      "name": "علي الوردي",
+      "slug": "ali-alwardi",
+      "photo": null
+    },
+    "category": {
+      "id": 5,
+      "name": "العلوم السياسية",
+      "slug": "political-science"
+    },
+    "language": "ar",
+    "pages": 328,
+    "publication_year": 2020,
+    "edition": "الطبعة الثانية",
+    "isbn": "978-9947-0-5567-3",
+    "publication_type": "house_edition",
+    "is_paid": false,
+    "published_at": "2026-02-18T10:45:00Z",
+    "downloads_count": 1120,
+    "views_count": 7010,
+    "files": [
+      {
+        "id": 61,
+        "type": "pdf",
+        "size": 5640000,
+        "size_human": "5.4 MB",
+        "url": "/mocks/sample-book.pdf"
+      }
+    ]
+  }
+}

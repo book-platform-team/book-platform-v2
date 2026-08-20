@@ -71,10 +71,9 @@ document.addEventListener("DOMContentLoaded", () => {
     function apply() {
         const q = (searchBox?.value || "").trim().toLowerCase();
 
+        // البحث بالاسم وحده — الجنسية لم تعد تُجمَع
         const list = q
-            ? allAuthors.filter(a =>
-                String(a.name || "").toLowerCase().includes(q) ||
-                String(a.nationality || "").toLowerCase().includes(q))
+            ? allAuthors.filter(a => String(a.name || "").toLowerCase().includes(q))
             : allAuthors;
 
         render(list);
@@ -129,14 +128,13 @@ document.addEventListener("DOMContentLoaded", () => {
             ? `<img src="${escapeAttr(a.photo)}" alt="${escapeAttr(name)}" loading="lazy">`
             : escapeText(name.trim().charAt(0) || "؟");
 
-        // السطر التعريفي يُبنى ممّا توفّر فقط —
-        // «— · —» أسوأ من سطر أقصر
+        /* الرتبة العلمية هي السطر التعريفي الآن.
+           كانت الجنسية والسنوات، وقد حُذفتا لأنّ
+           استمارة النشر لا تسألهما — فكان السطر
+           يبقى فارغاً لكل مؤلف جديد. */
         const bits = [];
-        if (a.nationality) bits.push(escapeText(a.nationality));
-        if (a.birth_year) {
-            bits.push(escapeText(
-                `${a.birth_year}${a.death_year ? ` — ${a.death_year}` : ""}`));
-        }
+        const rank = { professor: "أستاذ", doctor: "دكتور", researcher: "باحث" }[a.title];
+        if (rank) bits.push(escapeText(rank));
 
         const books = Number(a.books_count) || 0;
 

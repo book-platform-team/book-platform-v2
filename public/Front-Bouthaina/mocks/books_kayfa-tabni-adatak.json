@@ -1,0 +1,48 @@
+{
+  "success": true,
+  "data": {
+    "id": 5,
+    "slug": "kayfa-tabni-adatak",
+    "title": "كيف تبني عاداتك",
+    "subtitle": null,
+    "description": "دليل عملي في تكوين العادات وكسر ما لا ينفع منها. يقوم على فكرة بسيطة: العادة تُبنى بالتكرار الصغير المستمرّ لا بالقرار الكبير المتقطّع. في كلّ فصل تمرينٌ يمكن البدء به اليوم نفسه.",
+    "cover": null,
+    "author": {
+      "id": 105,
+      "name": "إبراهيم الفقي",
+      "slug": "ibrahim-elfiky",
+      "photo": null
+    },
+    "category": {
+      "id": 41,
+      "name": "تطوير الذات",
+      "slug": "self"
+    },
+    "language": "ar",
+    "pages": 164,
+    "publication_year": null,
+    "edition": null,
+    "isbn": null,
+    "publication_type": "author_submission",
+    "is_paid": false,
+    "published_at": "2026-04-02T14:20:00Z",
+    "downloads_count": 3980,
+    "views_count": 15300,
+    "files": [
+      {
+        "id": 51,
+        "type": "pdf",
+        "size": 1980000,
+        "size_human": "1.9 MB",
+        "url": "/mocks/sample-book.pdf"
+      },
+      {
+        "id": 52,
+        "type": "epub",
+        "size": 740000,
+        "size_human": "722 KB",
+        "url": "/mocks/sample-book.pdf"
+      }
+    ]
+  }
+}

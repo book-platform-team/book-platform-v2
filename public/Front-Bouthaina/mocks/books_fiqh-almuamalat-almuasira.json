@@ -1,0 +1,41 @@
+{
+  "success": true,
+  "data": {
+    "id": 3,
+    "slug": "fiqh-almuamalat-almuasira",
+    "title": "فقه المعاملات المعاصرة وتطبيقاته في الاقتصاد الحديث",
+    "subtitle": null,
+    "description": "كتابٌ يعرض أحكام المعاملات المالية ويقيسها على ما استجدّ في السوق الحديثة: البيوع الآجلة، والبطاقات، والتمويل. يمضي في كل مسألة من الأصل إلى التطبيق، ويقف عند مواضع الخلاف دون أن يُثقل القارئ غير المتخصّص.",
+    "cover": null,
+    "author": {
+      "id": 103,
+      "name": "محمد بن صالح العثيمين",
+      "slug": "ibn-uthaymeen",
+      "photo": null
+    },
+    "category": {
+      "id": 21,
+      "name": "الفقه الإسلامي",
+      "slug": "fiqh"
+    },
+    "language": "ar",
+    "pages": 416,
+    "publication_year": 2022,
+    "edition": "الطبعة الثالثة",
+    "isbn": "978-9947-0-3345-1",
+    "publication_type": "house_edition",
+    "is_paid": false,
+    "published_at": "2026-01-22T08:00:00Z",
+    "downloads_count": 2310,
+    "views_count": 12480,
+    "files": [
+      {
+        "id": 31,
+        "type": "pdf",
+        "size": 7840000,
+        "size_human": "7.5 MB",
+        "url": "/mocks/sample-book.pdf"
+      }
+    ]
+  }
+}

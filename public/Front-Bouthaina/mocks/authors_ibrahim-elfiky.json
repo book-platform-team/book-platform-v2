@@ -4,14 +4,9 @@
     "id": 105,
     "name": "إبراهيم الفقي",
     "slug": "ibrahim-elfiky",
-    "bio": "كاتب ومحاضر في التنمية البشرية، ركّز على العادات اليومية وأثرها التراكمي في تغيير مسار الإنسان.",
+    "bio": "كاتب ومدرّب في التنمية البشرية، اشتُهر بأسلوبٍ مباشر يخاطب القارئ العام ويترجم المفاهيم النفسية إلى خطوات عملية.",
     "photo": null,
-    "nationality": "مصر",
-    "birth_year": 1950,
-    "death_year": 2012,
-    "is_house_author": false,
     "books_count": 1,
-    "rating": 3.9,
     "books": [
       {
         "id": 5,
@@ -24,14 +19,15 @@
           "slug": "ibrahim-elfiky"
         },
         "category": {
-          "id": 1,
-          "name": "التنمية البشرية وتطوير الذات",
-          "slug": "self-development"
+          "id": 41,
+          "name": "تطوير الذات",
+          "slug": "self"
         },
-        "ratings_avg": 3.9,
-        "ratings_count": 11,
-        "publication_type": "author_submission"
+        "publication_type": "author_submission",
+        "is_paid": false,
+        "price": null
       }
-    ]
+    ],
+    "title": "none"
   }
 }

@@ -1304,3 +1304,518 @@
 }
 
 .field label .req[hidden] { display: none; }
+
+/* ========================================
+   🚪 بوّابة الحساب
+   ----------------------------------------
+   تُسأل مرّة واحدة قبل الخطوات: من نشر معنا له
+   حساب، ومن لم ينشر يُنشأ حسابه من الاستمارة.
+   ======================================== */
+
+.gate {
+    max-width: 34rem;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2.4rem 1.9rem 2.1rem;
+    box-shadow: 0 14px 40px rgba(122,12,22,.07);
+    animation: gateIn .45s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.gate[hidden] { display: none; }
+
+@keyframes gateIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: none; }
+}
+
+.gate-ask { text-align: center; }
+.gate-ask[hidden] { display: none; }
+
+.gate-ask > i {
+    display: inline-grid;
+    place-items: center;
+    width: 3.4rem; height: 3.4rem;
+    border-radius: 50%;
+    background: rgba(122,12,22,.08);
+    color: var(--primary);
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+.gate-ask h2 {
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: .5rem;
+}
+
+.gate-ask > p {
+    font-size: .89rem;
+    color: var(--text-light);
+    line-height: 1.9;
+    max-width: 26rem;
+    margin: 0 auto 1.8rem;
+}
+
+
+/* ---------- الخياران ---------- */
+
+.gate-opts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: .9rem;
+}
+
+.gate-opt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .2rem;
+    padding: 1.4rem 1rem;
+    border: 2px solid var(--primary);
+    border-radius: 16px;
+    background: var(--primary-gradient);
+    color: #fff;
+    font-family: inherit;
+    text-align: center;
+    transition: transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s ease,
+                background .25s ease, border-color .25s ease, color .25s ease;
+    box-shadow: 0 8px 22px var(--primary-glow);
+}
+
+.gate-opt i { font-size: 1.7rem; margin-bottom: .35rem; }
+.gate-opt b { font-size: .95rem; font-weight: 800; }
+
+.gate-opt small {
+    font-size: .77rem;
+    line-height: 1.7;
+    opacity: .85;
+}
+
+.gate-opt:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 32px var(--primary-glow);
+}
+
+/* الخيار الثاني أهدأ — لكنه ليس أقلّ شأناً، فأغلب
+   الزوّار أول مرّة. الفرق في اللون لا في الحجم. */
+.gate-opt.ghost {
+    background: #fff;
+    color: var(--text);
+    border-color: var(--border);
+    box-shadow: none;
+}
+
+.gate-opt.ghost i     { color: var(--primary); }
+.gate-opt.ghost small { color: var(--text-light); opacity: 1; }
+
+.gate-opt.ghost:hover {
+    border-color: var(--primary);
+    box-shadow: 0 10px 26px rgba(122,12,22,.1);
+}
+
+
+/* ---------- لوحة الدخول ---------- */
+
+.gate-login[hidden] { display: none; }
+
+.gate-login h2 {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: 1.3rem;
+}
+
+.gate-login h2 i { color: var(--primary); font-size: 1.35rem; }
+
+.gate-back {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    margin-bottom: 1rem;
+    padding: .4rem .9rem;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: #fff;
+    font-family: inherit;
+    font-size: .8rem;
+    font-weight: 700;
+    color: var(--text-light);
+    transition: var(--transition-sm);
+}
+
+.gate-back:hover { border-color: var(--primary); color: var(--primary); }
+
+
+/* ========================================
+   ✅ لافتة المؤلف المعروف
+   ======================================== */
+
+.known-bar {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    flex-wrap: wrap;
+    padding: .85rem 1.1rem;
+    margin-bottom: 1.4rem;
+    background: rgba(26,127,55,.07);
+    border: 1px solid rgba(26,127,55,.22);
+    border-radius: 12px;
+    font-size: .86rem;
+    line-height: 1.8;
+    color: #166534;
+}
+
+.known-bar[hidden] { display: none; }
+
+.known-bar > i { font-size: 1.15rem; flex-shrink: 0; }
+.known-bar span { flex: 1; min-width: 12rem; }
+.known-bar b { font-weight: 800; }
+
+.known-out {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    padding: .35rem .85rem;
+    border: 1px solid rgba(26,127,55,.3);
+    border-radius: 20px;
+    background: #fff;
+    font-family: inherit;
+    font-size: .78rem;
+    font-weight: 700;
+    color: #166534;
+    transition: var(--transition-sm);
+}
+
+.known-out:hover { background: #166534; border-color: #166534; color: #fff; }
+
+/* البريد هوية الحساب — يُقفل ولا يُخفى، فالمؤلف
+   يجب أن يراه ويعرف أنّ الطلب مرتبط به */
+.field input.locked {
+    background: var(--bg-alt);
+    color: var(--text-light);
+    cursor: not-allowed;
+}
+
+
+/* ========================================
+   🔑 كتلة كلمة السرّ
+   ======================================== */
+
+.pw-block {
+    padding: 1.3rem 1.2rem;
+    margin-bottom: 1.4rem;
+    background: #fdfcfc;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.pw-block[hidden] { display: none; }
+
+.pw-head {
+    display: flex;
+    align-items: flex-start;
+    gap: .7rem;
+    margin-bottom: 1.1rem;
+    padding-bottom: .9rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.pw-head > i {
+    font-size: 1.3rem;
+    color: var(--primary);
+    flex-shrink: 0;
+    margin-top: .1rem;
+}
+
+.pw-head b {
+    display: block;
+    font-size: .93rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: .2rem;
+}
+
+.pw-head small {
+    display: block;
+    font-size: .8rem;
+    color: var(--text-light);
+    line-height: 1.8;
+}
+
+.pw-block .field:last-child { margin-bottom: 0; }
+
+#pw2Note { display: block; margin-top: .35rem; font-size: .78rem; }
+#pw2Note.pw-ok  { color: #1a7f37; font-weight: 700; }
+#pw2Note.pw-bad { color: #b02a37; font-weight: 700; }
+
+
+@media (max-width: 640px) {
+    .gate { padding: 1.7rem 1.1rem 1.5rem; }
+    .gate-opts { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gate { animation: none; }
+    .gate-opt:hover { transform: none; }
+}
+
+
+/* ========================================
+   💰 سعرا البيع — ورقية وإلكترونية
+   ----------------------------------------
+   بطاقتان متجاورتان لا حقلان في صفّ: السعران
+   يخصّان شيئين مختلفين تماماً، وعرضهما كحقلين
+   عاديين يجعل المؤلف يظنّهما بديلين أحدهما عن
+   الآخر — وهما ليسا كذلك.
+   ======================================== */
+
+.price-pair {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: .9rem;
+    margin-bottom: 1.3rem;
+}
+
+.price-card {
+    padding: 1.1rem 1rem;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    min-width: 0;
+    transition: border-color .28s ease, box-shadow .28s ease;
+}
+
+.price-card:focus-within {
+    border-color: rgba(122,12,22,.35);
+    box-shadow: 0 8px 24px rgba(122,12,22,.07);
+}
+
+.pc-head {
+    display: flex;
+    align-items: flex-start;
+    gap: .6rem;
+    margin-bottom: 1rem;
+    padding-bottom: .8rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.pc-head > i {
+    display: grid;
+    place-items: center;
+    width: 2.1rem; height: 2.1rem;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background: rgba(122,12,22,.07);
+    color: var(--primary);
+    font-size: 1.15rem;
+}
+
+.pc-head > div { flex: 1; min-width: 0; }
+
+.pc-head b {
+    display: block;
+    font-size: .92rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: .12rem;
+}
+
+.pc-head small {
+    display: block;
+    font-size: .77rem;
+    color: var(--text-light);
+    line-height: 1.65;
+}
+
+.price-card .field { margin-bottom: 0; }
+
+/* الملاحظة تتغيّر حين يصير الملف مدفوعاً —
+   تبديلٌ في المعنى يستحقّ تبديلاً في اللون */
+#digitalNote.hot {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+#mailField { margin-bottom: 0; }
+
+
+@media (max-width: 640px) {
+    .price-pair { grid-template-columns: minmax(0, 1fr); }
+}
+
+
+/* ========================================
+   ▾ كتلة البيع القابلة للطيّ
+   ----------------------------------------
+   مغلقة افتراضياً. أغلب من ينشر يريد كتاباً
+   مجانياً، فعرض أربعة حقول أسعار عليه يجعله
+   يظنّ البيع مطلوباً — والحقول المطويّة تقول
+   «هذا موجود إن أردته» دون أن تفرضه.
+   ======================================== */
+
+.sell-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    font-family: inherit;
+    text-align: start;
+    cursor: pointer;
+}
+
+.sell-head > div { flex: 1 1 auto; min-width: 0; }
+
+.sell-head b {
+    display: block;
+    font-size: .97rem;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: .3rem;
+}
+
+.sell-head small {
+    display: block;
+    font-size: .82rem;
+    color: var(--text-light);
+    line-height: 1.85;
+}
+
+/* السهم هو الإشارة الوحيدة إلى وجود محتوى مطويّ،
+   فيجب أن يُرى: دائرة باهتة تزيده وضوحاً */
+.sell-arrow {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 2.1rem; height: 2.1rem;
+    margin-inline-start: .7rem;
+    border-radius: 50%;
+    background: rgba(122,12,22,.08);
+    color: var(--primary);
+    font-size: 1.35rem;
+    transition: transform .35s cubic-bezier(.34, 1.4, .5, 1),
+                background .25s ease, color .25s ease;
+}
+
+.sell-head:hover .sell-arrow {
+    background: var(--primary);
+    color: #fff;
+}
+
+.sell-block.open .sell-arrow { transform: rotate(180deg); }
+
+.sell-body {
+    margin-top: 1.5rem;
+    animation: sellIn .38s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.sell-body[hidden] { display: none; }
+
+@keyframes sellIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* ملخّص الأسعار حين تُطوى الكتلة — بدونه يظنّ
+   المؤلف أنّ ما كتبه ضاع بالطيّ */
+.sell-sum {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    flex-wrap: wrap;
+    margin-top: .8rem;
+    padding: .5rem .85rem;
+    background: rgba(22,140,73,.08);
+    border: 1px solid rgba(22,140,73,.22);
+    border-radius: 20px;
+    font-size: .79rem;
+    font-weight: 700;
+    color: #166534;
+}
+
+.sell-sum[hidden] { display: none; }
+.sell-sum i { font-size: .95rem; }
+
+
+/* ========================================
+   📜 أيقونة شروط النشر
+   ----------------------------------------
+   حركة مركّبة لا تكبيراً وحده: الأيقونة تنبض
+   وتميل قليلاً، والزرّ حوله حلقة تتّسع وتتلاشى.
+
+   السبب: تكبيرٌ من ١ إلى ١٫٣٥ على أيقونة صغيرة
+   لا يكاد يُرى في الزاوية. الحركة تحتاج أن تتغيّر
+   في اتّجاهين لتلفت النظر فعلاً.
+   ======================================== */
+
+.btn-terms {
+    position: relative;
+    overflow: visible;
+}
+
+/* الحلقة — تنبع من الزرّ وتتلاشى */
+.btn-terms::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 30px;
+    border: 2px solid var(--primary);
+    opacity: 0;
+    pointer-events: none;
+    animation: termsRing 2.4s ease-out infinite;
+}
+
+@keyframes termsRing {
+    0%   { transform: scale(1);    opacity: .55; }
+    60%  { transform: scale(1.14); opacity: 0;   }
+    100% { transform: scale(1.14); opacity: 0;   }
+}
+
+.btn-terms i {
+    display: inline-block;
+    transform-origin: center;
+    animation: termsPulse 1.6s cubic-bezier(.34, 1.4, .5, 1) infinite;
+}
+
+@keyframes termsPulse {
+    0%   { transform: scale(1)    rotate(0deg);  }
+    20%  { transform: scale(1.55) rotate(-9deg); }
+    40%  { transform: scale(.92)  rotate(6deg);  }
+    60%  { transform: scale(1.28) rotate(-4deg); }
+    80%  { transform: scale(1)    rotate(0deg);  }
+    100% { transform: scale(1)    rotate(0deg);  }
+}
+
+/* تتوقّف بمجرّد القراءة — نبضٌ بلا سبب إزعاج */
+.btn-terms:hover i,
+.btn-terms.read i {
+    animation: none;
+    transform: none;
+}
+
+.btn-terms:hover::after,
+.btn-terms.read::after { animation: none; opacity: 0; }
+
+.btn-terms.read {
+    border-color: #1a7f37;
+    color: #166534;
+}
+
+.btn-terms.read:hover { background: #166534; border-color: #166534; color: #fff; }
+
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-terms i,
+    .btn-terms::after { animation: none; }
+    .sell-body { animation: none; }
+    .sell-arrow { transition: none; }
+}

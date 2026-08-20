@@ -1,0 +1,38 @@
+{
+  "success": true,
+  "data": {
+    "id": 8,
+    "slug": "alsira-alnabawiya-lilnashiin",
+    "title": "السيرة النبوية للناشئين",
+    "subtitle": null,
+    "description": "عرضٌ للسيرة النبوية بلغةٍ تناسب الناشئة: جملٌ قصيرة، وترتيبٌ زمني واضح، ووقفةٌ بعد كل فصل تلخّص الدرس. كُتب ليُقرأ في البيت والمدرسة معاً، دون إخلالٍ بالرواية الصحيحة.",
+    "cover": null,
+    "author": {
+      "id": 108,
+      "name": "عبد الرحمن السحيم",
+      "slug": "alsuhaim",
+      "photo": null
+    },
+    "category": {
+      "id": 22,
+      "name": "السيرة النبوية",
+      "slug": "seerah"
+    },
+    "language": "ar",
+    "pages": 210,
+    "publication_year": 2024,
+    "edition": "الطبعة الأولى",
+    "isbn": "978-9947-0-7789-6",
+    "publication_type": "house_edition",
+    "is_paid": true,
+    "published_at": "2026-04-15T09:00:00Z",
+    "downloads_count": 0,
+    "views_count": 9260,
+    "files": [],
+    "sale_email": "alsuhaim.sira@example.com",
+    "price_print": 1400,
+    "price_digital": 600,
+    "price_2": 2600,
+    "price_3": 3700
+  }
+}

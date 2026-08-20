@@ -1,0 +1,33 @@
+{
+  "success": true,
+  "data": {
+    "id": 112,
+    "name": "شكيب أرسلان",
+    "slug": "shakib-arslan",
+    "bio": "كاتب وسياسي لقّبه معاصروه بـ«أمير البيان». اشتغل بقضايا العالم الإسلامي وتاريخه، وله في الأندلس والتاريخ الإسلامي صفحات كثيرة.",
+    "photo": null,
+    "books_count": 1,
+    "books": [
+      {
+        "id": 12,
+        "slug": "alandalus-almafquda",
+        "title": "الأندلس المفقودة",
+        "cover": null,
+        "author": {
+          "id": 112,
+          "name": "شكيب أرسلان",
+          "slug": "shakib-arslan"
+        },
+        "category": {
+          "id": 32,
+          "name": "التاريخ الإسلامي",
+          "slug": "islamic-history"
+        },
+        "publication_type": "house_edition",
+        "is_paid": true,
+        "price": 1200
+      }
+    ],
+    "title": "none"
+  }
+}

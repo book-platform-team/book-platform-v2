@@ -14,6 +14,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
     <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/assets/css/auth.css">
     <link rel="stylesheet" href="/assets/css/upload-book.css">
 </head>
 
@@ -27,8 +28,8 @@
             <span class="kicker">للمؤلفين</span>
             <h1>انشر كتابك معنا</h1>
             <p>
-                املأ الخطوات الثلاث، وسنقرأ عملك ونردّ على بريدك
-                <strong>خلال ٤٨ ساعة</strong>.
+                املأ الخطوات الثلاثة، وسيتم نشر كتابك
+                خلال 48 ساعة
             </p>
         </div>
     </section>
@@ -37,24 +38,63 @@
     <section class="section up-section">
         <div class="wrap up-wrap">
 
+
+            <!-- ══════ البوّابة ══════
+                 تُسأل مرّة واحدة قبل الخطوات. من نشر معنا
+                 سابقاً له حساب، فيسجّل الدخول وتُملأ بياناته
+                 تلقائياً؛ ومن لم ينشر يمضي مباشرةً ويُنشأ
+                 حسابه من الخطوة الأولى.
+
+                 الشريط والاستمارة مخفيّان هنا لا ظاهران:
+                 إظهارهما ثم إخفاؤهما يجعل الصفحة تقفز. -->
+            <div class="gate" id="gate" hidden>
+
+                <div class="gate-ask" id="gateAsk">
+                    <i class='bx bx-book-add'></i>
+                    <h2>هل سبق أن نشرت معنا؟</h2>
+
+                    <div class="gate-opts">
+                        <button type="button" class="gate-opt" data-gate="in">
+                            <i class='bx bx-log-in-circle'></i>
+                            <b>نعم، نشرت من قبل</b>
+                        </button>
+
+                        <button type="button" class="gate-opt ghost" data-gate="new">
+                            <i class='bx bx-user-plus'></i>
+                            <b>لا، هذه أول مرّة</b>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="gate-login" id="gateLogin" hidden>
+                    <button type="button" class="gate-back" id="gateBack">
+                        <i class='bx bx-right-arrow-alt'></i> رجوع
+                    </button>
+                    <h2><i class='bx bx-lock-open-alt'></i> دخول المؤلفين</h2>
+                    <div id="gateMount"></div>
+                </div>
+
+            </div>
+
+
             <!-- شريط التقدّم -->
-            <ol class="steps-bar" id="stepsBar">
+            <ol class="steps-bar" id="stepsBar" hidden>
                 <li class="step-dot active" data-step="1">
-                    <span class="dot">١</span>
+                    <span class="dot">1</span>
                     <b>البيانات الشخصية</b>
                 </li>
                 <li class="step-dot" data-step="2">
-                    <span class="dot">٢</span>
+                    <span class="dot">2</span>
                     <b>بيانات الكتاب</b>
                 </li>
                 <li class="step-dot" data-step="3">
-                    <span class="dot">٣</span>
+                    <span class="dot">3</span>
                     <b>تحميل الكتاب</b>
                 </li>
             </ol>
 
 
-            <form id="submitForm" novalidate>
+            <form id="submitForm" novalidate hidden>
 
                 <!-- ══════ الخطوة ١ ══════ -->
                 <fieldset class="step active" data-step="1">
@@ -62,6 +102,18 @@
                         <h2>بيانات المؤلف</h2>
                         <p>لن يظهر بريدك ولا هاتفك للزوّار — نستعملهما للتواصل معك فقط.</p>
                     </legend>
+
+                    <!-- تظهر للمؤلف الداخل: بياناته مملوءة وقابلة للتعديل -->
+                    <div class="known-bar" id="knownBar" hidden>
+                        <i class='bx bx-check-circle'></i>
+                        <span>
+                            أهلاً <b id="knownName">—</b> — بياناتك مملوءة من حسابك.
+                            عدّل ما تشاء قبل المتابعة.
+                        </span>
+                        <button type="button" class="known-out" id="logoutBtn">
+                            <i class='bx bx-log-out'></i> خروج
+                        </button>
+                    </div>
 
                     <div class="grid-2">
                         <div class="field">
@@ -99,7 +151,7 @@
                     </div>
 
                     <div class="field">
-                        <label for="author_bio">نبذة عنك <span>*</span></label>
+                        <label for="author_bio">السيرة الذاتية للمؤلف<span>*</span></label>
                         <textarea id="author_bio" name="author_bio" rows="4" required
                                   placeholder="سطور قليلة تُعرّف بك — تظهر في صفحتك بعد النشر"></textarea>
                     </div>
@@ -118,6 +170,47 @@
                         <textarea id="author_extra" name="author_extra" rows="3"
                                   placeholder="مؤلفات سابقة، روابط، أو أي شيء تودّ إخبارنا به"></textarea>
                     </div>
+
+                    <!-- ══ كلمة السرّ — للمؤلف الجديد وحده ══
+                         الحساب يُولد من هذه الاستمارة، فلا استمارة
+                         تسجيل منفصلة. من سجّل دخوله لا يرى هذه
+                         الكتلة أصلاً. -->
+                    <div class="pw-block" id="pwBlock">
+                        <div class="pw-head">
+                            <i class='bx bx-key'></i>
+                            <div>
+                                <b>كلمة سرّ لحسابك</b>
+                                <small>ننشئ لك حساباً بهذا البريد، فلا تعيد كتابة بياناتك في المرّة القادمة.</small>
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="field">
+                                <label for="password">كلمة السرّ <span>*</span></label>
+                                <div class="auth-pass">
+                                    <input type="password" id="password" name="password"
+                                           autocomplete="new-password">
+                                    <button type="button" class="auth-eye" aria-label="إظهار كلمة السرّ">
+                                        <i class='bx bx-show'></i>
+                                    </button>
+                                </div>
+                                <div class="pw-meter"><span></span></div>
+                                <small class="pw-note" id="pwNote"></small>
+                            </div>
+
+                            <div class="field">
+                                <label for="password2">تأكيد كلمة السرّ <span>*</span></label>
+                                <div class="auth-pass">
+                                    <input type="password" id="password2" autocomplete="new-password">
+                                    <button type="button" class="auth-eye" aria-label="إظهار كلمة السرّ">
+                                        <i class='bx bx-show'></i>
+                                    </button>
+                                </div>
+                                <small id="pw2Note"></small>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <!-- الموافقة على الشروط — بوّابة الانتقال للخطوة الثانية -->
                     <div class="terms-gate">
@@ -229,7 +322,7 @@
                     <!-- ══ ١ · الغلاف — مطلوب من الجميع ══ -->
                     <div class="field">
                         <label for="cover">
-                            <span class="ord">١</span>
+                            <span class="ord">1</span>
                             غلاف الكتاب <span>*</span>
                         </label>
 
@@ -271,7 +364,7 @@
                                 <input type="file" id="file" name="file" accept=".pdf,.epub">
                                 <i class='bx bx-cloud-upload'></i>
                                 <b>اسحب الملف هنا أو اضغط للاختيار</b>
-                                <small>PDF أو EPUB · حتى ٥٠ ميجابايت</small>
+                                <small>PDF أو EPUB · حتى 50 ميجابايت</small>
                             </div>
 
                             <div class="file-chosen" id="fileChosen" hidden>
@@ -288,51 +381,113 @@
                     </div>
 
 
-                    <!-- ══ ٣ · البيع — سعر النسخة وبريد المشترين ══ -->
-                    <div class="opt-block">
-                        <div class="opt-head">
+                    <!-- ══ ٣ · البيع ══
+                         سعران مستقلّان تماماً:
+
+                         الورقية — نسخة مطبوعة تُشحن. تُباع دائماً
+                         بمقابل، ولا تمنع أن تكون الإلكترونية مجانية.
+
+                         الإلكترونية — الملف نفسه. إن تركت سعرها
+                         فارغاً نُزّل مجاناً، وإن حدّدته بيع.
+
+                         فيصير الجمع ممكناً: ملفٌ مجاني للقراءة،
+                         ونسخة مطبوعة تُطلب بثمن. وهذه حال أغلب
+                         دور النشر التي تطبع وتنشر معاً. -->
+                    <div class="opt-block sell-block" id="sellBlock">
+
+                        <!-- الترويسة زرّ يطوي ويفتح. مغلقة افتراضياً:
+                             من يريد كتاباً مجانياً لا يحتاج أن يرى
+                             أربعة حقول أسعار أصلاً. -->
+                        <button type="button" class="sell-head" id="sellToggle"
+                                aria-expanded="false" aria-controls="sellBody">
                             <span class="ord">٣</span>
                             <div>
-                                <b>لبيع الكتاب — حدّد سعر النسخة</b>
-                                <small>تُعرض النسخة المطبوعة للبيع، ويتواصل المشتري عبر البريد الذي تحدّده.</small>
+                                <b>لبيع الكتاب ورقياً أو إلكترونياً — اضغط هنا</b>
+                                <small>اتركه مغلقاً إن كان كتابك مجانياً بالكامل.</small>
                             </div>
                             <em class="opt-tag">اختياري</em>
-                        </div>
+                            <i class='bx bx-chevron-down sell-arrow'></i>
+                        </button>
 
-                        <div class="grid-2">
-                            <div class="field">
-                                <label for="price">سعر النسخة الواحدة</label>
-                                <div class="money">
-                                    <input type="number" id="price" name="price" min="1" step="50"
-                                           inputmode="numeric" placeholder="1200">
-                                    <span class="cur">دج</span>
+                        <!-- ملخّص يظهر حين تُطوى الكتلة وفيها أسعار -->
+                        <p class="sell-sum" id="sellSum" hidden>
+                            <i class='bx bx-purchase-tag'></i>
+                            <span id="sellSumText"></span>
+                        </p>
+
+                        <div class="sell-body" id="sellBody" hidden>
+
+                        <div class="price-pair">
+
+                            <!-- الورقية -->
+                            <div class="price-card">
+                                <div class="pc-head">
+                                    <i class='bx bx-book'></i>
+                                    <div>
+                                        <b>النسخة الورقية</b>
+                                        <small>مطبوعة تُشحن إلى المشتري</small>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label for="price_print">سعر النسخة الواحدة</label>
+                                    <div class="money">
+                                        <input type="number" id="price_print" name="price_print"
+                                               min="1" step="50" inputmode="numeric" placeholder="1200">
+                                        <span class="cur">دج</span>
+                                    </div>
+                                    <small>اتركه فارغاً إن لم تُرد بيع نسخ مطبوعة.</small>
                                 </div>
                             </div>
 
-                            <div class="field">
-                                <label for="sale_email">
-                                    بريد التواصل مع المشترين
-                                    <span class="req" id="saleReq" hidden>*</span>
-                                </label>
-                                <input type="email" id="sale_email" name="sale_email" dir="ltr"
-                                       placeholder="mail@example.com">
-                                <small id="saleHint">
-                                    <b>هذا البريد وحده يظهر في صفحة كتابك</b> —
-                                    بريدك في الخطوة الأولى يبقى خاصاً بالدار ولا يراه أحد.
-                                </small>
+                            <!-- الإلكترونية -->
+                            <div class="price-card">
+                                <div class="pc-head">
+                                    <i class='bx bx-file'></i>
+                                    <div>
+                                        <b>النسخة الإلكترونية</b>
+                                        <small>تُرسل للمشتري بعد الاتفاق</small>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label for="price_digital">سعر النسخة الواحدة</label>
+                                    <div class="money">
+                                        <input type="number" id="price_digital" name="price_digital"
+                                               min="1" step="50" inputmode="numeric" placeholder="مجاناً">
+                                        <span class="cur">دج</span>
+                                    </div>
+                                    <small id="digitalNote">اتركه فارغاً — إن رفعت ملفاً نُزّل مجاناً.</small>
+                                </div>
                             </div>
+
+                        </div>
+
+                        <!-- بريد المشترين — مطلوب متى وُجد أي سعر -->
+                        <div class="field" id="mailField">
+                            <label for="sale_email">
+                                بريد التواصل مع المشترين
+                                <span class="req" id="saleReq" hidden>*</span>
+                            </label>
+                            <input type="email" id="sale_email" name="sale_email" dir="ltr"
+                                   placeholder="mail@example.com">
+                            <small id="saleHint">
+                                <b>هذا البريد وحده يظهر في صفحة كتابك</b> —
+                                بريدك في الخطوة الأولى يبقى خاصاً بالدار ولا يراه أحد.
+                            </small>
                         </div>
 
 
-                        <!-- ══ ٤ · أسعار النسخ المتعدّدة ══
-                             تظهر بعد تحديد سعر النسخة الواحدة فقط —
-                             تخفيضٌ على سعرٍ غير موجود لا معنى له. -->
+                        <!-- ══ ٤ · أسعار النسخ الورقية المتعدّدة ══
+                             للورقية وحدها: من يشتري ثلاث نسخ مطبوعة
+                             يستحقّ سعر جملة، أمّا الملف الإلكتروني
+                             فلا معنى لشراء ثلاث نسخ منه. -->
                         <div class="tiers" id="tiersBlock" hidden>
                             <div class="tiers-head">
                                 <span class="ord">٤</span>
                                 <div>
-                                    <b>أسعار النسخ المتعدّدة</b>
-                                    <small>سعر مخفَّض لمن يشتري أكثر من نسخة. املأ ما تشاء واترك الباقي.</small>
+                                    <b>أسعار النسخ الورقية المتعدّدة</b>
+                                    <small>سعر مخفَّض لمن يشتري أكثر من نسخة مطبوعة. املأ ما تشاء.</small>
                                 </div>
                                 <em class="opt-tag">اختياري</em>
                             </div>
@@ -373,10 +528,12 @@
                                 <i class='bx bx-info-circle'></i>
                                 <span>
                                     السعر هنا لمجموع النسخ لا للنسخة الواحدة، ويجب أن يقلّ عن
-                                    ضربها في سعر النسخة — وإلّا لم يكن تخفيضاً.
+                                    ضربها في سعر النسخة الورقية — وإلّا لم يكن تخفيضاً.
                                 </span>
                             </p>
                         </div>
+
+                        </div><!-- /sell-body -->
                     </div>
 
 
@@ -416,11 +573,10 @@
             <!-- ══════ بعد الإرسال ══════ -->
             <div class="done" id="doneBox" hidden>
                 <i class='bx bx-check-circle'></i>
-                <h2>شكراً، وصلنا طلبك</h2>
+                <h2>شكراً، لقد أتممت عملية النشر</h2>
                 <p>
-                    ستراجع هيئة القراءة عملك، ويصلك الردّ على
-                    <b id="doneEmail"></b> <strong>خلال ٤٨ ساعة</strong> —
-                    بالقبول أو بالاعتذار مع بيان السبب.
+                    ستراجع هيئة الدار مؤلفك،وسينشر كتابك خلال 
+                    <b id="doneEmail"></b> <strong>48 ساعة</strong>.
                 </p>
                 <a href="/index.html" class="btn-submit">
                     <i class='bx bx-book-open'></i> العودة إلى المكتبة
@@ -509,7 +665,10 @@
 
     <div id="site-footer"></div>
 
+    <!-- ⚠️ الترتيب إجباري: api → auth → auth-ui → partials → الصفحة -->
     <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/auth-ui.js"></script>
     <script src="/assets/js/partials.js"></script>
     <script src="/assets/js/upload-book.js"></script>
 </body>

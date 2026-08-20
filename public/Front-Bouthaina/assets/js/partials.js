@@ -35,6 +35,7 @@ const HEADER_HTML = `
                 <li><a href="/author.html" class="nav-link" data-nav="author"><i class='bx bx-user-pin'></i> المؤلفون</a></li>
                 <li><a href="/upload-book.html" class="nav-link" data-nav="upload"><i class='bx bx-upload'></i> نشر كتاب</a></li>
                 <li><a href="/print-book.html" class="nav-link" data-nav="print"><i class='bx bx-printer'></i> طباعة كتاب</a></li>
+                <li><a href="/about.html" class="nav-link" data-nav="about"><i class='bx bx-buildings'></i> من نحن</a></li>
                 
             </ul>
         </div>
@@ -44,6 +45,13 @@ const HEADER_HTML = `
                 <i class='bx bx-heart'></i>
                 <span>مفضّلاتي</span>
                 <b class="fav-count" id="favCount" hidden>0</b>
+            </a>
+
+            <!-- يظهر للمؤلف الداخل وحده — يُكشف من auth.js.
+                 مخفيّ في الـHTML لا بعد الرسم، وإلّا ومض للزائر. -->
+            <a href="/account.html" class="btn-acc-link" id="accLink" data-nav="account" hidden>
+                <i class='bx bx-user-circle'></i>
+                <span>حسابي</span>
             </a>
         </div>
     </div>
@@ -61,7 +69,9 @@ const HEADER_HTML = `
             <li><a href="/author.html" class="mobile-link" data-nav="author"><i class='bx bx-user-pin'></i> المؤلفون</a></li>
             <li><a href="/upload-book.html" class="mobile-link" data-nav="upload"><i class='bx bx-upload'></i> نشر كتاب</a></li>
             <li><a href="/print-book.html" class="mobile-link" data-nav="print"><i class='bx bx-printer'></i> طباعة كتاب</a></li>
+            <li><a href="/about.html" class="mobile-link" data-nav="about"><i class='bx bx-buildings'></i> من نحن</a></li>
             <li><a href="/favorites.html" class="mobile-link" data-nav="favorites"><i class='bx bx-heart'></i> مفضّلاتي</a></li>
+            <li id="accLinkMobile" hidden><a href="/account.html" class="mobile-link" data-nav="account"><i class='bx bx-user-circle'></i> حسابي</a></li>
             
         </ul>
     </div>
@@ -171,9 +181,7 @@ const FOOTER_HTML = `
 
         <!-- أزرار التواصل الاجتماعي -->
         <div class="social-media-buttons">
-            <a href="#" class="social-btn facebook" title="فيسبوك"><i class='bx bxl-facebook'></i></a>
-            <a href="#" class="social-btn instagram" title="إنستغرام"><i class='bx bxl-instagram'></i></a>
-            <a href="#" class="social-btn twitter" title="تويتر"><i class='bx bxl-twitter'></i></a>
+            <!-- تُملأ من SOCIAL أدناه — الفارغ منها لا يُرسم -->
         </div>
 
         <div class="footer-bottom">
@@ -359,7 +367,7 @@ function initSearchModal() {
         const q = input?.value.trim();
         if (!q) return;
         // TODO (اليوم الثالث): توجيه لنتائج البحث الحقيقية
-        window.location.href = "/library.html?q=" + encodeURIComponent(q);
+        window.location.href = "/index.html?q=" + encodeURIComponent(q);
     }
 
     searchBtn?.addEventListener("click", runSearch);
@@ -460,19 +468,6 @@ function showError(el, retryFn, message = "تعذّر تحميل البيانا�
    ======================================== */
 
 /** نجوم التقييم كنص HTML */
-function renderStars(average) {
-    const avg  = Number(average) || 0;
-    const full = Math.floor(avg);
-    const half = avg % 1 >= 0.5;
-    let html = "";
-
-    for (let i = 1; i <= 5; i++) {
-        if (i <= full)                   html += `<i class='bx bxs-star'></i>`;
-        else if (i === full + 1 && half) html += `<i class='bx bxs-star-half'></i>`;
-        else                             html += `<i class='bx bx-star'></i>`;
-    }
-    return html;
-}
 
 /** كرت كتاب — يقبل شكل BookCard من API.md */
 function renderBookCard(book) {
@@ -786,3 +781,69 @@ function initReport() {
    ======================================== */
 
 mountPartials();
+
+/* ========================================
+   👤 كشف رابط «حسابي»
+   ----------------------------------------
+   الهيدر مشترك، فحالة الجلسة تُفحص مرّة واحدة
+   هنا لا في كل صفحة.
+   ======================================== */
+
+if (typeof Auth !== "undefined") {
+    Auth.onReady(user => {
+        if (!user) return;
+
+        const desktop = document.getElementById("accLink");
+        const mobile  = document.getElementById("accLinkMobile");
+
+        if (desktop) {
+            desktop.hidden = false;
+            const first = String(user.name || "").trim().split(/\s+/)[0];
+            if (first) desktop.querySelector("span").textContent = first;
+            desktop.title = user.name || "حسابي";
+        }
+
+        if (mobile) mobile.hidden = false;
+
+        if (document.body.dataset.page === "account") {
+            desktop?.classList.add("active");
+            mobile?.querySelector("a")?.classList.add("active");
+        }
+    });
+}
+
+
+/* ========================================
+   🔗 حسابات التواصل
+   ----------------------------------------
+   ⚠️ ضعي الروابط الحقيقية هنا — مكان واحد
+      يخدم الفوتر وصفحة «من نحن» معاً.
+
+   والحساب الفارغ لا يُرسم أصلاً: زرٌّ يقفز
+   بالزائر إلى أعلى الصفحة أسوأ من غيابه،
+   ويوحي بأنّ الموقع مهجور.
+   ======================================== */
+
+const SOCIAL = [
+    { key: "facebook",  icon: "bxl-facebook",  label: "فيسبوك",   url: "" },
+    { key: "instagram", icon: "bxl-instagram", label: "إنستغرام", url: "" },
+    { key: "twitter",   icon: "bxl-twitter",   label: "تويتر",    url: "" },
+];
+
+function mountSocial() {
+    const live = SOCIAL.filter(s => s.url && s.url.trim());
+
+    document.querySelectorAll(".contact-social, .social-media-buttons").forEach(box => {
+        if (live.length === 0) { box.hidden = true; return; }
+
+        box.hidden = false;
+        box.innerHTML = live.map(s => `
+            <a href="${escapeAttr(s.url)}" class="social-btn ${s.key}"
+               title="${escapeAttr(s.label)}" target="_blank" rel="noopener">
+                <i class='bx ${s.icon}'></i>
+            </a>
+        `).join("");
+    });
+}
+
+mountSocial();

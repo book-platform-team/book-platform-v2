@@ -4,14 +4,9 @@
     "id": 106,
     "name": "علي الوردي",
     "slug": "ali-alwardi",
-    "bio": "عالم اجتماع قرأ المجتمع من داخله، وكتب عن التناقض بين القيم المعلنة والسلوك الفعلي بلغةٍ صريحة أثارت الجدل في وقتها.",
+    "bio": "عالم اجتماع قرأ المجتمع العربي من داخله، وكتب عن ازدواجية الشخصية والصراع بين قيم البداوة وقيم المدينة بلغةٍ صريحة نادرة في زمنه.",
     "photo": null,
-    "nationality": "العراق",
-    "birth_year": 1913,
-    "death_year": 1995,
-    "is_house_author": false,
     "books_count": 1,
-    "rating": 4.4,
     "books": [
       {
         "id": 6,
@@ -24,14 +19,15 @@
           "slug": "ali-alwardi"
         },
         "category": {
-          "id": 1,
+          "id": 5,
           "name": "العلوم السياسية",
           "slug": "political-science"
         },
-        "ratings_avg": 4.4,
-        "ratings_count": 15,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": false,
+        "price": null
       }
-    ]
+    ],
+    "title": "doctor"
   }
 }

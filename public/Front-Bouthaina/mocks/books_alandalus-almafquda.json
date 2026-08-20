@@ -1,11 +1,11 @@
 {
   "success": true,
   "data": {
-    "id": 9005,
-    "slug": "test-paid-badmail",
-    "title": "اختبار — بريد بيع ملوَّث",
+    "id": 12,
+    "slug": "alandalus-almafquda",
+    "title": "الأندلس المفقودة",
     "subtitle": null,
-    "description": "اختبار أمني: بريد البيع يحاول تهريب معامل bcc إلى رابط Gmail. التعبير النمطي في book.js يرفضه بسبب &، فيُعامَل الكتاب كأنه بلا بريد بيع.\n\nالمتوقّع: زرّ معطَّل، ولا يظهر النصّ الملوَّث في أي مكان من الصفحة.",
+    "description": "كتابٌ في الأندلس لا يكتفي بالحنين، بل يسأل: كيف تُفقد الحضارة؟ يتتبّع المؤلف مسار الدولة من الاتّساع إلى التفكّك، ويقف عند الانقسام الداخلي أكثر من وقوفه عند الغزو الخارجي.",
     "cover": null,
     "author": {
       "id": 112,
@@ -25,11 +25,14 @@
     "isbn": "978-9947-1-0023-5",
     "publication_type": "house_edition",
     "is_paid": true,
-    "price": 1500,
-    "sale_email": "author@example.com&bcc=attacker@evil.com",
     "published_at": "2026-03-04T10:30:00Z",
     "downloads_count": 0,
     "views_count": 7690,
-    "files": []
+    "files": [],
+    "sale_email": "arslan.andalus@example.com",
+    "price_print": 1800,
+    "price_digital": null,
+    "price_2": 3400,
+    "price_3": 4900
   }
 }

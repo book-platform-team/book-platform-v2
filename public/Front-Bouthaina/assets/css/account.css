@@ -1,0 +1,404 @@
+/* ========================================
+   👤 دار سامي — حسابي
+   ----------------------------------------
+   ⚠️ المشترك في base.css، ونماذج الحساب في
+      auth.css — لا يُكرَّران هنا.
+   ======================================== */
+
+.acc-hero,
+.acc-section,
+.acc-guest,
+.acc-wait {
+    --c-25:  #fffafa;
+    --c-50:  #fcf1f2;
+    --c-100: #f7e0e2;
+    --c-200: #efc5c9;
+    --c-700: #7a0c16;
+    --c-800: #5e0810;
+    --c-glow: rgba(122, 12, 22, .16);
+    --c-soft: rgba(122, 12, 22, .09);
+}
+
+
+/* ========================================
+   ⏳ الانتظار
+   ======================================== */
+
+.acc-wait {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .6rem;
+    min-height: 45vh;
+    color: var(--text-light);
+    font-size: .92rem;
+    font-weight: 600;
+}
+
+.acc-wait[hidden] { display: none; }
+.acc-wait i { font-size: 1.4rem; color: var(--c-700); }
+
+
+/* ========================================
+   🔒 الزائر
+   ======================================== */
+
+.acc-guest {
+    padding: 4rem 1.2rem 5rem;
+    text-align: center;
+}
+
+.acc-guest[hidden] { display: none; }
+
+.acc-guest > .wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.acc-guest > .wrap > i {
+    display: grid;
+    place-items: center;
+    width: 4rem; height: 4rem;
+    border-radius: 50%;
+    background: var(--c-100);
+    color: var(--c-700);
+    font-size: 2rem;
+    margin-bottom: 1.1rem;
+}
+
+.acc-guest h1 {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: .6rem;
+}
+
+.acc-guest p {
+    font-size: .92rem;
+    color: var(--text-light);
+    line-height: 1.95;
+    max-width: 30rem;
+    margin-bottom: 1.8rem;
+}
+
+.acc-guest-btns {
+    display: flex;
+    gap: .7rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+
+/* ========================================
+   🪪 ترويسة الحساب
+   ======================================== */
+
+.acc-hero {
+    padding: 2.6rem 0 2.2rem;
+    background: linear-gradient(180deg, #fff 0%, var(--c-50) 100%);
+    border-bottom: 1px solid var(--c-200);
+}
+
+.acc-id {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    flex-wrap: wrap;
+}
+
+.acc-ava {
+    width: 4.6rem; height: 4.6rem;
+    flex-shrink: 0;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--primary-gradient);
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: 900;
+    box-shadow: 0 10px 26px var(--c-glow);
+}
+
+.acc-ava img { width: 100%; height: 100%; object-fit: cover; }
+
+.acc-idtext { flex: 1; min-width: 12rem; }
+
+.acc-kicker {
+    display: inline-block;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+    color: var(--c-800);
+    background: var(--c-100);
+    border-radius: 20px;
+    padding: .2rem .75rem;
+    margin-bottom: .45rem;
+}
+
+.acc-idtext h1 {
+    font-size: clamp(1.3rem, 3vw, 1.75rem);
+    font-weight: 900;
+    color: var(--text);
+    line-height: 1.35;
+}
+
+.acc-idtext p {
+    font-size: .85rem;
+    color: var(--text-light);
+    margin-top: .2rem;
+    word-break: break-all;
+}
+
+.acc-out {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .5rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 25px;
+    background: #fff;
+    font-family: inherit;
+    font-size: .82rem;
+    font-weight: 700;
+    color: var(--text-light);
+    white-space: nowrap;
+    transition: var(--transition-sm);
+}
+
+.acc-out:hover { background: #dc3545; border-color: #dc3545; color: #fff; }
+
+.acc-public {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    margin-top: 1.2rem;
+    font-size: .84rem;
+    font-weight: 700;
+    color: var(--c-700);
+}
+
+.acc-public[hidden] { display: none; }
+.acc-public:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+
+/* ========================================
+   🗂️ البطاقات
+   ======================================== */
+
+.acc-section { padding-top: 2.2rem; }
+
+.acc-wrap {
+    max-width: 46rem;
+    display: grid;
+    gap: 1.3rem;
+}
+
+.acc-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.7rem 1.6rem;
+    box-shadow: 0 8px 26px rgba(0,0,0,.04);
+}
+
+.acc-head {
+    padding-bottom: 1rem;
+    margin-bottom: 1.4rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.acc-head h2 {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: .25rem;
+}
+
+.acc-head h2 i { color: var(--c-700); font-size: 1.3rem; }
+
+.acc-head p {
+    font-size: .83rem;
+    color: var(--text-light);
+    line-height: 1.8;
+}
+
+
+/* ---------- الحقول ---------- */
+
+.acc-card .field { margin-bottom: 1.05rem; min-width: 0; }
+
+.acc-card .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.acc-card label {
+    display: block;
+    font-size: .86rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: .42rem;
+}
+
+.acc-card label span { color: var(--primary-light); }
+
+.acc-card label em {
+    font-style: normal;
+    font-size: .76rem;
+    font-weight: 500;
+    color: var(--text-light);
+}
+
+.acc-card input,
+.acc-card select,
+.acc-card textarea {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: .78rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: .92rem;
+    background: #fff;
+    color: var(--text);
+    resize: vertical;
+    transition: border-color .22s ease, box-shadow .22s ease;
+}
+
+.acc-card input:focus,
+.acc-card select:focus,
+.acc-card textarea:focus {
+    outline: none;
+    border-color: var(--c-700);
+    box-shadow: 0 0 0 4px var(--c-glow);
+}
+
+.acc-card .invalid { border-color: #dc3545; }
+
+/* البريد هوية الحساب — يُعرض ولا يُعدَّل */
+.acc-card input.locked {
+    background: var(--bg-alt);
+    color: var(--text-light);
+    cursor: not-allowed;
+}
+
+.acc-card .field > small {
+    display: block;
+    margin-top: .35rem;
+    font-size: .77rem;
+    color: var(--text-light);
+    line-height: 1.7;
+}
+
+#new2Note.pw-ok  { color: #1a7f37; font-weight: 700; }
+#new2Note.pw-bad { color: #b02a37; font-weight: 700; }
+
+
+/* ---------- الأزرار ---------- */
+
+.acc-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .45rem;
+    margin-top: .4rem;
+    padding: .78rem 1.7rem;
+    border: 2px solid transparent;
+    border-radius: 30px;
+    background: var(--primary-gradient);
+    color: #fff;
+    font-family: inherit;
+    font-size: .89rem;
+    font-weight: 800;
+    transition: var(--transition);
+    box-shadow: 0 6px 18px var(--c-glow);
+}
+
+.acc-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 26px var(--c-glow);
+    color: #fff;
+}
+
+.acc-btn:disabled { opacity: .75; cursor: not-allowed; transform: none; }
+
+.acc-btn.ghost {
+    background: #fff;
+    color: var(--c-800);
+    border-color: var(--c-200);
+    box-shadow: none;
+}
+
+.acc-btn.ghost:hover {
+    background: var(--c-700);
+    border-color: var(--c-700);
+    color: #fff;
+}
+
+
+/* ---------- كتبي ---------- */
+
+.acc-card .books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1.1rem;
+    margin-bottom: 1.4rem;
+}
+
+.acc-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: .3rem;
+    padding: 2.4rem 1rem;
+    margin-bottom: 1.3rem;
+    background: var(--c-25);
+    border: 1px dashed var(--c-200);
+    border-radius: var(--radius);
+}
+
+.acc-empty > i {
+    font-size: 2.2rem;
+    color: var(--c-700);
+    opacity: .45;
+    margin-bottom: .35rem;
+}
+
+.acc-empty b {
+    font-size: .97rem;
+    font-weight: 800;
+    color: var(--text);
+}
+
+.acc-empty span {
+    font-size: .84rem;
+    color: var(--text-light);
+    line-height: 1.85;
+    max-width: 22rem;
+}
+
+
+/* ========================================
+   📱 التجاوب
+   ======================================== */
+
+@media (max-width: 640px) {
+    .acc-hero { padding: 2rem 0 1.7rem; }
+    .acc-ava  { width: 3.6rem; height: 3.6rem; font-size: 1.4rem; }
+    .acc-out  { width: 100%; justify-content: center; margin-top: .6rem; }
+    .acc-card { padding: 1.3rem 1.1rem; }
+    .acc-card .grid-2 { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .acc-btn  { width: 100%; }
+    .acc-guest-btns .acc-btn { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .acc-btn:hover:not(:disabled) { transform: none; }
+}

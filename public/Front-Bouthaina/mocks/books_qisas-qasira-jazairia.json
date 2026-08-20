@@ -1,0 +1,41 @@
+{
+  "success": true,
+  "data": {
+    "id": 11,
+    "slug": "qisas-qasira-jazairia",
+    "title": "قصص قصيرة جزائرية",
+    "subtitle": null,
+    "description": "مجموعة قصصية تلتقط مشاهد سريعة من الحياة الجزائرية: موظّفٌ ينتظر ورقة، وامرأةٌ تحسب مصروف الشهر، وشابٌّ يقف على رصيفٍ لا يؤدّي إلى شيء. سخريةٌ خفيفة تُخفي نقداً غير خفيف.",
+    "cover": null,
+    "author": {
+      "id": 111,
+      "name": "أحمد رضا حوحو",
+      "slug": "reda-houhou",
+      "photo": null
+    },
+    "category": {
+      "id": 13,
+      "name": "قصص قصيرة",
+      "slug": "short-stories"
+    },
+    "language": "ar",
+    "pages": null,
+    "publication_year": 2025,
+    "edition": null,
+    "isbn": null,
+    "publication_type": "author_submission",
+    "is_paid": false,
+    "published_at": "2026-05-06T15:40:00Z",
+    "downloads_count": 610,
+    "views_count": 2970,
+    "files": [
+      {
+        "id": 111,
+        "type": "pdf",
+        "size": 1450000,
+        "size_human": "1.4 MB",
+        "url": "/mocks/sample-book.pdf"
+      }
+    ]
+  }
+}

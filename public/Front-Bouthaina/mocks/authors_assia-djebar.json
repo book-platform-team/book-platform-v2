@@ -4,14 +4,9 @@
     "id": 102,
     "name": "آسيا جبار",
     "slug": "assia-djebar",
-    "bio": "روائية وباحثة اهتمّت بصوت المرأة في التاريخ الجزائري، وبما لم يُدوَّن من شهاداتٍ ظلّت تُروى شفاهاً. تنقّلت بين السرد والبحث والسينما.",
+    "bio": "روائية وباحثة، شغلها سؤال المرأة والذاكرة في المجتمع الجزائري. كتبت عن الصمت الذي يحيط بحيوات النساء، وحاولت أن تُسمِع أصواتاً لم تجد طريقها إلى كتب التاريخ.",
     "photo": null,
-    "nationality": "الجزائر",
-    "birth_year": 1936,
-    "death_year": 2015,
-    "is_house_author": true,
     "books_count": 1,
-    "rating": 4.2,
     "books": [
       {
         "id": 2,
@@ -24,14 +19,15 @@
           "slug": "assia-djebar"
         },
         "category": {
-          "id": 1,
-          "name": "الروايات والقصص الأدبية",
-          "slug": "novels"
+          "id": 12,
+          "name": "روايات عالمية",
+          "slug": "world-novels"
         },
-        "ratings_avg": 4.2,
-        "ratings_count": 7,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": false,
+        "price": null
       }
-    ]
+    ],
+    "title": "none"
   }
 }

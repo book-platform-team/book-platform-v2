@@ -1,0 +1,41 @@
+{
+  "success": true,
+  "data": {
+    "id": 10,
+    "slug": "almaghrib-alarabi-alkabir",
+    "title": "المغرب العربي الكبير: دراسة في الجغرافيا السياسية",
+    "subtitle": null,
+    "description": "دراسة تقرأ المغرب العربي كوحدةٍ جغرافية وتاريخية قبل أن يكون خرائط ودولاً. يبحث المؤلف في أثر الموقع على المصير: البحر في الشمال، والصحراء في الجنوب، وما بينهما من طرقٍ صنعت التبادل والصراع معاً.",
+    "cover": null,
+    "author": {
+      "id": 110,
+      "name": "مالك بن نبي",
+      "slug": "malek-bennabi",
+      "photo": null
+    },
+    "category": {
+      "id": 5,
+      "name": "العلوم السياسية",
+      "slug": "political-science"
+    },
+    "language": "ar",
+    "pages": 384,
+    "publication_year": 2022,
+    "edition": "الطبعة الأولى",
+    "isbn": "978-9947-0-9912-7",
+    "publication_type": "house_edition",
+    "is_paid": false,
+    "published_at": "2026-02-25T12:00:00Z",
+    "downloads_count": 1580,
+    "views_count": 8140,
+    "files": [
+      {
+        "id": 101,
+        "type": "pdf",
+        "size": 8320000,
+        "size_human": "7.9 MB",
+        "url": "/mocks/sample-book.pdf"
+      }
+    ]
+  }
+}

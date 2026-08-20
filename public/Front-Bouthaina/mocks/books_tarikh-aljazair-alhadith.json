@@ -1,0 +1,39 @@
+{
+  "success": true,
+  "data": {
+    "id": 4,
+    "slug": "tarikh-aljazair-alhadith",
+    "title": "تاريخ الجزائر الحديث",
+    "subtitle": null,
+    "description": "قراءة في قرنين من تاريخ الجزائر، من أواخر العهد العثماني إلى ما بعد الاستقلال. يعتمد المؤلف على الوثيقة والأرشيف أكثر من الرواية الشفوية، ويوقف السرد عند المحطّات التي ما زال الجدل فيها قائماً إلى اليوم.",
+    "cover": null,
+    "author": {
+      "id": 104,
+      "name": "أبو القاسم سعد الله",
+      "slug": "saadallah",
+      "photo": null
+    },
+    "category": {
+      "id": 31,
+      "name": "تاريخ الجزائر",
+      "slug": "algeria-history"
+    },
+    "language": "ar",
+    "pages": 560,
+    "publication_year": 2021,
+    "edition": "الطبعة الأولى",
+    "isbn": "978-9947-0-4412-9",
+    "publication_type": "house_edition",
+    "is_paid": true,
+    "published_at": "2026-03-11T11:15:00Z",
+    "downloads_count": 0,
+    "views_count": 6740,
+    "files": [],
+    "sale_email": "saadallah.books@example.dz",
+    "price_print": 1200,
+    "price_digital": null,
+    "price_2": 2200,
+    "price_3": 3100,
+    "price_4": 3900
+  }
+}

@@ -817,3 +817,123 @@
     text-decoration: underline;
     text-underline-offset: 3px;
 }
+
+/* ========================================
+   🎁 عروض الكتاب — ورقية وإلكترونية
+   ----------------------------------------
+   لكل صيغة بطاقتها: سعرها وأزرارها. عرضهما
+   كأزرار متجاورة بلا فصل يجعل القارئ لا يعرف
+   أي سعر يخصّ أي شيء.
+   ======================================== */
+
+.bk-actions {
+    display: grid;
+    gap: .9rem;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    align-items: start;
+}
+
+.offer {
+    padding: 1.1rem 1.1rem 1rem;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    min-width: 0;
+    transition: border-color .25s ease, box-shadow .25s ease;
+}
+
+.offer:hover {
+    border-color: rgba(122,12,22,.28);
+    box-shadow: 0 10px 26px rgba(122,12,22,.07);
+}
+
+.offer.free { background: #fdfcfc; }
+
+.offer-top {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding-bottom: .85rem;
+    margin-bottom: .95rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.offer-top > i {
+    display: grid;
+    place-items: center;
+    width: 2rem; height: 2rem;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background: rgba(122,12,22,.07);
+    color: var(--primary);
+    font-size: 1.1rem;
+}
+
+.offer-top > span {
+    flex: 1;
+    min-width: 0;
+    font-size: .88rem;
+    font-weight: 700;
+    color: var(--text-light);
+}
+
+.offer-price {
+    flex-shrink: 0;
+    font-size: 1.05rem;
+    font-weight: 900;
+    color: #168c49;
+    white-space: nowrap;
+}
+
+.offer-price.free {
+    font-size: .95rem;
+    padding: .18rem .7rem;
+    border-radius: 20px;
+    background: rgba(22,140,73,.1);
+}
+
+.offer .btn-act {
+    width: 100%;
+    padding: .8rem 1.2rem;
+    font-size: .89rem;
+}
+
+.offer-btns {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+}
+
+.offer-btns .btn-act { flex: 1; min-width: 8rem; }
+
+.offer .act-hint {
+    margin-top: .7rem;
+    margin-bottom: 0;
+    font-size: .78rem;
+}
+
+
+/* ---------- الصيغة داخل النافذة ---------- */
+
+.buy-kind {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    margin-bottom: .7rem;
+    padding: .22rem .8rem;
+    border-radius: 20px;
+    background: rgba(122,12,22,.07);
+    color: var(--primary);
+    font-size: .78rem;
+    font-weight: 800;
+}
+
+.buy-kind i { font-size: .95rem; }
+
+.buy-qty[hidden] { display: none; }
+
+
+@media (max-width: 600px) {
+    .bk-actions { grid-template-columns: minmax(0, 1fr); }
+    .offer-btns .btn-act { min-width: 0; }
+}

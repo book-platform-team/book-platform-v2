@@ -10,6 +10,12 @@
    القارئ إلى المؤلف مباشرةً، ولا مال يمرّ عبر
    الموقع ولا رقم حساب يُعرض.
 
+   وللكتاب سعران مستقلّان:
+     price_digital  الملف — إن غاب فالتنزيل مجاني
+     price_print    نسخة مطبوعة تُشحن
+
+   فيمكن أن يكون الملف مجانياً والمطبوع بثمن.
+
    وجهة الطلب: sale_email وحده — البريد الذي
    كتبه المؤلف عمداً لتواصل الدفع. بريده الشخصي
    في الخطوة الأولى لا يُعرض أبداً (وعدناه بذلك
@@ -165,69 +171,100 @@ document.addEventListener("DOMContentLoaded", () => {
         const box = document.getElementById("bookActions");
         if (!box) return;
 
-        if (b.is_paid) {
-            const price = `
-                <div class="price-tag">
-                    <i class='bx bx-purchase-tag'></i>
-                    <span>${formatPrice(b.price)}</span>
-                </div>`;
+        const digital  = Number(b.price_digital ?? (b.is_paid ? b.price : 0)) || 0;
+        const paper    = Number(b.price_print   ?? 0) || 0;
+        const canOrder = !!orderEmail(b);
+        const parts    = [];
 
-            // بلا بريد للمؤلف لا وجهة للطلب — نُعطّل الزرّ
-            // بدل أن نفتح نافذةً لا تؤدّي إلى شيء
-            if (!orderEmail(b)) {
-                box.innerHTML = price + `
-                    <button class="btn-act disabled" disabled>
-                        <i class='bx bx-envelope'></i> الطلب غير متاح حالياً
-                    </button>
-                    <p class="act-hint">
-                        <i class='bx bx-info-circle'></i>
-                        <span>
-                            بيانات التواصل مع المؤلف غير متوفّرة —
-                            <a href="/about.html#contact">راسل الدار</a> للاستفسار
-                        </span>
-                    </p>
-                `;
-                return;
-            }
+        /* ---------- النسخة الإلكترونية ---------- */
 
-            box.innerHTML = price + `
-                <button class="btn-act primary" id="buyBtn" type="button">
-                    <i class='bx bx-cart-alt'></i> اطلب الكتاب
-                </button>
-                <p class="act-hint">
-                    <i class='bx bx-info-circle'></i>
-                    حدّد عدد النسخ، ثم أرسل طلبك إلى المؤلف مباشرةً
-                </p>
-            `;
-            return;
+        if (digital > 0) {
+            // مدفوعة: لا زرّ تنزيل — إخفاؤه أوضح من عرضه ثمّ منعه
+            parts.push(`
+                <div class="offer">
+                    <div class="offer-top">
+                        <i class='bx bx-file'></i>
+                        <span>النسخة الإلكترونية</span>
+                        <b class="offer-price">${formatPrice(digital)}</b>
+                    </div>
+                    ${canOrder ? `
+                        <button class="btn-act primary" data-buy="digital" type="button">
+                            <i class='bx bx-cart-alt'></i> اطلب النسخة الإلكترونية
+                        </button>` : `
+                        <button class="btn-act disabled" disabled>
+                            <i class='bx bx-envelope'></i> الطلب غير متاح حالياً
+                        </button>`}
+                </div>`);
+
+        } else if (file) {
+            const url = file.url || `/api/books/${b.id}/download/${file.id}`;
+            parts.push(`
+                <div class="offer free">
+                    <div class="offer-top">
+                        <i class='bx bx-file'></i>
+                        <span>النسخة الإلكترونية</span>
+                        <b class="offer-price free">مجاناً</b>
+                    </div>
+                    <div class="offer-btns">
+                        <a class="btn-act primary" href="${escapeAttr(url)}" download>
+                            <i class='bx bx-download'></i> تحميل الكتاب
+                        </a>
+                        <a class="btn-act ghost" href="${escapeAttr(url)}" target="_blank" rel="noopener">
+                            <i class='bx bx-book-open'></i> قراءة
+                        </a>
+                    </div>
+                    ${file.size_human ? `
+                        <p class="act-hint">
+                            <i class='bx bx-file'></i>
+                            <span>${escapeText(String(file.type || "").toUpperCase())} · ${escapeText(file.size_human)}</span>
+                        </p>` : ""}
+                </div>`);
         }
 
-        if (!file) {
+        /* ---------- النسخة الورقية ---------- */
+
+        if (paper > 0) {
+            parts.push(`
+                <div class="offer">
+                    <div class="offer-top">
+                        <i class='bx bx-book'></i>
+                        <span>النسخة الورقية</span>
+                        <b class="offer-price">${formatPrice(paper)}</b>
+                    </div>
+                    ${canOrder ? `
+                        <button class="btn-act primary" data-buy="print" type="button">
+                            <i class='bx bx-cart-alt'></i> اطلب نسخة مطبوعة
+                        </button>
+                        <p class="act-hint">
+                            <i class='bx bx-info-circle'></i>
+                            <span>حدّد عدد النسخ، ثم أرسل طلبك إلى المؤلف مباشرةً</span>
+                        </p>` : `
+                        <button class="btn-act disabled" disabled>
+                            <i class='bx bx-envelope'></i> الطلب غير متاح حالياً
+                        </button>`}
+                </div>`);
+        }
+
+        if (parts.length === 0) {
             box.innerHTML = `
                 <button class="btn-act disabled" disabled>
                     <i class='bx bx-x'></i> غير متوفّر للتنزيل
-                </button>
-            `;
+                </button>`;
             return;
         }
 
-        // url جاهز من الخادم إن وُجد (روابط موقَّتة)،
-        // وإلّا فمسار التنزيل المعتاد
-        const url = file.url || `/api/books/${b.id}/download/${file.id}`;
-
-        box.innerHTML = `
-            <a class="btn-act primary" href="${escapeAttr(url)}" download>
-                <i class='bx bx-download'></i> تحميل الكتاب
-            </a>
-            <a class="btn-act ghost" href="${escapeAttr(url)}" target="_blank" rel="noopener">
-                <i class='bx bx-book-open'></i> قراءة
-            </a>
-            ${file.size_human ? `
+        if ((digital > 0 || paper > 0) && !canOrder) {
+            parts.push(`
                 <p class="act-hint">
-                    <i class='bx bx-file'></i>
-                    ${escapeText(String(file.type || "").toUpperCase())} · ${escapeText(file.size_human)}
-                </p>` : ""}
-        `;
+                    <i class='bx bx-info-circle'></i>
+                    <span>
+                        بيانات التواصل مع المؤلف غير متوفّرة —
+                        <a href="/about.html#contact">راسل الدار</a> للاستفسار
+                    </span>
+                </p>`);
+        }
+
+        box.innerHTML = parts.join("");
     }
 
 
@@ -277,11 +314,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     : escapeText((a.name || "؟").charAt(0));
             }
 
-            // السطر التعريفي يُبنى ممّا توفّر فقط
+            /* الرتبة وعدد الكتب — الجنسية والسنوات
+               لم تعودا تُجمَعان في استمارة النشر */
             const bits = [];
-            if (a.nationality) bits.push(a.nationality);
-            if (a.birth_year)  bits.push(`${a.birth_year}${a.death_year ? ` — ${a.death_year}` : ""}`);
-            if (a.books_count) bits.push(`${a.books_count} كتاباً في المكتبة`);
+            const rank = { professor: "أستاذ", doctor: "دكتور", researcher: "باحث" }[a.title];
+            if (rank) bits.push(rank);
+            if (a.books_count) {
+                bits.push(`${a.books_count} ${Number(a.books_count) === 1 ? "كتاب" : "كتباً"} في المكتبة`);
+            }
             setText("authorMeta", bits.join(" · "));
 
             const bio = document.getElementById("authorBio");
@@ -365,21 +405,18 @@ document.addEventListener("DOMContentLoaded", () => {
        ======================================== */
 
     function initBuyModal(b) {
-        if (!b.is_paid) return;
+        const digital = Number(b.price_digital ?? (b.is_paid ? b.price : 0)) || 0;
+        const paper   = Number(b.price_print   ?? 0) || 0;
+        if (!digital && !paper) return;
 
         const overlay = document.getElementById("buyOverlay");
         if (!overlay) return;
 
-        // renderActions عطّل الزرّ أصلاً في هذه الحالة،
-        // لكن لا نبني نافذة بلا وجهة على أي حال
         const target = orderEmail(b);
         if (!target) return;
 
-        setText("buyBookTitle", b.title);
-        setText("buyUnitPrice", formatPrice(b.price));
-        setText("targetEmail", target);
-
         const qtyInput = document.getElementById("buyQty");
+        const qtyBox   = document.getElementById("buyQtyBox");
         const totalBox = document.getElementById("buyTotal");
         const btAmount = document.getElementById("btAmount");
         const btLabel  = document.getElementById("btLabel");
@@ -387,39 +424,48 @@ document.addEventListener("DOMContentLoaded", () => {
         const mailBtn  = document.getElementById("mailBtn");
         const copyMsg  = document.getElementById("copyMsgBtn");
 
-        const unit = Number(b.price) || 0;
         const MAXQ = 99;
+        let kind = paper ? "print" : "digital";
 
+        setText("buyBookTitle", b.title);
+        setText("targetEmail", target);
 
-        /* ---------- التسعير ---------- */
+        const unit = () => (kind === "print" ? paper : digital);
 
+        // أسعار الجملة للورقية وحدها — لا معنى لشراء
+        // ثلاث نسخ من ملفٍ إلكتروني واحد
         function tierPrice(q) {
+            if (kind !== "print") return 0;
             const t = Number(b[`price_${q}`] || 0);
             return t > 0 ? t : 0;
         }
 
-        function totalFor(q) {
-            return tierPrice(q) || unit * q;
-        }
+        function totalFor(q) { return tierPrice(q) || unit() * q; }
 
         function qty() {
+            if (kind === "digital") return 1;
             const n = Math.floor(Number(qtyInput?.value) || 1);
             return Math.min(Math.max(n, 1), MAXQ);
         }
 
-
-        /* ---------- التحديث ---------- */
-
         function sync() {
-            const q     = qty();
-            if (qtyInput) qtyInput.value = q;
+            const q = qty();
+            if (qtyInput && kind === "print") qtyInput.value = q;
+
+            const isPrint = kind === "print";
+
+            setText("buyKind", isPrint ? "النسخة الورقية" : "النسخة الإلكترونية");
+            setText("buyUnitPrice", formatPrice(unit()));
+            setText("buyUnitNote", isPrint ? "للنسخة الواحدة" : "نسخة واحدة");
+
+            const icon = document.getElementById("buyIcon");
+            if (icon) icon.className = isPrint ? "bx bx-book" : "bx bx-file";
+
+            if (qtyBox)   qtyBox.hidden   = !isPrint;
+            if (totalBox) totalBox.hidden = !(isPrint && q >= 2);
 
             const total = totalFor(q);
-            const plain = unit * q;
-
-            // نسخة واحدة: السعر معروض أصلاً في الأعلى،
-            // فإظهار «المجموع = نفس الرقم» ضجيج
-            if (totalBox) totalBox.hidden = q < 2;
+            const plain = unit() * q;
 
             if (btLabel)  btLabel.textContent  = `المجموع · ${q} نسخ`;
             if (btAmount) btAmount.textContent = formatPrice(total);
@@ -438,29 +484,21 @@ document.addEventListener("DOMContentLoaded", () => {
             buildMessage(q, total);
         }
 
-
-        /* ---------- الرسالة الجاهزة ---------- */
-
         let subject = "", body = "";
 
         function buildMessage(q, total) {
+            const label = kind === "print" ? "نسخة ورقية" : "نسخة إلكترونية";
             subject = `طلب كتاب: ${b.title}`;
-            /* لا نطلب اسماً ولا هاتفاً: الرسالة تصل من بريد
-               المشتري نفسه، فالمؤلف يردّ عليه مباشرةً. كل
-               سطر فارغ يُترك للمستخدم ليملأه فرصة انسحاب. */
             body =
                 `السلام عليكم،\n\n` +
                 `أرغب في الحصول على الكتاب التالي:\n\n` +
                 `• اسم الكتاب: ${b.title}\n` +
                 `• اسم المؤلف: ${b.author?.name || "—"}\n` +
-                `• عدد النسخ المطلوبة: ${q}\n` +
+                `• الصيغة المطلوبة: ${label}\n` +
+                (kind === "print" ? `• عدد النسخ المطلوبة: ${q}\n` : "") +
                 `• المبلغ الإجمالي: ${formatPrice(total)}\n\n` +
                 `أرجو إعلامي بطريقة الدفع والتسليم.`;
 
-            /* mailto يعتمد على برنامج بريد مثبَّت على الجهاز —
-               ومعظم من يستعمل Gmail من المتصفّح لا يملك واحداً،
-               فلا يحدث شيء عند النقر. لذلك نفتح Gmail مباشرة،
-               ونترك النسخ كبديل مضمون في كل الحالات. */
             if (mailBtn) {
                 mailBtn.href =
                     `https://mail.google.com/mail/?view=cm&fs=1` +
@@ -471,9 +509,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 mailBtn.rel    = "noopener";
             }
         }
-
-
-        /* ---------- المقياس ---------- */
 
         document.getElementById("qtyMinus")?.addEventListener("click", () => {
             if (qtyInput) qtyInput.value = Math.max(1, qty() - 1);
@@ -488,11 +523,6 @@ document.addEventListener("DOMContentLoaded", () => {
         qtyInput?.addEventListener("input", sync);
         qtyInput?.addEventListener("blur",  sync);
 
-        sync();
-
-
-        /* ---------- النسخ ---------- */
-
         copyMsg?.addEventListener("click", () => {
             navigator.clipboard.writeText(
                 `إلى: ${target}\nالموضوع: ${subject}\n\n${body}`
@@ -502,20 +532,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
         copyBtn("mailCopy", () => target);
 
+        const close = () => { overlay.hidden = true; document.body.style.overflow = ""; };
 
-        /* ---------- الفتح والإغلاق ---------- */
+        // كل زرّ طلب يفتح النافذة على نوعه
+        document.querySelectorAll("[data-buy]").forEach(btn => {
+            btn.addEventListener("click", () => {
+                kind = btn.dataset.buy;
+                if (qtyInput) qtyInput.value = 1;
+                sync();
+                overlay.hidden = false;
+                document.body.style.overflow = "hidden";
+            });
+        });
 
-        const open  = () => { overlay.hidden = false; document.body.style.overflow = "hidden"; };
-        const close = () => { overlay.hidden = true;  document.body.style.overflow = ""; };
-
-        document.getElementById("buyBtn")?.addEventListener("click", open);
         document.getElementById("buyClose")?.addEventListener("click", close);
-
         overlay.addEventListener("click", e => { if (e.target === overlay) close(); });
         document.addEventListener("keydown", e => {
             if (e.key === "Escape" && !overlay.hidden) close();
         });
+
+        sync();
     }
+
 
     function copyBtn(id, getText) {
         const btn = document.getElementById(id);

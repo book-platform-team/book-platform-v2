@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حسابي - مكتبة سامي الرقمية</title>
+
+    <meta name="description" content="حساب المؤلف في دار سامي — بياناتك وكتبك وكلمة السرّ.">
+    <link rel="canonical" href="https://sami-library.com/account.html">
+
+    <!-- صفحة خاصة — لا تُفهرس ولا تُشارَك -->
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+    <meta name="theme-color" content="#7a0c16">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/assets/css/auth.css">
+    <link rel="stylesheet" href="/assets/css/account.css">
+</head>
+
+<body data-page="account">
+
+    <div id="site-header"></div>
+
+
+    <!-- ريثما تُعرف حالة الجلسة -->
+    <div class="acc-wait" id="accWait">
+        <i class='bx bx-loader-alt bx-spin'></i>
+        <span>جارٍ فتح حسابك...</span>
+    </div>
+
+
+    <!-- زائر — لا جلسة -->
+    <section class="acc-guest" id="accGuest" hidden>
+        <div class="wrap">
+            <i class='bx bx-lock-alt'></i>
+            <h1>هذه الصفحة لأصحاب الحسابات</h1>
+            <p>سجّل الدخول لترى بياناتك وكتبك. وإن لم تنشر معنا بعد، يُنشأ حسابك تلقائياً عند نشر كتابك الأول.</p>
+            <div class="acc-guest-btns">
+                <a href="/login.html?next=/account.html" class="acc-btn">
+                    <i class='bx bx-log-in-circle'></i> تسجيل الدخول
+                </a>
+                <a href="/upload-book.html" class="acc-btn ghost">
+                    <i class='bx bx-upload'></i> انشر كتابك
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ══════ الحساب ══════ -->
+    <main id="accMain" hidden>
+
+        <!-- ---------- الترويسة ---------- -->
+        <header class="acc-hero">
+            <div class="wrap">
+                <div class="acc-id">
+                    <div class="acc-ava" id="accAva">؟</div>
+                    <div class="acc-idtext">
+                        <span class="acc-kicker">حسابي</span>
+                        <h1 id="accName">—</h1>
+                        <p id="accMail" dir="ltr">—</p>
+                    </div>
+                    <button type="button" class="acc-out" id="accLogout">
+                        <i class='bx bx-log-out'></i> تسجيل الخروج
+                    </button>
+                </div>
+
+                <a href="#" class="acc-public" id="accPublic" hidden>
+                    <i class='bx bx-link-external'></i>
+                    <span>اعرض صفحتي كما يراها الزوّار</span>
+                </a>
+            </div>
+        </header>
+
+
+        <section class="section acc-section">
+            <div class="wrap acc-wrap">
+
+                <!-- ══ بياناتي ══ -->
+                <article class="acc-card">
+                    <header class="acc-head">
+                        <h2><i class='bx bx-user'></i> بياناتي</h2>
+                        <p>ما تكتبه هنا يُملأ تلقائياً في كل كتاب تنشره لاحقاً.</p>
+                    </header>
+
+                    <div class="auth-alert" id="profAlert" hidden></div>
+
+                    <form id="profForm" novalidate>
+
+                        <div class="grid-2">
+                            <div class="field">
+                                <label for="acc_name">الاسم واللقب <span>*</span></label>
+                                <input type="text" id="acc_name" required>
+                            </div>
+
+                            <div class="field">
+                                <label for="acc_title">الرتبة العلمية</label>
+                                <select id="acc_title">
+                                    <option value="none">بلا رتبة</option>
+                                    <option value="professor">أستاذ</option>
+                                    <option value="doctor">دكتور</option>
+                                    <option value="researcher">باحث</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="field">
+                                <label for="acc_email">البريد الإلكتروني</label>
+                                <input type="email" id="acc_email" dir="ltr" readonly class="locked">
+                                <small>بريدك هو هوية حسابك — لتغييره راسل الدار.</small>
+                            </div>
+
+                            <div class="field">
+                                <label for="acc_phone">رقم الهاتف <span>*</span></label>
+                                <input type="tel" id="acc_phone" dir="ltr" required>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="acc_address">العنوان <span>*</span></label>
+                            <input type="text" id="acc_address" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="acc_bio">نبذة عنك <span>*</span></label>
+                            <textarea id="acc_bio" rows="4" required></textarea>
+                            <small>هذه النبذة وحدها تظهر للزوّار في صفحتك.</small>
+                        </div>
+
+                        <div class="field">
+                            <label for="acc_extra">معلومات أخرى <em>(اختياري)</em></label>
+                            <textarea id="acc_extra" rows="3"></textarea>
+                        </div>
+
+                        <button type="submit" class="acc-btn" id="profSave">
+                            <i class='bx bx-save'></i> احفظ التعديلات
+                        </button>
+                    </form>
+                </article>
+
+
+                <!-- ══ كلمة السرّ ══ -->
+                <article class="acc-card">
+                    <header class="acc-head">
+                        <h2><i class='bx bx-key'></i> كلمة السرّ</h2>
+                        <p>غيّرها متى شئت. تحتاج كلمتك الحالية للتأكيد.</p>
+                    </header>
+
+                    <div class="auth-alert" id="pwAlert" hidden></div>
+
+                    <form id="pwForm" novalidate>
+                        <div class="field">
+                            <label for="cur_pw">كلمة السرّ الحالية <span>*</span></label>
+                            <div class="auth-pass">
+                                <input type="password" id="cur_pw" autocomplete="current-password">
+                                <button type="button" class="auth-eye" aria-label="إظهار"><i class='bx bx-show'></i></button>
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="field">
+                                <label for="new_pw">الجديدة <span>*</span></label>
+                                <div class="auth-pass">
+                                    <input type="password" id="new_pw" autocomplete="new-password">
+                                    <button type="button" class="auth-eye" aria-label="إظهار"><i class='bx bx-show'></i></button>
+                                </div>
+                                <div class="pw-meter"><span></span></div>
+                                <small class="pw-note" id="newNote"></small>
+                            </div>
+
+                            <div class="field">
+                                <label for="new_pw2">تأكيدها <span>*</span></label>
+                                <div class="auth-pass">
+                                    <input type="password" id="new_pw2" autocomplete="new-password">
+                                    <button type="button" class="auth-eye" aria-label="إظهار"><i class='bx bx-show'></i></button>
+                                </div>
+                                <small id="new2Note"></small>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="acc-btn ghost" id="pwSave">
+                            <i class='bx bx-lock-alt'></i> غيّر كلمة السرّ
+                        </button>
+                    </form>
+                </article>
+
+
+                <!-- ══ كتبي ══ -->
+                <article class="acc-card">
+                    <header class="acc-head">
+                        <h2><i class='bx bx-library'></i> كتبي</h2>
+                        <p>الكتب المنشورة باسمك في المكتبة.</p>
+                    </header>
+
+                    <div class="books-grid" id="accBooks"></div>
+
+                    <a href="/upload-book.html" class="acc-btn" id="accPublish">
+                        <i class='bx bx-upload'></i> انشر كتاباً جديداً
+                    </a>
+                </article>
+
+            </div>
+        </section>
+    </main>
+
+
+    <div id="site-footer"></div>
+
+    <!-- ⚠️ الترتيب إجباري: api → auth → auth-ui → partials → الصفحة -->
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/auth-ui.js"></script>
+    <script src="/assets/js/partials.js"></script>
+    <script src="/assets/js/account.js"></script>
+</body>
+</html>

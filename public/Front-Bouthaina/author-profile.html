@@ -6,7 +6,7 @@
     <title>المؤلف - مكتبة سامي الرقمية</title>
 
 
-    <meta name="description" content="صفحة المؤلف في مكتبة سامي الرقمية — نبذة عنه وقائمة كتبه المنشورة.">
+    <meta name="description" content="صفحة المؤلف في مكتبة سامي الرقمية — سيرته وقائمة كتبه المنشورة.">
     <link rel="canonical" href="https://sami-library.com/author-profile.html">
 
     <!-- الأيقونة -->
@@ -45,10 +45,15 @@
 
     <!-- ========================================
          👤 ترويسة المؤلف
+         ----------------------------------------
+         لا يُعرض هنا إلا ما يدخله المؤلف بنفسه
+         ويقصد نشره: الاسم والرتبة والصورة والسيرة.
+
+         بريده وهاتفه وعنوانه و«معلومات أخرى» تصل
+         الدار ولا تغادرها — وعدناه بذلك في شروط
+         النشر، والوعد يُنفَّذ في الكود لا في النصّ.
          ======================================== -->
     <section class="ap-hero">
-        <div class="ap-mesh" aria-hidden="true"></div>
-
         <div class="wrap">
             <!-- مسار التنقّل -->
             <nav class="crumbs reveal" aria-label="مسار التنقّل">
@@ -71,12 +76,7 @@
          ======================================== -->
     <section class="section ap-bio-section" id="bioSection" hidden>
         <div class="wrap">
-            <header class="section-head reveal">
-                <div>
-                    <span class="kicker">نبذة</span>
-                    <h2>عن المؤلف</h2>
-                </div>
-            </header>
+            <h2 class="ap-h2"><i class='bx bx-user-voice'></i> السيرة الذاتية</h2>
             <div class="ap-bio reveal" id="authorBio"></div>
         </div>
     </section>
@@ -85,17 +85,14 @@
     <!-- ========================================
          📚 كتب المؤلف
          ======================================== -->
-    <section class="section">
+    <section class="section ap-books-section">
         <div class="wrap">
-            <header class="section-head reveal">
-                <div>
-                    <span class="kicker">أعماله</span>
-                    <h2>كتب المؤلف</h2>
-                </div>
-                <a href="/library.html" class="link-more">
+            <div class="ap-books-head">
+                <h2 class="ap-h2"><i class='bx bx-library'></i> كتبه في المكتبة</h2>
+                <a href="/index.html" class="link-more">
                     كل الكتب <i class='bx bx-chevron-left'></i>
                 </a>
-            </header>
+            </div>
 
             <div class="books-grid stagger" id="authorBooks"></div>
         </div>
@@ -105,6 +102,7 @@
     <div id="site-footer"></div>
 
     <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/auth.js"></script>
     <script src="/assets/js/partials.js"></script>
     <script src="/assets/js/author-profile.js"></script>
 </body>

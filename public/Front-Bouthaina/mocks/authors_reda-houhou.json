@@ -1,0 +1,33 @@
+{
+  "success": true,
+  "data": {
+    "id": 111,
+    "name": "أحمد رضا حوحو",
+    "slug": "reda-houhou",
+    "bio": "من روّاد القصة القصيرة في الجزائر، جمع بين السخرية اللاذعة والنقد الاجتماعي. كتب قصصاً قصيرة تلتقط تناقضات مجتمعه في مشاهد سريعة.",
+    "photo": null,
+    "books_count": 1,
+    "books": [
+      {
+        "id": 11,
+        "slug": "qisas-qasira-jazairia",
+        "title": "قصص قصيرة جزائرية",
+        "cover": null,
+        "author": {
+          "id": 111,
+          "name": "أحمد رضا حوحو",
+          "slug": "reda-houhou"
+        },
+        "category": {
+          "id": 13,
+          "name": "قصص قصيرة",
+          "slug": "short-stories"
+        },
+        "publication_type": "author_submission",
+        "is_paid": false,
+        "price": null
+      }
+    ],
+    "title": "none"
+  }
+}

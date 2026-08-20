@@ -1670,3 +1670,57 @@ body {
     width: 100%;
     max-width: 100%;
 }
+
+/* ========================================
+   👤 رابط «حسابي» في الهيدر
+   ----------------------------------------
+   يظهر للمؤلف الداخل وحده. أهدأ من زرّ المفضّلة
+   عمداً: حدّ رفيع بدل حدّ سميك، فالهيدر لا يحتمل
+   زرّين محاطين بالعنّابي جنباً إلى جنب.
+   ======================================== */
+
+.btn-acc-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .45rem 1rem;
+    margin-inline-start: .5rem;
+    border: 1px solid var(--border);
+    border-radius: 25px;
+    background: var(--bg-alt);
+    color: var(--text);
+    font-size: .8rem;
+    font-weight: 700;
+    white-space: nowrap;
+    max-width: 11rem;
+    overflow: hidden;
+    transition: var(--transition-sm);
+}
+
+.btn-acc-link[hidden] { display: none; }
+
+.btn-acc-link i {
+    font-size: 1.15rem;
+    color: var(--primary);
+    flex-shrink: 0;
+    transition: color .2s ease;
+}
+
+.btn-acc-link span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-acc-link:hover,
+.btn-acc-link.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+}
+
+.btn-acc-link:hover i,
+.btn-acc-link.active i { color: #fff; }
+
+@media (max-width: 992px) {
+    .btn-acc-link { display: none; }
+}

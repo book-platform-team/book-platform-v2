@@ -6,78 +6,102 @@
       "name": "الطاهر وطار",
       "slug": "tahar-wattar",
       "photo": null,
-      "books_count": 6,
-      "rating": 4.6,
-      "is_house_author": true
+      "books_count": 1,
+      "title": "none"
     },
     {
       "id": 102,
       "name": "آسيا جبار",
       "slug": "assia-djebar",
       "photo": null,
-      "books_count": 4,
-      "rating": 4.2,
-      "is_house_author": true
+      "books_count": 1,
+      "title": "none"
     },
     {
       "id": 103,
       "name": "محمد بن صالح العثيمين",
       "slug": "ibn-uthaymeen",
       "photo": null,
-      "books_count": 9,
-      "rating": 4.9,
-      "is_house_author": false
+      "books_count": 1,
+      "title": "doctor"
     },
     {
       "id": 104,
       "name": "أبو القاسم سعد الله",
       "slug": "saadallah",
       "photo": null,
-      "books_count": 7,
-      "rating": 4.7,
-      "is_house_author": false
+      "books_count": 1,
+      "title": "professor"
     },
     {
       "id": 105,
       "name": "إبراهيم الفقي",
       "slug": "ibrahim-elfiky",
       "photo": null,
-      "books_count": 3,
-      "rating": 3.9,
-      "is_house_author": false
+      "books_count": 1,
+      "title": "none"
     },
     {
       "id": 106,
       "name": "علي الوردي",
       "slug": "ali-alwardi",
       "photo": null,
-      "books_count": 5,
-      "rating": 4.4,
-      "is_house_author": false
+      "books_count": 1,
+      "title": "doctor"
     },
     {
       "id": 107,
       "name": "مولود فرعون",
       "slug": "mouloud-feraoun",
       "photo": null,
-      "books_count": 2,
-      "rating": 0,
-      "is_house_author": true
+      "books_count": 1,
+      "title": "none"
     },
     {
       "id": 108,
+      "name": "عبد الرحمن السحيم",
+      "slug": "alsuhaim",
+      "photo": null,
+      "books_count": 1,
+      "title": "researcher"
+    },
+    {
+      "id": 109,
+      "name": "مصطفى محمود",
+      "slug": "mostafa-mahmoud",
+      "photo": null,
+      "books_count": 1,
+      "title": "doctor"
+    },
+    {
+      "id": 110,
       "name": "مالك بن نبي",
       "slug": "malek-bennabi",
       "photo": null,
-      "books_count": 8,
-      "rating": 4.5,
-      "is_house_author": false
+      "books_count": 1,
+      "title": "researcher"
+    },
+    {
+      "id": 111,
+      "name": "أحمد رضا حوحو",
+      "slug": "reda-houhou",
+      "photo": null,
+      "books_count": 1,
+      "title": "none"
+    },
+    {
+      "id": 112,
+      "name": "شكيب أرسلان",
+      "slug": "shakib-arslan",
+      "photo": null,
+      "books_count": 1,
+      "title": "none"
     }
   ],
   "meta": {
     "current_page": 1,
     "last_page": 1,
     "per_page": 24,
-    "total": 8
+    "total": 12
   }
 }

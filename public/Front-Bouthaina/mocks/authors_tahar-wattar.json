@@ -6,12 +6,7 @@
     "slug": "tahar-wattar",
     "bio": "من الأصوات المؤسِّسة للرواية الجزائرية المكتوبة بالعربية. اشتغل على الذاكرة الجماعية وتحوّلات المجتمع بعد الاستقلال، وكتب عن القرية والمدينة بلغةٍ تجمع بين الفصاحة وإيقاع الكلام اليومي.",
     "photo": null,
-    "nationality": "الجزائر",
-    "birth_year": 1936,
-    "death_year": 2010,
-    "is_house_author": true,
     "books_count": 1,
-    "rating": 4.6,
     "books": [
       {
         "id": 1,
@@ -24,14 +19,15 @@
           "slug": "tahar-wattar"
         },
         "category": {
-          "id": 1,
-          "name": "الروايات والقصص الأدبية",
-          "slug": "novels"
+          "id": 11,
+          "name": "روايات عربية",
+          "slug": "arabic-novels"
         },
-        "ratings_avg": 4.6,
-        "ratings_count": 18,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": false,
+        "price": null
       }
-    ]
+    ],
+    "title": "none"
   }
 }

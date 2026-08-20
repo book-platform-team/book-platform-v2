@@ -4,14 +4,9 @@
     "id": 107,
     "name": "مولود فرعون",
     "slug": "mouloud-feraoun",
-    "bio": "كاتب ومعلّم، نقل حياة القرية القبائلية إلى الأدب بصدقٍ خالٍ من التزيين. كتب عن الفقر والكرامة والتعليم كما عاشها لا كما تُروى.",
+    "bio": "معلّم وروائي كتب عن القرية القبائلية وفقر أهلها وكرامتهم. نصوصه شهادة على حياةٍ يومية نادراً ما وجدت من يرويها.",
     "photo": null,
-    "nationality": "الجزائر",
-    "birth_year": 1913,
-    "death_year": 1962,
-    "is_house_author": true,
     "books_count": 1,
-    "rating": 0,
     "books": [
       {
         "id": 7,
@@ -28,10 +23,11 @@
           "name": "الروايات والقصص الأدبية",
           "slug": "novels"
         },
-        "ratings_avg": 0,
-        "ratings_count": 0,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": false,
+        "price": null
       }
-    ]
+    ],
+    "title": "none"
   }
 }

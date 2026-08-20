@@ -1,8 +1,8 @@
 {
   "success": true,
   "data": {
-    "id": "demo",
-    "slug": "demo",
+    "id": 1,
+    "slug": "rihla-fi-dhakirat-alwatan",
     "title": "رحلة في ذاكرة الوطن",
     "subtitle": null,
     "description": "عملٌ يتنقّل بين المدينة والقرية ليرسم صورة جيلٍ عاش التحوّل الكبير. يتتبّع الكاتب أثر المكان في تشكيل الذاكرة، وكيف تصير التفاصيل الصغيرة — بابٌ قديم، رائحة مطر، صوت مؤذّن — علاماتٍ على زمنٍ كامل. نصٌّ يقرأ التاريخ من نافذة البيت لا من دفاتر الرسميات.",
@@ -14,9 +14,9 @@
       "photo": null
     },
     "category": {
-      "id": 1,
-      "name": "الروايات والقصص الأدبية",
-      "slug": "novels"
+      "id": 11,
+      "name": "روايات عربية",
+      "slug": "arabic-novels"
     },
     "language": "ar",
     "pages": 248,
@@ -24,27 +24,30 @@
     "edition": "الطبعة الثانية",
     "isbn": "978-9947-0-1234-5",
     "publication_type": "house_edition",
-    "is_paid": true,
-    "price": 1200,
+    "is_paid": false,
     "published_at": "2026-01-14T10:00:00Z",
     "downloads_count": 1412,
     "views_count": 8930,
-    "ratings_avg": 4.6,
-    "ratings_count": 18,
     "files": [
       {
-        "id": 22,
+        "id": 11,
         "type": "pdf",
         "size": 4380000,
-        "size_human": "4.2 MB"
+        "size_human": "4.2 MB",
+        "url": "/mocks/sample-book.pdf"
       },
       {
-        "id": 23,
+        "id": 12,
         "type": "epub",
         "size": 1120000,
-        "size_human": "1.1 MB"
+        "size_human": "1.1 MB",
+        "url": "/mocks/sample-book.pdf"
       }
     ],
-    "my_rating": null
+    "price_print": 900,
+    "price_digital": null,
+    "price_2": 1700,
+    "price_3": 2400,
+    "sale_email": "wattar.print@example.dz"
   }
 }

@@ -4,14 +4,9 @@
     "id": 104,
     "name": "أبو القاسم سعد الله",
     "slug": "saadallah",
-    "bio": "مؤرّخ كرّس عمره لتوثيق التاريخ الثقافي الجزائري، وجمع ما تناثر من المخطوطات والوثائق في عملٍ مرجعي واسع.",
+    "bio": "مؤرّخ كرّس عمره لتوثيق الحركة الثقافية الجزائرية، وجمع من الأرشيف ما كاد يضيع. يُعدّ من أهمّ من كتبوا في تاريخ الجزائر الثقافي.",
     "photo": null,
-    "nationality": "الجزائر",
-    "birth_year": 1930,
-    "death_year": 2013,
-    "is_house_author": false,
     "books_count": 1,
-    "rating": 4.7,
     "books": [
       {
         "id": 4,
@@ -24,14 +19,15 @@
           "slug": "saadallah"
         },
         "category": {
-          "id": 1,
-          "name": "التاريخ",
-          "slug": "history"
+          "id": 31,
+          "name": "تاريخ الجزائر",
+          "slug": "algeria-history"
         },
-        "ratings_avg": 4.7,
-        "ratings_count": 25,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": true,
+        "price": 1200
       }
-    ]
+    ],
+    "title": "professor"
   }
 }

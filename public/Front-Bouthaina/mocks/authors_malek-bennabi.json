@@ -4,14 +4,9 @@
     "id": 110,
     "name": "مالك بن نبي",
     "slug": "malek-bennabi",
-    "bio": "مفكّر اشتغل على أسئلة النهضة والحضارة، وصاغ مفاهيم لتحليل أسباب التخلّف بعيداً عن التفسيرات الجاهزة.",
+    "bio": "مفكّر اشتغل على سؤال الحضارة: لماذا تتقدّم أمّة وتتأخّر أخرى؟ صاغ مفاهيم صارت مفاتيح في الفكر العربي الحديث، أشهرها «القابلية للاستعمار».",
     "photo": null,
-    "nationality": "الجزائر",
-    "birth_year": 1905,
-    "death_year": 1973,
-    "is_house_author": false,
     "books_count": 1,
-    "rating": 4.5,
     "books": [
       {
         "id": 10,
@@ -24,14 +19,15 @@
           "slug": "malek-bennabi"
         },
         "category": {
-          "id": 1,
+          "id": 5,
           "name": "العلوم السياسية",
           "slug": "political-science"
         },
-        "ratings_avg": 4.5,
-        "ratings_count": 20,
-        "publication_type": "house_edition"
+        "publication_type": "house_edition",
+        "is_paid": false,
+        "price": null
       }
-    ]
+    ],
+    "title": "researcher"
   }
 }

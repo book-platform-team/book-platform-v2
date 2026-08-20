@@ -207,14 +207,21 @@
             <div class="buy-head">
                 <h2 id="buyTitle">طلب الكتاب</h2>
                 <p class="buy-book" id="buyBookTitle">—</p>
+
+                <!-- الصيغة المطلوبة — تتبدّل حسب الزرّ المنقور -->
+                <div class="buy-kind">
+                    <i class='bx bx-book' id="buyIcon"></i>
+                    <span id="buyKind">—</span>
+                </div>
+
                 <div class="buy-price">
                     <span id="buyUnitPrice">—</span>
-                    <small>للنسخة الواحدة</small>
+                    <small id="buyUnitNote">للنسخة الواحدة</small>
                 </div>
             </div>
 
-            <!-- ١ · عدد النسخ -->
-            <div class="buy-qty">
+            <!-- ١ · عدد النسخ — للورقية وحدها -->
+            <div class="buy-qty" id="buyQtyBox">
                 <label for="buyQty">حدّد عدد النسخ المطلوبة</label>
 
                 <div class="qty-stepper">
@@ -270,8 +277,8 @@
                 <i class='bx bx-info-circle'></i>
                 <span>
                     تُكمَل باقي الإجراءات — الدفع والتسليم — بينك وبين المؤلف عبر البريد،
-                    <strong>والدار ليست طرفاً في المعاملة</strong>، فتحقّق من هوية من
-                    تراسله قبل تحويل أي مبلغ.
+                    <strong>والدار ليست طرفاً في المعاملة</strong>، 
+                    .
                 </span>
             </p>
 
@@ -282,6 +289,7 @@
     <div id="site-footer"></div>
 
     <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/auth.js"></script>
     <script src="/assets/js/partials.js"></script>
     <script src="/assets/js/book.js"></script>
 </body>

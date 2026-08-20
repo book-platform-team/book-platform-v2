@@ -63,12 +63,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const links = children.length
                 ? children.map(sub => `
-                    <a href="/library.html?category=${encodeURIComponent(sub.slug)}">
+                    <a href="/index.html?category=${encodeURIComponent(sub.slug)}">
                         ${escapeText(sub.name)}
                         <span class="sub-count">${sub.books_count ?? 0}</span>
                     </a>
                   `).join("")
-                : `<a href="/library.html?category=${encodeURIComponent(cat.slug)}">
+                : `<a href="/index.html?category=${encodeURIComponent(cat.slug)}">
                         تصفّح كل كتب القسم
                    </a>`;
 
