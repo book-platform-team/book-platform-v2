@@ -10,6 +10,10 @@ ErrorDocument 404 /404.html
 # إجبار HTTPS
 <IfModule mod_rewrite.c>
     RewriteEngine On
+     DirectoryIndex index.html index.php
+
+    # قبل النشر: أزيلي # من السطر التالي لمنع البيانات الوهمية
+    # RewriteRule ^mocks/ - [F,L]
     DirectoryIndex index.html index.php
     RewriteCond %{HTTPS} off
     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
