@@ -12,11 +12,15 @@ class Category extends Model
     protected $fillable = [
         'name',
         'slug',
-        'description',
+        'icon',
         'parent_id',
+        'is_fallback',
     ];
 
-    // العلاقات
+    protected $casts = [
+        'is_fallback' => 'boolean',
+    ];
+
     public function parent()
     {
         return $this->belongsTo(Category::class, 'parent_id');
@@ -29,6 +33,13 @@ class Category extends Model
 
     public function books()
     {
-        return $this->belongsToMany(Book::class, 'book_category');
+        return $this->hasMany(Book::class);
+    }
+
+    public function allChildIds(): array
+    {
+        return $this->children()->pluck('id')
+            ->merge($this->children->flatMap(fn ($c) => $c->allChildIds()))
+            ->push($this->id)->toArray();
     }
 }
