@@ -233,7 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                     ${canOrder ? `
                         <button class="btn-act primary" data-buy="print" type="button">
-                            <i class='bx bx-cart-alt'></i> اطلب نسخة مطبوعة
+                            <i class='bx bx-cart-alt'></i> اطلب النسخة الورقية
                         </button>
                         <p class="act-hint">
                             <i class='bx bx-info-circle'></i>
