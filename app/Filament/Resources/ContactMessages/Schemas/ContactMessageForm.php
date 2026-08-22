@@ -12,27 +12,16 @@ class ContactMessageForm
     {
         return $schema
             ->components([
-                TextInput::make('type')
-                    ->required(),
-                TextInput::make('name')
-                    ->required(),
-                TextInput::make('email')
-                    ->label('Email address')
-                    ->email()
-                    ->required(),
-                TextInput::make('phone')
-                    ->tel(),
-                TextInput::make('subject')
-                    ->required(),
-                Textarea::make('message')
-                    ->required()
-                    ->columnSpanFull(),
-                TextInput::make('book_title'),
-                TextInput::make('pages')
-                    ->numeric(),
-                TextInput::make('size'),
-                TextInput::make('copies'),
-                TextInput::make('ip'),
+                TextInput::make('type')->label('النوع')->disabled(),
+                TextInput::make('name')->label('الاسم')->disabled(),
+                TextInput::make('email')->label('البريد')->email()->disabled(),
+                TextInput::make('phone')->label('الهاتف')->tel()->disabled(),
+                TextInput::make('subject')->label('الموضوع')->disabled(),
+                Textarea::make('message')->label('الرسالة')->columnSpanFull()->disabled(),
+                TextInput::make('book_title')->label('عنوان الكتاب')->disabled(),
+                TextInput::make('pages')->label('الصفحات')->disabled(),
+                TextInput::make('size')->label('المقاس')->disabled(),
+                TextInput::make('ip')->label('IP')->disabled(),
             ]);
     }
 }

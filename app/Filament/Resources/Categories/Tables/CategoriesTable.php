@@ -15,35 +15,23 @@ class CategoriesTable
     {
         return $table
             ->columns([
-                TextColumn::make('name')
-                    ->searchable(),
-                TextColumn::make('slug')
-                    ->searchable(),
-                TextColumn::make('icon')
-                    ->searchable(),
-                TextColumn::make('parent_id')
-                    ->numeric()
-                    ->sortable(),
-                IconColumn::make('is_fallback')
-                    ->boolean(),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
+                TextColumn::make('name')->label('الاسم')->searchable(),
+                TextColumn::make('parent.name')->label('القسم الأب')->placeholder('— قسم رئيسي —'),
+                TextColumn::make('icon')->label('الأيقونة'),
+                TextColumn::make('books_count')->label('عدد الكتب')->counts('books')->sortable(),
+                IconColumn::make('is_fallback')->label('قسم "أخرى"')->boolean(),
+                TextColumn::make('created_at')->label('تاريخ الإضافة')->dateTime()->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()->label('تعديل'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->label('حذف'),
                 ]),
             ]);
     }

@@ -14,39 +14,28 @@ class AuthorsTable
     {
         return $table
             ->columns([
-                TextColumn::make('user_id')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('name')
-                    ->searchable(),
-                TextColumn::make('slug')
-                    ->searchable(),
-                TextColumn::make('title')
-                    ->searchable(),
-                TextColumn::make('photo')
-                    ->searchable(),
-                TextColumn::make('phone')
-                    ->searchable(),
-                TextColumn::make('address')
-                    ->searchable(),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
+                TextColumn::make('name')->label('الاسم')->searchable(),
+                TextColumn::make('title')->label('اللقب')
+                    ->formatStateUsing(fn ($state) => match ($state) {
+                        'professor' => 'أستاذ',
+                        'doctor' => 'دكتور',
+                        'researcher' => 'باحث',
+                        default => 'بلا لقب',
+                    }),
+                TextColumn::make('books_count')->label('عدد الكتب')->counts('books')->sortable(),
+                TextColumn::make('user.email')->label('البريد (إن وُجد حساب)')->placeholder('بلا حساب'),
+                TextColumn::make('created_at')->label('تاريخ الإضافة')->dateTime()->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()->label('تعديل'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->label('حذف'),
                 ]),
             ]);
     }
