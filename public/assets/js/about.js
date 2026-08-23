@@ -4,7 +4,7 @@
    ⚠️ الهيدر · القائمة · الفوتر · observeReveals
       →  كلها في partials.js
    ----------------------------------------
-   العقد (API.md):  POST /api/contact
+   الرسالة تذهب إلى بريد الدار مباشرةً — لا خادم.
      { name, email, phone?, type, subject?, message }
    ======================================== */
 
@@ -96,25 +96,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!validate(data, els)) return;
 
-        const original = submit.innerHTML;
-        submit.disabled  = true;
-        submit.innerHTML = `<i class='bx bx-loader-alt bx-spin'></i><span>جارٍ الإرسال...</span>`;
+        /* الرسالة تذهب إلى بريد الدار مباشرةً لا إلى
+           الخادم. ولا await قبل الفتح — التأخير يجعل
+           المتصفّح يحجب النافذة. */
+        const kinds = {
+            general: "استفسار عام",
+            publish_request: "استفسار عن النشر",
+            order: "استفسار عن طلب",
+            other: "أخرى",
+        };
 
-        try {
-            await apiPost("/contact", data);
+        const subject = `${kinds[data.type] || "رسالة"} — ${data.name}`;
+        const body =
+            `${data.message}\n\n` +
+            `——————————\n` +
+            `الاسم: ${data.name}\n` +
+            `البريد: ${data.email}\n` +
+            `الموضوع: ${kinds[data.type] || "—"}`;
 
-            showAlert("ok", "تم استلام رسالتك، سنتواصل معك قريباً");
-            form.reset();
-            [els.name, els.email, els.message].forEach(el => markInvalid(el, false));
+        openHouseMail(subject, body);
 
-        } catch (error) {
-            console.error("Error sending contact form:", error);
-            showAlert("err", error.message || "تعذّر إرسال الرسالة، حاولي مرة أخرى");
+        showAlert("ok", "فتحنا لك رسالة جاهزة إلى بريد الدار — أرسلها وسنردّ عليك.");
 
-        } finally {
-            submit.disabled  = false;
-            submit.innerHTML = original;
+        // لوحة بديلة لمن حُجبت عنده النافذة
+        const box = document.getElementById("cfAlert");
+        if (box && !box.querySelector(".mail-fb")) {
+            box.insertAdjacentHTML("beforeend", houseMailFallback(subject, body));
         }
+
+        form.reset();
+        [els.name, els.email, els.message].forEach(el => markInvalid(el, false));
     });
 
 
