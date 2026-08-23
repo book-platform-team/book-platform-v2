@@ -42,19 +42,25 @@ class SubmissionsTable
             ->recordActions([
                 EditAction::make()->label('عرض التفاصيل'),
 
-                Action::make('approve')
-                    ->label('قبول')
-                    ->icon('heroicon-o-check')
-                    ->color('success')
-                    ->visible(fn ($record) => $record->status === 'pending')
-                    ->requiresConfirmation()
-                    ->action(function ($record) {
-                        $book = Book::withoutGlobalScope(ApprovedScope::class)->find($record->book_id);
-                        $book->update(['status' => 'approved', 'published_at' => now()]);
-                        $record->update(['status' => 'approved']);
+             Action::make('approve')
+    ->label('قبول')
+    ->icon('heroicon-o-check')
+    ->color('success')
+    ->visible(fn ($record) => $record->status === 'pending')
+    ->requiresConfirmation()
+    ->action(function ($record) {
+        $book = Book::withoutGlobalScope(ApprovedScope::class)->find($record->book_id);
+        $book->update(['status' => 'approved', 'published_at' => now()]);
+        $record->update(['status' => 'approved']);
 
-                        Notification::make()->title('تم قبول الكتاب ونشره')->success()->send();
-                    }),
+        // إرسال كود تأكيد sale_email تلقائيا عند الموافقة
+        if ($book->sale_email) {
+            app(\App\Http\Controllers\SaleEmailController::class)
+                ->sendVerificationCode($book);
+        }
+
+        Notification::make()->title('تم قبول الكتاب ونشره')->success()->send();
+    }),
 
                 Action::make('reject')
     ->label('رفض')

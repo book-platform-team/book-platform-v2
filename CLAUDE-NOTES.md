@@ -38,3 +38,12 @@
 - `DB_*` = بيانات Render (عبر متغيرات بيئة، ماشي `.env` مباشرة)
 - `MAIL_MAILER=smtp` + بيانات SMTP حقيقية (ضروري لـ sale_email verification و password reset)
 - `SANCTUM_STATEFUL_DOMAINS` و `SESSION_DOMAIN` = دومين الإنتاج فقط
+## 10. تحديثات بثينة (بعد المراجعة) — 23 أوت 2026
+
+- `has_sale_email`/`sale_email_verified` تأكدت في `GET /api/auth/me` (ضمن `books[]`)، الشكل النهائي:
+  `{ id, slug, title, status, has_sale_email, sale_email_verified }` — منفذ ومختبر.
+- العميل بدّل القرار: فقط "نشر كتاب" (`/api/submissions`) يمر بالباك. البقية (طباعة كتاب،
+  "أرسل لنا"، بلاغ حقوق نشر) تروح مباشرة لبريد الدار من الفرونت. `POST /api/contact` **تبقى
+  فعالة بلا حذف** (احتياط)، لكن الفرونت لن يستدعيها — `contact_messages` ستبقى فارغة، وهذا متوقع.
+- بيانات الدار الحقيقية: `darsami39000@gmail.com`, هاتف `0668 00 59 70` — حُطّت في الفرونت من طرف بثينة.
+- SMTP حقيقي مفعّل (Gmail App Password) — `forgotPassword()` و`sendVerificationCode()` يرسلان فعلياً.

@@ -161,22 +161,33 @@ class AuthController extends Controller
         return response()->json(['success' => true, 'data' => null]);
     }
 
-    private function userPayload(User $user): array
-    {
-        $author = $user->author;
+   private function userPayload(User $user): array
+{
+    $author = $user->author;
 
-        return [
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-            'title' => $author->title ?? 'none',
-            'phone' => $author->phone ?? null,
-            'address' => $author->address ?? null,
-            'bio' => $author->bio ?? null,
-            'extra' => $author->extra ?? '',
-            'photo' => $author->photo ?? null,
-            'slug' => $author->slug ?? null,
-            'books_count' => $author ? $author->books()->count() : 0,
-        ];
-    }
+    return [
+        'id' => $user->id,
+        'name' => $user->name,
+        'email' => $user->email,
+        'title' => $author->title ?? 'none',
+        'phone' => $author->phone ?? null,
+        'address' => $author->address ?? null,
+        'bio' => $author->bio ?? null,
+        'extra' => $author->extra ?? '',
+        'photo' => $author->photo ?? null,
+        'slug' => $author->slug ?? null,
+        'books_count' => $author ? $author->books()->count() : 0,
+        'books' => $author ? $author->books()
+            ->withoutGlobalScope(\App\Models\Scopes\ApprovedScope::class)
+            ->get()
+            ->map(fn ($book) => [
+                'id' => $book->id,
+                'slug' => $book->slug,
+                'title' => $book->title,
+                'status' => $book->status,
+                'has_sale_email' => ! is_null($book->sale_email),
+                'sale_email_verified' => $book->sale_email_verified,
+            ]) : [],
+    ];
+}
 }

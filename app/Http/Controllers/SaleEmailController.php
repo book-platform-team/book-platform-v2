@@ -7,15 +7,14 @@ use App\Models\Scopes\ApprovedScope;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class SaleEmailController extends Controller
 {
-    public function requestCode(Request $request, int $bookId)
+    public function sendVerificationCode(Book $book): void
     {
-        $book = Book::withoutGlobalScope(ApprovedScope::class)->findOrFail($bookId);
-
         if (! $book->sale_email) {
-            return response()->json(['success' => false, 'message' => 'لا يوجد بريد بيع لهذا الكتاب'], 422);
+            return;
         }
 
         $code = random_int(100000, 999999);
@@ -29,7 +28,21 @@ class SaleEmailController extends Controller
             'updated_at' => now(),
         ]);
 
-        \Log::info('SALE EMAIL VERIFICATION CODE: '.$code); // TODO: أرسل بالبريد فعليا
+        Mail::raw(
+            "رمز تأكيد بريد البيع لكتابك \"{$book->title}\" هو: {$code}\nصالح لمدة 15 دقيقة.",
+            fn ($message) => $message->to($book->sale_email)->subject('تأكيد بريد البيع — دار سامي')
+        );
+    }
+
+    public function requestCode(Request $request, int $bookId)
+    {
+        $book = Book::withoutGlobalScope(ApprovedScope::class)->findOrFail($bookId);
+
+        if (! $book->sale_email) {
+            return response()->json(['success' => false, 'message' => 'لا يوجد بريد بيع لهذا الكتاب'], 422);
+        }
+
+        $this->sendVerificationCode($book);
 
         return response()->json(['success' => true, 'data' => null]);
     }
