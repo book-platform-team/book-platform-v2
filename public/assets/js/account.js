@@ -188,35 +188,165 @@ document.addEventListener("DOMContentLoaded", () => {
        📚 كتبي
        ======================================== */
 
-    async function loadBooks(u) {
-        const grid = document.getElementById("accBooks");
-        if (!grid) return;
+    /* ========================================
+       📚 كتبي + تأكيد بريد البيع
+       ----------------------------------------
+       تُبنى من user.books القادمة مع /auth/me،
+       لأنّ حالة البريد بيانات خاصّة بصاحب الحساب
+       ولا تخرج في أي مسار عام.
 
-        // بلا slug لا كتب منشورة بعد — أول كتاب قيد المراجعة
-        if (!u.slug) return empty(grid, "لم يُنشر لك كتاب بعد", "أول كتاب ترسله يظهر هنا بعد موافقة الدار.");
+       أربع حالات لكل كتاب:
+         pending                  → قيد المراجعة، لا رمز أُرسل بعد
+         approved بلا بريد بيع     → لا شيء يُؤكَّد
+         approved ببريد غير مؤكَّد → شريط التأكيد
+         مؤكَّد                    → علامة خضراء
 
-        showLoading(grid, 4);
+       والحالة الأولى مهمّة: الرمز يُرسَل عند موافقة
+       الدار لا عند الإرسال. فعرض «أكّد بريدك» لكتاب
+       معلَّق يجعل المؤلف ينتظر بريداً لن يصل.
+       ======================================== */
 
-        try {
-            const res   = await apiGet(`/authors/${encodeURIComponent(u.slug)}`);
-            const books = res?.data?.books || [];
+    function loadBooks(u) {
+        const box = document.getElementById("accBooks");
+        if (!box) return;
 
-            if (books.length === 0) {
-                return empty(grid, "لم يُنشر لك كتاب بعد",
-                             "أول كتاب ترسله يظهر هنا بعد موافقة الدار.");
-            }
+        const books = Array.isArray(u.books) ? u.books : [];
 
-            renderBookGrid(grid, books);
-
-        } catch (error) {
-            console.error("Error loading my books:", error);
-            empty(grid, "تعذّر تحميل كتبك", "تحقّق من اتصالك وأعد تحميل الصفحة.");
+        if (books.length === 0) {
+            return empty(box, "لم يُنشر لك كتاب بعد",
+                         "أول كتاب ترسله يظهر هنا بعد موافقة الدار.");
         }
+
+        box.className = "acc-books";
+        box.innerHTML = books.map(bookRow).join("");
     }
 
-    function empty(grid, title, note) {
-        grid.className = "acc-empty";
-        grid.innerHTML = `
+    function bookRow(b) {
+        const pending  = b.status === "pending";
+        const rejected = b.status === "rejected";
+        const needs    = b.status === "approved" && b.has_sale_email && !b.sale_email_verified;
+        const done     = b.has_sale_email && b.sale_email_verified;
+
+        const title = b.slug
+            ? `<a href="/book.html?slug=${encodeURIComponent(b.slug)}">${escapeText(b.title)}</a>`
+            : escapeText(b.title || "—");
+
+        const chip =
+            pending  ? `<span class="ab-chip wait"><i class='bx bx-time-five'></i> قيد المراجعة</span>` :
+            rejected ? `<span class="ab-chip no"><i class='bx bx-x'></i> غير مقبول</span>` :
+            done     ? `<span class="ab-chip ok"><i class='bx bx-check-shield'></i> بريد البيع مؤكَّد</span>` :
+            needs    ? `<span class="ab-chip warn"><i class='bx bx-error-circle'></i> بريد البيع غير مؤكَّد</span>` :
+                       `<span class="ab-chip ok"><i class='bx bx-check'></i> منشور</span>`;
+
+        return `
+            <article class="acc-book" data-book="${escapeAttr(b.id)}">
+                <div class="ab-main">
+                    <b class="ab-title">${title}</b>
+                    ${chip}
+                </div>
+
+                ${needs ? `
+                    <div class="ab-verify">
+                        <p class="ab-lead">
+                            <i class='bx bx-envelope'></i>
+                            <span>
+                                أرسلنا رمزاً من ٦ أرقام إلى بريد البيع الذي حدّدته.
+                                أدخله ليظهر البريد في صفحة كتابك.
+                            </span>
+                        </p>
+
+                        <div class="ab-alert" hidden></div>
+
+                        <div class="ab-row">
+                            <input type="text" class="ab-code" inputmode="numeric"
+                                   maxlength="6" placeholder="——————"
+                                   aria-label="رمز التأكيد">
+                            <button type="button" class="acc-btn ab-go">
+                                <i class='bx bx-check'></i> تأكيد
+                            </button>
+                        </div>
+
+                        <button type="button" class="ab-resend">
+                            لم يصلني الرمز — أعد الإرسال
+                        </button>
+                    </div>` : ""}
+            </article>`;
+    }
+
+
+    /* ---------- تفويض الأحداث ----------
+       الصفوف تُرسم بعد التحميل، فالتفويض أضمن
+       من ربط مستمع لكل زرّ عند الرسم */
+
+    document.getElementById("accBooks")?.addEventListener("input", (e) => {
+        if (!e.target.classList.contains("ab-code")) return;
+        // أرقام فقط — اللصق من البريد يجلب مسافات أحياناً
+        e.target.value = e.target.value.replace(/\D/g, "").slice(0, 6);
+        e.target.closest(".ab-verify")?.querySelector(".ab-alert")?.setAttribute("hidden", "");
+    });
+
+    document.getElementById("accBooks")?.addEventListener("click", async (e) => {
+        const card = e.target.closest(".acc-book");
+        if (!card) return;
+
+        const id    = card.dataset.book;
+        const wrap  = card.querySelector(".ab-verify");
+        const alert = wrap?.querySelector(".ab-alert");
+
+        /* ---------- إعادة الإرسال ---------- */
+        const resend = e.target.closest(".ab-resend");
+        if (resend) {
+            const old = busy(resend, "جارٍ الإرسال...");
+            try {
+                await apiPost(`/books/${encodeURIComponent(id)}/sale-email/request`, {});
+                rowSay(alert, "ok", "أُرسل رمز جديد إلى بريد البيع");
+            } catch (err) {
+                rowSay(alert, "err", err?.message || "تعذّر إرسال الرمز");
+            } finally {
+                unbusy(resend, old);
+            }
+            return;
+        }
+
+        /* ---------- التأكيد ---------- */
+        const go = e.target.closest(".ab-go");
+        if (!go) return;
+
+        const input = card.querySelector(".ab-code");
+        if (!input || input.value.length !== 6) {
+            rowSay(alert, "err", "الرمز ستّة أرقام");
+            input?.focus();
+            return;
+        }
+
+        const old = busy(go, "جارٍ التحقّق...");
+        try {
+            await apiPost(`/books/${encodeURIComponent(id)}/sale-email/verify`,
+                          { code: input.value });
+
+            // نحدّث الحالة محلياً ونعيد الرسم — أخفّ من
+            // إعادة تحميل الصفحة، والنتيجة نفسها
+            const b = (me.books || []).find(x => String(x.id) === String(id));
+            if (b) b.sale_email_verified = true;
+            loadBooks(me);
+
+        } catch (err) {
+            rowSay(alert, "err", err?.message || "الرمز غير صحيح أو انتهت صلاحيته");
+            unbusy(go, old);
+        }
+    });
+
+    function rowSay(box, kind, text) {
+        if (!box) return;
+        box.hidden = false;
+        box.className = `ab-alert ${kind}`;
+        box.innerHTML = `<i class='bx bx-${kind === "ok" ? "check" : "error"}-circle'></i>
+                         <span>${escapeText(text)}</span>`;
+    }
+
+    function empty(box, title, note) {
+        box.className = "acc-empty";
+        box.innerHTML = `
             <i class='bx bx-book-open'></i>
             <b>${escapeText(title)}</b>
             <span>${escapeText(note)}</span>
