@@ -1,2 +1,6 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /mocks/
+Disallow: /admin
+
+Sitemap: https://sami-library.com/sitemap.xml
