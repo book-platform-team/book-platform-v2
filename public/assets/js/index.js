@@ -8,7 +8,7 @@
      GET  /api/books?q=&category=&page=
      GET  /api/categories
      GET  /api/authors
-     POST /api/contact          (بلاغ حقوق النشر)
+     بلاغ حقوق النشر → بريد الدار مباشرةً
    ======================================== */
 
 document.addEventListener("DOMContentLoaded", () => {

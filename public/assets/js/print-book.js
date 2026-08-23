@@ -6,11 +6,13 @@
    استمارة واحدة تُرسَل إلى الإدارة، فتردّ
    بعرض سعر على بريد مقدّم الطلب.
 
-   لا مرفقات في هذه الاستمارة، فالإرسال JSON
-   عادي لا multipart — أبسط على الطرفين.
+   الطلب يذهب إلى بريد الدار مباشرةً لا إلى
+   الخادم — قرار العميل. وحده «نشر كتاب» يمرّ
+   بالخادم لأنّه يُنشئ حساباً وسجلّ كتاب.
 
-   العقد: POST /api/contact  (type = print_request)
-   ملاحظة للخادم: copies مصفوفة أعداد، لا رقماً.
+   نفتح Gmail لا mailto: فـmailto يحتاج برنامج
+   بريد مثبَّتاً، ومن يستعمل Gmail من المتصفّح
+   لا يملك واحداً — فلا يحدث شيء عند النقر.
    ======================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -201,56 +203,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!validate()) return;
 
-        const original = submit.innerHTML;
-        submit.disabled  = true;
-        submit.innerHTML = `<i class='bx bx-loader-alt bx-spin'></i> جارٍ الإرسال...`;
+        const copies = chosenQty();
+        const size   = chosenSize();
 
-        try {
-            const copies = chosenQty();
-            const size   = chosenSize();
+        const subject = `طلب طباعة: ${v("pr_book")}`;
+        const body =
+            `طلب طباعة كتاب\n\n` +
+            `• اسم الكتاب: ${v("pr_book")}\n` +
+            `• عدد الصفحات: ${v("pr_pages")}\n` +
+            `• حجم الكتاب: ${sizeText(size)}\n` +
+            `• الكميات المطلوب تسعيرها: ${copies.join(" · ")} نسخة\n\n` +
+            `——————————\n` +
+            `الاسم: ${v("pr_name")}\n` +
+            `البريد: ${v("pr_email")}\n` +
+            (v("pr_phone") ? `الهاتف: ${v("pr_phone")}\n` : "") +
+            `\nأرجو إرسال عرض السعر. وشكراً.`;
 
-            /* نجمع البيانات في نصّ واحد مرتّب — الإدارة تقرأ
-               رسالة واحدة مفهومة لا حقولاً متناثرة. */
-            const message =
-                `طلب طباعة كتاب\n\n` +
-                `• اسم الكتاب: ${v("pr_book")}\n` +
-                `• عدد الصفحات: ${v("pr_pages")}\n` +
-                `• حجم الكتاب: ${sizeText(size)}\n` +
-                `• الكميات المطلوب تسعيرها: ${copies.join(" · ")} نسخة\n`;
-
-            await apiPost("/contact", {
-                type:       "print_request",
-                name:       v("pr_name"),
-                email:      v("pr_email"),
-                phone:      v("pr_phone"),
-                subject:    `طلب طباعة: ${v("pr_book")}`,
-                message,
-                book_title: v("pr_book"),
-                pages:      Number(v("pr_pages")),
-                size,                  // A4 | A5 | 16x24
-                copies,                // مصفوفة: حتى ثلاثة أعداد
-            });
-
-            showDone();
-
-        } catch (error) {
-            console.error("Error sending print request:", error);
-
-            const msg = error.errors
-                ? Object.values(error.errors).flat().join(" · ")
-                : (error.message || "تعذّر إرسال المعلومات، حاول مرة أخرى");
-
-            showAlert(msg);
-            submit.disabled  = false;
-            submit.innerHTML = original;
-        }
+        /* بلا await قبل الفتح — أي تأخير يجعل المتصفّح
+           يعتبر النافذة غير مطلوبة من المستخدم فيحجبها */
+        openHouseMail(subject, body);
+        showDone(subject, body);
     });
 
 
-    function showDone() {
-        setText("doneEmail", v("pr_email"));
+    function showDone(subject, body) {
         form.hidden = true;
-        if (doneBox) doneBox.hidden = false;
+        if (!doneBox) return;
+
+        doneBox.hidden = false;
+
+        // لوحة بديلة لمن حُجبت عنده نافذة Gmail
+        if (subject && !doneBox.querySelector(".mail-fb")) {
+            doneBox.insertAdjacentHTML("beforeend", houseMailFallback(subject, body));
+        }
+
         window.scrollTo({ top: 0, behavior: "smooth" });
     }
 

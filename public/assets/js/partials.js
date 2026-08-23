@@ -152,8 +152,8 @@ const FOOTER_HTML = `
                 <h3><i class='bx bx-message-square-detail'></i> تواصل معنا</h3>
                 <ul class="contact-info">
                     <li><i class='bx bx-map'></i><span>الجزائر</span></li>
-                    <li><i class='bx bx-envelope'></i><span>contact@sami-library.com</span></li>
-                    <li><i class='bx bx-phone'></i><span dir="ltr">+213 555 123 456</span></li>
+                    <li><i class='bx bx-envelope'></i><span>darsami39000@gmail.com</span></li>
+                    <li><i class='bx bx-phone'></i><span dir="ltr">0668 00 59 70</span></li>
                 </ul>
             </div>
 
@@ -657,10 +657,10 @@ const REPORT_HTML = `
 
         <div class="report-done" id="reportDone" hidden>
             <i class='bx bx-check-circle'></i>
-            <h3>وصلنا بلاغك</h3>
+            <h3>بلاغك جاهز للإرسال</h3>
             <p>
-                ستراجعه الإدارة بأولوية، ويصلك الردّ على بريدك.
-                وإن ثبت الحقّ، يُوقَف عرض الكتاب فوراً.
+                فتحنا لك رسالة مكتوبة إلى بريد الدار — <b>أرسلها لتصل</b>.
+                ستراجعها الإدارة بأولوية، وإن ثبت الحقّ يُوقَف عرض الكتاب.
             </p>
             <button class="btn-send" id="reportOk" type="button">حسناً</button>
         </div>
@@ -731,19 +731,20 @@ function initReport() {
         };
         data.message = `[${labels[reason] || "بلاغ"}]\n\n${data.message}`;
 
-        const original = submit.innerHTML;
-        submit.disabled  = true;
-        submit.innerHTML = `<i class='bx bx-loader-alt bx-spin'></i> جارٍ الإرسال...`;
+        /* البلاغ يذهب إلى بريد الدار مباشرةً.
+           لا await قبل الفتح — التأخير يجعل المتصفّح
+           يحجب النافذة باعتبارها غير مطلوبة. */
+        const subject = `بلاغ حقوق نشر: ${data.subject}`;
+        const body =
+            `بلاغ بخصوص حقوق النشر\n\n` +
+            `• الكتاب: ${data.subject}\n` +
+            `• صفة المُبلِّغ: ${labels[reason] || "—"}\n` +
+            `• الاسم: ${data.name}\n` +
+            `• البريد: ${data.email}\n\n` +
+            `التفاصيل:\n${v("rp_message")}`;
 
-        try {
-            await apiPost("/contact", data);
-            showDone();
-        } catch (error) {
-            console.error("Error sending report:", error);
-            showAlert(error.message || "تعذّر إرسال البلاغ، حاول مرة أخرى");
-            submit.disabled  = false;
-            submit.innerHTML = original;
-        }
+        openHouseMail(subject, body);
+        showDone(subject, body);
     });
 
     form?.addEventListener("input", e => {
@@ -751,9 +752,16 @@ function initReport() {
         if (alertEl) alertEl.hidden = true;
     });
 
-    function showDone() {
-        if (form)    form.hidden    = true;
-        if (doneBox) doneBox.hidden = false;
+    function showDone(subject, body) {
+        if (form) form.hidden = true;
+        if (!doneBox) return;
+
+        doneBox.hidden = false;
+
+        // لوحة بديلة لمن حُجبت عنده نافذة Gmail
+        if (subject && !doneBox.querySelector(".mail-fb")) {
+            doneBox.insertAdjacentHTML("beforeend", houseMailFallback(subject, body));
+        }
     }
 
     function bad(id, msg) {
@@ -811,6 +819,76 @@ if (typeof Auth !== "undefined") {
         }
     });
 }
+
+
+/* ========================================
+   📧 مراسلة الدار
+   ----------------------------------------
+   ثلاثة نماذج تذهب إلى بريد الدار مباشرةً لا
+   إلى الخادم: طلب الطباعة، ونموذج «أرسل لنا»،
+   وبلاغ حقوق النشر.
+
+   وحده «نشر كتاب» يذهب إلى الخادم، لأنّه يُنشئ
+   حساباً وسجلّ كتاب وتراجعه الدار في لوحتها.
+
+   نفتح Gmail لا mailto: لأنّ mailto يحتاج برنامج
+   بريد مثبَّتاً على الجهاز، ومعظم من يستعمل Gmail
+   من المتصفّح لا يملك واحداً — فلا يحدث شيء عند
+   النقر. والنسخ يبقى بديلاً مضموناً في الحالتين.
+   ======================================== */
+
+const HOUSE = {
+    email: "darsami39000@gmail.com",
+    phone: "0668005970",
+};
+
+/** يبني رابط إنشاء رسالة في Gmail */
+function houseMailUrl(subject, body) {
+    return `https://mail.google.com/mail/?view=cm&fs=1` +
+           `&to=${encodeURIComponent(HOUSE.email)}` +
+           `&su=${encodeURIComponent(subject)}` +
+           `&body=${encodeURIComponent(body)}`;
+}
+
+/* يُستدعى داخل معالج النقر مباشرةً بلا await قبله —
+   أي تأخير يجعل المتصفّح يعتبر النافذة غير مطلوبة
+   من المستخدم فيحجبها */
+function openHouseMail(subject, body) {
+    window.open(houseMailUrl(subject, body), "_blank", "noopener");
+}
+
+/** لوحة بديلة تظهر بعد الفتح — لمن حُجبت عنده النافذة */
+function houseMailFallback(subject, body) {
+    const full = `إلى: ${HOUSE.email}\nالموضوع: ${subject}\n\n${body}`;
+    return `
+        <div class="mail-fb">
+            <p>لم تُفتح نافذة البريد؟</p>
+            <div class="mail-fb-btns">
+                <a href="${escapeAttr(houseMailUrl(subject, body))}"
+                   target="_blank" rel="noopener" class="mail-fb-btn">
+                    <i class='bx bxl-gmail'></i> افتحها مجدداً
+                </a>
+                <button type="button" class="mail-fb-btn ghost"
+                        data-copy="${escapeAttr(full)}">
+                    <i class='bx bx-copy'></i> انسخ الرسالة
+                </button>
+            </div>
+            <small>أو أرسل يدوياً إلى <b dir="ltr">${escapeText(HOUSE.email)}</b></small>
+        </div>`;
+}
+
+/* النسخ مفوَّض على المستند — اللوحة تُبنى بعد التحميل */
+document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-copy]");
+    if (!btn) return;
+
+    navigator.clipboard.writeText(btn.dataset.copy).then(() => {
+        const old = btn.innerHTML;
+        btn.innerHTML = `<i class='bx bx-check'></i> نُسخت`;
+        btn.classList.add("done");
+        setTimeout(() => { btn.innerHTML = old; btn.classList.remove("done"); }, 2200);
+    });
+});
 
 
 /* ========================================
