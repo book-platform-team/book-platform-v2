@@ -204,7 +204,19 @@ const Auth = (() => {
         extra: "",
         photo: null,
         slug: "ahmed-benyoussef",
-        books_count: 1,
+        books_count: 3,
+
+        /* ثلاث حالات لتُختبر الواجهة كلّها:
+           واحد ينتظر التأكيد، وواحد مؤكَّد، وواحد
+           ما زال قيد المراجعة فلا رمز له بعد */
+        books: [
+            { id: 7,  slug: "tarikh-aljazair-alhadith", title: "تاريخ الجزائر الحديث",
+              status: "approved", has_sale_email: true,  sale_email_verified: false },
+            { id: 12, slug: "alandalus-almafquda",      title: "الأندلس المفقودة",
+              status: "approved", has_sale_email: true,  sale_email_verified: true  },
+            { id: 21, slug: null,                        title: "كتاب قيد المراجعة",
+              status: "pending",  has_sale_email: true,  sale_email_verified: false },
+        ],
     };
 
     if (typeof API !== "undefined" && API.MOCK) {
@@ -259,6 +271,27 @@ const Auth = (() => {
                     return fail(422, "الرمز غير صحيح أو انتهت صلاحيته");
                 }
                 return done(null, "تم تغيير كلمة السرّ");
+            }
+
+            /* محاكاة تأكيد بريد البيع — رمز التجربة 654321 */
+            const sale = path.match(/^\/books\/([^/]+)\/sale-email\/(request|verify)$/);
+            if (sale) {
+                const [, id, action] = sale;
+
+                if (action === "request") {
+                    return done(null, "أُرسل رمز جديد إلى بريد البيع");
+                }
+
+                if (String(body?.code || "") !== "654321") {
+                    return fail(422, "الرمز غير صحيح أو انتهت صلاحيته");
+                }
+
+                const b = (user?.books || []).find(x => String(x.id) === String(id));
+                if (b) {
+                    b.sale_email_verified = true;
+                    sessionStorage.setItem(MOCK_KEY, JSON.stringify(user));
+                }
+                return done(null, "تم تأكيد بريد البيع");
             }
 
             if (path === "/auth/profile" && method === "PUT") {
