@@ -279,7 +279,21 @@ const Auth = (() => {
                 const [, id, action] = sale;
 
                 if (action === "request") {
-                    return done(null, "أُرسل رمز جديد إلى بريد البيع");
+                    /* محاكاة: إن كان بريد البيع مؤكَّداً في كتاب
+                       آخر، يردّ الخادم بالتأكيد فوراً بلا رمز */
+                    const other = (user?.books || []).find(x =>
+                        String(x.id) !== String(id) && x.sale_email_verified);
+
+                    if (other) {
+                        const b = (user.books || []).find(x => String(x.id) === String(id));
+                        if (b) {
+                            b.sale_email_verified = true;
+                            sessionStorage.setItem(MOCK_KEY, JSON.stringify(user));
+                        }
+                        return done({ already_verified: true }, "البريد مؤكَّد سلفاً");
+                    }
+
+                    return done({ already_verified: false }, "أُرسل رمز جديد إلى بريد البيع");
                 }
 
                 if (String(body?.code || "") !== "654321") {

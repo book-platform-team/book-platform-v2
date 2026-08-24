@@ -298,7 +298,18 @@ document.addEventListener("DOMContentLoaded", () => {
         if (resend) {
             const old = busy(resend, "جارٍ الإرسال...");
             try {
-                await apiPost(`/books/${encodeURIComponent(id)}/sale-email/request`, {});
+                const res = await apiPost(
+                    `/books/${encodeURIComponent(id)}/sale-email/request`, {});
+
+                /* البريد نفسه قد يكون مؤكَّداً من كتاب سابق —
+                   التأكيد مربوط بالبريد لا بالكتاب. عندها لا
+                   يُرسَل رمز، فقول «أُرسل رمز» كذبة تجعل
+                   المؤلف ينتظر بريداً لن يصل. */
+                if (res?.data?.already_verified) {
+                    markVerified(id);
+                    return;
+                }
+
                 rowSay(alert, "ok", "أُرسل رمز جديد إلى بريد البيع");
             } catch (err) {
                 rowSay(alert, "err", err?.message || "تعذّر إرسال الرمز");
@@ -324,17 +335,21 @@ document.addEventListener("DOMContentLoaded", () => {
             await apiPost(`/books/${encodeURIComponent(id)}/sale-email/verify`,
                           { code: input.value });
 
-            // نحدّث الحالة محلياً ونعيد الرسم — أخفّ من
-            // إعادة تحميل الصفحة، والنتيجة نفسها
-            const b = (me.books || []).find(x => String(x.id) === String(id));
-            if (b) b.sale_email_verified = true;
-            loadBooks(me);
+            markVerified(id);
 
         } catch (err) {
             rowSay(alert, "err", err?.message || "الرمز غير صحيح أو انتهت صلاحيته");
             unbusy(go, old);
         }
     });
+
+    /* تحديث محلّي بدل إعادة تحميل الصفحة —
+       النتيجة نفسها وأخفّ */
+    function markVerified(id) {
+        const b = (me.books || []).find(x => String(x.id) === String(id));
+        if (b) b.sale_email_verified = true;
+        loadBooks(me);
+    }
 
     function rowSay(box, kind, text) {
         if (!box) return;
