@@ -167,12 +167,35 @@ document.addEventListener("DOMContentLoaded", () => {
        إخفاؤه أوضح من عرضه ثمّ منعه.
        ======================================== */
 
+    /* ========================================
+       💰 قراءة السعرين
+       ----------------------------------------
+       ⚠️ الفرق بين undefined و null حاسم هنا:
+
+         undefined = الخادم قديم لا يعرف الحقلين،
+                     فنعود إلى is_paid/price
+         null      = الخادم يعرفهما ويقول «لا سعر»
+
+       بـ?? وحده كان null يُفهم غياباً، فيسقط إلى
+       price ويعرض نسخة إلكترونية بسعر النسخة
+       الورقية — كتابٌ مطبوع يُباع مرّتين.
+       ======================================== */
+
+    function prices(b) {
+        const knows = b.price_print !== undefined || b.price_digital !== undefined;
+
+        return {
+            digital: Number(knows ? b.price_digital : (b.is_paid ? b.price : 0)) || 0,
+            paper:   Number(b.price_print) || 0,
+        };
+    }
+
+
     function renderActions(b, file) {
         const box = document.getElementById("bookActions");
         if (!box) return;
 
-        const digital  = Number(b.price_digital ?? (b.is_paid ? b.price : 0)) || 0;
-        const paper    = Number(b.price_print   ?? 0) || 0;
+        const { digital, paper } = prices(b);
         const canOrder = !!orderEmail(b);
         const parts    = [];
 
@@ -405,8 +428,7 @@ document.addEventListener("DOMContentLoaded", () => {
        ======================================== */
 
     function initBuyModal(b) {
-        const digital = Number(b.price_digital ?? (b.is_paid ? b.price : 0)) || 0;
-        const paper   = Number(b.price_print   ?? 0) || 0;
+        const { digital, paper } = prices(b);
         if (!digital && !paper) return;
 
         const overlay = document.getElementById("buyOverlay");

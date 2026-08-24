@@ -77,6 +77,51 @@ function mockPath(path) {
 
 
 /* ========================================
+   🖼️ مسار الملفات المرفوعة
+   ----------------------------------------
+   Laravel يخزّن في storage/app/public ويعرضه
+   على /storage. وقد يُرجع المسار نسبياً
+   («covers/x.jpg») فيطلبه المتصفّح من جذر
+   الصفحة — /covers/x.jpg — ولا يجده.
+
+   نُصلحه هنا مرّة واحدة بدل أن نكرّر الإصلاح
+   في كل موضع يعرض صورة.
+
+   ⚠️ الأصحّ أن يرسله الخادم كاملاً بـStorage::url()
+      — هذه شبكة أمان لا بديل عنه.
+   ======================================== */
+
+function fileUrl(path) {
+    const p = String(path || "").trim();
+    if (!p) return "";
+
+    // رابط كامل أو مسار مطلق سليم — يُترك كما هو
+    if (/^https?:\/\//i.test(p) || p.startsWith("/")) return p;
+    if (p.startsWith("data:")) return p;
+
+    return "/storage/" + p.replace(/^storage\//, "");
+}
+
+/** يمرّ على الردّ ويُصلح كل مسار صورة أو ملف */
+function fixPaths(json) {
+    if (API.MOCK || !json) return json;
+
+    const walk = (o) => {
+        if (Array.isArray(o)) return o.forEach(walk);
+        if (!o || typeof o !== "object") return;
+
+        for (const k of ["cover", "photo", "url"]) {
+            if (typeof o[k] === "string" && o[k]) o[k] = fileUrl(o[k]);
+        }
+        Object.values(o).forEach(walk);
+    };
+
+    walk(json.data);
+    return json;
+}
+
+
+/* ========================================
    📥 القراءة
    ======================================== */
 
@@ -100,7 +145,7 @@ async function apiGet(path) {
   // في وضع mock نطبّق الفلترة والترتيب محلياً
   // حتى تتصرّف الملفات الثابتة كأنها API حقيقي،
   // وتصبح كل الحالات (فارغ · نتائج · ترتيب) قابلة للاختبار الآن.
-  if (!API.MOCK) return json;
+  if (!API.MOCK) return fixPaths(json);
 
   if (path.includes("category=")) await ensureCatTree();
   return applyMockQuery(path, json);
