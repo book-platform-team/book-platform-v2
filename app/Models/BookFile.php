@@ -11,26 +11,24 @@ class BookFile extends Model
 
     protected $fillable = [
         'book_id',
-        'format',
-        'file_path',
-        'size_kb',
-        'downloads',
+        'type',
+        'path',
+        'size',
     ];
 
     protected $casts = [
-        'size_kb' => 'integer',
-        'downloads' => 'integer',
+        'size' => 'integer',
     ];
 
-    // العلاقة
     public function book()
     {
         return $this->belongsTo(Book::class);
     }
 
-    // مسار كامل للملف
-    public function getFullPathAttribute()
+    public function getSizeHumanAttribute(): string
     {
-        return storage_path('app/public/books/' . $this->file_path);
+        return $this->size >= 1048576
+            ? round($this->size / 1048576, 1) . ' MB'
+            : round($this->size / 1024, 1) . ' KB';
     }
 }

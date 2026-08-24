@@ -2,193 +2,192 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
-    /**
-     * تسجيل مستخدم جديد
-     */
-    public function register(Request $request)
+    public function me(Request $request)
     {
-
-
- // 🔹 تنظيف رقم الهاتف (إزالة +213، 00213، المسافات، والشرطات)
-    $phone = $request->phone;
-    
-    if ($phone) {
-        // إزالة +213 أو 00213 من البداية
-        $phone = preg_replace('/^(\+213|00213)/', '', $phone);
-        
-        // إزالة المسافات والشرطات
-        $phone = preg_replace('/[\s\-]/', '', $phone);
-        
-        // إذا الرقم بدون صفر في البداية، نضيفه
-        if (strlen($phone) === 9 && in_array(substr($phone, 0, 1), ['5', '6', '7'])) {
-            $phone = '0' . $phone;
-        }
-        
-        // تحديث الطلب بالرقم النظيف
-        $request->merge(['phone' => $phone]);
-    }
-
-
-
-
-        // التحقق من الحقول مع رسائل عربية مخصصة
-        $validator = Validator::make($request->all(), [
-            'name' => [
-                'required',
-                'string',
-                'min:2',
-                'max:50',
-                'regex:/^[\p{Arabic}a-zA-Z\s]+$/u' // يقبل العربية + الإنجليزية فقط
-            ],
-            'gender' => 'required|in:male,female',
-            'birth_date' => 'required|date|before:-6 years', // أكبر من 6 سنة
-            'email' => 'required_without:phone|nullable|email|unique:users,email',
-            'phone' => [
-                'required_without:email',
-                'nullable',
-                'regex:/^0(5|6|7)[0-9]{8}$/',
-                'unique:users,phone'
-            ],
-            'password' => [
-                'required',
-                'string',
-                'min:8',
-                'confirmed',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'
-            ],
-        ], [
-            // رسائل الأخطاء بالعربية
-            'name.required' => 'الاسم مطلوب',
-            'name.min' => 'الاسم يجب أن يحتوي على حرفين على الأقل',
-            'name.regex' => 'الاسم يجب أن يحتوي على أحرف فقط (عربي أو إنجليزي)',
-            'gender.required' => 'يرجى اختيار الجنس',
-            'birth_date.required' => 'تاريخ الميلاد مطلوب',
-            'birth_date.before' => 'يجب أن تكون أكبر من 13 سنة',
-            'email.required_without' => 'يرجى إدخال إيميل أو رقم هاتف',
-            'email.email' => 'صيغة الإيميل غير صحيحة',
-            'email.unique' => 'هذا الإيميل مسجل مسبقاً',
-            'phone.required_without' => 'يرجى إدخال إيميل أو رقم هاتف',
-            'phone.regex' => 'صيغة رقم الهاتف غير صحيحة (يجب أن يبدأ بـ 05، 06، أو 07)',
-            'phone.unique' => 'هذا الرقم مسجل مسبقاً',
-            'password.required' => 'كلمة المرور مطلوبة',
-            'password.min' => 'كلمة المرور يجب أن تحتوي على 8 أحرف على الأقل',
-            'password.confirmed' => 'تأكيد كلمة المرور غير متطابق',
-            'password.regex' => 'كلمة المرور يجب أن تحتوي على حرف كبير، صغير، ورقم',
-        ]);
-
-        // إذا فيه أخطاء ← نرجعها للمستخدم
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'بيانات غير صحيحة',
-                'errors' => $validator->errors()
-            ], 422);
+        if (! $request->user()) {
+            return response()->json(['success' => false, 'message' => 'غير مسجل الدخول'], 401);
         }
 
-        // إنشاء المستخدم
-        $user = User::create([
-            'name' => $request->name,
-            'gender' => $request->gender,
-            'birthdate' => $request->birth_date, // تأكدي أن اسم الحقل في قاعدة البيانات هو "birthdate"
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password),
-        ]);
-
-        // إنشاء توكن حقيقي (بدلاً من التوكن التجريبي)
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'success' => true,
-            'message' => 'تم إنشاء الحساب بنجاح',
-            'token' => $token,
-            'user' => $user
-        ], 201);
+        return response()->json(['success' => true, 'data' => $this->userPayload($request->user())]);
     }
 
-    /**
-     * تسجيل الدخول
-     */
     public function login(Request $request)
     {
-        
- // 🔹 تنظيف رقم الهاتف (إزالة +213، 00213، المسافات، والشرطات)
-    $phone = $request->phone;
-    
-    if ($phone) {
-        // إزالة +213 أو 00213 من البداية
-        $phone = preg_replace('/^(\+213|00213)/', '', $phone);
-        
-        // إزالة المسافات والشرطات
-        $phone = preg_replace('/[\s\-]/', '', $phone);
-        
-        // إذا الرقم بدون صفر في البداية، نضيفه
-        if (strlen($phone) === 9 && in_array(substr($phone, 0, 1), ['5', '6', '7'])) {
-            $phone = '0' . $phone;
-        }
-        
-        // تحديث الطلب بالرقم النظيف
-        $request->merge(['phone' => $phone]);
-    }
-
-
-
-
-
-
-
-        // التحقق من الحقول
-        $validator = Validator::make($request->all(), [
-            'email' => 'required_without:phone|nullable|email',
-            'phone' => 'required_without:email|nullable',
-            'password' => 'required|string|min:6',
-        ], [
-            'email.required_without' => 'يرجى إدخال إيميل أو رقم هاتف',
-            'email.email' => 'صيغة الإيميل غير صحيحة',
-            'phone.required_without' => 'يرجى إدخال إيميل أو رقم هاتف',
-            'phone.regex' => 'صيغة رقم الهاتف غير صحيحة',
-            'password.required' => 'كلمة المرور مطلوبة',
-            'password.min' => 'كلمة المرور قصيرة جداً',
+        $data = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
-        if ($validator->fails()) {
+        if (! Auth::attempt($data)) {
             return response()->json([
                 'success' => false,
-                'message' => 'بيانات غير صحيحة',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
-        // تحديد نوع الاتصال (إيميل أو هاتف)
-        $credentialsField = $request->email ? 'email' : 'phone';
-        $credentialsValue = $request->{$credentialsField};
-
-        // البحث عن المستخدم
-        $user = User::where($credentialsField, $credentialsValue)->first();
-
-        // التحقق من الباسوورد
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'بيانات الاعتماد غير صحيحة'
+                'message' => 'البريد أو كلمة السرّ غير صحيحة',
             ], 401);
         }
 
-        // إنشاء توكن حقيقي
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $request->session()->regenerate();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'تم تسجيل الدخول بنجاح',
-            'token' => $token,
-            'user' => $user
-        ], 200);
+        return response()->json(['success' => true, 'data' => $this->userPayload(Auth::user())]);
     }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+
+        $user = User::where('email', $request->email)->first();
+
+        if ($user) {
+            $code = random_int(100000, 999999);
+
+            DB::table('password_reset_codes')->updateOrInsert(
+                ['email' => $user->email],
+                [
+                    'code' => Hash::make($code),
+                    'expires_at' => now()->addMinutes(15),
+                    'used_at' => null,
+                    'attempts' => 0,
+                    'updated_at' => now(),
+                    'created_at' => now(),
+                ]
+            );
+
+           
+           // TODO: أرسل $code بالبريد (Mail::to($user->email)->send(...))
+        }
+
+        // ⚠️ نجاح دائماً — العقد يمنع تسريب "غير مسجل"
+        return response()->json(['success' => true, 'data' => null]);
+    }
+
+    public function verifyResetCode(Request $request)
+    {
+        $data = $request->validate([
+            'email' => 'required|email',
+            'code' => 'required|string',
+        ]);
+
+        $record = DB::table('password_reset_codes')->where('email', $data['email'])->first();
+
+        if (! $record || $record->used_at || now()->gt($record->expires_at) || $record->attempts >= 5) {
+            return response()->json(['success' => false, 'message' => 'الرمز غير صالح أو منتهي'], 422);
+        }
+
+        if (! Hash::check($data['code'], $record->code)) {
+            DB::table('password_reset_codes')->where('email', $data['email'])->increment('attempts');
+            return response()->json(['success' => false, 'message' => 'الرمز غير صحيح'], 422);
+        }
+
+        return response()->json(['success' => true, 'data' => null]);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $data = $request->validate([
+            'email' => 'required|email',
+            'code' => 'required|string',
+            'password' => ['required', 'confirmed', Password::defaults()->min(8)],
+        ]);
+
+        $record = DB::table('password_reset_codes')->where('email', $data['email'])->first();
+
+        if (! $record || $record->used_at || now()->gt($record->expires_at) || ! Hash::check($data['code'], $record->code)) {
+            return response()->json(['success' => false, 'message' => 'الرمز غير صالح أو منتهي'], 422);
+        }
+
+        User::where('email', $data['email'])->update(['password' => Hash::make($data['password'])]);
+
+        DB::table('password_reset_codes')->where('email', $data['email'])->update(['used_at' => now()]);
+
+        return response()->json(['success' => true, 'data' => null]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'sometimes|string|max:255',
+            'title' => 'sometimes|in:none,professor,doctor,researcher',
+            'phone' => 'sometimes|string|nullable',
+            'address' => 'sometimes|string|nullable',
+            'bio' => 'sometimes|string|nullable',
+            'extra' => 'sometimes|string|nullable',
+        ]);
+
+        $user = $request->user();
+
+        if (isset($data['name'])) {
+            $user->update(['name' => $data['name']]);
+        }
+
+        if ($user->author) {
+            $user->author->update(collect($data)->except('name')->toArray());
+        }
+
+        return response()->json(['success' => true, 'data' => $this->userPayload($user->fresh())]);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $data = $request->validate([
+            'current_password' => 'required',
+            'password' => ['required', 'confirmed', Password::defaults()->min(8)],
+        ]);
+
+        $user = $request->user();
+
+        if (! Hash::check($data['current_password'], $user->password)) {
+            return response()->json(['success' => false, 'message' => 'كلمة السرّ الحالية غير صحيحة'], 422);
+        }
+
+        $user->update(['password' => Hash::make($data['password'])]);
+
+        return response()->json(['success' => true, 'data' => null]);
+    }
+
+   private function userPayload(User $user): array
+{
+    $author = $user->author;
+
+    return [
+        'id' => $user->id,
+        'name' => $user->name,
+        'email' => $user->email,
+        'title' => $author->title ?? 'none',
+        'phone' => $author->phone ?? null,
+        'address' => $author->address ?? null,
+        'bio' => $author->bio ?? null,
+        'extra' => $author->extra ?? '',
+        'photo' => $author->photo ?? null,
+        'slug' => $author->slug ?? null,
+        'books_count' => $author ? $author->books()->count() : 0,
+        'books' => $author ? $author->books()
+            ->withoutGlobalScope(\App\Models\Scopes\ApprovedScope::class)
+            ->get()
+            ->map(fn ($book) => [
+                'id' => $book->id,
+                'slug' => $book->slug,
+                'title' => $book->title,
+                'status' => $book->status,
+                'has_sale_email' => ! is_null($book->sale_email),
+                'sale_email_verified' => $book->sale_email_verified,
+            ]) : [],
+    ];
+}
 }

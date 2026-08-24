@@ -1,30 +1,54 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Api\SocialAuthController;
-use App\Http\Controllers\Api\BookController;
+use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\SubmissionController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SaleEmailController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-*/
+Route::post('/books/{bookId}/sale-email/request', [SaleEmailController::class, 'requestCode'])
+    ->middleware('throttle:3,1');
+Route::post('/books/{bookId}/sale-email/verify', [SaleEmailController::class, 'verifyCode'])
+    ->middleware('throttle:10,1');
 
-// Routes العامة (لا تحتاج توثيق)
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+// عام — بلا حماية إضافية (قراءة فقط)
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/books', [BookController::class, 'index']);
+Route::get('/books/{slug}', [BookController::class, 'show']);
+Route::get('/books/{bookId}/download/{fileId}', [BookController::class, 'download']);
+Route::get('/authors', [AuthorController::class, 'index']);
+Route::get('/authors/{slug}', [AuthorController::class, 'show']);
 
-Route::get('/books', [BookController::class, 'index']);                    // عرض جميع الكتب
-Route::get('/books/{id}', [BookController::class, 'show']);                // تفاصيل كتاب
-Route::get('/books/{bookId}/download/{fileId}', [BookController::class, 'download']); // تنزيل كتاب
+// المصادقة
+Route::get('/auth/me', [AuthController::class, 'me']);
 
-// Routes محمية (تتطلب توكن)
+Route::post('/auth/login', [AuthController::class, 'login'])
+    ->middleware('throttle:5,1');
+
+Route::post('/auth/logout', [AuthController::class, 'logout']);
+
+Route::post('/auth/password/forgot', [AuthController::class, 'forgotPassword'])
+    ->middleware('throttle:3,1');
+
+Route::post('/auth/password/verify', [AuthController::class, 'verifyResetCode'])
+    ->middleware('throttle:10,1'); // محاولات verify أكثر تساهلاً (كود يدوي، أخطاء طباعة واردة)
+
+Route::post('/auth/password/reset', [AuthController::class, 'resetPassword'])
+    ->middleware('throttle:5,1');
+
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
-    
-    Route::post('/books', [BookController::class, 'store']);               // رفع كتاب جديد
+    Route::put('/auth/profile', [AuthController::class, 'updateProfile']);
+
+    Route::post('/auth/password/change', [AuthController::class, 'changePassword'])
+        ->middleware('throttle:5,1');
 });
+
+// النشر والتواصل — الأكثر حساسية (spam/abuse)
+Route::post('/submissions', [SubmissionController::class, 'store'])
+    ->middleware('throttle:3,60');
+
+Route::post('/contact', [ContactController::class, 'store'])
+    ->middleware('throttle:5,1');
