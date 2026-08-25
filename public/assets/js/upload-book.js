@@ -830,7 +830,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // كلمة السرّ تُرسل مرّة واحدة: عند إنشاء الحساب
-            if (!account) fd.append("password", val("password"));
+          if (!account) {
+    fd.append("password", val("password"));
+    fd.append("password_confirmation", val("password2"));
+}
 
             fd.append("rights_confirmed", "1");
 

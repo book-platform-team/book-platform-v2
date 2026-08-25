@@ -5,7 +5,7 @@
 
 const API = {
   BASE: "",         // فارغ = نفس الدومين
-  MOCK: true,       // ⭐ true = يقرأ من /mocks   |   false = يقرأ من السيرفر
+  MOCK: false,       // ⭐ true = يقرأ من /mocks   |   false = يقرأ من السيرفر
   mockSend: null,   // معالج اختياري لمحاكاة الطلبات (يسجّله auth.js)
 };
 

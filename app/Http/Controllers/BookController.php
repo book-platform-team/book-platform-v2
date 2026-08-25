@@ -118,11 +118,11 @@ class BookController extends Controller
         'price_4' => $book->price_4,
         'sale_email' => $book->sale_email_verified ? $book->sale_email : null,
         'files' => $book->files->map(fn ($f) => [
-            'id' => $f->id,
-            'type' => $f->type,
-            'size' => $f->size,
-            'size_human' => $f->size_human,
-        ]),
+    'id' => $f->id,
+    'type' => $f->type,
+    'size' => $f->size,
+    'size_human' => $f->size_human,
+]),
     ]);
 
     return response()->json(['success' => true, 'data' => $data]);
@@ -134,7 +134,7 @@ class BookController extends Controller
             'id' => $book->id,
             'slug' => $book->slug,
             'title' => $book->title,
-            'cover' => $book->cover,
+            'cover' => $book->cover ? Storage::url($book->cover) : null,
             'author' => [
                 'id' => $book->author->id,
                 'name' => $book->author->name,

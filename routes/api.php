@@ -26,8 +26,7 @@ Route::get('/authors/{slug}', [AuthorController::class, 'show']);
 Route::get('/auth/me', [AuthController::class, 'me']);
 
 Route::post('/auth/login', [AuthController::class, 'login'])
-    ->middleware('throttle:5,1');
-
+    ->middleware(['web', 'throttle:5,1']);
 Route::post('/auth/logout', [AuthController::class, 'logout']);
 
 Route::post('/auth/password/forgot', [AuthController::class, 'forgotPassword'])
@@ -48,7 +47,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // النشر والتواصل — الأكثر حساسية (spam/abuse)
 Route::post('/submissions', [SubmissionController::class, 'store'])
-    ->middleware('throttle:3,60');
-
+    ->middleware(['web', 'throttle:3,60']);
 Route::post('/contact', [ContactController::class, 'store'])
     ->middleware('throttle:5,1');

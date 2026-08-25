@@ -70,7 +70,7 @@ class AuthorController extends Controller
             'id' => $author->id,
             'name' => $author->name,
             'slug' => $author->slug,
-            'photo' => $author->photo,
+            'photo' => $author->photo ? Storage::url($author->photo) : null,
             'title' => $author->title,
             'books_count' => $author->books()->count(),
         ];
