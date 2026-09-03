@@ -12,6 +12,11 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
+        if (User::where('email', 'test@example.com')->exists()) {
+            $this->command->info('البيانات موجودة أصلا، تخطي الـseeding.');
+            return;
+        }
+
         User::factory()->create([
             'name' => 'مستخدم تجريبي',
             'email' => 'test@example.com',
