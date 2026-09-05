@@ -12,8 +12,17 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
+        if (! User::where('email', 'admin@dar-sami.dz')->exists()) {
+            User::create([
+                'name' => 'مدير الدار',
+                'email' => 'admin@dar-sami.dz',
+                'password' => bcrypt('admin12345'),
+                'is_admin' => true,
+            ]);
+        }
+
         if (User::where('email', 'test@example.com')->exists()) {
-            $this->command->info('البيانات موجودة أصلا، تخطي الـseeding.');
+            $this->command->info('بيانات التجربة موجودة أصلا، تخطي.');
             return;
         }
 
