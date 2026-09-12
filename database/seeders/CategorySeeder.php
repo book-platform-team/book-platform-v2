@@ -9,28 +9,23 @@ class CategorySeeder extends Seeder
 {
     public function run(): void
     {
-        $novels = Category::create([
-            'name' => 'الروايات والقصص الأدبية',
-            'slug' => 'novels',
-            'icon' => 'bx-book',
-        ]);
+        $novels = Category::firstOrCreate(
+            ['slug' => 'novels'],
+            ['name' => 'الروايات والقصص الأدبية', 'icon' => 'bx-book']
+        );
 
-        Category::create([
-            'name' => 'روايات عربية',
-            'slug' => 'arabic-novels',
-            'icon' => 'bx-book-open',
-            'parent_id' => $novels->id,
-        ]);
+        Category::firstOrCreate(
+            ['slug' => 'arabic-novels'],
+            ['name' => 'روايات عربية', 'icon' => 'bx-book-open', 'parent_id' => $novels->id]
+        );
 
-        Category::create(['name' => 'الحياة الإسلامية', 'slug' => 'islamic-life', 'icon' => 'bx-moon']);
-        Category::create(['name' => 'التاريخ', 'slug' => 'history', 'icon' => 'bx-time-five']);
-        Category::create(['name' => 'التنمية البشرية', 'slug' => 'self-development', 'icon' => 'bx-trending-up']);
+        Category::firstOrCreate(['slug' => 'islamic-life'], ['name' => 'الحياة الإسلامية', 'icon' => 'bx-moon']);
+        Category::firstOrCreate(['slug' => 'history'], ['name' => 'التاريخ', 'icon' => 'bx-time-five']);
+        Category::firstOrCreate(['slug' => 'self-development'], ['name' => 'التنمية البشرية', 'icon' => 'bx-trending-up']);
 
-        Category::create([
-            'name' => 'أخرى',
-            'slug' => 'other',
-            'icon' => 'bx-dots-horizontal',
-            'is_fallback' => true,
-        ]);
+        Category::firstOrCreate(
+            ['slug' => 'other'],
+            ['name' => 'أخرى', 'icon' => 'bx-dots-horizontal', 'is_fallback' => true]
+        );
     }
 }

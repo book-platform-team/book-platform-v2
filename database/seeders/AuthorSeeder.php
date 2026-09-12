@@ -10,11 +10,13 @@ class AuthorSeeder extends Seeder
     public function run(): void
     {
         // مؤلف بلا حساب (متوفى) — كيما نص العقد
-        Author::create([
-            'name' => 'الطاهر وطار',
-            'slug' => 'tahar-wattar',
-            'title' => 'none',
-            'bio' => 'روائي جزائري بارز، من أهم أعلام الأدب الجزائري المعاصر.',
-        ]);
+        Author::updateOrCreate(
+            ['slug' => 'tahar-wattar'],
+            [
+                'name' => 'الطاهر وطار',
+                'title' => 'doctor',
+                'bio' => 'روائي جزائري بارز، من أهم أعلام الأدب الجزائري المعاصر.',
+            ]
+        );
     }
 }

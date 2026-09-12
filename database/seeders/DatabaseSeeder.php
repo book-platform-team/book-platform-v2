@@ -21,21 +21,18 @@ class DatabaseSeeder extends Seeder
     ]
 );
 
-        if (User::where('email', 'test@example.com')->exists()) {
-            $this->command->info('بيانات التجربة موجودة أصلا، تخطي.');
-            return;
-        }
+        if (! User::where('email', 'test@example.com')->exists()) {
+    User::factory()->create([
+        'name' => 'مستخدم تجريبي',
+        'email' => 'test@example.com',
+        'password' => bcrypt('password123'),
+    ]);
+}
 
-        User::factory()->create([
-            'name' => 'مستخدم تجريبي',
-            'email' => 'test@example.com',
-            'password' => bcrypt('password123'),
-        ]);
-
-        $this->call([
-            CategorySeeder::class,
-            AuthorSeeder::class,
-            BookSeeder::class,
-        ]);
+$this->call([
+    CategorySeeder::class,
+    AuthorSeeder::class,
+    BookSeeder::class,
+]);
     }
 }
