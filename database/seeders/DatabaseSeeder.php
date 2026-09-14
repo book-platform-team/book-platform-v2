@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     ['email' => 'admin@dar-sami.dz'],
     [
         'name' => 'مدير الدار',
-        'password' => bcrypt('DarSami@2026#Secure'),
+        'password' => bcrypt('DarSami@2026@secure#'),
         'is_admin' => true,
     ]
 );
