@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -48,34 +49,36 @@ class AuthController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function forgotPassword(Request $request)
-    {
-        $request->validate(['email' => 'required|email']);
+   public function forgotPassword(Request $request)
+{
+    $request->validate(['email' => 'required|email']);
 
-        $user = User::where('email', $request->email)->first();
+    $user = User::where('email', $request->email)->first();
 
-        if ($user) {
-            $code = random_int(100000, 999999);
+    if ($user) {
+        $code = random_int(100000, 999999);
 
-            DB::table('password_reset_codes')->updateOrInsert(
-                ['email' => $user->email],
-                [
-                    'code' => Hash::make($code),
-                    'expires_at' => now()->addMinutes(15),
-                    'used_at' => null,
-                    'attempts' => 0,
-                    'updated_at' => now(),
-                    'created_at' => now(),
-                ]
-            );
+        DB::table('password_reset_codes')->updateOrInsert(
+            ['email' => $user->email],
+            [
+                'code' => Hash::make($code),
+                'expires_at' => now()->addMinutes(15),
+                'used_at' => null,
+                'attempts' => 0,
+                'updated_at' => now(),
+                'created_at' => now(),
+            ]
+        );
 
-           
-           // TODO: أرسل $code بالبريد (Mail::to($user->email)->send(...))
-        }
-
-        // ⚠️ نجاح دائماً — العقد يمنع تسريب "غير مسجل"
-        return response()->json(['success' => true, 'data' => null]);
+        Mail::raw(
+            "رمز استعادة كلمة السر تاعك هو: {$code}\nصالح لمدة 15 دقيقة.",
+            fn ($message) => $message->to($user->email)->subject('استعادة كلمة السر — دار سامي')
+        );
     }
+
+    // ⚠️ نجاح دائماً — العقد يمنع تسريب "غير مسجل"
+    return response()->json(['success' => true, 'data' => null]);
+}
 
     public function verifyResetCode(Request $request)
     {
