@@ -60,9 +60,15 @@ const HEADER_HTML = `
 <div class="mobile-nav-overlay" id="mobileNavOverlay">
     <div class="mobile-nav">
         <div class="mobile-nav-header">
-            <div class="logo"><a href="/index.html"><i class='bx bx-book-reader'></i> سامي</a></div>
-            <button class="close-mobile-nav" id="closeMobileNav"><i class='bx bx-x'></i></button>
-        </div>
+           <div class="logo">
+              <a href="/index.html">
+                 <img src="/assets/img/logo.png" alt="شعار دار سامي">
+              </a>
+             </div>
+                 <button class="close-mobile-nav" id="closeMobileNav" aria-label="إغلاق القائمة">
+             <i class='bx bx-x'></i>
+                 </button>
+            </div>
         <ul class="mobile-links">
             <li><a href="/index.html" class="mobile-link" data-nav="home"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
             <li><a href="/class.html" class="mobile-link" data-nav="class"><i class='bx bx-category'></i> أقسام الكتب</a></li>
