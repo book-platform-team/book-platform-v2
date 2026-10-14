@@ -413,7 +413,17 @@ a, button, .nav-link, .book-card, .filter-btn, .segmented-option,
 }
 
 .mobile-nav-header .logo a { font-size: 1.3rem; }
-.mobile-nav-header .logo a img { width: 45px; height: 45px; }
+.mobile-nav-header .logo a {
+    height: auto;
+}
+
+.mobile-nav-header .logo a img {
+    width: 3.6rem;
+    height: 3.6rem;
+    object-fit: contain;
+    display: block;
+    flex-shrink: 0;
+}
 
 .close-mobile-nav {
     font-size: 1.8rem; color: var(--primary);
