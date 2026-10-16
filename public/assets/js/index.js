@@ -286,8 +286,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 li.addEventListener("click", () => {
                     const slug = li.dataset.category;
                     window.location.href = li.classList.contains("active")
-                        ? "/index.html"
-                        : `/index.html?category=${encodeURIComponent(slug)}`;
+                        ? "/index"
+                        : `/index?category=${encodeURIComponent(slug)}`;
                 });
             });
 
@@ -329,7 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             authorsList.innerHTML = authors.map(a => `
                 <li>
-                    <a href="/author-profile.html?slug=${encodeURIComponent(a.slug || a.id)}">
+                    <a href="/author-profile?slug=${encodeURIComponent(a.slug || a.id)}">
                         <span>${titleLabel(a.title)}${escapeText(a.name)}</span>
                         <b class="count">${a.books_count ?? 0}</b>
                     </a>
@@ -401,13 +401,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 suggestions.innerHTML =
                     b.map(x => `
-                        <li><a href="/book.html?slug=${encodeURIComponent(x.slug || x.id)}">
+                        <li><a href="/book?slug=${encodeURIComponent(x.slug || x.id)}">
                             <i class='bx bx-book'></i>
                             <span>${escapeText(x.title)}</span>
                             <em>كتاب</em>
                         </a></li>`).join("") +
                     a.map(x => `
-                        <li><a href="/author-profile.html?slug=${encodeURIComponent(x.slug || x.id)}">
+                        <li><a href="/author-profile?slug=${encodeURIComponent(x.slug || x.id)}">
                             <i class='bx bx-user'></i>
                             <span>${titleLabel(x.title)}${escapeText(x.name)}</span>
                             <em>مؤلف</em>

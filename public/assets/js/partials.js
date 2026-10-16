@@ -19,7 +19,7 @@ const HEADER_HTML = `
 <header class="header-anim">
     <div class="navbar">
         <div class="logo">
-            <a href="/index.html">
+            <a href="/index">
                 <img src="/assets/img/logo.png" alt="شعار دار سامي">
             </a>
         </div>
@@ -30,18 +30,18 @@ const HEADER_HTML = `
 
         <div class="nav-right desktop-nav">
             <ul class="link main-links">
-                <li><a href="/index.html" class="nav-link" data-nav="home"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
-                <li><a href="/class.html" class="nav-link" data-nav="class"><i class='bx bx-category'></i> أقسام الكتب</a></li>
-                <li><a href="/author.html" class="nav-link" data-nav="author"><i class='bx bx-user-pin'></i> المؤلفون</a></li>
-                <li><a href="/upload-book.html" class="nav-link" data-nav="upload"><i class='bx bx-upload'></i> نشر كتاب</a></li>
-                <li><a href="/print-book.html" class="nav-link" data-nav="print"><i class='bx bx-printer'></i> طباعة كتاب</a></li>
-                <li><a href="/about.html" class="nav-link" data-nav="about"><i class='bx bx-buildings'></i> من نحن</a></li>
+                <li><a href="/index" class="nav-link" data-nav="home"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
+                <li><a href="/class" class="nav-link" data-nav="class"><i class='bx bx-category'></i> أقسام الكتب</a></li>
+                <li><a href="/author" class="nav-link" data-nav="author"><i class='bx bx-user-pin'></i> المؤلفون</a></li>
+                <li><a href="/upload-book" class="nav-link" data-nav="upload"><i class='bx bx-upload'></i> نشر كتاب</a></li>
+                <li><a href="/print-book" class="nav-link" data-nav="print"><i class='bx bx-printer'></i> طباعة كتاب</a></li>
+                <li><a href="/about" class="nav-link" data-nav="about"><i class='bx bx-buildings'></i> من نحن</a></li>
                 
             </ul>
         </div>
 
         <div class="nav-left desktop-nav">
-            <a href="/favorites.html" class="btn-fav-link" data-nav="favorites">
+            <a href="/favorites" class="btn-fav-link" data-nav="favorites">
                 <i class='bx bx-heart'></i>
                 <span>مفضّلاتي</span>
                 <b class="fav-count" id="favCount" hidden>0</b>
@@ -49,7 +49,7 @@ const HEADER_HTML = `
 
             <!-- يظهر للمؤلف الداخل وحده — يُكشف من auth.js.
                  مخفيّ في الـHTML لا بعد الرسم، وإلّا ومض للزائر. -->
-            <a href="/account.html" class="btn-acc-link" id="accLink" data-nav="account" hidden>
+            <a href="/account" class="btn-acc-link" id="accLink" data-nav="account" hidden>
                 <i class='bx bx-user-circle'></i>
                 <span>حسابي</span>
             </a>
@@ -61,7 +61,7 @@ const HEADER_HTML = `
     <div class="mobile-nav">
         <div class="mobile-nav-header">
            <div class="logo">
-              <a href="/index.html">
+              <a href="/index">
                  <img src="/assets/img/logo.png" alt="شعار دار سامي">
               </a>
              </div>
@@ -70,14 +70,14 @@ const HEADER_HTML = `
                  </button>
             </div>
         <ul class="mobile-links">
-            <li><a href="/index.html" class="mobile-link" data-nav="home"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
-            <li><a href="/class.html" class="mobile-link" data-nav="class"><i class='bx bx-category'></i> أقسام الكتب</a></li>
-            <li><a href="/author.html" class="mobile-link" data-nav="author"><i class='bx bx-user-pin'></i> المؤلفون</a></li>
-            <li><a href="/upload-book.html" class="mobile-link" data-nav="upload"><i class='bx bx-upload'></i> نشر كتاب</a></li>
-            <li><a href="/print-book.html" class="mobile-link" data-nav="print"><i class='bx bx-printer'></i> طباعة كتاب</a></li>
-            <li><a href="/about.html" class="mobile-link" data-nav="about"><i class='bx bx-buildings'></i> من نحن</a></li>
-            <li><a href="/favorites.html" class="mobile-link" data-nav="favorites"><i class='bx bx-heart'></i> مفضّلاتي</a></li>
-            <li id="accLinkMobile" hidden><a href="/account.html" class="mobile-link" data-nav="account"><i class='bx bx-user-circle'></i> حسابي</a></li>
+            <li><a href="/index" class="mobile-link" data-nav="home"><i class='bx bx-home-alt-2'></i> الرئيسية</a></li>
+            <li><a href="/class" class="mobile-link" data-nav="class"><i class='bx bx-category'></i> أقسام الكتب</a></li>
+            <li><a href="/author" class="mobile-link" data-nav="author"><i class='bx bx-user-pin'></i> المؤلفون</a></li>
+            <li><a href="/upload-book" class="mobile-link" data-nav="upload"><i class='bx bx-upload'></i> نشر كتاب</a></li>
+            <li><a href="/print-book" class="mobile-link" data-nav="print"><i class='bx bx-printer'></i> طباعة كتاب</a></li>
+            <li><a href="/about" class="mobile-link" data-nav="about"><i class='bx bx-buildings'></i> من نحن</a></li>
+            <li><a href="/favorites" class="mobile-link" data-nav="favorites"><i class='bx bx-heart'></i> مفضّلاتي</a></li>
+            <li id="accLinkMobile" hidden><a href="/account" class="mobile-link" data-nav="account"><i class='bx bx-user-circle'></i> حسابي</a></li>
             
         </ul>
     </div>
@@ -166,20 +166,20 @@ const FOOTER_HTML = `
             <div class="footer-column">
                 <h3><i class='bx bx-link-alt'></i> روابط سريعة</h3>
                 <ul class="footer-links">
-                    <li><a href="/index.html"><i class='bx bx-chevron-left'></i> الرئيسية</a></li>
-                    <li><a href="/class.html"><i class='bx bx-chevron-left'></i> أقسام الكتب</a></li>
-                    <li><a href="/author.html"><i class='bx bx-chevron-left'></i> المؤلفون</a></li>
-                    <li><a href="/favorites.html"><i class='bx bx-chevron-left'></i> مفضّلاتي</a></li>
+                    <li><a href="/index"><i class='bx bx-chevron-left'></i> الرئيسية</a></li>
+                    <li><a href="/class"><i class='bx bx-chevron-left'></i> أقسام الكتب</a></li>
+                    <li><a href="/author"><i class='bx bx-chevron-left'></i> المؤلفون</a></li>
+                    <li><a href="/favorites"><i class='bx bx-chevron-left'></i> مفضّلاتي</a></li>
                 </ul>
             </div>
 
             <div class="footer-column">
                 <h3><i class='bx bx-cog'></i> خدماتنا</h3>
                 <ul class="footer-links">
-                    <li><a href="/about.html"><i class='bx bx-chevron-left'></i> عن الدار</a></li>
-                    <li><a href="/upload-book.html"><i class='bx bx-chevron-left'></i> نشر كتاب</a></li>
-                    <li><a href="/print-book.html"><i class='bx bx-chevron-left'></i> طباعة كتاب</a></li>
-                    <li><a href="/about.html#contact"><i class='bx bx-chevron-left'></i> تواصل معنا</a></li>
+                    <li><a href="/about"><i class='bx bx-chevron-left'></i> عن الدار</a></li>
+                    <li><a href="/upload-book"><i class='bx bx-chevron-left'></i> نشر كتاب</a></li>
+                    <li><a href="/print-book"><i class='bx bx-chevron-left'></i> طباعة كتاب</a></li>
+                    <li><a href="/about#contact"><i class='bx bx-chevron-left'></i> تواصل معنا</a></li>
                 </ul>
             </div>
 
@@ -196,9 +196,9 @@ const FOOTER_HTML = `
                 <span class="gradient-text">مكتبة سامي الرقمية</span>
             </p>
             <nav class="footer-legal">
-                <a href="/terms.html">شروط الاستخدام</a>
+                <a href="/terms">شروط الاستخدام</a>
                 <span>·</span>
-                <a href="/privacy.html">سياسة الخصوصية</a>
+                <a href="/privacy">سياسة الخصوصية</a>
             </nav>
         </div>
 
@@ -373,7 +373,7 @@ function initSearchModal() {
         const q = input?.value.trim();
         if (!q) return;
         // TODO (اليوم الثالث): توجيه لنتائج البحث الحقيقية
-        window.location.href = "/index.html?q=" + encodeURIComponent(q);
+        window.location.href = "/index?q=" + encodeURIComponent(q);
     }
 
     searchBtn?.addEventListener("click", runSearch);
@@ -383,7 +383,7 @@ function initSearchModal() {
     });
 
     publishBtn?.addEventListener("click", () => {
-        window.location.href = "/upload-book.html";
+        window.location.href = "/upload-book";
     });
 }
 
@@ -499,14 +499,14 @@ function renderBookCard(book) {
 
     return `
         <article class="book-card">
-            <a href="/book.html?slug=${encodeURIComponent(slug)}" class="book-image">
+            <a href="/book?slug=${encodeURIComponent(slug)}" class="book-image">
                 ${cover}${badge}
             </a>
             <button class="card-fav${fav ? " on" : ""}" data-book="${escapeAttr(id)}"
                     type="button" aria-label="${fav ? "إزالة من المفضّلة" : "إضافة للمفضّلة"}">
                 <i class='bx ${fav ? "bxs-heart" : "bx-heart"}'></i>
             </button>
-            <h3><a href="/book.html?slug=${encodeURIComponent(slug)}">${escapeText(book.title)}</a></h3>
+            <h3><a href="/book?slug=${encodeURIComponent(slug)}">${escapeText(book.title)}</a></h3>
             <p>${escapeText(author.name || "")}</p>
             ${priceHTML}
         </article>

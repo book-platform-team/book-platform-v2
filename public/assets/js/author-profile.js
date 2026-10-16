@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
             head,
             "لم يتم تحديد المؤلف",
             "bx-user-x",
-            `<a href="/author.html" class="btn-retry">
+            `<a href="/author" class="btn-retry">
                 <i class='bx bx-arrow-back'></i> عودة إلى المؤلفين
              </a>`
         );
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     head,
                     "هذا المؤلف غير موجود",
                     "bx-user-x",
-                    `<a href="/author.html" class="btn-retry">
+                    `<a href="/author" class="btn-retry">
                         <i class='bx bx-arrow-back'></i> عودة إلى المؤلفين
                      </a>`
                 );
@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="ap-cats">
                         <span class="ap-cats-lead">يكتب في</span>
                         ${cats.map(([slug, name]) => `
-                            <a href="/index.html?category=${encodeURIComponent(slug)}"
+                            <a href="/index?category=${encodeURIComponent(slug)}"
                                class="ap-cat">${escapeText(name)}</a>
                         `).join("")}
                     </div>` : ""}

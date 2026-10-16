@@ -80,7 +80,7 @@ const AuthUI = (() => {
         box.querySelector(".auth-here")
            ?.addEventListener("click", () => {
                if (opts.onNoAccount) opts.onNoAccount();
-               else location.href = "/upload-book.html";
+               else location.href = "/upload-book";
            });
 
         form.addEventListener("input", () => { alert.hidden = true; });

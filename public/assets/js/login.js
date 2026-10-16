@@ -24,13 +24,13 @@ document.addEventListener("DOMContentLoaded", () => {
        فنقبل المسارات الداخلية وحدها: يبدأ بشرطة
        واحدة ولا يبدأ بشرطتين. بدون هذا الشرط
        يصير الرابط
-         login.html?next=//evil.com
+         login?next=//evil.com
        تحويلاً إلى موقع خارجي يقلّد الدار.
        ======================================== */
 
     function safeNext() {
         const raw = new URLSearchParams(location.search).get("next") || "";
-        if (!raw.startsWith("/") || raw.startsWith("//")) return "/account.html";
+        if (!raw.startsWith("/") || raw.startsWith("//")) return "/account";
         return raw;
     }
 

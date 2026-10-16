@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     grid,
                     "الكتب المحفوظة لم تعد متاحة",
                     "bx-heart",
-                    `<a href="/index.html" class="btn-retry">
+                    `<a href="/index" class="btn-retry">
                         <i class='bx bx-book-open'></i> تصفّحي المكتبة
                      </a>`
                 );
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
             grid,
             "لم تحفظي أي كتاب بعد",
             "bx-heart",
-            `<a href="/index.html" class="btn-retry">
+            `<a href="/index" class="btn-retry">
                 <i class='bx bx-book-open'></i> تصفّحي المكتبة
              </a>`
         );

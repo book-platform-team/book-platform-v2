@@ -59,14 +59,14 @@ document.addEventListener("DOMContentLoaded", () => {
         // رابط الصفحة العامّة — لا يظهر إلا إن كان للمؤلف slug
         const pub = document.getElementById("accPublic");
         if (pub && u.slug) {
-            pub.href = `/author-profile.html?slug=${encodeURIComponent(u.slug)}`;
+            pub.href = `/author-profile?slug=${encodeURIComponent(u.slug)}`;
             pub.hidden = false;
         }
     }
 
     document.getElementById("accLogout")?.addEventListener("click", async () => {
         await Auth.logout();
-        location.href = "/index.html";
+        location.href = "/index";
     });
 
 
@@ -228,7 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const done     = b.has_sale_email && b.sale_email_verified;
 
         const title = b.slug
-            ? `<a href="/book.html?slug=${encodeURIComponent(b.slug)}">${escapeText(b.title)}</a>`
+            ? `<a href="/book?slug=${encodeURIComponent(b.slug)}">${escapeText(b.title)}</a>`
             : escapeText(b.title || "—");
 
         const chip =

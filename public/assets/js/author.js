@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function card(a, i) {
         const name = String(a.name || "—");
-        const href = `/author-profile.html?slug=${encodeURIComponent(a.slug || a.id)}`;
+        const href = `/author-profile?slug=${encodeURIComponent(a.slug || a.id)}`;
 
         const avatar = a.photo
             ? `<img src="${escapeAttr(a.photo)}" alt="${escapeAttr(name)}" loading="lazy">`

@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const crumbCat = document.getElementById("crumbCat");
         if (crumbCat && cat.slug) {
             crumbCat.textContent = cat.name;
-            crumbCat.href = `/index.html?category=${encodeURIComponent(cat.slug)}`;
+            crumbCat.href = `/index?category=${encodeURIComponent(cat.slug)}`;
         }
 
         /* ---------- الغلاف ---------- */
@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const authorLink = document.getElementById("bookAuthorLink");
         if (authorLink && author.slug) {
-            authorLink.href = `/author-profile.html?slug=${encodeURIComponent(author.slug)}`;
+            authorLink.href = `/author-profile?slug=${encodeURIComponent(author.slug)}`;
         }
 
         /* ---------- المعطيات ---------- */
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const factCat = document.getElementById("factCat");
         if (factCat) {
             factCat.textContent = cat.name || "—";
-            if (cat.slug) factCat.href = `/index.html?category=${encodeURIComponent(cat.slug)}`;
+            if (cat.slug) factCat.href = `/index?category=${encodeURIComponent(cat.slug)}`;
         }
 
         setText("bookDescription", b.description || "لا يوجد وصف لهذا الكتاب.");
@@ -282,7 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <i class='bx bx-info-circle'></i>
                     <span>
                         بيانات التواصل مع المؤلف غير متوفّرة —
-                        <a href="/about.html#contact">راسل الدار</a> للاستفسار
+                        <a href="/about#contact">راسل الدار</a> للاستفسار
                     </span>
                 </p>`);
         }
@@ -354,7 +354,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const link = document.getElementById("authorPageLink");
-            if (link) link.href = `/author-profile.html?slug=${encodeURIComponent(slug)}`;
+            if (link) link.href = `/author-profile?slug=${encodeURIComponent(slug)}`;
 
             renderAuthorBooks(a, b);
 
@@ -376,7 +376,7 @@ document.addEventListener("DOMContentLoaded", () => {
         renderBookGrid(grid, others.slice(0, 4));
 
         const all = document.getElementById("allAuthorBooks");
-        if (all) all.href = `/author-profile.html?slug=${encodeURIComponent(a.slug)}`;
+        if (all) all.href = `/author-profile?slug=${encodeURIComponent(a.slug)}`;
     }
 
 
@@ -395,7 +395,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showLoading(grid, 4);
 
         const all = document.getElementById("allCatBooks");
-        if (all) all.href = `/index.html?category=${encodeURIComponent(slug)}`;
+        if (all) all.href = `/index?category=${encodeURIComponent(slug)}`;
 
         try {
             const res = await apiGet(`/books?category=${encodeURIComponent(slug)}&per_page=8`);
